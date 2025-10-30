@@ -138,5 +138,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .pnpm-store/*
-.turbo/cookies/2.cookie
-.turbo/daemon/
+.turbo/cookies/
+
+.turbo/daemon/*
