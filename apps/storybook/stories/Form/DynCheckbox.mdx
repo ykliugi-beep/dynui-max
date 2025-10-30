@@ -1,0 +1,23 @@
+{/* DynCheckbox.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynCheckbox.stories';
+
+<Meta of={Stories} />
+
+# DynCheckbox
+
+Checkbox with indeterminate state and integrated labels.
+
+## Overview
+<Canvas of={Stories.Default} />
+
+## States
+<Canvas of={Stories.Checked} />
+<Canvas of={Stories.Indeterminate} />
+<Canvas of={Stories.Disabled} />
+
+## Accessibility
+<Canvas of={Stories.AccessibilityDemo} />
+
+## Props
+<Controls of={Stories.Default} />
