@@ -1,0 +1,14 @@
+{
+  "name": "@dynui-max/build-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "files": ["index.js"],
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.js"
+    }
+  }
+}
