@@ -21,7 +21,8 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "clean": "turbo clean && rimraf node_modules/.cache",
-    "reset": "pnpm clean && rimraf node_modules pnpm-lock.yaml && pnpm install",
+    "reset": "rimraf node_modules pnpm-lock.yaml && pnpm install",
+    "reset:full": "pnpm reset && pnpm build",
     
     "//=== Quality Gates ===": "",
     "test": "turbo test",
