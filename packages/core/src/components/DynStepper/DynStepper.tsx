@@ -1,18 +1,31 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import clsx from 'clsx';
+import type { ComponentSize } from '@dynui-max/design-tokens';
 import { DynIcon } from '../DynIcon';
 import './DynStepper.css';
 
-export type StepStatus = 'pending' | 'active' | 'completed' | 'error';
+export type StepStatus = 'pending' | 'current' | 'complete' | 'error';
 
 export interface StepData {
   key: string;
-  label: string;
+  title: string;
+  description?: string;
   status?: StepStatus;
   disabled?: boolean;
+  icon?: React.ReactNode;
 }
 
 export interface DynStepperProps {
+  /**
+   * Current active step index
+   */
+  current: number;
+  
+  /**
+   * Step data array
+   */
+  steps: StepData[];
+  
   /**
    * Stepper orientation
    * @default 'horizontal'
@@ -20,191 +33,213 @@ export interface DynStepperProps {
   orientation?: 'horizontal' | 'vertical';
   
   /**
-   * Current active step index
+   * Stepper size
+   * @default 'md'
    */
-  currentStep: number;
+  size?: ComponentSize;
   
   /**
-   * Callback when step is changed
+   * Step click handler
    */
-  onStepChange: (step: number) => void;
+  onChange?: (stepIndex: number, stepData: StepData) => void;
   
   /**
-   * Array of step data
+   * Show step numbers instead of icons
+   * @default true
    */
-  steps: StepData[];
+  showNumbers?: boolean;
+  
+  /**
+   * Show connecting lines
+   * @default true
+   */
+  showConnectors?: boolean;
+  
+  /**
+   * Allow clicking on completed steps
+   * @default true
+   */
+  clickable?: boolean;
   
   /**
    * Additional CSS class names
    */
   className?: string;
+  
+  /**
+   * Test identifier
+   */
+  'data-testid'?: string;
 }
 
-export interface DynStepProps {
-  /**
-   * Step data
-   */
-  step: StepData;
-  
-  /**
-   * Step index
-   */
-  index: number;
-  
-  /**
-   * Whether this step is active
-   */
-  isActive: boolean;
-  
-  /**
-   * Whether this step is completed
-   */
-  isCompleted: boolean;
-  
-  /**
-   * Click handler
-   */
-  onClick: (index: number) => void;
-  
-  /**
-   * Stepper orientation
-   */
-  orientation: 'horizontal' | 'vertical';
-  
-  /**
-   * Whether this is the last step
-   */
-  isLast: boolean;
+export interface DynStepperRef {
+  goToStep: (stepIndex: number) => void;
+  nextStep: () => void;
+  previousStep: () => void;
 }
 
 /**
- * DynStep - Individual step component
- */
-export const DynStep = forwardRef<HTMLButtonElement, DynStepProps>((
-  {
-    step,
-    index,
-    isActive,
-    isCompleted,
-    onClick,
-    orientation,
-    isLast,
-    ...props
-  },
-  ref
-) => {
-  const { key, label, status = 'pending', disabled = false } = step;
-  const actualStatus = isCompleted ? 'completed' : isActive ? 'active' : status;
-  
-  const classes = clsx(
-    'dyn-step',
-    `dyn-step--${actualStatus}`,
-    `dyn-step--${orientation}`,
-    {
-      'dyn-step--disabled': disabled,
-      'dyn-step--clickable': !disabled && !isActive
-    }
-  );
-
-  const handleClick = () => {
-    if (!disabled && !isActive) {
-      onClick(index);
-    }
-  };
-
-  const getStepIcon = () => {
-    switch (actualStatus) {
-      case 'completed':
-        return <DynIcon name="check" size="sm" />;
-      case 'error':
-        return <DynIcon name="x" size="sm" />;
-      default:
-        return <span className="dyn-step__number">{index + 1}</span>;
-    }
-  };
-
-  return (
-    <div className={clsx('dyn-step-wrapper', { 'dyn-step-wrapper--last': isLast })}>
-      <button
-        ref={ref}
-        type="button"
-        className={classes}
-        onClick={handleClick}
-        disabled={disabled}
-        aria-current={isActive ? 'step' : undefined}
-        aria-label={`Step ${index + 1}: ${label}`}
-        {...props}
-      >
-        <div className="dyn-step__indicator">
-          {getStepIcon()}
-        </div>
-        
-        <div className="dyn-step__content">
-          <div className="dyn-step__label">{label}</div>
-        </div>
-      </button>
-      
-      {/* Connector line */}
-      {!isLast && (
-        <div className="dyn-step__connector" aria-hidden="true" />
-      )}
-    </div>
-  );
-});
-
-DynStep.displayName = 'DynStep';
-
-/**
- * DynStepper - Step navigation component with progress indication
+ * DynStepper - Step navigation component for wizards and multi-step processes
  * 
  * Features:
  * - Horizontal and vertical orientations
- * - Step status management (pending, active, completed, error)
- * - Clickable step navigation
- * - Disabled step support
- * - Accessible navigation with ARIA attributes
- * - Design tokens integration
+ * - Clickable steps (configurable)
+ * - Status indicators (pending, current, complete, error)
+ * - Custom icons or automatic numbering
+ * - Connecting lines between steps
+ * - Keyboard navigation
+ * - Responsive design
  */
-export const DynStepper = forwardRef<HTMLDivElement, DynStepperProps>((
+export const DynStepper = forwardRef<DynStepperRef, DynStepperProps>((
   {
-    orientation = 'horizontal',
-    currentStep,
-    onStepChange,
+    current,
     steps,
+    orientation = 'horizontal',
+    size = 'md',
+    onChange,
+    showNumbers = true,
+    showConnectors = true,
+    clickable = true,
     className,
+    'data-testid': dataTestId,
     ...props
   },
   ref
 ) => {
-  const classes = clsx(
+  const handleStepClick = useCallback((stepIndex: number, stepData: StepData) => {
+    if (!clickable || stepData.disabled) return;
+    
+    // Allow clicking on current step or completed steps
+    if (stepIndex <= current) {
+      onChange?.(stepIndex, stepData);
+    }
+  }, [clickable, current, onChange]);
+  
+  const goToStep = useCallback((stepIndex: number) => {
+    if (stepIndex >= 0 && stepIndex < steps.length && !steps[stepIndex].disabled) {
+      onChange?.(stepIndex, steps[stepIndex]);
+    }
+  }, [steps, onChange]);
+  
+  const nextStep = useCallback(() => {
+    if (current < steps.length - 1) {
+      goToStep(current + 1);
+    }
+  }, [current, steps.length, goToStep]);
+  
+  const previousStep = useCallback(() => {
+    if (current > 0) {
+      goToStep(current - 1);
+    }
+  }, [current, goToStep]);
+  
+  // Expose ref methods
+  React.useImperativeHandle(ref, () => ({
+    goToStep,
+    nextStep,
+    previousStep
+  }), [goToStep, nextStep, previousStep]);
+  
+  const getStepStatus = (stepIndex: number, step: StepData): StepStatus => {
+    if (step.status) return step.status;
+    if (stepIndex < current) return 'complete';
+    if (stepIndex === current) return 'current';
+    return 'pending';
+  };
+  
+  const containerClasses = clsx(
     'dyn-stepper',
     `dyn-stepper--${orientation}`,
+    `dyn-stepper--size-${size}`,
+    {
+      'dyn-stepper--clickable': clickable,
+      'dyn-stepper--with-connectors': showConnectors
+    },
     className
   );
-
+  
   return (
-    <nav 
-      ref={ref} 
-      className={classes} 
-      aria-label="Step navigation"
+    <div
+      className={containerClasses}
+      data-testid={dataTestId}
+      role="progressbar"
+      aria-valuemin={0}
+      aria-valuemax={steps.length - 1}
+      aria-valuenow={current}
+      aria-valuetext={steps[current]?.title}
       {...props}
     >
-      <ol className="dyn-stepper__list">
-        {steps.map((step, index) => (
-          <li key={step.key} className="dyn-stepper__item">
-            <DynStep
-              step={step}
-              index={index}
-              isActive={index === currentStep}
-              isCompleted={index < currentStep}
-              onClick={onStepChange}
-              orientation={orientation}
-              isLast={index === steps.length - 1}
-            />
-          </li>
-        ))}
-      </ol>
-    </nav>
+      <div className="dyn-stepper__track">
+        {steps.map((step, index) => {
+          const status = getStepStatus(index, step);
+          const isClickable = clickable && !step.disabled && index <= current;
+          
+          return (
+            <React.Fragment key={step.key}>
+              <div
+                className={clsx(
+                  'dyn-stepper__step',
+                  `dyn-stepper__step--${status}`,
+                  {
+                    'dyn-stepper__step--clickable': isClickable,
+                    'dyn-stepper__step--disabled': step.disabled
+                  }
+                )}
+                onClick={isClickable ? () => handleStepClick(index, step) : undefined}
+                role={isClickable ? 'button' : undefined}
+                tabIndex={isClickable ? 0 : undefined}
+                onKeyDown={isClickable ? (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleStepClick(index, step);
+                  }
+                } : undefined}
+              >
+                {/* Step indicator */}
+                <div className="dyn-stepper__indicator">
+                  {status === 'error' ? (
+                    <DynIcon name="x" size="sm" />
+                  ) : status === 'complete' ? (
+                    <DynIcon name="check" size="sm" />
+                  ) : step.icon ? (
+                    step.icon
+                  ) : showNumbers ? (
+                    <span className="dyn-stepper__number">{index + 1}</span>
+                  ) : (
+                    <div className="dyn-stepper__dot" />
+                  )}
+                </div>
+                
+                {/* Step content */}
+                <div className="dyn-stepper__content">
+                  <div className="dyn-stepper__title">
+                    {step.title}
+                  </div>
+                  
+                  {step.description && (
+                    <div className="dyn-stepper__description">
+                      {step.description}
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Connector line */}
+              {showConnectors && index < steps.length - 1 && (
+                <div
+                  className={clsx(
+                    'dyn-stepper__connector',
+                    {
+                      'dyn-stepper__connector--completed': index < current
+                    }
+                  )}
+                />
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
+    </div>
   );
 });
 

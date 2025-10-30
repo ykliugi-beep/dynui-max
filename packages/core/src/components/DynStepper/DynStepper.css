@@ -3,180 +3,217 @@
  */
 
 .dyn-stepper {
-  width: 100%;
+  font-family: var(--dyn-typography-fontFamily-sans);
 }
 
-.dyn-stepper__list {
+.dyn-stepper__track {
   display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  position: relative;
 }
 
-.dyn-stepper--horizontal .dyn-stepper__list {
+/* Horizontal layout */
+.dyn-stepper--horizontal .dyn-stepper__track {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.dyn-stepper--horizontal .dyn-stepper__step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.dyn-stepper--horizontal .dyn-stepper__connector {
+  flex: 1;
+  height: 2px;
+  background-color: var(--dyn-color-border-primary);
+  margin: 0 var(--dyn-spacing-sm, 0.5rem);
+  align-self: center;
+  margin-top: calc(var(--indicator-size) / 2);
+}
+
+/* Vertical layout */
+.dyn-stepper--vertical .dyn-stepper__track {
+  flex-direction: column;
+}
+
+.dyn-stepper--vertical .dyn-stepper__step {
+  display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.dyn-stepper--vertical .dyn-stepper__list {
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.dyn-stepper__item {
-  display: flex;
-  flex: 1;
-}
-
-/* Step wrapper */
-.dyn-step-wrapper {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
-
-.dyn-stepper--vertical .dyn-step-wrapper {
-  flex-direction: column;
-  align-items: stretch;
-}
-
-/* Step button */
-.dyn-step {
-  display: flex;
-  align-items: center;
-  gap: var(--dyn-spacing-sm, 0.5rem);
-  padding: var(--dyn-spacing-sm, 0.5rem);
-  background: none;
-  border: none;
-  cursor: default;
   text-align: left;
-  transition: all 0.2s ease;
 }
 
-.dyn-step--clickable {
+.dyn-stepper--vertical .dyn-stepper__content {
+  margin-left: var(--dyn-spacing-md, 1rem);
+  flex: 1;
+}
+
+.dyn-stepper--vertical .dyn-stepper__connector {
+  width: 2px;
+  height: var(--dyn-spacing-xl, 2rem);
+  background-color: var(--dyn-color-border-primary);
+  margin-left: calc(var(--indicator-size) / 2 - 1px);
+  margin-top: var(--dyn-spacing-xs, 0.25rem);
+  margin-bottom: var(--dyn-spacing-xs, 0.25rem);
+}
+
+/* Size variants */
+.dyn-stepper--size-sm {
+  --indicator-size: var(--dyn-spacing-lg, 1.5rem);
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+}
+
+.dyn-stepper--size-md {
+  --indicator-size: var(--dyn-spacing-xl, 2rem);
+  font-size: var(--dyn-typography-fontSize-md, 1rem);
+}
+
+.dyn-stepper--size-lg {
+  --indicator-size: calc(var(--dyn-spacing-xl, 2rem) + var(--dyn-spacing-sm, 0.5rem));
+  font-size: var(--dyn-typography-fontSize-lg, 1.125rem);
+}
+
+/* Step */
+.dyn-stepper__step {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.dyn-stepper__step--clickable {
   cursor: pointer;
 }
 
-.dyn-step--clickable:hover {
-  background-color: var(--dyn-color-background-secondary);
-  border-radius: var(--dyn-radius-md, 0.375rem);
+.dyn-stepper__step--clickable:hover:not(.dyn-stepper__step--disabled) {
+  opacity: 0.8;
 }
 
-.dyn-step--clickable:focus-visible {
+.dyn-stepper__step--clickable:focus-visible {
   outline: 2px solid var(--dyn-color-interactive-primary);
   outline-offset: 2px;
   border-radius: var(--dyn-radius-md, 0.375rem);
 }
 
-.dyn-step--disabled {
+.dyn-stepper__step--disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 /* Step indicator */
-.dyn-step__indicator {
+.dyn-stepper__indicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--dyn-spacing-xl, 2rem);
-  height: var(--dyn-spacing-xl, 2rem);
+  width: var(--indicator-size);
+  height: var(--indicator-size);
   border-radius: 50%;
-  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
-  font-weight: var(--dyn-typography-fontWeight-medium, 500);
-  flex-shrink: 0;
+  border: 2px solid var(--dyn-color-border-primary);
+  background-color: var(--dyn-color-background-primary);
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
-.dyn-step__number {
+/* Step status variants */
+.dyn-stepper__step--pending .dyn-stepper__indicator {
+  background-color: var(--dyn-color-background-primary);
+  border-color: var(--dyn-color-border-primary);
+  color: var(--dyn-color-text-muted);
+}
+
+.dyn-stepper__step--current .dyn-stepper__indicator {
+  background-color: var(--dyn-color-interactive-primary);
+  border-color: var(--dyn-color-interactive-primary);
+  color: var(--dyn-color-text-inverse);
+}
+
+.dyn-stepper__step--complete .dyn-stepper__indicator {
+  background-color: var(--dyn-color-feedback-success);
+  border-color: var(--dyn-color-feedback-success);
+  color: var(--dyn-color-text-inverse);
+}
+
+.dyn-stepper__step--error .dyn-stepper__indicator {
+  background-color: var(--dyn-color-feedback-danger);
+  border-color: var(--dyn-color-feedback-danger);
+  color: var(--dyn-color-text-inverse);
+}
+
+/* Step number */
+.dyn-stepper__number {
+  font-weight: var(--dyn-typography-fontWeight-semibold, 600);
+  font-size: inherit;
   line-height: 1;
 }
 
-/* Step states */
-.dyn-step--pending .dyn-step__indicator {
-  background-color: var(--dyn-color-background-muted);
-  color: var(--dyn-color-text-muted);
-  border: 2px solid var(--dyn-color-border-primary);
-}
-
-.dyn-step--active .dyn-step__indicator {
-  background-color: var(--dyn-color-interactive-primary);
-  color: var(--dyn-color-text-inverse);
-  border: 2px solid var(--dyn-color-interactive-primary);
-}
-
-.dyn-step--completed .dyn-step__indicator {
-  background-color: var(--dyn-color-feedback-success);
-  color: var(--dyn-color-text-inverse);
-  border: 2px solid var(--dyn-color-feedback-success);
-}
-
-.dyn-step--error .dyn-step__indicator {
-  background-color: var(--dyn-color-feedback-danger);
-  color: var(--dyn-color-text-inverse);
-  border: 2px solid var(--dyn-color-feedback-danger);
+/* Step dot (when not using numbers) */
+.dyn-stepper__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: currentColor;
 }
 
 /* Step content */
-.dyn-step__content {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+.dyn-stepper__content {
+  margin-top: var(--dyn-spacing-sm, 0.5rem);
 }
 
-.dyn-step__label {
-  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+.dyn-stepper--vertical .dyn-stepper__content {
+  margin-top: 0;
+}
+
+.dyn-stepper__title {
   font-weight: var(--dyn-typography-fontWeight-medium, 500);
-  color: var(--dyn-color-text-primary);
-  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+  line-height: var(--dyn-typography-lineHeight-tight, 1.25);
+  margin-bottom: var(--dyn-spacing-xs, 0.25rem);
 }
 
-.dyn-step--pending .dyn-step__label {
-  color: var(--dyn-color-text-muted);
-}
-
-.dyn-step--active .dyn-step__label {
+.dyn-stepper__step--current .dyn-stepper__title {
   color: var(--dyn-color-interactive-primary);
   font-weight: var(--dyn-typography-fontWeight-semibold, 600);
 }
 
-.dyn-step--disabled .dyn-step__label {
+.dyn-stepper__step--complete .dyn-stepper__title {
+  color: var(--dyn-color-feedback-success);
+}
+
+.dyn-stepper__step--error .dyn-stepper__title {
+  color: var(--dyn-color-feedback-danger);
+}
+
+.dyn-stepper__step--pending .dyn-stepper__title {
   color: var(--dyn-color-text-muted);
 }
 
-/* Connector */
-.dyn-step__connector {
-  flex: 1;
-  height: 1px;
+.dyn-stepper__description {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+  color: var(--dyn-color-text-muted);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+/* Connector lines */
+.dyn-stepper__connector {
   background-color: var(--dyn-color-border-primary);
-  margin: 0 var(--dyn-spacing-sm, 0.5rem);
+  transition: background-color 0.2s ease;
 }
 
-.dyn-stepper--vertical .dyn-step__connector {
-  width: 1px;
-  height: var(--dyn-spacing-lg, 1.5rem);
-  margin: var(--dyn-spacing-xs, 0.25rem) 0;
-  margin-left: calc(var(--dyn-spacing-xl, 2rem) / 2 - 0.5px);
-}
-
-.dyn-stepper--vertical .dyn-step-wrapper--last .dyn-step__connector {
-  display: none;
+.dyn-stepper__connector--completed {
+  background-color: var(--dyn-color-feedback-success);
 }
 
 /* Responsive adjustments */
-@media (max-width: var(--dyn-breakpoint-sm, 640px)) {
+@media (max-width: 640px) {
   .dyn-stepper--horizontal {
     overflow-x: auto;
   }
   
-  .dyn-stepper--horizontal .dyn-stepper__list {
+  .dyn-stepper--horizontal .dyn-stepper__track {
     min-width: max-content;
   }
   
-  .dyn-step__content {
-    display: none;
-  }
-  
-  .dyn-step {
-    padding: var(--dyn-spacing-xs, 0.25rem);
+  .dyn-stepper--horizontal .dyn-stepper__step {
+    min-width: 120px;
   }
 }
