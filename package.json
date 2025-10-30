@@ -1,0 +1,77 @@
+{
+  "name": "@dynui-max/monorepo",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Production-ready React + TypeScript component library with design tokens and comprehensive testing",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ykliugi-beep/dynui-max.git"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "tools/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "test": "turbo test",
+    "test:coverage": "turbo test -- --coverage",
+    "test:a11y": "turbo test:a11y",
+    "typecheck": "turbo typecheck",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint -- --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "clean": "turbo clean",
+    "storybook": "turbo storybook",
+    "build:storybook": "turbo build:storybook",
+    "playground": "pnpm --filter playground dev",
+    "quality:gates": "pnpm typecheck && pnpm lint && pnpm test:coverage && pnpm test:a11y",
+    "prepare": "husky install || echo 'Husky not available'"
+  },
+  "dependencies": {
+    "@dynui-max/design-tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@axe-core/react": "catalog:",
+    "@storybook/addon-a11y": "catalog:",
+    "@storybook/addon-docs": "catalog:",
+    "@storybook/addon-essentials": "catalog:",
+    "@storybook/addon-interactions": "catalog:",
+    "@storybook/react-vite": "catalog:",
+    "@storybook/test": "catalog:",
+    "@storybook/test-runner": "catalog:",
+    "@testing-library/jest-dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@testing-library/user-event": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@typescript-eslint/eslint-plugin": "catalog:",
+    "@typescript-eslint/parser": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "chromatic": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-plugin-react": "catalog:",
+    "eslint-plugin-react-hooks": "catalog:",
+    "husky": "catalog:",
+    "jsdom": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "storybook": "catalog:",
+    "tsup": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "vitest-axe": "catalog:"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.12.0"
+}
