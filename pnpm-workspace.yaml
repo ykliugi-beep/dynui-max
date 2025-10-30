@@ -1,0 +1,69 @@
+packages:
+  - 'packages/*'
+  - 'apps/*'
+  - 'tools/*'
+  - '.'
+
+catalog:
+  # Core React Ecosystem - Frozen stable versions
+  react: 18.3.1
+  react-dom: 18.3.1
+  '@types/react': 18.3.12
+  '@types/react-dom': 18.3.1
+
+  # TypeScript Ecosystem - LTS versions
+  typescript: 5.6.3
+  '@types/node': 20.17.6
+
+  # Build & Development Tools
+  vite: 5.4.10
+  tsup: 8.3.5
+  '@vitejs/plugin-react': 4.3.3
+  rimraf: 6.0.1
+
+  # Testing Stack - Stable versions
+  vitest: 2.1.5
+  '@testing-library/react': 16.0.1
+  '@testing-library/jest-dom': 6.6.3
+  '@testing-library/user-event': 14.5.2
+  jsdom: 25.0.1
+  vitest-axe: 0.1.0
+  '@axe-core/react': 4.7.3
+
+  # Storybook - Stable 8.x series
+  storybook: 8.3.5
+  '@storybook/addon-a11y': 8.3.5
+  '@storybook/addon-essentials': 8.3.5
+  '@storybook/addon-docs': 8.3.5
+  '@storybook/addon-interactions': 8.3.5
+  '@storybook/react-vite': 8.3.5
+  '@storybook/test': 8.3.5
+  '@storybook/test-runner': 0.23.0
+  chromatic: 11.12.6
+
+  # Code Quality
+  eslint: 9.15.0
+  '@eslint/js': 9.15.0
+  prettier: 3.3.3
+  '@typescript-eslint/parser': 8.15.0
+  '@typescript-eslint/eslint-plugin': 8.15.0
+  'eslint-config-prettier': 9.1.0
+  'eslint-plugin-react': 7.36.1
+  'eslint-plugin-react-hooks': 5.0.0
+
+  # Build Tools
+  turbo: 2.5.4
+  husky: 9.1.6
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - 'esbuild'
+  - 'nx'
+
+peerDependencyRules:
+  allowedVersions:
+    react: '18'
+    react-dom: '18'
+  ignoreMissing:
+    - '@types/react'
+    - '@types/react-dom'
