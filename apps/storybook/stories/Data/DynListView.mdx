@@ -1,0 +1,104 @@
+{/* DynListView.mdx */}
+import { Meta, Story, Canvas, Controls, Source } from '@storybook/blocks';
+import * as DynListViewStories from './DynListView.stories';
+
+<Meta of={DynListViewStories} />
+
+# DynListView
+
+Virtualized list component optimized for large datasets with flexible item rendering.
+
+## Overview
+
+<Canvas of={DynListViewStories.Overview} />
+
+## Use Cases
+
+- User directories with avatars and statuses
+- Activity feeds and notifications
+- Settings pages with actionable list items
+- Large datasets requiring virtualization
+
+## Variants
+
+<Canvas of={DynListViewStories.SimpleTextList} />
+<Canvas of={DynListViewStories.WithSearch} />
+<Canvas of={DynListViewStories.MultiSelect} />
+
+## Performance
+
+<Canvas of={DynListViewStories.VirtualizedLargeList} />
+
+## States
+
+<Canvas of={DynListViewStories.LoadingState} />
+<Canvas of={DynListViewStories.EmptyState} />
+
+## Interactions
+
+<Canvas of={DynListViewStories.WithActions} />
+<Canvas of={DynListViewStories.Playground} />
+
+## Accessibility
+
+<Canvas of={DynListViewStories.AccessibilityDemo} />
+
+## Props
+
+<Controls of={DynListViewStories.Overview} />
+
+## Examples
+
+### Basic List with Avatars
+
+<Source
+  code={`
+import { DynListView, DynAvatar, DynBadge } from '@dynui-max/core';
+
+const items = [
+  { id: '1', title: 'John Doe', description: 'Senior Frontend Developer', avatar: '...', status: 'active', metadata: '2 hours ago' },
+  { id: '2', title: 'Jane Smith', description: 'Product Manager', avatar: '...', status: 'away', metadata: '1 day ago' },
+];
+
+<DynListView 
+  items={items}
+  itemHeight={72}
+  height={400}
+  selectable
+  renderItem={(item) => (
+    <div style={{ display: 'flex', alignItems: 'center', padding: '12px 16px' }}>
+      <DynAvatar src={item.avatar} name={item.title} size="md" style={{ marginRight: '12px' }} />
+      <div style={{ flex: 1 }}>
+        <div style={{ fontWeight: 600 }}>{item.title}</div>
+        <div style={{ fontSize: 14, opacity: 0.7 }}>{item.description}</div>
+      </div>
+      <DynBadge variant="success" size="sm">{item.status}</DynBadge>
+    </div>
+  )}
+/>
+`}
+  language="tsx"
+/>
+
+### Virtualized 10k Items
+
+<Source
+  code={`
+<DynListView 
+  items={Array.from({ length: 10000 }, (_, i) => ({ id: String(i), title: 'Item ' + (i + 1) }))}
+  itemHeight={56}
+  height={400}
+  virtualized
+  renderItem={(item, _isSelected, index) => (
+    <div style={{ display: 'flex', alignItems: 'center', padding: '12px 16px' }}>
+      <div style={{ width: 32, height: 32, borderRadius: 4, background: 'var(--dyn-color-primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, marginRight: 12 }}>{index + 1}</div>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontWeight: 500 }}>{item.title}</div>
+      </div>
+      <div style={{ fontSize: 12, opacity: 0.7 }}>Row {index + 1}</div>
+    </div>
+  )}
+/>
+`}
+  language="tsx"
+/>
