@@ -1,0 +1,24 @@
+{/* DynInput.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynInput.stories';
+
+<Meta of={Stories} />
+
+# DynInput
+
+Advanced text input with clear button, validation states, and tokenized styles.
+
+## Overview
+<Canvas of={Stories.Default} />
+
+## Variants
+<Canvas of={Stories.WithPrefixSuffix} />
+
+## Validation
+<Canvas of={Stories.ErrorState} />
+
+## Accessibility
+<Canvas of={Stories.AccessibilityDemo} />
+
+## Props
+<Controls of={Stories.Default} />
