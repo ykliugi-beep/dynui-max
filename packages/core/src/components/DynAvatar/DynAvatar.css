@@ -1,0 +1,97 @@
+/**
+ * DynAvatar styles using design tokens
+ */
+
+.dyn-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: var(--dyn-color-background-muted);
+  color: var(--dyn-color-text-primary);
+  font-family: var(--dyn-typography-fontFamily-sans);
+  font-weight: var(--dyn-typography-fontWeight-medium, 500);
+  overflow: hidden;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+/* Size variants using spacing tokens */
+.dyn-avatar--size-sm {
+  width: var(--dyn-spacing-xl, 2rem);
+  height: var(--dyn-spacing-xl, 2rem);
+  font-size: var(--dyn-typography-fontSize-xs, 0.75rem);
+}
+
+.dyn-avatar--size-md {
+  width: calc(var(--dyn-spacing-xl, 2rem) + var(--dyn-spacing-md, 1rem));
+  height: calc(var(--dyn-spacing-xl, 2rem) + var(--dyn-spacing-md, 1rem));
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+}
+
+.dyn-avatar--size-lg {
+  width: calc(var(--dyn-spacing-xl, 2rem) * 2);
+  height: calc(var(--dyn-spacing-xl, 2rem) * 2);
+  font-size: var(--dyn-typography-fontSize-lg, 1.125rem);
+}
+
+.dyn-avatar--size-xl {
+  width: calc(var(--dyn-spacing-xl, 2rem) * 2.5);
+  height: calc(var(--dyn-spacing-xl, 2rem) * 2.5);
+  font-size: var(--dyn-typography-fontSize-xl, 1.25rem);
+}
+
+.dyn-avatar--size-2xl {
+  width: calc(var(--dyn-spacing-xl, 2rem) * 3);
+  height: calc(var(--dyn-spacing-xl, 2rem) * 3);
+  font-size: var(--dyn-typography-fontSize-2xl, 1.5rem);
+}
+
+/* Shape variants */
+.dyn-avatar--shape-circle {
+  border-radius: 50%;
+}
+
+.dyn-avatar--shape-square {
+  border-radius: var(--dyn-radius-md, 0.375rem);
+}
+
+/* Clickable state */
+.dyn-avatar--clickable {
+  cursor: pointer;
+}
+
+.dyn-avatar--clickable:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.dyn-avatar--clickable:focus-visible {
+  outline: 2px solid var(--dyn-color-interactive-primary);
+  outline-offset: 2px;
+}
+
+.dyn-avatar--clickable:active {
+  transform: scale(0.95);
+}
+
+/* Image */
+.dyn-avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Initials */
+.dyn-avatar__initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  line-height: 1;
+}

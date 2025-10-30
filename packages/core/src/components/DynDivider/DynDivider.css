@@ -1,0 +1,127 @@
+/**
+ * DynDivider styles using design tokens
+ */
+
+.dyn-divider {
+  border: 0;
+  margin: 0;
+}
+
+/* Horizontal dividers */
+.dyn-divider--horizontal {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-top: 1px solid var(--dyn-color-border-primary);
+}
+
+.dyn-divider--horizontal.dyn-divider--with-label {
+  border-top: none;
+}
+
+.dyn-divider--horizontal.dyn-divider--spacing-sm {
+  margin: var(--dyn-spacing-sm, 0.5rem) 0;
+}
+
+.dyn-divider--horizontal.dyn-divider--spacing-md {
+  margin: var(--dyn-spacing-md, 1rem) 0;
+}
+
+.dyn-divider--horizontal.dyn-divider--spacing-lg {
+  margin: var(--dyn-spacing-lg, 1.5rem) 0;
+}
+
+/* Vertical dividers */
+.dyn-divider--vertical {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  min-height: var(--dyn-spacing-xl, 2rem);
+  border-left: 1px solid var(--dyn-color-border-primary);
+}
+
+.dyn-divider--vertical.dyn-divider--spacing-sm {
+  margin: 0 var(--dyn-spacing-sm, 0.5rem);
+}
+
+.dyn-divider--vertical.dyn-divider--spacing-md {
+  margin: 0 var(--dyn-spacing-md, 1rem);
+}
+
+.dyn-divider--vertical.dyn-divider--spacing-lg {
+  margin: 0 var(--dyn-spacing-lg, 1.5rem);
+}
+
+/* Line styles */
+.dyn-divider--dashed {
+  border-style: dashed;
+}
+
+.dyn-divider--dotted {
+  border-style: dotted;
+}
+
+.dyn-divider--horizontal.dyn-divider--dashed {
+  border-top-style: dashed;
+}
+
+.dyn-divider--horizontal.dyn-divider--dotted {
+  border-top-style: dotted;
+}
+
+.dyn-divider--vertical.dyn-divider--dashed {
+  border-left-style: dashed;
+}
+
+.dyn-divider--vertical.dyn-divider--dotted {
+  border-left-style: dotted;
+}
+
+/* Divider lines (for labeled horizontal dividers) */
+.dyn-divider__line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--dyn-color-border-primary);
+}
+
+.dyn-divider--dashed .dyn-divider__line {
+  background: none;
+  border-top: 1px dashed var(--dyn-color-border-primary);
+}
+
+.dyn-divider--dotted .dyn-divider__line {
+  background: none;
+  border-top: 1px dotted var(--dyn-color-border-primary);
+}
+
+/* Label */
+.dyn-divider__label {
+  padding: 0 var(--dyn-spacing-sm, 0.5rem);
+  background-color: var(--dyn-color-background-primary);
+  color: var(--dyn-color-text-muted);
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+  font-weight: var(--dyn-typography-fontWeight-medium, 500);
+  white-space: nowrap;
+}
+
+/* Label positioning for horizontal dividers */
+.dyn-divider__label--left {
+  order: -1;
+  padding-left: 0;
+}
+
+.dyn-divider__label--right {
+  order: 1;
+  padding-right: 0;
+}
+
+.dyn-divider__label--center {
+  /* Default positioning */
+}
+
+/* Vertical label */
+.dyn-divider--vertical .dyn-divider__label {
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  padding: var(--dyn-spacing-sm, 0.5rem) 0;
+}
