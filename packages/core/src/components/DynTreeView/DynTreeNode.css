@@ -1,0 +1,106 @@
+/**
+ * DynTreeNode styles using design tokens
+ */
+
+.dyn-tree-node {
+  font-family: var(--dyn-typography-fontFamily-sans);
+}
+
+.dyn-tree-node__content {
+  display: flex;
+  align-items: center;
+  min-height: var(--dyn-spacing-xl, 2rem);
+  transition: background-color 0.15s ease;
+}
+
+.dyn-tree-node__content:hover:not(.dyn-tree-node--disabled) {
+  background-color: var(--dyn-color-background-secondary);
+}
+
+.dyn-tree-node--selected .dyn-tree-node__content {
+  background-color: var(--dyn-color-interactive-primary);
+  color: var(--dyn-color-text-inverse);
+}
+
+.dyn-tree-node--disabled .dyn-tree-node__content {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Expand/collapse button */
+.dyn-tree-node__expand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dyn-spacing-lg, 1.5rem);
+  height: var(--dyn-spacing-lg, 1.5rem);
+  background: none;
+  border: none;
+  border-radius: var(--dyn-radius-sm, 0.25rem);
+  cursor: pointer;
+  color: var(--dyn-color-text-muted);
+  transition: all 0.15s ease;
+  margin-right: var(--dyn-spacing-xs, 0.25rem);
+}
+
+.dyn-tree-node__expand:hover:not(:disabled) {
+  background-color: var(--dyn-color-background-muted);
+  color: var(--dyn-color-text-primary);
+}
+
+.dyn-tree-node__expand:focus-visible {
+  outline: 2px solid var(--dyn-color-interactive-primary);
+  outline-offset: 2px;
+}
+
+.dyn-tree-node__spacer {
+  width: var(--dyn-spacing-lg, 1.5rem);
+  margin-right: var(--dyn-spacing-xs, 0.25rem);
+}
+
+/* Node title */
+.dyn-tree-node__title {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  cursor: pointer;
+  padding: var(--dyn-spacing-xs, 0.25rem);
+  border-radius: var(--dyn-radius-sm, 0.25rem);
+  transition: all 0.15s ease;
+  min-width: 0;
+}
+
+.dyn-tree-node__title:focus-visible {
+  outline: 2px solid var(--dyn-color-interactive-primary);
+  outline-offset: 2px;
+}
+
+.dyn-tree-node--disabled .dyn-tree-node__title {
+  cursor: not-allowed;
+}
+
+.dyn-tree-node__icon {
+  display: flex;
+  align-items: center;
+  margin-right: var(--dyn-spacing-sm, 0.5rem);
+  color: var(--dyn-color-text-muted);
+  flex-shrink: 0;
+}
+
+.dyn-tree-node--selected .dyn-tree-node__icon {
+  color: var(--dyn-color-text-inverse);
+}
+
+.dyn-tree-node__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: var(--dyn-typography-fontWeight-medium, 500);
+}
+
+/* Children container */
+.dyn-tree-node__children {
+  /* Children have their own padding handled by level prop */
+}
