@@ -1,8 +1,10 @@
 /**
  * Style Dictionary v4 Configuration for DynUI-Max design tokens
  * Fixed to work with Style Dictionary 4.4.0
+ * 
+ * This file exports the configuration object for CLI usage.
+ * The actual build is triggered by the CLI command, not by this file.
  */
-import StyleDictionary from 'style-dictionary';
 
 /**
  * Custom transform for kebab-case naming with dyn prefix
@@ -20,11 +22,11 @@ const pxToRemTransform = {
   name: 'size/px-to-rem',
   type: 'value',
   filter: (token) => {
-    return token.type === 'dimension' && 
-           typeof token.value === 'string' && 
-           token.value.endsWith('px');
+    return token.$type === 'dimension' && 
+           typeof token.$value === 'string' && 
+           token.$value.endsWith('px');
   },
-  transform: (token) => `${parseFloat(token.value) / 16}rem`
+  transform: (token) => `${parseFloat(token.$value) / 16}rem`
 };
 
 /**
@@ -34,9 +36,9 @@ const fontFamilyTransform = {
   name: 'font/family/css',
   type: 'value',
   filter: (token) => {
-    return token.type === 'fontFamily';
+    return token.$type === 'fontFamily';
   },
-  transform: (token) => token.value
+  transform: (token) => token.$value
 };
 
 /**
@@ -79,9 +81,10 @@ const themedCssFormat = {
 };
 
 /**
- * Create and configure StyleDictionary instance
+ * Style Dictionary v4 Configuration
+ * Export config object for CLI usage
  */
-const sd = new StyleDictionary({
+export default {
   // Enable verbose logging for debugging
   log: {
     verbosity: 'verbose'
@@ -151,9 +154,4 @@ const sd = new StyleDictionary({
       [themedCssFormat.name]: themedCssFormat
     }
   }
-});
-
-// Build the tokens
-sd.buildAllPlatforms();
-
-export default sd;
+};
