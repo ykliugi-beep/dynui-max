@@ -1,0 +1,22 @@
+{/* DynLabel.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynLabel.stories';
+
+<Meta of={Stories} />
+
+# DynLabel
+
+Form label with required indicators and weight variants.
+
+## Overview
+<Canvas of={Stories.Default} />
+
+## Variants
+<Canvas of={Stories.Required} />
+<Canvas of={Stories.WeightVariants} />
+
+## Accessibility
+<Canvas of={Stories.AccessibilityDemo} />
+
+## Props
+<Controls of={Stories.Default} />

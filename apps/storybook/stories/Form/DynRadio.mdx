@@ -1,0 +1,22 @@
+{/* DynRadio.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynRadio.stories';
+
+<Meta of={Stories} />
+
+# DynRadio
+
+Radio buttons with arrow key navigation and controlled/uncontrolled support.
+
+## Overview
+<Canvas of={Stories.Default} />
+
+## Groups
+<Canvas of={Stories.HorizontalGroup} />
+<Canvas of={Stories.VerticalGroup} />
+
+## Accessibility
+<Canvas of={Stories.AccessibilityDemo} />
+
+## Props
+<Controls of={Stories.Default} />

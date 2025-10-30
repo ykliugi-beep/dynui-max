@@ -1,0 +1,25 @@
+{/* DynFieldContainer.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynFieldContainer.stories';
+
+<Meta of={Stories} />
+
+# DynFieldContainer
+
+Field wrapper that provides label, description, hint, error, required indicator, and ARIA associations.
+
+## Overview
+<Canvas of={Stories.Default} />
+
+## Validation
+<Canvas of={Stories.WithError} />
+
+## Layouts
+<Canvas of={Stories.HorizontalLayout} />
+<Canvas of={Stories.VerticalLayout} />
+
+## Accessibility
+<Canvas of={Stories.AccessibilityDemo} />
+
+## Props
+<Controls of={Stories.Default} />

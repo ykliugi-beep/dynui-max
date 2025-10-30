@@ -1,0 +1,20 @@
+{/* DynDivider.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynDivider.stories';
+
+<Meta of={Stories} />
+
+# DynDivider
+
+Visual separators with optional labels.
+
+## Overview
+<Canvas of={Stories.Overview} />
+
+## Variants
+<Canvas of={Stories.Horizontal} />
+<Canvas of={Stories.Vertical} />
+<Canvas of={Stories.WithLabel} />
+
+## Props
+<Controls of={Stories.Overview} />

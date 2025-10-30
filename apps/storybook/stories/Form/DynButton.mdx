@@ -1,0 +1,29 @@
+{/* DynButton.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynButton.stories';
+
+<Meta of={Stories} />
+
+# DynButton
+
+Versatile button with multiple variants, sizes, loading and disabled states.
+
+## Overview
+<Canvas of={Stories.Primary} />
+
+## Variants
+<Canvas of={Stories.Primary} />
+<Canvas of={Stories.Secondary} />
+
+## Sizes
+<Canvas of={Stories.Small} />
+<Canvas of={Stories.Large} />
+
+## States
+<Canvas of={Stories.Disabled} />
+
+## Interactions
+<Canvas of={Stories.InteractionTest} />
+
+## Props
+<Controls of={Stories.Primary} />

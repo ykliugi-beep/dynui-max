@@ -1,0 +1,22 @@
+{/* DynSelect.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynSelect.stories';
+
+<Meta of={Stories} />
+
+# DynSelect
+
+Advanced dropdown with search, multi-select, keyboard navigation.
+
+## Overview
+<Canvas of={Stories.Default} />
+
+## Variants
+<Canvas of={Stories.MultiSelect} />
+<Canvas of={Stories.WithSearch} />
+
+## Accessibility
+<Canvas of={Stories.AccessibilityDemo} />
+
+## Props
+<Controls of={Stories.Default} />
