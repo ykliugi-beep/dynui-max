@@ -1,55 +1,44 @@
 import StyleDictionary from 'style-dictionary';
+import { initializeCustomTransforms } from './transforms.js';
 
 /**
- * Style Dictionary configuration for generating CSS variables and TypeScript
- * from design tokens
+ * Style Dictionary configuration for DynUI-Max design tokens
+ * Compatible with Style Dictionary 4.x and the catalog system
  */
 
-// Register custom transforms
-StyleDictionary.registerTransform({
-  name: 'size/px-to-rem',
-  type: 'value',
-  matcher: (token) => {
-    return token.attributes?.category === 'size' || token.type === 'dimension';
-  },
-  transformer: (token) => {
-    if (typeof token.value === 'string' && token.value.endsWith('px')) {
-      const pxValue = parseFloat(token.value);
-      return `${pxValue / 16}rem`;
-    }
-    return token.value;
-  }
-});
+// Initialize custom transforms and groups
+initializeCustomTransforms();
 
-// CSS variable name transform
-StyleDictionary.registerTransform({
-  name: 'name/cti/dyn-kebab',
-  type: 'name',
-  transformer: (token, options) => {
-    return `dyn-${token.path.join('-')}`;
-  }
-});
-
-// Register CSS format for :root and theme classes
+// Register themed CSS format for light/dark themes
 StyleDictionary.registerFormat({
   name: 'css/variables-themed',
   formatter: ({ dictionary, options }) => {
-    const { selector = ':root' } = options;
+    const { selector = ':root', theme } = options;
     
-    const cssVars = dictionary.allTokens
+    // Filter tokens by theme if specified
+    const tokens = theme 
+      ? dictionary.allTokens.filter(token => 
+          !token.attributes?.theme || token.attributes.theme === theme
+        )
+      : dictionary.allTokens;
+    
+    const cssVars = tokens
       .map(token => `  --${token.name}: ${token.value};`)
       .join('\n');
     
-    return `${selector} {\n${cssVars}\n}`;
+    return `/* DynUI-Max Design Tokens - ${theme || 'All themes'} */\n${selector} {\n${cssVars}\n}`;
   }
 });
 
 export default {
-  source: ['src/tokens/**/*.ts'],
+  source: [
+    'src/tokens/**/*.json',
+    'src/tokens/**/*.js', 
+    'src/tokens/**/*.ts'
+  ],
   platforms: {
     css: {
-      transformGroup: 'css',
-      transforms: ['name/cti/dyn-kebab', 'size/px-to-rem'],
+      transformGroup: 'dyn/css',
       buildPath: 'dist/',
       files: [
         {
@@ -60,17 +49,19 @@ export default {
           }
         },
         {
-          destination: 'themes/light.css',
+          destination: 'themes/light.css', 
           format: 'css/variables-themed',
           options: {
-            selector: '.theme-light, :root'
+            selector: '.theme-light, :root',
+            theme: 'light'
           }
         },
         {
           destination: 'themes/dark.css',
-          format: 'css/variables-themed',
+          format: 'css/variables-themed', 
           options: {
-            selector: '.theme-dark'
+            selector: '.theme-dark',
+            theme: 'dark'
           }
         }
       ]
