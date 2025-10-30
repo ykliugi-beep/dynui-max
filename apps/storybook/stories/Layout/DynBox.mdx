@@ -1,0 +1,19 @@
+{/* DynBox.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynBox.stories';
+
+<Meta of={Stories} />
+
+# DynBox
+
+Flexible layout container with spacing utilities and responsive design.
+
+## Overview
+<Canvas of={Stories.Overview} />
+
+## Layout Patterns
+<Canvas of={Stories.GridLayout} />
+<Canvas of={Stories.FlexLayout} />
+
+## Props
+<Controls of={Stories.Overview} />
