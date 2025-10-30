@@ -1,40 +1,65 @@
 {
   "name": "@dynui-max/monorepo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "private": true,
   "description": "Production-ready React + TypeScript component library with design tokens and comprehensive testing",
+  "keywords": ["design-system", "react", "typescript", "components", "design-tokens", "accessibility"],
   "repository": {
     "type": "git",
     "url": "https://github.com/ykliugi-beep/dynui-max.git"
   },
+  "license": "MIT",
+  "author": "DynUI-Max Team",
   "workspaces": [
     "packages/*",
     "apps/*",
     "tools/*"
   ],
   "scripts": {
+    "//=== Core Development ===": "",
     "build": "turbo build",
     "dev": "turbo dev",
+    "clean": "turbo clean && rimraf node_modules/.cache",
+    "reset": "pnpm clean && rimraf node_modules pnpm-lock.yaml && pnpm install",
+    
+    "//=== Quality Gates ===": "",
     "test": "turbo test",
-    "test:coverage": "turbo test -- --coverage",
+    "test:coverage": "turbo test:coverage",
     "test:a11y": "turbo test:a11y",
     "typecheck": "turbo typecheck",
     "lint": "turbo lint",
     "lint:fix": "turbo lint -- --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "clean": "turbo clean",
-    "storybook": "turbo storybook",
-    "build:storybook": "turbo build:storybook",
-    "playground": "pnpm --filter playground dev",
-    "quality:gates": "pnpm typecheck && pnpm lint && pnpm test:coverage && pnpm test:a11y",
+    "quality:gates": "pnpm typecheck && pnpm lint && pnpm test:coverage",
+    
+    "//=== Phase 5: Documentation & Publishing ===": "",
+    "storybook": "turbo storybook --filter=@dynui-max/storybook",
+    "storybook:build": "turbo storybook:build --filter=@dynui-max/storybook",
+    "docs:api": "turbo docs:build --filter=@dynui-max/docs",
+    "docs:build": "pnpm storybook:build && pnpm docs:api",
+    "playground": "turbo playground --filter=@dynui-max/playground",
+    "playground:build": "turbo playground:build --filter=@dynui-max/playground",
+    
+    "//=== Publishing Pipeline ===": "", 
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "publish:packages": "pnpm build && pnpm quality:gates && pnpm changeset:publish",
+    
+    "//=== Maintenance ===": "",
+    "deps:update": "pnpm update -r --interactive",
+    "deps:audit": "pnpm audit --audit-level moderate",
+    "size:analyze": "pnpm build && bundlesize",
     "prepare": "husky install || echo 'Husky not available'"
   },
   "dependencies": {
     "@dynui-max/design-tokens": "workspace:*"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.9",
     "@axe-core/react": "catalog:",
     "@storybook/addon-a11y": "catalog:",
     "@storybook/addon-docs": "catalog:",
@@ -52,6 +77,7 @@
     "@typescript-eslint/eslint-plugin": "catalog:",
     "@typescript-eslint/parser": "catalog:",
     "@vitejs/plugin-react": "catalog:",
+    "bundlesize": "^0.18.2",
     "chromatic": "catalog:",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
@@ -73,5 +99,58 @@
     "node": ">=20.0.0",
     "pnpm": ">=9.0.0"
   },
-  "packageManager": "pnpm@9.12.0"
+  "packageManager": "pnpm@9.12.3",
+  "pnpm": {
+    "catalog": {
+      "react": "^18.3.1",
+      "react-dom": "^18.3.1",
+      "@types/react": "^18.3.12",
+      "@types/react-dom": "^18.3.1",
+      "clsx": "^2.1.1",
+      "vitest": "^2.1.4",
+      "@testing-library/react": "^16.0.1",
+      "@testing-library/jest-dom": "^6.6.3",
+      "@testing-library/user-event": "^14.5.2",
+      "jsdom": "^25.0.1",
+      "@vitest/coverage-v8": "^2.1.4",
+      "vitest-axe": "^0.1.0",
+      "@axe-core/react": "^4.10.1",
+      "@storybook/addon-a11y": "^8.4.7",
+      "@storybook/addon-docs": "^8.4.7",
+      "@storybook/addon-essentials": "^8.4.7",
+      "@storybook/addon-interactions": "^8.4.7",
+      "@storybook/react-vite": "^8.4.7",
+      "@storybook/test": "^8.4.7",
+      "@storybook/test-runner": "^0.19.1",
+      "storybook": "^8.4.7",
+      "chromatic": "^11.15.0",
+      "@types/node": "^22.8.7",
+      "@typescript-eslint/eslint-plugin": "^8.12.2",
+      "@typescript-eslint/parser": "^8.12.2",
+      "@vitejs/plugin-react": "^4.3.3",
+      "eslint": "^9.14.0",
+      "eslint-config-prettier": "^9.1.0",
+      "eslint-plugin-react": "^7.37.1",
+      "eslint-plugin-react-hooks": "^5.0.0",
+      "husky": "^9.1.6",
+      "prettier": "^3.3.3",
+      "rimraf": "^6.0.1",
+      "tsup": "^8.3.5",
+      "turbo": "^2.2.3",
+      "typescript": "^5.6.3",
+      "vite": "^5.4.10"
+    }
+  },
+  "bundlesize": [
+    {
+      "path": "./packages/core/dist/**/*.js",
+      "maxSize": "150KB",
+      "compression": "gzip"
+    },
+    {
+      "path": "./packages/design-tokens/dist/**/*.css",
+      "maxSize": "50KB",
+      "compression": "gzip"
+    }
+  ]
 }
