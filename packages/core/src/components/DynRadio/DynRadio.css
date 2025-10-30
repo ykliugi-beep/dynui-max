@@ -1,0 +1,180 @@
+/**
+ * DynRadio styles using design tokens
+ */
+
+.dyn-radio {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--dyn-spacing-sm, 0.5rem);
+  cursor: pointer;
+  font-family: var(--dyn-typography-fontFamily-sans);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+.dyn-radio--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Control container */
+.dyn-radio__control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Hidden input */
+.dyn-radio__input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  margin: 0;
+}
+
+.dyn-radio__input:disabled {
+  cursor: not-allowed;
+}
+
+/* Visual radio circle */
+.dyn-radio__circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dyn-color-background-primary);
+  border: 2px solid var(--dyn-color-border-primary);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* Size variants using spacing tokens */
+.dyn-radio--size-sm .dyn-radio__circle {
+  width: var(--dyn-spacing-md, 1rem);
+  height: var(--dyn-spacing-md, 1rem);
+}
+
+.dyn-radio--size-md .dyn-radio__circle {
+  width: var(--dyn-spacing-lg, 1.5rem);
+  height: var(--dyn-spacing-lg, 1.5rem);
+}
+
+.dyn-radio--size-lg .dyn-radio__circle {
+  width: var(--dyn-spacing-xl, 2rem);
+  height: var(--dyn-spacing-xl, 2rem);
+}
+
+/* Radio dot (inner circle) */
+.dyn-radio__dot {
+  border-radius: 50%;
+  background-color: currentColor;
+  transition: all 0.2s ease;
+}
+
+.dyn-radio--size-sm .dyn-radio__dot {
+  width: var(--dyn-spacing-xs, 0.25rem);
+  height: var(--dyn-spacing-xs, 0.25rem);
+}
+
+.dyn-radio--size-md .dyn-radio__dot {
+  width: var(--dyn-spacing-sm, 0.5rem);
+  height: var(--dyn-spacing-sm, 0.5rem);
+}
+
+.dyn-radio--size-lg .dyn-radio__dot {
+  width: var(--dyn-spacing-md, 1rem);
+  height: var(--dyn-spacing-md, 1rem);
+}
+
+/* States */
+.dyn-radio--focused .dyn-radio__circle {
+  outline: 2px solid var(--dyn-color-interactive-primary);
+  outline-offset: 2px;
+}
+
+.dyn-radio:hover:not(.dyn-radio--disabled) .dyn-radio__circle {
+  border-color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-radio--checked .dyn-radio__circle {
+  background-color: var(--dyn-color-interactive-primary);
+  border-color: var(--dyn-color-interactive-primary);
+  color: var(--dyn-color-text-inverse);
+}
+
+.dyn-radio--error .dyn-radio__circle {
+  border-color: var(--dyn-color-feedback-danger);
+}
+
+.dyn-radio--error.dyn-radio--checked .dyn-radio__circle {
+  background-color: var(--dyn-color-feedback-danger);
+  border-color: var(--dyn-color-feedback-danger);
+}
+
+/* Content */
+.dyn-radio__content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dyn-radio__label {
+  font-weight: var(--dyn-typography-fontWeight-medium, 500);
+  color: var(--dyn-color-text-primary);
+}
+
+.dyn-radio--size-sm .dyn-radio__label {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+}
+
+.dyn-radio--size-md .dyn-radio__label {
+  font-size: var(--dyn-typography-fontSize-md, 1rem);
+}
+
+.dyn-radio--size-lg .dyn-radio__label {
+  font-size: var(--dyn-typography-fontSize-lg, 1.125rem);
+}
+
+.dyn-radio__description {
+  font-size: var(--dyn-typography-fontSize-xs, 0.75rem);
+  color: var(--dyn-color-text-muted);
+  margin-top: var(--dyn-spacing-xs, 0.25rem);
+}
+
+.dyn-radio--error .dyn-radio__label {
+  color: var(--dyn-color-feedback-danger);
+}
+
+.dyn-radio--disabled .dyn-radio__label,
+.dyn-radio--disabled .dyn-radio__description {
+  color: var(--dyn-color-text-muted);
+}
+
+/* Radio Group */
+.dyn-radio-group {
+  display: flex;
+  gap: var(--dyn-spacing-md, 1rem);
+}
+
+.dyn-radio-group--vertical {
+  flex-direction: column;
+  gap: var(--dyn-spacing-sm, 0.5rem);
+}
+
+.dyn-radio-group--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.dyn-radio-group--disabled {
+  opacity: 0.5;
+}
+
+/* Focus management for radio group */
+.dyn-radio-group:focus-within .dyn-radio--checked .dyn-radio__circle {
+  outline: 2px solid var(--dyn-color-interactive-primary);
+  outline-offset: 2px;
+}
