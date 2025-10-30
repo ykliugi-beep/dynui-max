@@ -32,6 +32,9 @@ export type { DynTextAreaProps } from './components/DynTextArea';
 export { DynSelect } from './components/DynSelect';
 export type { DynSelectProps, DynSelectRef, SelectOption } from './components/DynSelect';
 
+export { DynSelectOption } from './components/DynSelect/DynSelectOption';
+export type { DynSelectOptionProps } from './components/DynSelect/DynSelectOption';
+
 export { DynCheckbox } from './components/DynCheckbox';
 export type { DynCheckboxProps } from './components/DynCheckbox';
 
@@ -64,8 +67,14 @@ export type { DynTabsProps, DynTabsRef, TabItem } from './components/DynTabs';
 export { DynMenu } from './components/DynMenu';
 export type { DynMenuProps, DynMenuRef, MenuItem } from './components/DynMenu';
 
+export { DynMenuItem } from './components/DynMenu/DynMenuItem';
+export type { DynMenuItemProps } from './components/DynMenu/DynMenuItem';
+
 export { DynBreadcrumb } from './components/DynBreadcrumb';
 export type { DynBreadcrumbProps, BreadcrumbItem } from './components/DynBreadcrumb';
+
+export { DynBreadcrumbItem } from './components/DynBreadcrumb/DynBreadcrumbItem';
+export type { DynBreadcrumbItemProps } from './components/DynBreadcrumb/DynBreadcrumbItem';
 
 // Data Display Components
 export { DynTable } from './components/DynTable';
@@ -73,6 +82,9 @@ export type { DynTableProps, TableColumn } from './components/DynTable';
 
 export { DynTreeView } from './components/DynTreeView';
 export type { DynTreeViewProps, TreeNode } from './components/DynTreeView';
+
+export { DynTreeNode } from './components/DynTreeView/DynTreeNode';
+export type { DynTreeNodeProps } from './components/DynTreeView/DynTreeNode';
 
 export { DynListView } from './components/DynListView';
 export type { DynListViewProps, ListItem } from './components/DynListView';
@@ -103,4 +115,4 @@ export type {
 } from '@dynui-max/design-tokens';
 
 // Version
-export const VERSION = '0.1.0';
+export const VERSION = '0.2.0';
