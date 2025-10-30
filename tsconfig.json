@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    // Type Checking
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    
+    // Modules
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    
+    // Emit
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "checkJs": false,
+    "maxNodeModuleJsDepth": 1,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "removeComments": false,
+    "noEmit": true,
+    "importHelpers": true,
+    "importsNotUsedAsValues": "error",
+    "downlevelIteration": true,
+    "sourceRoot": "",
+    "mapRoot": "",
+    "inlineSourceMap": false,
+    "inlineSources": false,
+    "emitBOM": false,
+    "newLine": "lf",
+    "stripInternal": false,
+    "noEmitHelpers": false,
+    "noEmitOnError": false,
+    "preserveConstEnums": false,
+    "declarationDir": "./dist",
+    "preserveValueImports": false,
+    
+    // Interop Constraints  
+    "verbatimModuleSyntax": true,
+    
+    // Language and Environment
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "jsx": "react-jsx",
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment",
+    "jsxImportSource": "react",
+    "reactNamespace": "React",
+    "noLib": false,
+    "useDefineForClassFields": true,
+    
+    // Completeness
+    "skipDefaultLibCheck": false,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "storybook-static",
+    "coverage",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.stories.ts",
+    "**/*.stories.tsx"
+  ]
+}
