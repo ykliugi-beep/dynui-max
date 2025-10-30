@@ -1,0 +1,50 @@
+/**
+ * DynContainer styles using design tokens
+ */
+
+.dyn-container {
+  width: 100%;
+  padding-left: var(--dyn-spacing-md, 1rem);
+  padding-right: var(--dyn-spacing-md, 1rem);
+}
+
+.dyn-container--centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Size variants with max-width constraints */
+.dyn-container--size-sm:not(.dyn-container--fluid) {
+  max-width: 640px;
+}
+
+.dyn-container--size-md:not(.dyn-container--fluid) {
+  max-width: 768px;
+}
+
+.dyn-container--size-lg:not(.dyn-container--fluid) {
+  max-width: 1024px;
+}
+
+.dyn-container--size-xl:not(.dyn-container--fluid) {
+  max-width: 1280px;
+}
+
+.dyn-container--size-2xl:not(.dyn-container--fluid) {
+  max-width: 1536px;
+}
+
+/* Responsive padding adjustments */
+@media (max-width: 640px) {
+  .dyn-container {
+    padding-left: var(--dyn-spacing-sm, 0.5rem);
+    padding-right: var(--dyn-spacing-sm, 0.5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .dyn-container {
+    padding-left: var(--dyn-spacing-lg, 1.5rem);
+    padding-right: var(--dyn-spacing-lg, 1.5rem);
+  }
+}

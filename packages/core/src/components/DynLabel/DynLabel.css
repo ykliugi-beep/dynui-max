@@ -1,0 +1,58 @@
+/**
+ * DynLabel styles using design tokens
+ */
+
+.dyn-label {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--dyn-typography-fontFamily-sans);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+  color: var(--dyn-color-text-primary);
+  cursor: pointer;
+  margin-bottom: var(--dyn-spacing-xs, 0.25rem);
+}
+
+/* Size variants */
+.dyn-label--size-sm {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+}
+
+.dyn-label--size-md {
+  font-size: var(--dyn-typography-fontSize-md, 1rem);
+}
+
+.dyn-label--size-lg {
+  font-size: var(--dyn-typography-fontSize-lg, 1.125rem);
+}
+
+/* Weight variants */
+.dyn-label--weight-normal {
+  font-weight: var(--dyn-typography-fontWeight-normal, 400);
+}
+
+.dyn-label--weight-medium {
+  font-weight: var(--dyn-typography-fontWeight-medium, 500);
+}
+
+.dyn-label--weight-semibold {
+  font-weight: var(--dyn-typography-fontWeight-semibold, 600);
+}
+
+/* States */
+.dyn-label--disabled {
+  color: var(--dyn-color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Required indicator */
+.dyn-label__required {
+  color: var(--dyn-color-feedback-danger);
+  margin-left: var(--dyn-spacing-xs, 0.25rem);
+  font-weight: var(--dyn-typography-fontWeight-bold, 700);
+}
+
+.dyn-label--disabled .dyn-label__required {
+  color: var(--dyn-color-text-muted);
+  opacity: 0.6;
+}
