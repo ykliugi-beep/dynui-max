@@ -1,0 +1,140 @@
+/**
+ * DynTable styles using design tokens
+ */
+
+.dyn-table-container {
+  position: relative;
+  overflow-x: auto;
+  border: 1px solid var(--dyn-color-border-primary);
+  border-radius: var(--dyn-radius-md, 0.375rem);
+}
+
+.dyn-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--dyn-typography-fontFamily-sans);
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+/* Loading overlay */
+.dyn-table__loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dyn-spacing-sm, 0.5rem);
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(2px);
+  z-index: 10;
+  color: var(--dyn-color-text-muted);
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+}
+
+/* Table head */
+.dyn-table__head {
+  background-color: var(--dyn-color-background-secondary);
+}
+
+.dyn-table__header {
+  padding: var(--dyn-spacing-sm, 0.5rem) var(--dyn-spacing-md, 1rem);
+  text-align: left;
+  font-weight: var(--dyn-typography-fontWeight-semibold, 600);
+  color: var(--dyn-color-text-primary);
+  border-bottom: 1px solid var(--dyn-color-border-primary);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.dyn-table__header--sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease;
+}
+
+.dyn-table__header--sortable:hover {
+  background-color: var(--dyn-color-background-muted);
+}
+
+.dyn-table__header--selection {
+  width: 48px;
+  padding: var(--dyn-spacing-sm, 0.5rem);
+  text-align: center;
+}
+
+.dyn-table__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--dyn-spacing-xs, 0.25rem);
+}
+
+.dyn-table__sort-icon {
+  display: flex;
+  align-items: center;
+  color: var(--dyn-color-text-muted);
+  transition: color 0.15s ease;
+}
+
+.dyn-table__header--sorted .dyn-table__sort-icon {
+  color: var(--dyn-color-interactive-primary);
+}
+
+/* Table body */
+.dyn-table__body {
+  background-color: var(--dyn-color-background-primary);
+}
+
+.dyn-table__row {
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid var(--dyn-color-border-primary);
+}
+
+.dyn-table__row:hover {
+  background-color: var(--dyn-color-background-secondary);
+}
+
+.dyn-table__row--selected {
+  background-color: var(--dyn-color-background-muted);
+}
+
+.dyn-table__row--clickable {
+  cursor: pointer;
+}
+
+.dyn-table__row:last-child {
+  border-bottom: none;
+}
+
+.dyn-table__cell {
+  padding: var(--dyn-spacing-sm, 0.5rem) var(--dyn-spacing-md, 1rem);
+  color: var(--dyn-color-text-primary);
+  vertical-align: middle;
+}
+
+.dyn-table__cell--selection {
+  width: 48px;
+  padding: var(--dyn-spacing-sm, 0.5rem);
+  text-align: center;
+}
+
+.dyn-table__empty {
+  padding: var(--dyn-spacing-xl, 2rem);
+  text-align: center;
+  color: var(--dyn-color-text-muted);
+  font-style: italic;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .dyn-table-container {
+    border-radius: 0;
+  }
+  
+  .dyn-table__header,
+  .dyn-table__cell {
+    padding: var(--dyn-spacing-xs, 0.25rem) var(--dyn-spacing-sm, 0.5rem);
+    font-size: var(--dyn-typography-fontSize-xs, 0.75rem);
+  }
+}

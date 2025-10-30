@@ -1,0 +1,106 @@
+/**
+ * DynListView styles using design tokens
+ */
+
+.dyn-listview {
+  font-family: var(--dyn-typography-fontFamily-sans);
+  border: 1px solid var(--dyn-color-border-primary);
+  border-radius: var(--dyn-radius-md, 0.375rem);
+  overflow: hidden;
+}
+
+.dyn-listview--loading,
+.dyn-listview--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--dyn-spacing-3xl, 8rem);
+}
+
+.dyn-listview__loading,
+.dyn-listview__empty {
+  color: var(--dyn-color-text-muted);
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+  text-align: center;
+}
+
+.dyn-listview__container {
+  /* No additional styles needed */
+}
+
+/* List items */
+.dyn-listview__item {
+  display: flex;
+  align-items: center;
+  padding: var(--dyn-spacing-md, 1rem);
+  border-bottom: 1px solid var(--dyn-color-border-primary);
+  transition: all 0.15s ease;
+  background-color: var(--dyn-color-background-primary);
+}
+
+.dyn-listview__item:last-child {
+  border-bottom: none;
+}
+
+.dyn-listview__item--clickable {
+  cursor: pointer;
+}
+
+.dyn-listview__item--clickable:hover:not(.dyn-listview__item--disabled) {
+  background-color: var(--dyn-color-background-secondary);
+}
+
+.dyn-listview__item--clickable:focus-visible {
+  outline: 2px solid var(--dyn-color-interactive-primary);
+  outline-offset: -2px;
+}
+
+.dyn-listview__item--selected {
+  background-color: var(--dyn-color-background-muted);
+  border-color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-listview__item--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Avatar */
+.dyn-listview__avatar {
+  margin-right: var(--dyn-spacing-md, 1rem);
+  flex-shrink: 0;
+}
+
+/* Content */
+.dyn-listview__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.dyn-listview__title {
+  font-weight: var(--dyn-typography-fontWeight-medium, 500);
+  font-size: var(--dyn-typography-fontSize-md, 1rem);
+  color: var(--dyn-color-text-primary);
+  line-height: var(--dyn-typography-lineHeight-tight, 1.25);
+  margin-bottom: var(--dyn-spacing-xs, 0.25rem);
+}
+
+.dyn-listview__description {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+  color: var(--dyn-color-text-muted);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+.dyn-listview__item--disabled .dyn-listview__title,
+.dyn-listview__item--disabled .dyn-listview__description {
+  color: var(--dyn-color-text-muted);
+}
+
+/* Actions */
+.dyn-listview__actions {
+  margin-left: var(--dyn-spacing-md, 1rem);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--dyn-spacing-xs, 0.25rem);
+}
