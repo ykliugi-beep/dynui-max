@@ -1,0 +1,22 @@
+{/* DynTextArea.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynTextArea.stories';
+
+<Meta of={Stories} />
+
+# DynTextArea
+
+Auto-resize textarea with character counting.
+
+## Overview
+<Canvas of={Stories.Default} />
+
+## Features
+<Canvas of={Stories.AutoResize} />
+<Canvas of={Stories.WithCounter} />
+
+## Accessibility
+<Canvas of={Stories.AccessibilityDemo} />
+
+## Props
+<Controls of={Stories.Default} />
