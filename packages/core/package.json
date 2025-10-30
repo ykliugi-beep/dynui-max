@@ -1,6 +1,6 @@
 {
   "name": "@dynui-max/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Production-ready React + TypeScript component library with design tokens integration",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -44,29 +44,35 @@
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@axe-core/react": "catalog:",
-    "@storybook/addon-a11y": "catalog:",
-    "@storybook/addon-essentials": "catalog:",
-    "@storybook/addon-interactions": "catalog:",
-    "@storybook/react-vite": "catalog:",
-    "@storybook/test": "catalog:",
-    "@testing-library/jest-dom": "catalog:",
-    "@testing-library/react": "catalog:",
-    "@testing-library/user-event": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "@vitejs/plugin-react": "catalog:",
-    "eslint": "catalog:",
-    "happy-dom": "^15.7.4",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "rimraf": "catalog:",
-    "storybook": "catalog:",
-    "tsup": "catalog:",
-    "typescript": "catalog:",
-    "vite": "catalog:",
-    "vitest": "catalog:",
-    "vitest-axe": "catalog:"
+    "react": "catalog:core",
+    "react-dom": "catalog:core",
+    "@types/react": "catalog:core",
+    "@types/react-dom": "catalog:core",
+    
+    "typescript": "catalog:typescript",
+    
+    "vite": "catalog:build",
+    "tsup": "catalog:build",
+    "@vitejs/plugin-react": "catalog:build",
+    "rimraf": "catalog:tooling",
+    
+    "vitest": "catalog:testing",
+    "@testing-library/jest-dom": "catalog:testing",
+    "@testing-library/react": "catalog:testing",
+    "@testing-library/user-event": "catalog:testing",
+    "@axe-core/react": "catalog:testing",
+    "vitest-axe": "catalog:testing",
+    
+    "storybook": "catalog:storybook",
+    "@storybook/addon-a11y": "catalog:storybook",
+    "@storybook/addon-essentials": "catalog:storybook",
+    "@storybook/addon-interactions": "catalog:storybook",
+    "@storybook/react-vite": "catalog:storybook",
+    "@storybook/test": "catalog:storybook",
+    
+    "eslint": "catalog:quality",
+    
+    "happy-dom": "^15.7.4"
   },
   "keywords": [
     "react",

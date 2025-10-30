@@ -1,6 +1,6 @@
 {
   "name": "@dynui-max/monorepo",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "private": true,
   "description": "Production-ready React + TypeScript component library with design tokens and comprehensive testing",
@@ -44,46 +44,91 @@
     "size:analyze": "pnpm build && bundlesize",
     "prepare": "husky install || echo 'Husky not available'"
   },
-  "dependencies": { "@dynui-max/design-tokens": "workspace:*" },
-  "devDependencies": {
-    "@changesets/changelog-github": "^0.5.0",
-    "@changesets/cli": "^2.27.9",
-    "@axe-core/react": "catalog:",
-    "@storybook/addon-a11y": "catalog:",
-    "@storybook/addon-docs": "catalog:",
-    "@storybook/addon-essentials": "catalog:",
-    "@storybook/addon-interactions": "catalog:",
-    "@storybook/react-vite": "catalog:",
-    "@storybook/test": "catalog:",
-    "@storybook/test-runner": "catalog:",
-    "@testing-library/jest-dom": "catalog:",
-    "@testing-library/react": "catalog:",
-    "@testing-library/user-event": "catalog:",
-    "@types/node": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "@typescript-eslint/eslint-plugin": "catalog:",
-    "@typescript-eslint/parser": "catalog:",
-    "@vitejs/plugin-react": "catalog:",
-    "bundlesize": "^0.18.2",
-    "chromatic": "catalog:",
-    "eslint": "catalog:",
-    "eslint-config-prettier": "catalog:",
-    "eslint-plugin-react": "catalog:",
-    "eslint-plugin-react-hooks": "catalog:",
-    "husky": "catalog:",
-    "jsdom": "catalog:",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
-    "storybook": "catalog:",
-    "tsup": "catalog:",
-    "turbo": "catalog:",
-    "typescript": "catalog:",
-    "vite": "catalog:",
-    "vitest": "catalog:",
-    "vitest-axe": "catalog:"
+  "dependencies": { 
+    "@dynui-max/design-tokens": "workspace:*" 
   },
-  "engines": { "node": ">=20.0.0", "pnpm": ">=9.0.0" },
+  "devDependencies": {
+    "@changesets/changelog-github": "catalog:tooling",
+    "@changesets/cli": "catalog:tooling",
+    
+    "@axe-core/react": "catalog:testing",
+    "@testing-library/jest-dom": "catalog:testing",
+    "@testing-library/react": "catalog:testing",
+    "@testing-library/user-event": "catalog:testing",
+    "jsdom": "catalog:testing",
+    "vitest": "catalog:testing",
+    "vitest-axe": "catalog:testing",
+    
+    "@storybook/addon-a11y": "catalog:storybook",
+    "@storybook/addon-docs": "catalog:storybook",
+    "@storybook/addon-essentials": "catalog:storybook",
+    "@storybook/addon-interactions": "catalog:storybook",
+    "@storybook/react-vite": "catalog:storybook",
+    "@storybook/test": "catalog:storybook",
+    "@storybook/test-runner": "catalog:storybook",
+    "chromatic": "catalog:storybook",
+    "storybook": "catalog:storybook",
+    
+    "typescript": "catalog:typescript",
+    "@types/node": "catalog:typescript",
+    "@types/react": "catalog:core",
+    "@types/react-dom": "catalog:core",
+    
+    "vite": "catalog:build",
+    "tsup": "catalog:build",
+    "@vitejs/plugin-react": "catalog:build",
+    
+    "eslint": "catalog:quality",
+    "prettier": "catalog:quality",
+    "@typescript-eslint/parser": "catalog:quality",
+    "@typescript-eslint/eslint-plugin": "catalog:quality",
+    "eslint-config-prettier": "catalog:quality",
+    "eslint-plugin-react": "catalog:quality",
+    "eslint-plugin-react-hooks": "catalog:quality",
+    
+    "husky": "catalog:tooling",
+    "turbo": "catalog:tooling",
+    "rimraf": "catalog:tooling",
+    "bundlesize": "catalog:tooling"
+  },
+  "pnpm": {
+    "allowedDeprecatedVersions": {
+      "glob": "*",
+      "rimraf": "*", 
+      "@types/minimatch": "*",
+      "abab": "*",
+      "domexception": "*",
+      "inflight": "*",
+      "source-map": "*",
+      "are-we-there-yet": "*",
+      "gauge": "*",
+      "iltorb": "*",
+      "npmlog": "*",
+      "expect-playwright": "*",
+      "jest-playwright-preset": "*",
+      "jest-process-manager": "*"
+    },
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "react": "18",
+        "react-dom": "18", 
+        "typescript": "5.4",
+        "storybook": "8"
+      },
+      "ignoreMissing": [
+        "@types/react",
+        "@types/react-dom",
+        "@storybook/design-token"
+      ]
+    },
+    "overrides": {
+      "typescript": "catalog:typescript"
+    }
+  },
+  "engines": { 
+    "node": ">=20.0.0", 
+    "pnpm": ">=9.0.0" 
+  },
   "packageManager": "pnpm@9.12.3",
   "bundlesize": [
     { "path": "./packages/core/dist/**/*.js", "maxSize": "150KB", "compression": "gzip" },
