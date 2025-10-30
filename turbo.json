@@ -13,8 +13,13 @@
       "outputs": ["coverage/**"],
       "env": ["NODE_ENV"]
     },
+    "test:coverage": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx", "*.test.*"],
+      "outputs": ["coverage/**"]
+    },
     "test:a11y": {
-      "dependsOn": ["build:storybook"],
+      "dependsOn": ["storybook:build"],
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "**/*.stories.*"],
       "outputs": ["test-results/**"]
     },
@@ -25,6 +30,9 @@
       "dependsOn": ["^build"],
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig*.json"]
     },
+    "quality:gates": {
+      "dependsOn": ["typecheck", "lint", "test:coverage"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
@@ -34,10 +42,35 @@
       "persistent": true,
       "dependsOn": ["^build"]
     },
-    "build:storybook": {
+    "storybook:build": {
       "dependsOn": ["^build"],
       "outputs": ["storybook-static/**"],
       "inputs": ["src/**", "**/*.stories.*", ".storybook/**"]
+    },
+    "docs:build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "../../packages/core/src/**/*.ts",
+        "../../packages/core/src/**/*.tsx",
+        "typedoc.json",
+        "custom.css"
+      ],
+      "outputs": ["dist/**"]
+    },
+    "playground": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "playground:build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"],
+      "inputs": ["src/**", "index.html", "vite.config.*"]
+    },
+    "publish": {
+      "dependsOn": ["build", "quality:gates"],
+      "inputs": ["package.json", "dist/**", "lib/**"],
+      "cache": false
     },
     "clean": {
       "cache": false
@@ -45,6 +78,8 @@
   },
   "globalEnv": [
     "NODE_ENV",
-    "CI"
+    "CI",
+    "STORYBOOK_*",
+    "NPM_TOKEN"
   ]
 }
