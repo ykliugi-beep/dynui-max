@@ -13,7 +13,7 @@
     "//=== Core Development ===": "",
     "build": "turbo build",
     "dev": "turbo dev",
-    "clean": "turbo clean && node -e \"const fs=require('fs');fs.rmSync('node_modules/.cache',{recursive:true,force:true})\"",
+    "clean": "turbo clean && node scripts/clean.js",
     "reset": "node -e \"const fs=require('fs'),cp=require('child_process');fs.rmSync('node_modules',{recursive:true,force:true});fs.rmSync('pnpm-lock.yaml',{force:true});cp.execSync('pnpm install',{stdio:'inherit'})\"",
     "reset:full": "pnpm reset && pnpm build",
     "//=== Quality Gates ===": "",
