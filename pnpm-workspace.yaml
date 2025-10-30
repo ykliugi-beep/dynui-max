@@ -1,69 +1,102 @@
+# Workspace packages configuration
 packages:
-  - 'packages/*'
-  - 'apps/*'
-  - 'tools/*'
-  - '.'
+  - "packages/*"
+  - "apps/*"
+  - "tools/*"
+  - "."
 
-catalog:
-  # Core React Ecosystem - Frozen stable versions
-  react: 18.3.1
-  react-dom: 18.3.1
-  '@types/react': 18.3.12
-  '@types/react-dom': 18.3.1
+# Catalogs - Centralizovano upravljanje verzijama kroz named catalogs
+catalogs:
+  # Core React Ecosystem - Stabilne verzije
+  core:
+    react: ^18.3.1
+    react-dom: ^18.3.1
+    "@types/react": ^18.3.12
+    "@types/react-dom": ^18.3.1
 
-  # TypeScript Ecosystem - LTS versions
-  typescript: 5.6.3
-  '@types/node': 20.17.6
+  # TypeScript Ecosystem - LTS verzije kompatibilne sa tooling-om
+  typescript:
+    typescript: ^5.4.5  # Downgraded for typedoc compatibility
+    "@types/node": ^20.17.6
+    typedoc: ^0.25.13    # Latest version compatible with TypeScript 5.4.x
 
   # Build & Development Tools
-  vite: 5.4.10
-  tsup: 8.3.5
-  '@vitejs/plugin-react': 4.3.3
-  rimraf: 6.0.1
+  build:
+    vite: ^5.4.10
+    tsup: ^8.3.5
+    "@vitejs/plugin-react": ^4.3.3
+    esbuild: ^0.23.1
+    "@swc/core": ^1.14.0
 
-  # Testing Stack - Stable versions
-  vitest: 2.1.5
-  '@testing-library/react': 16.0.1
-  '@testing-library/jest-dom': 6.6.3
-  '@testing-library/user-event': 14.5.2
-  jsdom: 25.0.1
-  vitest-axe: 0.1.0
-  '@axe-core/react': 4.7.3
+  # Testing Stack - Stabilne 2.x verzije  
+  testing:
+    vitest: ^2.1.5
+    "@testing-library/react": ^16.0.1
+    "@testing-library/jest-dom": ^6.6.3
+    "@testing-library/user-event": ^14.5.2
+    jsdom: ^25.0.1
+    vitest-axe: ^0.1.0
+    "@axe-core/react": ^4.7.3
 
-  # Storybook - Stable 8.x series
-  storybook: 8.3.5
-  '@storybook/addon-a11y': 8.3.5
-  '@storybook/addon-essentials': 8.3.5
-  '@storybook/addon-docs': 8.3.5
-  '@storybook/addon-interactions': 8.3.5
-  '@storybook/react-vite': 8.3.5
-  '@storybook/test': 8.3.5
-  '@storybook/test-runner': 0.23.0
-  chromatic: 11.12.6
+  # Storybook - Stabilna 8.x serija (bez problematičnih addon-a)
+  storybook:
+    storybook: ^8.3.5
+    "@storybook/addon-a11y": ^8.3.5
+    "@storybook/addon-essentials": ^8.3.5
+    "@storybook/addon-interactions": ^8.3.5
+    "@storybook/addon-docs": ^8.3.5
+    "@storybook/react-vite": ^8.3.5
+    "@storybook/test": ^8.3.5
+    "@storybook/test-runner": ^0.23.0
+    chromatic: ^11.12.6
+    # Note: storybook-design-token removed due to compatibility issues
 
-  # Code Quality
-  eslint: 9.15.0
-  '@eslint/js': 9.15.0
-  prettier: 3.3.3
-  '@typescript-eslint/parser': 8.15.0
-  '@typescript-eslint/eslint-plugin': 8.15.0
-  'eslint-config-prettier': 9.1.0
-  'eslint-plugin-react': 7.36.1
-  'eslint-plugin-react-hooks': 5.0.0
+  # Code Quality Tools
+  quality:
+    eslint: ^9.15.0
+    "@eslint/js": ^9.15.0
+    prettier: ^3.3.3
+    "@typescript-eslint/parser": ^8.15.0
+    "@typescript-eslint/eslint-plugin": ^8.15.0
+    eslint-config-prettier: ^9.1.0
+    eslint-plugin-react: ^7.36.1
+    eslint-plugin-react-hooks: ^5.0.0
 
-  # Build Tools
-  turbo: 2.5.4
-  husky: 9.1.6
+  # Monorepo & Build Orchestration
+  tooling:
+    husky: ^9.1.6
+    turbo: ^2.5.4
+    rimraf: ^6.0.1
+    bundlesize: ^0.18.2
+    "@changesets/cli": ^2.29.7
+    "@changesets/changelog-github": ^0.5.1
 
+  # Style & Design System Tools
+  design:
+    "style-dictionary": ^4.4.0
+    postcss: ^8.4.31
+    autoprefixer: ^10.4.16
+
+# Configuration for dependency resolution and security
 onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - 'esbuild'
-  - 'nx'
+  - "@parcel/watcher"
+  - "parcel-watcher"  
+  - "esbuild"
+  - "@swc/core"
+  - "nx"
 
+# Peer dependency rules to avoid conflicts  
 peerDependencyRules:
   allowedVersions:
-    react: '18'
-    react-dom: '18'
+    react: "18"
+    react-dom: "18"
+    typescript: "5.4"
+    # Allow older Storybook versions for addons compatibility
+    storybook: "8"
   ignoreMissing:
-    - '@types/react'
-    - '@types/react-dom'
+    - "@types/react"
+    - "@types/react-dom"
+    - "@storybook/design-token"
+
+# Package manager specification
+packageManager: "pnpm@9.12.3"
