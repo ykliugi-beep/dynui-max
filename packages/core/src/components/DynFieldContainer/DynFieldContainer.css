@@ -1,0 +1,86 @@
+/**
+ * DynFieldContainer styles using design tokens
+ */
+
+.dyn-field-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dyn-spacing-xs, 0.25rem);
+}
+
+.dyn-field-container--horizontal {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--dyn-spacing-md, 1rem);
+}
+
+.dyn-field-container--horizontal .dyn-field-container__label {
+  flex-shrink: 0;
+  width: 120px;
+  padding-top: var(--dyn-spacing-xs, 0.25rem);
+}
+
+.dyn-field-container--horizontal .dyn-field-container__control {
+  flex: 1;
+}
+
+/* Label */
+.dyn-field-container__label {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+  font-weight: var(--dyn-typography-fontWeight-medium, 500);
+  color: var(--dyn-color-text-primary);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+.dyn-field-container__required {
+  color: var(--dyn-color-feedback-danger);
+  margin-left: var(--dyn-spacing-xs, 0.25rem);
+}
+
+/* Description */
+.dyn-field-container__description {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+  color: var(--dyn-color-text-secondary);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+/* Control wrapper */
+.dyn-field-container__control {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hint */
+.dyn-field-container__hint {
+  font-size: var(--dyn-typography-fontSize-xs, 0.75rem);
+  color: var(--dyn-color-text-muted);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+/* Error */
+.dyn-field-container__error {
+  display: flex;
+  align-items: center;
+  gap: var(--dyn-spacing-xs, 0.25rem);
+  font-size: var(--dyn-typography-fontSize-xs, 0.75rem);
+  color: var(--dyn-color-feedback-danger);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+.dyn-field-container__error-icon {
+  flex-shrink: 0;
+}
+
+/* Error state styling */
+.dyn-field-container--error .dyn-field-container__label {
+  color: var(--dyn-color-feedback-danger);
+}
+
+/* Focus-within enhancement */
+.dyn-field-container:focus-within .dyn-field-container__label {
+  color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-field-container--error:focus-within .dyn-field-container__label {
+  color: var(--dyn-color-feedback-danger);
+}

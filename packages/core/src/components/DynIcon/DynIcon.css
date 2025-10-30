@@ -1,0 +1,68 @@
+/**
+ * DynIcon styles using design tokens
+ */
+
+.dyn-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* Size variants using spacing tokens */
+.dyn-icon--size-sm {
+  width: var(--dyn-spacing-md, 1rem);
+  height: var(--dyn-spacing-md, 1rem);
+}
+
+.dyn-icon--size-md {
+  width: var(--dyn-spacing-lg, 1.5rem);
+  height: var(--dyn-spacing-lg, 1.5rem);
+}
+
+.dyn-icon--size-lg {
+  width: var(--dyn-spacing-xl, 2rem);
+  height: var(--dyn-spacing-xl, 2rem);
+}
+
+/* Color variants using semantic tokens */
+.dyn-icon--color-current {
+  color: currentColor;
+}
+
+.dyn-icon--color-primary {
+  color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-icon--color-secondary {
+  color: var(--dyn-color-text-secondary);
+}
+
+.dyn-icon--color-muted {
+  color: var(--dyn-color-text-muted);
+}
+
+.dyn-icon--color-success {
+  color: var(--dyn-color-feedback-success);
+}
+
+.dyn-icon--color-warning {
+  color: var(--dyn-color-feedback-warning);
+}
+
+.dyn-icon--color-danger {
+  color: var(--dyn-color-feedback-danger);
+}
+
+/* Animation for spinner */
+.dyn-icon--name-spinner {
+  animation: dyn-icon-spin 1s linear infinite;
+}
+
+@keyframes dyn-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
