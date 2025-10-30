@@ -1,0 +1,29 @@
+{/* DynContainer.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynContainer.stories';
+
+<Meta of={Stories} />
+
+# DynContainer
+
+Responsive page container with max-width constraints and fluid layout options.
+
+## Overview
+<Canvas of={Stories.Overview} />
+
+## Variants
+<Canvas of={Stories.MaxWidthVariants} />
+<Canvas of={Stories.FluidVsFixed} />
+
+## Patterns
+<Canvas of={Stories.NestedContainers} />
+<Canvas of={Stories.WithGridChildren} />
+
+## Responsive
+<Canvas of={Stories.ResponsiveDemo} />
+
+## Accessibility
+<Canvas of={Stories.AccessibilityDemo} />
+
+## Props
+<Controls of={Stories.Overview} />
