@@ -1,0 +1,22 @@
+{
+  "name": "@dynui-max/docs",
+  "version": "0.2.0",
+  "private": true,
+  "description": "API documentation for DynUI-Max components",
+  "scripts": {
+    "dev": "typedoc --watch",
+    "build": "typedoc",
+    "serve": "http-server ./dist -p 8080",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@dynui-max/core": "workspace:*",
+    "@dynui-max/design-tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "typedoc": "^0.25.13",
+    "typedoc-plugin-markdown": "^3.17.1",
+    "http-server": "^14.1.1",
+    "rimraf": "^5.0.5"
+  }
+}
