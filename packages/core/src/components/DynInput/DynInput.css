@@ -1,0 +1,184 @@
+/**
+ * DynInput styles using design tokens
+ */
+
+.dyn-input-container {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+/* Size variants using spacing tokens */
+.dyn-input-container--size-sm {
+  gap: var(--dyn-spacing-xs, 0.25rem);
+  padding: var(--dyn-spacing-xs, 0.25rem) var(--dyn-spacing-sm, 0.5rem);
+  min-height: var(--dyn-spacing-xl, 2rem);
+  border-radius: var(--dyn-radius-sm, 0.25rem);
+}
+
+.dyn-input-container--size-md {
+  gap: var(--dyn-spacing-sm, 0.5rem);
+  padding: var(--dyn-spacing-sm, 0.5rem) var(--dyn-spacing-md, 1rem);
+  min-height: calc(var(--dyn-spacing-xl, 2rem) + var(--dyn-spacing-xs, 0.25rem));
+  border-radius: var(--dyn-radius-md, 0.375rem);
+}
+
+.dyn-input-container--size-lg {
+  gap: var(--dyn-spacing-sm, 0.5rem);
+  padding: var(--dyn-spacing-md, 1rem);
+  min-height: calc(var(--dyn-spacing-xl, 2rem) + var(--dyn-spacing-sm, 0.5rem));
+  border-radius: var(--dyn-radius-lg, 0.5rem);
+}
+
+/* Variant styles using semantic tokens */
+
+/* Outline variant */
+.dyn-input-container--variant-outline {
+  background-color: var(--dyn-color-background-primary);
+  border: 1px solid var(--dyn-color-border-primary);
+}
+
+.dyn-input-container--variant-outline.dyn-input-container--focused {
+  border-color: var(--dyn-color-interactive-primary);
+  outline: 1px solid var(--dyn-color-interactive-primary);
+}
+
+.dyn-input-container--variant-outline.dyn-input-container--error {
+  border-color: var(--dyn-color-feedback-danger);
+}
+
+.dyn-input-container--variant-outline.dyn-input-container--error.dyn-input-container--focused {
+  outline-color: var(--dyn-color-feedback-danger);
+}
+
+/* Filled variant */
+.dyn-input-container--variant-filled {
+  background-color: var(--dyn-color-background-secondary);
+  border: 1px solid transparent;
+}
+
+.dyn-input-container--variant-filled.dyn-input-container--focused {
+  background-color: var(--dyn-color-background-primary);
+  border-color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-input-container--variant-filled.dyn-input-container--error {
+  background-color: var(--dyn-color-background-primary);
+  border-color: var(--dyn-color-feedback-danger);
+}
+
+/* Ghost variant */
+.dyn-input-container--variant-ghost {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-bottom-color: var(--dyn-color-border-primary);
+  border-radius: 0;
+}
+
+.dyn-input-container--variant-ghost.dyn-input-container--focused {
+  border-bottom-color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-input-container--variant-ghost.dyn-input-container--error {
+  border-bottom-color: var(--dyn-color-feedback-danger);
+}
+
+/* States */
+.dyn-input-container--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dyn-input-container--loading {
+  cursor: wait;
+}
+
+/* Input element */
+.dyn-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--dyn-color-text-primary);
+  font-family: var(--dyn-typography-fontFamily-sans);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+.dyn-input--size-sm {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+}
+
+.dyn-input--size-md {
+  font-size: var(--dyn-typography-fontSize-md, 1rem);
+}
+
+.dyn-input--size-lg {
+  font-size: var(--dyn-typography-fontSize-lg, 1.125rem);
+}
+
+.dyn-input::placeholder {
+  color: var(--dyn-color-text-muted);
+}
+
+.dyn-input:disabled {
+  cursor: not-allowed;
+}
+
+/* Icon elements */
+.dyn-input__start-icon,
+.dyn-input__end-icon {
+  display: flex;
+  align-items: center;
+  color: var(--dyn-color-text-muted);
+}
+
+.dyn-input-container--focused .dyn-input__start-icon,
+.dyn-input-container--focused .dyn-input__end-icon {
+  color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-input-container--error .dyn-input__start-icon,
+.dyn-input-container--error .dyn-input__end-icon {
+  color: var(--dyn-color-feedback-danger);
+}
+
+/* End section */
+.dyn-input__end {
+  display: flex;
+  align-items: center;
+  gap: var(--dyn-spacing-xs, 0.25rem);
+}
+
+/* Loading spinner */
+.dyn-input__loading {
+  display: flex;
+  align-items: center;
+  color: var(--dyn-color-text-muted);
+}
+
+/* Clear button */
+.dyn-input__clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--dyn-spacing-xs, 0.25rem);
+  border-radius: var(--dyn-radius-sm, 0.25rem);
+  color: var(--dyn-color-text-muted);
+  transition: all 0.2s ease;
+}
+
+.dyn-input__clear:hover {
+  background-color: var(--dyn-color-background-secondary);
+  color: var(--dyn-color-text-primary);
+}
+
+.dyn-input__clear:focus-visible {
+  outline: 1px solid var(--dyn-color-interactive-primary);
+  outline-offset: 1px;
+}

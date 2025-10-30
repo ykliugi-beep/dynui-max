@@ -1,0 +1,144 @@
+/**
+ * DynTextArea styles using design tokens
+ */
+
+.dyn-textarea-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+/* Size variants using spacing tokens */
+.dyn-textarea-container--size-sm {
+  padding: var(--dyn-spacing-xs, 0.25rem) var(--dyn-spacing-sm, 0.5rem);
+  border-radius: var(--dyn-radius-sm, 0.25rem);
+}
+
+.dyn-textarea-container--size-md {
+  padding: var(--dyn-spacing-sm, 0.5rem) var(--dyn-spacing-md, 1rem);
+  border-radius: var(--dyn-radius-md, 0.375rem);
+}
+
+.dyn-textarea-container--size-lg {
+  padding: var(--dyn-spacing-md, 1rem);
+  border-radius: var(--dyn-radius-lg, 0.5rem);
+}
+
+/* Variant styles using semantic tokens */
+
+/* Outline variant */
+.dyn-textarea-container--variant-outline {
+  background-color: var(--dyn-color-background-primary);
+  border: 1px solid var(--dyn-color-border-primary);
+}
+
+.dyn-textarea-container--variant-outline.dyn-textarea-container--focused {
+  border-color: var(--dyn-color-interactive-primary);
+  outline: 1px solid var(--dyn-color-interactive-primary);
+}
+
+.dyn-textarea-container--variant-outline.dyn-textarea-container--error {
+  border-color: var(--dyn-color-feedback-danger);
+}
+
+.dyn-textarea-container--variant-outline.dyn-textarea-container--error.dyn-textarea-container--focused {
+  outline-color: var(--dyn-color-feedback-danger);
+}
+
+/* Filled variant */
+.dyn-textarea-container--variant-filled {
+  background-color: var(--dyn-color-background-secondary);
+  border: 1px solid transparent;
+}
+
+.dyn-textarea-container--variant-filled.dyn-textarea-container--focused {
+  background-color: var(--dyn-color-background-primary);
+  border-color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-textarea-container--variant-filled.dyn-textarea-container--error {
+  background-color: var(--dyn-color-background-primary);
+  border-color: var(--dyn-color-feedback-danger);
+}
+
+/* Ghost variant */
+.dyn-textarea-container--variant-ghost {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-bottom-color: var(--dyn-color-border-primary);
+  border-radius: 0;
+}
+
+.dyn-textarea-container--variant-ghost.dyn-textarea-container--focused {
+  border-bottom-color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-textarea-container--variant-ghost.dyn-textarea-container--error {
+  border-bottom-color: var(--dyn-color-feedback-danger);
+}
+
+/* States */
+.dyn-textarea-container--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Textarea element */
+.dyn-textarea {
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: vertical;
+  color: var(--dyn-color-text-primary);
+  font-family: var(--dyn-typography-fontFamily-sans);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+.dyn-textarea--size-sm {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+}
+
+.dyn-textarea--size-md {
+  font-size: var(--dyn-typography-fontSize-md, 1rem);
+}
+
+.dyn-textarea--size-lg {
+  font-size: var(--dyn-typography-fontSize-lg, 1.125rem);
+}
+
+.dyn-textarea::placeholder {
+  color: var(--dyn-color-text-muted);
+}
+
+.dyn-textarea:disabled {
+  cursor: not-allowed;
+}
+
+/* Auto-resize specific styles */
+.dyn-textarea-container--auto-resize .dyn-textarea {
+  resize: none;
+  overflow: hidden;
+}
+
+/* Character count */
+.dyn-textarea__count {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: var(--dyn-spacing-xs, 0.25rem);
+  font-size: var(--dyn-typography-fontSize-xs, 0.75rem);
+  color: var(--dyn-color-text-muted);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+}
+
+.dyn-textarea__count--over-limit {
+  color: var(--dyn-color-feedback-danger);
+}
+
+.dyn-textarea__count-max {
+  color: var(--dyn-color-text-muted);
+}
