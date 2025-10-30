@@ -11,12 +11,13 @@ export { ThemeProvider, useTheme } from './theme';
 // Core Components (P0 Prerequisites)
 export { DynIcon } from './components/DynIcon';
 export type { DynIconProps } from './components/DynIcon';
+export { iconRegistry } from './components/DynIcon/iconRegistry';
 
 export { DynFieldContainer } from './components/DynFieldContainer';
 export type { DynFieldContainerProps } from './components/DynFieldContainer';
 
 export { DynStepper, DynStep } from './components/DynStepper';
-export type { DynStepperProps, DynStepProps } from './components/DynStepper';
+export type { DynStepperProps, DynStepProps, StepData, StepStatus } from './components/DynStepper';
 
 // Form Components
 export { DynButton } from './components/DynButton';
@@ -37,8 +38,33 @@ export type { DynCheckboxProps } from './components/DynCheckbox';
 export { DynRadio, DynRadioGroup } from './components/DynRadio';
 export type { DynRadioProps, DynRadioGroupProps } from './components/DynRadio';
 
-// Types and utilities
-export type { Theme, ComponentVariant, ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
+// Layout & Display Components
+export { DynModal } from './components/DynModal';
+export type { DynModalProps } from './components/DynModal';
+
+export { DynBadge } from './components/DynBadge';
+export type { DynBadgeProps } from './components/DynBadge';
+
+export { DynAvatar } from './components/DynAvatar';
+export type { DynAvatarProps } from './components/DynAvatar';
+
+export { DynDivider } from './components/DynDivider';
+export type { DynDividerProps } from './components/DynDivider';
+
+// Hooks
+export { useClickOutside } from './hooks/useClickOutside';
+export { useKeyboard } from './hooks/useKeyboard';
+export { useFocusTrap } from './hooks/useFocusTrap';
+
+// Types and utilities from design tokens
+export type { 
+  Theme, 
+  ComponentVariant, 
+  ComponentSize, 
+  ComponentColor,
+  BaseTokens,
+  SemanticTokens
+} from '@dynui-max/design-tokens';
 
 // Version
 export const VERSION = '0.1.0';
