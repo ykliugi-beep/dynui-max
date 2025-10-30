@@ -1,0 +1,35 @@
+{
+  "name": "@dynui-max/storybook",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Storybook documentation for DynUI-Max components",
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build",
+    "preview": "storybook preview",
+    "test": "test-storybook",
+    "test:coverage": "test-storybook --coverage",
+    "chromatic": "chromatic --exit-zero-on-changes"
+  },
+  "dependencies": {
+    "@dynui-max/core": "workspace:*",
+    "@dynui-max/design-tokens": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^8.4.7",
+    "@storybook/addon-design-tokens": "^0.2.7",
+    "@storybook/addon-docs": "^8.4.7",
+    "@storybook/addon-essentials": "^8.4.7",
+    "@storybook/addon-interactions": "^8.4.7",
+    "@storybook/react": "^8.4.7",
+    "@storybook/react-vite": "^8.4.7",
+    "@storybook/test": "^8.4.7",
+    "@storybook/test-runner": "^0.19.1",
+    "chromatic": "^11.15.0",
+    "storybook": "^8.4.7",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10"
+  }
+}

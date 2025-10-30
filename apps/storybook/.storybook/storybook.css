@@ -1,0 +1,61 @@
+/**
+ * Storybook global styles for DynUI-Max
+ */
+
+/* Theme switching support */
+.dyn-theme-light {
+  color-scheme: light;
+}
+
+.dyn-theme-dark {
+  color-scheme: dark;
+}
+
+/* Apply design tokens theme classes */
+.dyn-theme-light,
+.dyn-theme-dark {
+  font-family: var(--dyn-typography-fontFamily-sans);
+  background-color: var(--dyn-color-background-primary);
+  color: var(--dyn-color-text-primary);
+}
+
+/* Storybook canvas adjustments */
+.sb-show-main {
+  background-color: var(--dyn-color-background-primary);
+}
+
+/* Story container */
+.sbdocs-wrapper {
+  background-color: var(--dyn-color-background-primary);
+  color: var(--dyn-color-text-primary);
+}
+
+/* Documentation styles */
+.sbdocs-content {
+  max-width: none;
+  font-family: var(--dyn-typography-fontFamily-sans);
+}
+
+.sbdocs-content h1,
+.sbdocs-content h2,
+.sbdocs-content h3 {
+  color: var(--dyn-color-text-primary);
+}
+
+/* Controls panel */
+.docblock-argstable {
+  font-family: var(--dyn-typography-fontFamily-sans);
+}
+
+/* Story preview */
+.docs-story {
+  background-color: var(--dyn-color-background-primary);
+  border: 1px solid var(--dyn-color-border-primary);
+  border-radius: var(--dyn-radius-md);
+}
+
+/* Code blocks */
+.docblock-source {
+  border: 1px solid var(--dyn-color-border-primary);
+  border-radius: var(--dyn-radius-md);
+}
