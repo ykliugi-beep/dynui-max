@@ -1,0 +1,150 @@
+/**
+ * DynTabs styles using design tokens
+ */
+
+.dyn-tabs {
+  display: flex;
+  font-family: var(--dyn-typography-fontFamily-sans);
+}
+
+.dyn-tabs--horizontal {
+  flex-direction: column;
+}
+
+.dyn-tabs--vertical {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+/* Tab List */
+.dyn-tabs__list {
+  display: flex;
+  position: relative;
+}
+
+.dyn-tabs--horizontal .dyn-tabs__list {
+  flex-direction: row;
+  border-bottom: 1px solid var(--dyn-color-border-primary);
+}
+
+.dyn-tabs--vertical .dyn-tabs__list {
+  flex-direction: column;
+  border-right: 1px solid var(--dyn-color-border-primary);
+  min-width: 200px;
+}
+
+/* Individual Tab */
+.dyn-tabs__tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: var(--dyn-typography-fontWeight-medium, 500);
+  font-size: var(--dyn-typography-fontSize-md, 1rem);
+  line-height: var(--dyn-typography-lineHeight-normal, 1.5);
+  color: var(--dyn-color-text-muted);
+  transition: all 0.2s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.dyn-tabs--horizontal .dyn-tabs__tab {
+  padding: var(--dyn-spacing-sm, 0.5rem) var(--dyn-spacing-md, 1rem);
+  border-bottom: 2px solid transparent;
+}
+
+.dyn-tabs--vertical .dyn-tabs__tab {
+  width: 100%;
+  padding: var(--dyn-spacing-sm, 0.5rem) var(--dyn-spacing-md, 1rem);
+  border-right: 2px solid transparent;
+  justify-content: flex-start;
+}
+
+/* Tab States */
+.dyn-tabs__tab:hover:not(:disabled):not(.dyn-tabs__tab--disabled) {
+  color: var(--dyn-color-text-primary);
+  background-color: var(--dyn-color-background-secondary);
+}
+
+.dyn-tabs__tab:focus-visible {
+  outline: 2px solid var(--dyn-color-interactive-primary);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.dyn-tabs__tab--active {
+  color: var(--dyn-color-interactive-primary);
+  font-weight: var(--dyn-typography-fontWeight-semibold, 600);
+}
+
+.dyn-tabs--horizontal .dyn-tabs__tab--active {
+  border-bottom-color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-tabs--vertical .dyn-tabs__tab--active {
+  border-right-color: var(--dyn-color-interactive-primary);
+  background-color: var(--dyn-color-background-secondary);
+}
+
+.dyn-tabs__tab--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  color: var(--dyn-color-text-muted);
+}
+
+/* Tab Content */
+.dyn-tabs__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.dyn-tabs--horizontal .dyn-tabs__content {
+  margin-top: var(--dyn-spacing-md, 1rem);
+}
+
+.dyn-tabs--vertical .dyn-tabs__content {
+  margin-left: var(--dyn-spacing-md, 1rem);
+}
+
+/* Tab Panel */
+.dyn-tabs__panel {
+  outline: none;
+}
+
+.dyn-tabs__panel[hidden] {
+  display: none;
+}
+
+.dyn-tabs__panel--active {
+  animation: dyn-tabs-panel-enter 0.2s ease-out;
+}
+
+@keyframes dyn-tabs-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Vertical specific animations */
+.dyn-tabs--vertical .dyn-tabs__panel--active {
+  animation: dyn-tabs-panel-enter-vertical 0.2s ease-out;
+}
+
+@keyframes dyn-tabs-panel-enter-vertical {
+  from {
+    opacity: 0;
+    transform: translateX(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
