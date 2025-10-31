@@ -50,7 +50,6 @@ const dynCssTransformGroup = {
     'attribute/cti',
     'name/cti/dyn-kebab',
     'time/seconds',
-    'html/icon',  // renamed from content/icon in v4
     'size/px-to-rem',
     'font/family/css',
     'color/hex'
