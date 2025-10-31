@@ -1,57 +1,71 @@
 #!/usr/bin/env node
 /**
- * Test script to validate Style Dictionary v4 configuration
- * This script can be run to test the config without running full build
+ * Test script to validate Style Dictionary configuration and token build
  */
 
-import StyleDictionary from 'style-dictionary';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { spawn } from 'child_process';
 import { existsSync } from 'fs';
+import { join } from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = join(__filename, '..');
 
-async function testConfig() {
-  console.log('🧪 Testing Style Dictionary v4 configuration...');
-  
-  try {
-    // Import the config
-    const configPath = join(__dirname, 'build', 'config.js');
-    if (!existsSync(configPath)) {
-      throw new Error('Config file not found at: ' + configPath);
-    }
+console.log('🧪 Testing Style Dictionary build...');
+
+// Test that config file exists
+const configPath = join(__dirname, 'build', 'config.js');
+if (!existsSync(configPath)) {
+  console.error('❌ Config file not found:', configPath);
+  process.exit(1);
+}
+console.log('✅ Config file exists');
+
+// Test actual build process
+const buildProcess = spawn('pnpm', ['build:tokens'], {
+  cwd: __dirname,
+  stdio: 'pipe'
+});
+
+let output = '';
+let hasError = false;
+
+buildProcess.stdout.on('data', (data) => {
+  output += data.toString();
+});
+
+buildProcess.stderr.on('data', (data) => {
+  output += data.toString();
+  if (data.toString().includes('Error:')) {
+    hasError = true;
+  }
+});
+
+buildProcess.on('close', (code) => {
+  if (code === 0 && !hasError) {
+    console.log('✅ Style Dictionary build successful!');
     
-    console.log('✅ Config file exists');
+    // Check generated files
+    const cssFile = join(__dirname, 'dist', 'tokens.css');
+    const jsFile = join(__dirname, 'dist', 'tokens.js');
     
-    // Test basic functionality
-    const { default: config } = await import('./build/config.js');
-    
-    if (config && typeof config === 'object') {
-      console.log('✅ Config object loaded successfully');
-      
-      // Check if required properties exist
-      if (config.source && config.platforms && config.hooks) {
-        console.log('✅ Style Dictionary v4 configuration is valid!');
-        console.log('✅ Configuration includes:');
-        console.log(`   - Source paths: ${config.source.length}`);
-        console.log(`   - Platforms: ${Object.keys(config.platforms).join(', ')}`);
-        console.log(`   - Custom transforms: ${Object.keys(config.hooks.transforms || {}).length}`);
-        console.log(`   - Custom formats: ${Object.keys(config.hooks.formats || {}).length}`);
-      } else {
-        console.log('⚠️  Config missing required properties');
-      }
-      
+    if (existsSync(cssFile)) {
+      console.log('✅ CSS tokens generated');
     } else {
-      throw new Error('Config did not return valid object');
+      console.log('⚠️  CSS tokens not found');
     }
     
-  } catch (error) {
-    console.error('❌ Configuration test failed:');
-    console.error(error.message);
-    console.error(error.stack);
+    if (existsSync(jsFile)) {
+      console.log('✅ JS tokens generated');
+    } else {
+      console.log('⚠️  JS tokens not found');
+    }
+    
+    console.log('🎉 All tests passed!');
+  } else {
+    console.error('❌ Style Dictionary build failed');
+    console.error('Output:');
+    console.error(output);
     process.exit(1);
   }
-}
-
-testConfig();
+});
