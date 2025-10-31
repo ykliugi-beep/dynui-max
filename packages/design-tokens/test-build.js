@@ -27,20 +27,23 @@ async function testConfig() {
     // Test basic functionality
     const { default: config } = await import('./build/config.js');
     
-    if (config instanceof StyleDictionary) {
-      console.log('✅ StyleDictionary instance created successfully');
-      console.log('✅ Style Dictionary v4 configuration is valid!');
+    if (config && typeof config === 'object') {
+      console.log('✅ Config object loaded successfully');
       
-      // Check if tokens are loaded
-      if (config.tokens && Object.keys(config.tokens).length > 0) {
-        console.log('✅ Tokens loaded successfully');
-        console.log('📊 Token categories:', Object.keys(config.tokens));
+      // Check if required properties exist
+      if (config.source && config.platforms && config.hooks) {
+        console.log('✅ Style Dictionary v4 configuration is valid!');
+        console.log('✅ Configuration includes:');
+        console.log(`   - Source paths: ${config.source.length}`);
+        console.log(`   - Platforms: ${Object.keys(config.platforms).join(', ')}`);
+        console.log(`   - Custom transforms: ${Object.keys(config.hooks.transforms || {}).length}`);
+        console.log(`   - Custom formats: ${Object.keys(config.hooks.formats || {}).length}`);
       } else {
-        console.log('⚠️  No tokens found - check source paths');
+        console.log('⚠️  Config missing required properties');
       }
       
     } else {
-      throw new Error('Config did not return StyleDictionary instance');
+      throw new Error('Config did not return valid object');
     }
     
   } catch (error) {
