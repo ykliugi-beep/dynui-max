@@ -1,104 +1,310 @@
 {
   "color": {
     "primary": {
-      "50": { "value": "#eff6ff" },
-      "100": { "value": "#dbeafe" },
-      "200": { "value": "#bfdbfe" },
-      "300": { "value": "#93c5fd" },
-      "400": { "value": "#60a5fa" },
-      "500": { "value": "#3b82f6" },
-      "600": { "value": "#2563eb" },
-      "700": { "value": "#1d4ed8" },
-      "800": { "value": "#1e40af" },
-      "900": { "value": "#1e3a8a" },
-      "950": { "value": "#172554" }
+      "50": { 
+        "$type": "color",
+        "$value": "#eff6ff" 
+      },
+      "100": { 
+        "$type": "color",
+        "$value": "#dbeafe" 
+      },
+      "200": { 
+        "$type": "color",
+        "$value": "#bfdbfe" 
+      },
+      "300": { 
+        "$type": "color",
+        "$value": "#93c5fd" 
+      },
+      "400": { 
+        "$type": "color",
+        "$value": "#60a5fa" 
+      },
+      "500": { 
+        "$type": "color",
+        "$value": "#3b82f6" 
+      },
+      "600": { 
+        "$type": "color",
+        "$value": "#2563eb" 
+      },
+      "700": { 
+        "$type": "color",
+        "$value": "#1d4ed8" 
+      },
+      "800": { 
+        "$type": "color",
+        "$value": "#1e40af" 
+      },
+      "900": { 
+        "$type": "color",
+        "$value": "#1e3a8a" 
+      },
+      "950": { 
+        "$type": "color",
+        "$value": "#172554" 
+      }
     },
     "gray": {
-      "50": { "value": "#f9fafb" },
-      "100": { "value": "#f3f4f6" },
-      "200": { "value": "#e5e7eb" },
-      "300": { "value": "#d1d5db" },
-      "400": { "value": "#9ca3af" },
-      "500": { "value": "#6b7280" },
-      "600": { "value": "#4b5563" },
-      "700": { "value": "#374151" },
-      "800": { "value": "#1f2937" },
-      "900": { "value": "#111827" },
-      "950": { "value": "#030712" }
+      "50": { 
+        "$type": "color",
+        "$value": "#f9fafb" 
+      },
+      "100": { 
+        "$type": "color",
+        "$value": "#f3f4f6" 
+      },
+      "200": { 
+        "$type": "color",
+        "$value": "#e5e7eb" 
+      },
+      "300": { 
+        "$type": "color",
+        "$value": "#d1d5db" 
+      },
+      "400": { 
+        "$type": "color",
+        "$value": "#9ca3af" 
+      },
+      "500": { 
+        "$type": "color",
+        "$value": "#6b7280" 
+      },
+      "600": { 
+        "$type": "color",
+        "$value": "#4b5563" 
+      },
+      "700": { 
+        "$type": "color",
+        "$value": "#374151" 
+      },
+      "800": { 
+        "$type": "color",
+        "$value": "#1f2937" 
+      },
+      "900": { 
+        "$type": "color",
+        "$value": "#111827" 
+      },
+      "950": { 
+        "$type": "color",
+        "$value": "#030712" 
+      }
     },
-    "white": { "value": "#ffffff" },
-    "black": { "value": "#000000" }
+    "white": { 
+      "$type": "color",
+      "$value": "#ffffff" 
+    },
+    "black": { 
+      "$type": "color",
+      "$value": "#000000" 
+    }
   },
   "size": {
     "spacing": {
-      "xs": { "value": "4px" },
-      "sm": { "value": "8px" },
-      "md": { "value": "16px" },
-      "lg": { "value": "24px" },
-      "xl": { "value": "32px" },
-      "2xl": { "value": "48px" },
-      "3xl": { "value": "64px" }
+      "xs": { 
+        "$type": "dimension",
+        "$value": "4px" 
+      },
+      "sm": { 
+        "$type": "dimension",
+        "$value": "8px" 
+      },
+      "md": { 
+        "$type": "dimension",
+        "$value": "16px" 
+      },
+      "lg": { 
+        "$type": "dimension",
+        "$value": "24px" 
+      },
+      "xl": { 
+        "$type": "dimension",
+        "$value": "32px" 
+      },
+      "2xl": { 
+        "$type": "dimension",
+        "$value": "48px" 
+      },
+      "3xl": { 
+        "$type": "dimension",
+        "$value": "64px" 
+      }
     },
     "radius": {
-      "none": { "value": "0" },
-      "sm": { "value": "4px" },
-      "md": { "value": "6px" },
-      "lg": { "value": "8px" },
-      "full": { "value": "9999px" }
+      "none": { 
+        "$type": "dimension",
+        "$value": "0" 
+      },
+      "sm": { 
+        "$type": "dimension",
+        "$value": "4px" 
+      },
+      "md": { 
+        "$type": "dimension",
+        "$value": "6px" 
+      },
+      "lg": { 
+        "$type": "dimension",
+        "$value": "8px" 
+      },
+      "full": { 
+        "$type": "dimension",
+        "$value": "9999px" 
+      }
     }
   },
   "font": {
     "size": {
-      "xs": { "value": "12px" },
-      "sm": { "value": "14px" },
-      "md": { "value": "16px" },
-      "lg": { "value": "18px" },
-      "xl": { "value": "20px" },
-      "2xl": { "value": "24px" },
-      "3xl": { "value": "32px" }
+      "xs": { 
+        "$type": "dimension",
+        "$value": "12px" 
+      },
+      "sm": { 
+        "$type": "dimension",
+        "$value": "14px" 
+      },
+      "md": { 
+        "$type": "dimension",
+        "$value": "16px" 
+      },
+      "lg": { 
+        "$type": "dimension",
+        "$value": "18px" 
+      },
+      "xl": { 
+        "$type": "dimension",
+        "$value": "20px" 
+      },
+      "2xl": { 
+        "$type": "dimension",
+        "$value": "24px" 
+      },
+      "3xl": { 
+        "$type": "dimension",
+        "$value": "32px" 
+      }
     },
     "weight": {
-      "normal": { "value": "400" },
-      "medium": { "value": "500" },
-      "semibold": { "value": "600" },
-      "bold": { "value": "700" }
+      "normal": { 
+        "$type": "fontWeight",
+        "$value": "400" 
+      },
+      "medium": { 
+        "$type": "fontWeight",
+        "$value": "500" 
+      },
+      "semibold": { 
+        "$type": "fontWeight",
+        "$value": "600" 
+      },
+      "bold": { 
+        "$type": "fontWeight",
+        "$value": "700" 
+      }
     },
     "family": {
       "sans": { 
-        "value": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif" 
+        "$type": "fontFamily",
+        "$value": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif" 
       },
       "mono": { 
-        "value": "Monaco, Menlo, 'Ubuntu Mono', Consolas, monospace" 
+        "$type": "fontFamily",
+        "$value": "Monaco, Menlo, 'Ubuntu Mono', Consolas, monospace" 
       }
     }
   },
   "shadow": {
-    "xs": { "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)" },
-    "sm": { "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)" },
-    "md": { "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)" },
-    "lg": { "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)" },
-    "xl": { "value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" }
+    "xs": { 
+      "$type": "shadow",
+      "$value": "0 1px 2px 0 rgb(0 0 0 / 0.05)" 
+    },
+    "sm": { 
+      "$type": "shadow",
+      "$value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)" 
+    },
+    "md": { 
+      "$type": "shadow",
+      "$value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)" 
+    },
+    "lg": { 
+      "$type": "shadow",
+      "$value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)" 
+    },
+    "xl": { 
+      "$type": "shadow",
+      "$value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" 
+    }
   },
   "breakpoint": {
-    "sm": { "value": "640px" },
-    "md": { "value": "768px" },
-    "lg": { "value": "1024px" },
-    "xl": { "value": "1280px" },
-    "2xl": { "value": "1536px" }
+    "sm": { 
+      "$type": "dimension",
+      "$value": "640px" 
+    },
+    "md": { 
+      "$type": "dimension",
+      "$value": "768px" 
+    },
+    "lg": { 
+      "$type": "dimension",
+      "$value": "1024px" 
+    },
+    "xl": { 
+      "$type": "dimension",
+      "$value": "1280px" 
+    },
+    "2xl": { 
+      "$type": "dimension",
+      "$value": "1536px" 
+    }
   },
   "z": {
     "index": {
-      "hide": { "value": "-1" },
-      "auto": { "value": "0" },
-      "base": { "value": "0" },
-      "docked": { "value": "10" },
-      "dropdown": { "value": "1000" },
-      "sticky": { "value": "1100" },
-      "banner": { "value": "1200" },
-      "overlay": { "value": "1300" },
-      "modal": { "value": "1400" },
-      "popover": { "value": "1500" },
-      "tooltip": { "value": "1600" }
+      "hide": { 
+        "$type": "number",
+        "$value": "-1" 
+      },
+      "auto": { 
+        "$type": "number",
+        "$value": "0" 
+      },
+      "base": { 
+        "$type": "number",
+        "$value": "0" 
+      },
+      "docked": { 
+        "$type": "number",
+        "$value": "10" 
+      },
+      "dropdown": { 
+        "$type": "number",
+        "$value": "1000" 
+      },
+      "sticky": { 
+        "$type": "number",
+        "$value": "1100" 
+      },
+      "banner": { 
+        "$type": "number",
+        "$value": "1200" 
+      },
+      "overlay": { 
+        "$type": "number",
+        "$value": "1300" 
+      },
+      "modal": { 
+        "$type": "number",
+        "$value": "1400" 
+      },
+      "popover": { 
+        "$type": "number",
+        "$value": "1500" 
+      },
+      "tooltip": { 
+        "$type": "number",
+        "$value": "1600" 
+      }
     }
   }
 }

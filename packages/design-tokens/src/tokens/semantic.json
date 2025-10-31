@@ -1,117 +1,145 @@
 {
-  "color": {
-    "text": {
-      "primary": {
-        "value": "{color.gray.900}",
-        "attributes": { "theme": "light" }
-      },
-      "secondary": {
-        "value": "{color.gray.600}",
-        "attributes": { "theme": "light" }
-      },
-      "muted": {
-        "value": "{color.gray.500}",
-        "attributes": { "theme": "light" }
-      },
-      "inverse": {
-        "value": "{color.white}",
-        "attributes": { "theme": "light" }
-      }
+  "text": {
+    "primary": {
+      "$type": "color",
+      "$value": "{color.gray.900}",
+      "$description": "Primary text color"
     },
-    "background": {
-      "primary": {
-        "value": "{color.white}",
-        "attributes": { "theme": "light" }
-      },
-      "secondary": {
-        "value": "{color.gray.50}",
-        "attributes": { "theme": "light" }
-      },
-      "tertiary": {
-        "value": "{color.gray.100}",
-        "attributes": { "theme": "light" }
-      }
+    "secondary": {
+      "$type": "color",
+      "$value": "{color.gray.600}",
+      "$description": "Secondary text color"
     },
-    "border": {
-      "primary": {
-        "value": "{color.gray.200}",
-        "attributes": { "theme": "light" }
-      },
-      "secondary": {
-        "value": "{color.gray.100}",
-        "attributes": { "theme": "light" }
-      }
+    "tertiary": {
+      "$type": "color",
+      "$value": "{color.gray.500}",
+      "$description": "Tertiary text color"
     },
-    "interactive": {
-      "primary": {
-        "value": "{color.primary.500}",
-        "attributes": { "theme": "light" }
-      },
-      "hover": {
-        "value": "{color.primary.600}",
-        "attributes": { "theme": "light" }
-      },
-      "active": {
-        "value": "{color.primary.700}",
-        "attributes": { "theme": "light" }
-      }
+    "inverse": {
+      "$type": "color",
+      "$value": "{color.white}",
+      "$description": "Inverse text color for dark backgrounds"
+    },
+    "disabled": {
+      "$type": "color",
+      "$value": "{color.gray.400}",
+      "$description": "Disabled text color"
     }
   },
-  "color-dark": {
-    "text": {
-      "primary": {
-        "value": "{color.gray.100}",
-        "attributes": { "theme": "dark" }
-      },
-      "secondary": {
-        "value": "{color.gray.400}",
-        "attributes": { "theme": "dark" }
-      },
-      "muted": {
-        "value": "{color.gray.500}",
-        "attributes": { "theme": "dark" }
-      },
-      "inverse": {
-        "value": "{color.black}",
-        "attributes": { "theme": "dark" }
-      }
+  "background": {
+    "primary": {
+      "$type": "color",
+      "$value": "{color.white}",
+      "$description": "Primary background color"
     },
-    "background": {
-      "primary": {
-        "value": "{color.gray.900}",
-        "attributes": { "theme": "dark" }
-      },
-      "secondary": {
-        "value": "{color.gray.800}",
-        "attributes": { "theme": "dark" }
-      },
-      "tertiary": {
-        "value": "{color.gray.700}",
-        "attributes": { "theme": "dark" }
-      }
+    "secondary": {
+      "$type": "color",
+      "$value": "{color.gray.50}",
+      "$description": "Secondary background color"
     },
-    "border": {
-      "primary": {
-        "value": "{color.gray.700}",
-        "attributes": { "theme": "dark" }
-      },
-      "secondary": {
-        "value": "{color.gray.800}",
-        "attributes": { "theme": "dark" }
-      }
+    "tertiary": {
+      "$type": "color",
+      "$value": "{color.gray.100}",
+      "$description": "Tertiary background color"
     },
-    "interactive": {
-      "primary": {
-        "value": "{color.primary.400}",
-        "attributes": { "theme": "dark" }
+    "inverse": {
+      "$type": "color",
+      "$value": "{color.gray.900}",
+      "$description": "Inverse background color"
+    },
+    "brand": {
+      "$type": "color",
+      "$value": "{color.primary.500}",
+      "$description": "Brand background color"
+    }
+  },
+  "border": {
+    "primary": {
+      "$type": "color",
+      "$value": "{color.gray.200}",
+      "$description": "Primary border color"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "{color.gray.300}",
+      "$description": "Secondary border color"
+    },
+    "focus": {
+      "$type": "color",
+      "$value": "{color.primary.500}",
+      "$description": "Focus border color"
+    },
+    "error": {
+      "$type": "color",
+      "$value": "#ef4444",
+      "$description": "Error border color"
+    }
+  },
+  "feedback": {
+    "success": {
+      "$type": "color",
+      "$value": "#10b981",
+      "$description": "Success feedback color"
+    },
+    "warning": {
+      "$type": "color",
+      "$value": "#f59e0b",
+      "$description": "Warning feedback color"
+    },
+    "error": {
+      "$type": "color",
+      "$value": "#ef4444",
+      "$description": "Error feedback color"
+    },
+    "info": {
+      "$type": "color",
+      "$value": "{color.primary.500}",
+      "$description": "Info feedback color"
+    }
+  },
+  "interactive": {
+    "primary": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.primary.500}",
+        "$description": "Primary interactive default state"
       },
       "hover": {
-        "value": "{color.primary.300}",
-        "attributes": { "theme": "dark" }
+        "$type": "color",
+        "$value": "{color.primary.600}",
+        "$description": "Primary interactive hover state"
       },
       "active": {
-        "value": "{color.primary.200}",
-        "attributes": { "theme": "dark" }
+        "$type": "color",
+        "$value": "{color.primary.700}",
+        "$description": "Primary interactive active state"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "{color.gray.300}",
+        "$description": "Primary interactive disabled state"
+      }
+    },
+    "secondary": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.gray.200}",
+        "$description": "Secondary interactive default state"
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{color.gray.300}",
+        "$description": "Secondary interactive hover state"
+      },
+      "active": {
+        "$type": "color",
+        "$value": "{color.gray.400}",
+        "$description": "Secondary interactive active state"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "{color.gray.100}",
+        "$description": "Secondary interactive disabled state"
       }
     }
   }
