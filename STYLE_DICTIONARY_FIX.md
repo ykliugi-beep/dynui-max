@@ -5,6 +5,7 @@ This document explains the fix for the "Error: transform must be a function" iss
 ## Problem Analysis
 
 ### Root Cause
+
 The error `transform must be a function` occurred because:
 
 1. **Invalid Transform References**: The original config referenced transforms that weren't properly registered
@@ -13,6 +14,7 @@ The error `transform must be a function` occurred because:
 4. **Registration Order**: Custom transforms weren't registered before being used in transform groups
 
 ### Error Context
+
 ```bash
 Error: transform must be a function
     at loadFile (file:///node_modules/.pnpm/style-dictionary@4.4.0/node_modules/style-dictionary/lib/utils/loadFile.js:54:15)
@@ -24,11 +26,13 @@ Error: transform must be a function
 ### 1. Modular Transform Architecture
 
 **Created `build/transforms.js`**:
+
 - Separated custom transforms into dedicated module
 - Proper transform registration with validation
 - Exported initialization function for controlled setup
 
 **Key Custom Transforms**:
+
 - `name/cti/dyn-kebab` - DynUI-prefixed CSS variable names
 - `size/px-to-rem` - Pixel to rem conversion for accessibility
 - `font/family/css` - Proper font family formatting
@@ -36,6 +40,7 @@ Error: transform must be a function
 ### 2. Updated Configuration Structure
 
 **Fixed `build/config.js`**:
+
 ```javascript
 import { initializeCustomTransforms } from './transforms.js';
 
@@ -56,6 +61,7 @@ export default {
 ### 3. JSON Token Structure
 
 **Created `src/tokens/base.json`**:
+
 ```json
 {
   "color": {
@@ -72,6 +78,7 @@ export default {
 ```
 
 **Benefits**:
+
 - Proper Category/Type/Item (CTI) structure
 - Compatible with built-in `attribute/cti` transform
 - Enables automatic attribute generation
@@ -79,6 +86,7 @@ export default {
 ### 4. Theme Support
 
 **Created `src/tokens/semantic.json`** with theme attributes:
+
 ```json
 {
   "color": {
@@ -93,6 +101,7 @@ export default {
 ```
 
 **Theme-aware CSS generation**:
+
 - `:root` - All tokens
 - `.theme-light` - Light theme tokens only
 - `.theme-dark` - Dark theme tokens only
@@ -100,6 +109,7 @@ export default {
 ## Build Output
 
 ### Generated Files
+
 ```
 dist/
 ├── tokens.css          # All CSS variables in :root
@@ -110,6 +120,7 @@ dist/
 ```
 
 ### CSS Variable Format
+
 ```css
 :root {
   --dyn-color-primary-500: #3b82f6;
@@ -126,6 +137,7 @@ dist/
 ## Validation Steps
 
 ### 1. Clean Build Test
+
 ```bash
 cd packages/design-tokens
 pnpm clean
@@ -133,6 +145,7 @@ pnpm build:tokens
 ```
 
 **Expected Success Output**:
+
 ```bash
 ✓ dist/tokens.css
 ✓ dist/themes/light.css  
@@ -141,17 +154,20 @@ pnpm build:tokens
 ```
 
 ### 2. Full Package Build
+
 ```bash
 cd packages/design-tokens
 pnpm build
 ```
 
 **Should complete without errors and generate**:
+
 - Style Dictionary outputs (CSS/JS)
 - TypeScript declarations via tsup
 - ESM/CJS bundles
 
 ### 3. Monorepo Build Test
+
 ```bash
 # From root
 pnpm build
@@ -162,17 +178,20 @@ pnpm build
 ## Transform Details
 
 ### Built-in Transforms Used
+
 - `attribute/cti` - Adds category/type/item attributes
 - `time/seconds` - Converts time values to seconds
 - `content/icon` - Wraps icon values in quotes
 - `color/hex` - Ensures color values are hex format
 
 ### Custom Transforms
+
 - `name/cti/dyn-kebab` - Creates `dyn-category-type-item` names
 - `size/px-to-rem` - Converts `16px` → `1rem` for accessibility
 - `font/family/css` - Formats font families for CSS
 
 ### Transform Group: `dyn/css`
+
 ```javascript
 [
   'attribute/cti',      // Built-in
@@ -190,26 +209,31 @@ pnpm build
 ### Common Issues
 
 **1. "Cannot find module './transforms.js'"**
+
 - Ensure `build/transforms.js` exists
 - Check ESM import syntax
 - Verify file permissions
 
 **2. "Transform 'xyz' not found"**
+
 - Check transform is registered before use
 - Verify transform name spelling
 - Ensure `initializeCustomTransforms()` is called
 
 **3. "No tokens found"**
+
 - Check source paths in config
 - Verify JSON files have correct structure
 - Ensure tokens have `{ "value": "..." }` format
 
 **4. "Reference not found"**
+
 - Check token reference syntax: `{category.type.item}`
 - Ensure referenced token exists
 - Verify reference resolution order
 
 ### Debug Mode
+
 ```bash
 # Add verbose logging to Style Dictionary config
 export default {
@@ -221,16 +245,19 @@ export default {
 ## Integration with Existing Codebase
 
 ### TypeScript Support
+
 - Existing TypeScript token files preserved in `src/tokens/`
 - JSON files added for Style Dictionary compatibility
 - TypeScript declarations generated via tsup
 
 ### Backward Compatibility
+
 - All existing token exports maintained
 - CSS variable names follow established `--dyn-` prefix
 - Theme switching mechanism unchanged
 
 ### Catalog System Integration
+
 - `style-dictionary` now uses `catalog:design` reference
 - Compatible with centralized catalog system
 - No changes needed to consuming packages
@@ -238,11 +265,13 @@ export default {
 ## Performance Impact
 
 ### Build Time
+
 - **Before**: Failed with error
 - **After**: ~2-3 seconds for token generation
 - **Total**: Design tokens build completes successfully
 
 ### Output Size
+
 - CSS files: ~10-15KB uncompressed
 - JavaScript exports: ~5KB
 - No runtime performance impact
