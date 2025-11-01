@@ -1,0 +1,24 @@
+{/* DynStepper.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynStepper.stories';
+
+<Meta of={Stories} />
+
+# DynStepper
+
+Progress tracker for multi-step experiences with status feedback.
+
+## Horizontal Flow
+<Canvas of={Stories.HorizontalFlow} />
+
+## Vertical Layout
+<Canvas of={Stories.VerticalFlow} />
+
+## Status States
+<Canvas of={Stories.StatusVariants} />
+
+## Interactive Wizard
+<Canvas of={Stories.InteractiveWizard} />
+
+## Props
+<Controls of={Stories.HorizontalFlow} />

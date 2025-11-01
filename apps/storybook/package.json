@@ -14,22 +14,20 @@
   "dependencies": {
     "@dynui-max/core": "workspace:*",
     "@dynui-max/design-tokens": "workspace:*",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "catalog:core",
+    "react-dom": "catalog:core"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^8.4.7",
-    "storybook-design-token": "^4.1.0",
-    "@storybook/addon-docs": "^8.4.7",
-    "@storybook/addon-essentials": "^8.4.7",
-    "@storybook/addon-interactions": "^8.4.7",
-    "@storybook/react": "^8.4.7",
-    "@storybook/react-vite": "^8.4.7",
-    "@storybook/test": "^8.4.7",
-    "@storybook/test-runner": "^0.19.1",
-    "chromatic": "^11.15.0",
-    "storybook": "^8.4.7",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.10"
+    "@storybook/addon-a11y": "catalog:storybook",
+    "@storybook/addon-docs": "catalog:storybook",
+    "@storybook/addon-essentials": "catalog:storybook",
+    "@storybook/addon-interactions": "catalog:storybook",
+    "@storybook/react-vite": "catalog:storybook",
+    "@storybook/test": "catalog:storybook",
+    "@storybook/test-runner": "catalog:storybook",
+    "chromatic": "catalog:storybook",
+    "storybook": "catalog:storybook",
+    "typescript": "catalog:typescript",
+    "vite": "catalog:build"
   }
 }
