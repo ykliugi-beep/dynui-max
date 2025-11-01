@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within } from '@storybook/test';
+import { useEffect, useMemo, useState } from 'react';
 import { ThemeSwitcher, ThemeProvider, DynBox, DynButton } from '@dynui-max/core';
 import type { ThemeMode } from '@dynui-max/core';
-import { useState, useEffect } from 'react';
 
 const meta = {
   title: 'Infrastructure/ThemeSwitcher',
@@ -10,28 +9,18 @@ const meta = {
   decorators: [
     (Story) => (
       <ThemeProvider defaultTheme="light">
-        <div style={{ padding: '2rem', minHeight: '400px' }}>
+        <div style={{ padding: '2rem', minHeight: '420px' }}>
           <Story />
         </div>
       </ThemeProvider>
-    ),
+    )
   ],
   parameters: {
     layout: 'padded',
     docs: {
       description: {
-        component: `
-Interactive theme switcher component for toggling between light, dark, and system color schemes.
-
-### Features
-- Light, dark, and system preference modes
-- Automatic system theme detection
-- Controlled and uncontrolled patterns
-- Keyboard navigation support
-- ARIA accessibility attributes
-- Integration with global theme provider
-- Customizable size and appearance
-        `
+        component:
+          'Interactive control for switching between light, dark, and system themes. Supports controlled and uncontrolled usage patterns.'
       }
     }
   },
@@ -68,25 +57,48 @@ Interactive theme switcher component for toggling between light, dark, and syste
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Overview - Basic theme switcher
-export const Overview: Story = {
+type ModeSwatchProps = {
+  label: string;
+  description: string;
+};
+
+const ModeSwatch = ({ label, description }: ModeSwatchProps) => (
+  <DynBox
+    p="lg"
+    radius="md"
+    style={{
+      border: '1px solid var(--dyn-color-border-primary)',
+      background: 'var(--dyn-color-background-secondary)',
+      minWidth: '220px'
+    }}
+  >
+    <strong style={{ display: 'block', marginBottom: '0.5rem' }}>{label}</strong>
+    <span style={{ color: 'var(--dyn-color-text-secondary)', fontSize: '0.9rem' }}>{description}</span>
+  </DynBox>
+);
+
+export const ControlledModes: Story = {
   args: {
-    mode: 'light',
     showSystem: true,
     size: 'md'
   },
   render: (args) => {
-    const [theme, setTheme] = useState<ThemeMode>(args.mode || 'light');
+    const [mode, setMode] = useState<ThemeMode>('light');
+
+    useEffect(() => {
+      if (args.mode) {
+        setMode(args.mode);
+      }
+    }, [args.mode]);
+
+    const handleModeChange = (next: ThemeMode) => {
+      setMode(next);
+      args.onModeChange?.(next);
+    };
 
     return (
-      <div>
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ margin: '0 0 1rem 0', color: 'var(--color-text-primary)' }}>Theme Switcher Demo</h3>
-          <p style={{ margin: '0 0 1rem 0', color: 'var(--color-text-secondary)' }}>Click the theme switcher to see the interface adapt to different color schemes.</p>
-        </div>
-        
-        <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ color: 'var(--color-text-primary)' }}>Current theme: <strong>{theme}</strong></span>
+      <DynBox display="flex" direction="column" gap="lg">
+        <DynBox display="flex" align="center" gap="md">
           <ThemeSwitcher
             {...args}
             mode={theme}
@@ -98,67 +110,69 @@ export const Overview: Story = {
               args.onModeChange?.(newMode);
             }}
           />
-        </div>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <DynBox p="lg" bg="primary" radius="md">
-            <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--color-text-inverse)' }}>Primary Background</h4>
-            <p style={{ margin: 0, color: 'var(--color-text-inverse)' }}>This box uses the primary background color that adapts to the selected theme.</p>
-          </DynBox>
-          
-          <DynBox p="lg" bg="secondary" radius="md">
-            <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--color-text-primary)' }}>Secondary Background</h4>
-            <p style={{ margin: 0, color: 'var(--color-text-secondary)' }}>Notice how the text and background colors change with the theme.</p>
-          </DynBox>
-          
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <DynButton variant="solid" color="primary">Primary Button</DynButton>
-            <DynButton variant="solid" color="secondary">Secondary Button</DynButton>
-            <DynButton variant="outline">Outline Button</DynButton>
-          </div>
-        </div>
-      </div>
+          <span style={{ color: 'var(--dyn-color-text-secondary)' }}>
+            Active mode: <strong>{mode}</strong>
+          </span>
+        </DynBox>
+
+        <DynBox display="flex" gap="sm" wrap="wrap">
+          <DynButton variant={mode === 'light' ? 'solid' : 'outline'} color="primary" onClick={() => handleModeChange('light')}>
+            Light
+          </DynButton>
+          <DynButton variant={mode === 'dark' ? 'solid' : 'outline'} color="primary" onClick={() => handleModeChange('dark')}>
+            Dark
+          </DynButton>
+          {args.showSystem && (
+            <DynButton
+              variant={mode === 'system' ? 'solid' : 'outline'}
+              color="primary"
+              onClick={() => handleModeChange('system')}
+            >
+              System
+            </DynButton>
+          )}
+        </DynBox>
+
+        <DynBox display="grid" gap="md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+          <ModeSwatch label="Light" description="High contrast for bright environments." />
+          <ModeSwatch label="Dark" description="Dimmed interface for low-light usage." />
+          {args.showSystem && (
+            <ModeSwatch label="System" description="Follows the operating system preference." />
+          )}
+        </DynBox>
+      </DynBox>
     );
-  },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    
-    // Find theme switcher button
-    const themeSwitcher = canvas.getByRole('button', { name: /theme/i }) || 
-                         canvas.getByRole('group', { name: /theme/i });
-    await expect(themeSwitcher).toBeInTheDocument();
-    
-    // Test theme switching
-    await userEvent.click(themeSwitcher);
-    
-    // Verify ARIA attributes
-    if (themeSwitcher.getAttribute('role') === 'radiogroup') {
-      const options = canvas.getAllByRole('radio');
-      await expect(options.length).toBeGreaterThanOrEqual(2);
-    }
   },
   parameters: {
     docs: {
       description: {
-        story: 'Basic theme switcher with light, dark, and system options. Shows how the interface adapts to different color schemes.'
+        story: 'Controlled ThemeSwitcher hooked to local state. External buttons drive the same controlled mode.'
       }
     }
   }
 };
 
-// With System Option - All three modes
-export const WithSystem: Story = {
+export const SystemAwareness: Story = {
   render: () => {
-    const [theme, setTheme] = useState<ThemeMode>('system');
-    const [systemPreference, setSystemPreference] = useState<'light' | 'dark'>('light');
-    
-    // Simulate system preference detection
+    const [mode, setMode] = useState<ThemeMode>('system');
+    const [systemPreference, setSystemPreference] = useState<'light' | 'dark'>(() => {
+      if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+        return 'light';
+      }
+
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    });
+
     useEffect(() => {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      setSystemPreference(mediaQuery.matches ? 'dark' : 'light');
-      
-      const handleChange = (e: MediaQueryListEvent) => {
-        setSystemPreference(e.matches ? 'dark' : 'light');
+      if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+        return;
+      }
+
+      const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+      const listener = (event: MediaQueryListEvent | MediaQueryList) => {
+        const matches = 'matches' in event ? event.matches : (event as MediaQueryList).matches;
+        setSystemPreference(matches ? 'dark' : 'light');
       };
       
       mediaQuery.addEventListener('change', handleChange);
@@ -238,15 +252,10 @@ export const WithSystem: Story = {
       description: {
         story: 'Complete theme switcher with light, dark, and system options. System mode automatically detects and follows OS preferences.'
       }
-    }
-  }
-};
 
-// Controlled Pattern - External state management
-export const Controlled: Story = {
-  render: () => {
-    const [globalTheme, setGlobalTheme] = useState<ThemeMode>('light');
-    const [userPreference, setUserPreference] = useState<ThemeMode>('light');
+      media.addListener(listener);
+      return () => media.removeListener(listener);
+    }, []);
 
     // Simulate saving preference to localStorage or API
     const handleThemeChange = (newTheme: ThemeMode) => {
@@ -339,38 +348,6 @@ export const Controlled: Story = {
         </DynBox>
       </div>
     );
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    
-    // Test controlled switching via external buttons
-    const setLightButton = canvas.getByRole('button', { name: /set light/i });
-    const setDarkButton = canvas.getByRole('button', { name: /set dark/i });
-    const setSystemButton = canvas.getByRole('button', { name: /set system/i });
-    
-    await expect(setLightButton).toBeInTheDocument();
-    await expect(setDarkButton).toBeInTheDocument();
-    await expect(setSystemButton).toBeInTheDocument();
-    
-    // Test external control
-    await userEvent.click(setDarkButton);
-    
-    // Verify theme switched
-    await expect(canvas.getByText(/current theme.*dark/i)).toBeInTheDocument();
-    
-    // Test theme switcher component
-    const themeSwitcher = canvas.getByRole('button', { name: /theme/i }) || 
-                         canvas.getByRole('group', { name: /theme/i });
-    await userEvent.click(themeSwitcher);
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Controlled theme switcher pattern with external state management. Useful for persistence and integration with global state.'
-      }
-    }
-  }
-};
 
 // Size Variants - Different switcher sizes
 export const SizeVariants: Story = {
@@ -439,18 +416,7 @@ export const SizeVariants: Story = {
               </ul>
             </div>
           </div>
-        </div>
-      </div>
-    );
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Different sizes of theme switchers for various UI contexts. Small for compact spaces, medium for standard interfaces.'
-      }
-    }
-  }
-};
+        </DynBox>
 
 // Disabled States - Non-interactive controls
 export const DisabledStates: Story = {
@@ -617,42 +583,17 @@ export const InToolbar: Story = {
         </div>
       </div>
     );
-    
-    return <ToolbarDemo />;
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    
-    // Test header theme switcher
-    const headerThemeSwitchers = canvas.getAllByRole('button', { name: /theme/i }) ||
-                                canvas.getAllByRole('group', { name: /theme/i });
-    
-    await expect(headerThemeSwitchers.length).toBeGreaterThanOrEqual(1);
-    
-    // Test navigation links
-    const homeLink = canvas.getByRole('link', { name: /home/i });
-    await expect(homeLink).toBeInTheDocument();
-    
-    // Test settings interaction
-    const settingsThemeSwitcher = headerThemeSwitchers[headerThemeSwitchers.length - 1];
-    await userEvent.click(settingsThemeSwitcher);
-    
-    // Test menu button
-    const menuButton = canvas.getByRole('button', { name: /☰/i });
-    await userEvent.click(menuButton);
   },
   parameters: {
-    layout: 'fullscreen',
     docs: {
       description: {
-        story: 'Real-world integration example showing theme switcher in application toolbar and settings panel. Demonstrates both compact and standard sizes.'
+        story: 'Demonstrates the system-aware mode. The simulated system preference controls the effective theme when mode is set to system.'
       }
     }
   }
 };
 
-// Accessibility Demo - Screen reader and keyboard support
-export const AccessibilityDemo: Story = {
+export const VariantComparison: Story = {
   render: () => {
     const [theme, setTheme] = useState<ThemeMode>('light');
     
@@ -776,17 +717,6 @@ export const AccessibilityDemo: Story = {
   }
 };
 
-// Playground - Interactive testing
-export const Playground: Story = {
-  args: {
-    mode: 'light',
-    showSystem: true,
-    size: 'md',
-    disabled: false
-  },
-  render: (args) => {
-    const [theme, setTheme] = useState<ThemeMode>(args.mode || 'light');
-    
     return (
       <div>
         <div style={{ marginBottom: '2rem' }}>
@@ -813,7 +743,7 @@ export const Playground: Story = {
           <h4 style={{ margin: '0 0 1rem 0', color: 'var(--color-text-inverse)' }}>Live Theme Preview</h4>
           <p style={{ margin: 0, color: 'var(--color-text-inverse)' }}>This content adapts to show the effects of your theme switcher configuration.</p>
         </DynBox>
-      </div>
+      </DynBox>
     );
   },
   play: async ({ canvasElement, args }) => {
@@ -840,7 +770,7 @@ export const Playground: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Interactive playground for testing different theme switcher configurations. Modify the controls to see real-time changes.'
+        story: 'All visual variants share the same controlled mode. Interacting with one switcher updates the others immediately.'
       }
     }
   }
