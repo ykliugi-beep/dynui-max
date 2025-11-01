@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 import { ThemeSwitcher, ThemeProvider, DynBox, DynButton } from '@dynui-max/core';
+import type { ThemeMode } from '@dynui-max/core';
 import { useState, useEffect } from 'react';
 
 const meta = {
@@ -40,9 +41,9 @@ Interactive theme switcher component for toggling between light, dark, and syste
       options: ['light', 'dark', 'system'],
       description: 'Current theme mode'
     },
-    onChange: {
+    onModeChange: {
       action: 'theme-changed',
-      description: 'Callback when theme changes'
+      description: 'Callback when theme mode changes'
     },
     showSystem: {
       control: 'boolean',
@@ -71,8 +72,8 @@ export const Overview: Story = {
     size: 'md'
   },
   render: (args) => {
-    const [theme, setTheme] = useState(args.mode || 'light');
-    
+    const [theme, setTheme] = useState<ThemeMode>(args.mode || 'light');
+
     return (
       <div>
         <div style={{ marginBottom: '2rem' }}>
@@ -82,12 +83,12 @@ export const Overview: Story = {
         
         <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <span style={{ color: 'var(--color-text-primary)' }}>Current theme: <strong>{theme}</strong></span>
-          <ThemeSwitcher 
+          <ThemeSwitcher
             {...args}
-            mode={theme as any}
-            onChange={(newMode) => {
+            mode={theme}
+            onModeChange={(newMode) => {
               setTheme(newMode);
-              args.onChange?.(newMode);
+              args.onModeChange?.(newMode);
             }}
           />
         </div>
@@ -104,8 +105,8 @@ export const Overview: Story = {
           </DynBox>
           
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <DynButton variant="primary">Primary Button</DynButton>
-            <DynButton variant="secondary">Secondary Button</DynButton>
+            <DynButton variant="solid" color="primary">Primary Button</DynButton>
+            <DynButton variant="solid" color="secondary">Secondary Button</DynButton>
             <DynButton variant="outline">Outline Button</DynButton>
           </div>
         </div>
@@ -141,7 +142,7 @@ export const Overview: Story = {
 // With System Option - All three modes
 export const WithSystem: Story = {
   render: () => {
-    const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system');
+    const [theme, setTheme] = useState<ThemeMode>('system');
     const [systemPreference, setSystemPreference] = useState<'light' | 'dark'>('light');
     
     // Simulate system preference detection
@@ -177,9 +178,9 @@ export const WithSystem: Story = {
               <strong>System Preference:</strong> {systemPreference}
             </div>
           </div>
-          <ThemeSwitcher 
+          <ThemeSwitcher
             mode={theme}
-            onChange={setTheme}
+            onModeChange={setTheme}
             showSystem={true}
             size="md"
           />
@@ -228,11 +229,11 @@ export const WithSystem: Story = {
 // Controlled Pattern - External state management
 export const Controlled: Story = {
   render: () => {
-    const [globalTheme, setGlobalTheme] = useState<'light' | 'dark' | 'system'>('light');
-    const [userPreference, setUserPreference] = useState<'light' | 'dark' | 'system'>('light');
-    
+    const [globalTheme, setGlobalTheme] = useState<ThemeMode>('light');
+    const [userPreference, setUserPreference] = useState<ThemeMode>('light');
+
     // Simulate saving preference to localStorage or API
-    const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
+    const handleThemeChange = (newTheme: ThemeMode) => {
       setGlobalTheme(newTheme);
       setUserPreference(newTheme);
       
@@ -254,9 +255,9 @@ export const Controlled: Story = {
         <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginBottom: '2rem', padding: '1rem', background: 'var(--color-background-secondary)', borderRadius: '8px' }}>
           <div>
             <strong style={{ color: 'var(--color-text-primary)' }}>Theme Control:</strong>
-            <ThemeSwitcher 
+            <ThemeSwitcher
               mode={globalTheme}
-              onChange={handleThemeChange}
+              onModeChange={handleThemeChange}
               showSystem={true}
               size="md"
             />
@@ -358,8 +359,8 @@ export const Controlled: Story = {
 // Size Variants - Different switcher sizes
 export const SizeVariants: Story = {
   render: () => {
-    const [smallTheme, setSmallTheme] = useState<'light' | 'dark' | 'system'>('light');
-    const [mediumTheme, setMediumTheme] = useState<'light' | 'dark' | 'system'>('dark');
+    const [smallTheme, setSmallTheme] = useState<ThemeMode>('light');
+    const [mediumTheme, setMediumTheme] = useState<ThemeMode>('dark');
     
     return (
       <div>
@@ -373,9 +374,9 @@ export const SizeVariants: Story = {
             <h4 style={{ margin: '0 0 1rem 0', color: 'var(--color-text-primary)' }}>Small Size (sm)</h4>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem', background: 'var(--color-background-secondary)', borderRadius: '8px' }}>
               <span style={{ color: 'var(--color-text-secondary)' }}>Perfect for compact UIs, toolbars, or mobile interfaces:</span>
-              <ThemeSwitcher 
+              <ThemeSwitcher
                 mode={smallTheme}
-                onChange={setSmallTheme}
+                onModeChange={setSmallTheme}
                 showSystem={true}
                 size="sm"
               />
@@ -388,9 +389,9 @@ export const SizeVariants: Story = {
             <h4 style={{ margin: '0 0 1rem 0', color: 'var(--color-text-primary)' }}>Medium Size (md)</h4>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem', background: 'var(--color-background-secondary)', borderRadius: '8px' }}>
               <span style={{ color: 'var(--color-text-secondary)' }}>Standard size for most applications and settings pages:</span>
-              <ThemeSwitcher 
+              <ThemeSwitcher
                 mode={mediumTheme}
-                onChange={setMediumTheme}
+                onModeChange={setMediumTheme}
                 showSystem={true}
                 size="md"
               />
@@ -438,7 +439,7 @@ export const SizeVariants: Story = {
 // In Toolbar - Integration example
 export const InToolbar: Story = {
   render: () => {
-    const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('light');
+    const [theme, setTheme] = useState<ThemeMode>('light');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     
     const ToolbarDemo = () => (
@@ -464,9 +465,9 @@ export const InToolbar: Story = {
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <span style={{ color: 'var(--color-text-secondary)', fontSize: '0.9em' }}>Theme:</span>
-            <ThemeSwitcher 
+            <ThemeSwitcher
               mode={theme}
-              onChange={setTheme}
+              onModeChange={setTheme}
               showSystem={true}
               size="sm"
             />
@@ -501,9 +502,9 @@ export const InToolbar: Story = {
                   <strong style={{ color: 'var(--color-text-primary)' }}>Theme Preference</strong>
                   <p style={{ margin: '0.25rem 0 0 0', color: 'var(--color-text-secondary)', fontSize: '0.9em' }}>Choose your preferred color scheme</p>
                 </div>
-                <ThemeSwitcher 
+                <ThemeSwitcher
                   mode={theme}
-                  onChange={setTheme}
+                  onModeChange={setTheme}
                   showSystem={true}
                   size="md"
                 />
@@ -584,7 +585,7 @@ export const InToolbar: Story = {
 // Accessibility Demo - Screen reader and keyboard support
 export const AccessibilityDemo: Story = {
   render: () => {
-    const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('light');
+    const [theme, setTheme] = useState<ThemeMode>('light');
     
     return (
       <div>
@@ -605,9 +606,9 @@ export const AccessibilityDemo: Story = {
           >
             Choose Theme Preference
           </label>
-          <ThemeSwitcher 
+          <ThemeSwitcher
             mode={theme}
-            onChange={setTheme}
+            onModeChange={setTheme}
             showSystem={true}
             size="md"
             aria-labelledby="theme-control-label"
@@ -717,7 +718,7 @@ export const Playground: Story = {
     disabled: false
   },
   render: (args) => {
-    const [theme, setTheme] = useState(args.mode || 'light');
+    const [theme, setTheme] = useState<ThemeMode>(args.mode || 'light');
     
     return (
       <div>
@@ -727,12 +728,12 @@ export const Playground: Story = {
         </div>
         
         <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <ThemeSwitcher 
+          <ThemeSwitcher
             {...args}
-            mode={theme as any}
-            onChange={(newMode) => {
+            mode={theme}
+            onModeChange={(newMode) => {
               setTheme(newMode);
-              args.onChange?.(newMode);
+              args.onModeChange?.(newMode);
             }}
           />
           <span style={{ color: 'var(--color-text-secondary)' }}>Current: <strong>{theme}</strong></span>
