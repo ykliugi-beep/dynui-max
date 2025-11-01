@@ -24,9 +24,10 @@
     "**/*.css"
   ],
   "scripts": {
-    "build": "pnpm clean && pnpm build:tokens && pnpm build:js",
+    "build": "pnpm clean && pnpm build:tokens && pnpm build:js && pnpm build:types",
     "build:tokens": "style-dictionary build --config build/config.js",
-    "build:js": "tsup --config tsup.config.ts && tsc --emitDeclarationOnly",
+    "build:js": "tsup --config tsup.config.ts",
+    "build:types": "tsc --emitDeclarationOnly",
     "dev": "pnpm build:tokens && tsup --config tsup.config.ts --watch",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -41,14 +42,10 @@
   "devDependencies": {
     "@dynui-max/build-config": "workspace:*",
     "@dynui-max/eslint-config": "workspace:*",
-    
     "typescript": "catalog:typescript",
-    
     "tsup": "catalog:build",
     "rimraf": "catalog:tooling",
-    
     "vitest": "catalog:testing",
-    
     "eslint": "catalog:quality"
   },
   "keywords": [
