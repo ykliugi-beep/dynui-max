@@ -128,19 +128,18 @@ function PlaygroundContent() {
                 onChange={setSelectedFramework}
                 placeholder="Choose your framework..."
                 searchable
-                clearable
               />
             </DynFieldContainer>
-            
+
             <DynBox display="flex" gap="md">
-              <DynButton 
-                variant="primary" 
+              <DynButton
+                color="primary"
                 onClick={() => setModalOpen(true)}
-                leftIcon={<DynIcon name="plus" size="sm" />}
+                startIcon={<DynIcon name="plus" size="sm" />}
               >
                 Add New Item
               </DynButton>
-              <DynButton 
+              <DynButton
                 variant="outline"
                 onClick={() => alert('Export feature coming soon!')}
               >
@@ -241,21 +240,21 @@ function PlaygroundContent() {
 
       {/* Modal */}
       <DynModal
-        open={modalOpen}
+        isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        title="Add New Item"
         size="md"
       >
         <DynBox p="lg">
+          <h3 style={{ marginTop: 0 }}>Add New Item</h3>
           <DynFieldContainer label="Item Name" required>
             <DynInput placeholder="Enter item name..." />
           </DynFieldContainer>
-          
+
           <DynBox display="flex" justify="flex-end" gap="md" mt="lg">
             <DynButton variant="outline" onClick={() => setModalOpen(false)}>
               Cancel
             </DynButton>
-            <DynButton variant="primary" onClick={() => setModalOpen(false)}>
+            <DynButton color="primary" onClick={() => setModalOpen(false)}>
               Add Item
             </DynButton>
           </DynBox>
