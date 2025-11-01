@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import React from 'react';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '../../test/test-utils';
 import { DynIcon } from './DynIcon';
-import { iconRegistry } from './iconRegistry';
+import { iconRegistry, defaultIcons } from './iconRegistry';
 
 // Test icon component
 const TestIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -13,6 +14,11 @@ const TestIcon = (props: React.SVGProps<SVGSVGElement>) => (
 describe('DynIcon', () => {
   beforeEach(() => {
     iconRegistry.register('test', TestIcon);
+  });
+
+  afterEach(() => {
+    iconRegistry.clear();
+    iconRegistry.registerMany(defaultIcons);
   });
 
   it('renders registered icon', () => {
@@ -72,7 +78,55 @@ describe('DynIcon', () => {
   });
 });
 
+describe('iconRegistry default icons', () => {
+  const expectedIconNames = [
+    'arrow-right',
+    'check',
+    'chevron-down',
+    'chevron-right',
+    'chevrons-up-down',
+    'code',
+    'edit',
+    'file',
+    'folder',
+    'image',
+    'layout',
+    'menu',
+    'moon',
+    'palette',
+    'plus',
+    'search',
+    'settings',
+    'spinner',
+    'sun',
+    'upload',
+    'users',
+    'x'
+  ];
+
+  afterEach(() => {
+    iconRegistry.clear();
+    iconRegistry.registerMany(defaultIcons);
+  });
+
+  it('registers expected icon names by default', () => {
+    expectedIconNames.forEach((iconName) => {
+      expect(iconRegistry.has(iconName)).toBe(true);
+    });
+  });
+
+  it('keeps registry in sync with exported defaults', () => {
+    const registeredNames = iconRegistry.getNames();
+    expect(registeredNames).toEqual(expect.arrayContaining(Object.keys(defaultIcons)));
+  });
+});
+
 describe('iconRegistry', () => {
+  afterEach(() => {
+    iconRegistry.clear();
+    iconRegistry.registerMany(defaultIcons);
+  });
+
   it('registers and retrieves icons', () => {
     iconRegistry.register('registry-test', TestIcon);
     expect(iconRegistry.get('registry-test')).toBe(TestIcon);
