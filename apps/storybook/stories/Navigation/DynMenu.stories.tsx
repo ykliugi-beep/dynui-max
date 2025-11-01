@@ -45,7 +45,17 @@ export const Default: Story = {
         <DynMenu
           items={baseItems}
           onSelect={setSelection}
-          trigger={<DynButton variant="primary">Open menu</DynButton>}
+          trigger={({ isOpen, ref, className, ...triggerProps }) => (
+            <DynButton
+              ref={ref}
+              className={className}
+              variant="solid"
+              color="primary"
+              {...triggerProps}
+            >
+              {isOpen ? 'Close menu' : 'Open menu'}
+            </DynButton>
+          )}
         />
         <span style={{ color: 'var(--dyn-color-text-muted)' }}>
           {selection ? `Selected: ${selection}` : 'Choose an option'}
@@ -76,7 +86,18 @@ export const WithIcons: Story = {
           description: 'Remove permanently',
         },
       ]}
-      trigger={<DynButton>File actions</DynButton>}
+      trigger={({ ref, className, ...triggerProps }) => (
+        <DynButton
+          ref={ref}
+          className={className}
+          variant="solid"
+          color="neutral"
+          endIcon={<DynIcon name="chevron-down" size="sm" />}
+          {...triggerProps}
+        >
+          File actions
+        </DynButton>
+      )}
     />
   ),
 };
@@ -91,7 +112,17 @@ export const ControlledOpen: Story = {
         open={open}
         onOpenChange={setOpen}
         onSelect={() => setOpen(false)}
-        trigger={<DynButton>Controlled menu</DynButton>}
+        trigger={({ ref, className, ...triggerProps }) => (
+          <DynButton
+            ref={ref}
+            className={className}
+            variant="solid"
+            color="primary"
+            {...triggerProps}
+          >
+            Controlled menu
+          </DynButton>
+        )}
       />
     );
   },
@@ -113,7 +144,17 @@ export const Placements: Story = {
             key={placement}
             placement={placement}
             items={baseItems}
-            trigger={<DynButton>{placement}</DynButton>}
+            trigger={({ ref, className, ...triggerProps }) => (
+              <DynButton
+                ref={ref}
+                className={className}
+                variant="outline"
+                color="neutral"
+                {...triggerProps}
+              >
+                {placement}
+              </DynButton>
+            )}
           />
         ))}
       </DynBox>

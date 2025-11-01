@@ -1,2 +1,2 @@
 export { ThemeSwitcher } from './ThemeSwitcher';
-export type { ThemeSwitcherProps } from './ThemeSwitcher';
+export type { ThemeSwitcherProps, ThemeMode } from './ThemeSwitcher';

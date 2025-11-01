@@ -64,7 +64,7 @@ const ModalContent = ({ onClose }: { onClose: () => void }) => (
       <DynButton variant="ghost" onClick={onClose}>
         Cancel
       </DynButton>
-      <DynButton variant="primary" onClick={onClose}>
+      <DynButton variant="solid" color="primary" onClick={onClose}>
         Create project
       </DynButton>
     </DynBox>
@@ -154,7 +154,7 @@ export const NonDismissableBackdrop: Story = {
               <DynButton variant="ghost" onClick={() => setOpen(false)}>
                 Cancel
               </DynButton>
-              <DynButton variant="primary" onClick={() => setOpen(false)}>
+              <DynButton variant="solid" color="primary" onClick={() => setOpen(false)}>
                 Confirm
               </DynButton>
             </DynBox>
