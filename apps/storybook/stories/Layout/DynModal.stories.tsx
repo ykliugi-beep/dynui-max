@@ -106,7 +106,8 @@ export const SizeVariants: Story = {
           {sizes.map((size) => (
             <DynButton
               key={size}
-              variant={activeSize === size ? 'primary' : 'outline'}
+              variant={activeSize === size ? 'solid' : 'outline'}
+              color="primary"
               onClick={() => {
                 setActiveSize(size);
                 setOpen(true);
