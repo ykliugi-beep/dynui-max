@@ -48,19 +48,32 @@ buildProcess.on('close', (code) => {
     // Check generated files
     const cssFile = join(__dirname, 'dist', 'tokens.css');
     const jsFile = join(__dirname, 'dist', 'tokens.js');
-    
-    if (existsSync(cssFile)) {
-      console.log('✅ CSS tokens generated');
-    } else {
-      console.log('⚠️  CSS tokens not found');
+    const lightThemeFile = join(__dirname, 'dist', 'themes', 'light.css');
+    const darkThemeFile = join(__dirname, 'dist', 'themes', 'dark.css');
+
+    const checks = [
+      { path: cssFile, label: 'CSS tokens' },
+      { path: jsFile, label: 'JS tokens' },
+      { path: lightThemeFile, label: 'Light theme CSS' },
+      { path: darkThemeFile, label: 'Dark theme CSS' }
+    ];
+
+    let missing = false;
+
+    for (const check of checks) {
+      if (existsSync(check.path)) {
+        console.log(`✅ ${check.label} generated`);
+      } else {
+        console.error(`❌ ${check.label} not found at ${check.path}`);
+        missing = true;
+      }
     }
-    
-    if (existsSync(jsFile)) {
-      console.log('✅ JS tokens generated');
-    } else {
-      console.log('⚠️  JS tokens not found');
+
+    if (missing) {
+      console.error('❌ Build is missing required artifacts');
+      process.exit(1);
     }
-    
+
     console.log('🎉 All tests passed!');
   } else {
     console.error('❌ Style Dictionary build failed');
