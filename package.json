@@ -42,7 +42,7 @@
     "deps:update": "pnpm update -r --interactive",
     "deps:audit": "pnpm audit --audit-level moderate",
     "size:analyze": "pnpm build && bundlesize",
-    "prepare": "husky install || echo 'Husky not available'"
+    "prepare": "husky"
   },
   "dependencies": { 
     "@dynui-max/design-tokens": "workspace:*" 
