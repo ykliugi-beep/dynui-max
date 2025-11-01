@@ -35,10 +35,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': '/src',
-      '@dynui-max/design-tokens': path.resolve(
-        __dirname,
-        './src/test/__mocks__/designTokensMock.ts'
-      )
+      '@dynui-max/design-tokens': path.resolve(__dirname, './src/test/__mocks__/designTokensMock.ts')
     }
   }
 });
