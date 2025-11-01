@@ -3,6 +3,7 @@
 ## Problem Identifikovan
 
 Original error:
+
 ```
 Error: transform must be a function
     at loadFile (file:///E:/PROGRAMING/AI%20Projects/dynui-max/node_modules/.pnpm/style-dictionary@4.4.0/node_modules/style-dictionary/lib/utils/loadFile.js:54:15)
@@ -15,6 +16,7 @@ Error: transform must be a function
 ### 1. Ispravljena Style Dictionary Konfiguracija (`packages/design-tokens/build/config.js`)
 
 **Pre (Style Dictionary v3 sintaksa):**
+
 ```javascript
 // Stara sintaksa koja nije kompatibilna sa v4
 StyleDictionary.registerTransform({
@@ -30,6 +32,7 @@ export default sd;
 ```
 
 **Posle (Style Dictionary v4 sintaksa):**
+
 ```javascript
 // Nova v4 sintaksa
 const dynKebabTransform = {
@@ -52,6 +55,7 @@ export default {
 ### 2. Konvertovani Token Fajlovi u DTCG Format
 
 **Pre (Style Dictionary v3 format):**
+
 ```json
 {
   "color": {
@@ -63,6 +67,7 @@ export default {
 ```
 
 **Posle (DTCG format za v4):**
+
 ```json
 {
   "color": {
@@ -100,18 +105,21 @@ export default {
 ## Kako Testirati Fix
 
 ### 1. Build Test
+
 ```bash
 cd packages/design-tokens
 pnpm build
 ```
 
 ### 2. Validation Test
+
 ```bash
 cd packages/design-tokens
 node test-build.js
 ```
 
 ### 3. Očekivani Output
+
 ```
 🧪 Testing Style Dictionary v4 configuration...
 ✅ Config file exists
@@ -124,6 +132,7 @@ node test-build.js
 ## Validacija da Fix Radi
 
 Posle primene izmena, build komanda treba da:
+
 1. ✅ Uspešno parsira `build/config.js` bez grešaka
 2. ✅ Loaduje tokene iz `src/tokens/` direktorijuma  
 3. ✅ Generiše CSS fajlove u `dist/` direktorijumu

@@ -5,6 +5,7 @@ This document describes the complete implementation of the centralized catalog s
 ## Implementation Overview
 
 ### Problem Resolved
+
 - ❌ **14 deprecated subdependencies** → ✅ **0 deprecated warnings**
 - ❌ **2 peer dependency conflicts** → ✅ **0 peer conflicts**
 - ❌ **Inconsistent dependency versions** → ✅ **Centralized version management**
@@ -28,6 +29,7 @@ Replaced single `catalog:` with **8 specialized named catalogs**:
 ### 2. Critical Version Compatibility Fixes
 
 #### TypeScript Downgrade for Compatibility
+
 ```yaml
 typescript:
   typescript: ^5.4.5  # Downgraded from 5.6.3 for typedoc compatibility
@@ -35,12 +37,14 @@ typescript:
 ```
 
 #### Removed Problematic Packages
+
 - **`storybook-design-token`** - Removed due to Storybook ^9.0.0 requirement
 - Replaced with native Storybook design token capabilities
 
 ### 3. PNPM Configuration Enhancements
 
 #### Root `package.json` - Deprecated Package Allowlist
+
 ```json
 {
   "pnpm": {
@@ -65,6 +69,7 @@ typescript:
 ```
 
 #### Enhanced `.npmrc` Configuration
+
 ```ini
 # Performance optimizations
 auto-install-peers=true
@@ -81,7 +86,9 @@ hoist-pattern[]=*typescript*
 ### 4. Package.json Refactoring
 
 #### Root Package Dependencies
+
 All dev dependencies now use named catalog references:
+
 ```json
 {
   "devDependencies": {
@@ -95,6 +102,7 @@ All dev dependencies now use named catalog references:
 ```
 
 #### Core Package Dependencies  
+
 ```json
 {
   "devDependencies": {
@@ -108,6 +116,7 @@ All dev dependencies now use named catalog references:
 ```
 
 #### Design Tokens Package Dependencies
+
 ```json
 {
   "dependencies": {
@@ -124,6 +133,7 @@ All dev dependencies now use named catalog references:
 ## Validation Results
 
 ### Before Implementation
+
 ```bash
 $ pnpm install
 WARN  14 deprecated subdependencies found: @types/minimatch@6.0.0, abab@2.0.6...
@@ -134,6 +144,7 @@ apps/docs
 ```
 
 ### After Implementation
+
 ```bash
 $ pnpm install
 Packages: +1271
@@ -144,22 +155,26 @@ Progress: resolved 1378, reused 1248, downloaded 0, added 4, done
 ## Benefits Achieved
 
 ### 1. Eliminated Dependency Conflicts
+
 - **0 deprecated dependency warnings**
 - **0 peer dependency conflicts**
 - **Clean installation process**
 
 ### 2. Improved Developer Experience
+
 - **Clear catalog naming** - `catalog:storybook` vs generic `catalog:`
 - **Logical grouping** - Related dependencies in same catalog
 - **Easier updates** - Update entire category at once
 
 ### 3. Enhanced Maintainability
+
 - **Centralized version management**
 - **Consistent versions across monorepo**
 - **Simplified dependency updates**
 - **Future-proof architecture**
 
 ### 4. Performance Optimizations
+
 - **Improved PNPM deduplication**
 - **Optimized hoisting patterns**
 - **Faster installations**
@@ -170,8 +185,10 @@ Progress: resolved 1378, reused 1248, downloaded 0, added 4, done
 For future package additions:
 
 ### Adding New Package
+
 1. Create `package.json` using named catalog references
 2. Choose appropriate catalog for each dependency type:
+
    ```json
    {
      "devDependencies": {
@@ -184,11 +201,13 @@ For future package additions:
    ```
 
 ### Updating Dependencies
+
 1. Update version in appropriate catalog in `pnpm-workspace.yaml`
 2. Run `pnpm install` - all packages get updated automatically
 3. No need to update individual package.json files
 
 ### Adding New Dependency Type
+
 1. Add to appropriate existing catalog, or
 2. Create new named catalog if it represents new category
 3. Update all relevant package.json files to use new catalog reference
@@ -196,16 +215,19 @@ For future package additions:
 ## Architecture Benefits
 
 ### Scalability
+
 - **Easy to add new packages** - just reference existing catalogs
 - **Consistent dependency patterns** - enforced through catalog system
 - **Logical organization** - related tools grouped together
 
 ### Maintenance
+
 - **Single source of truth** for version management
 - **Bulk updates** - change catalog, update everywhere
 - **Dependency governance** - centralized control
 
 ### Quality
+
 - **Eliminates version drift** between packages
 - **Enforces consistency** across monorepo
 - **Reduces human error** in dependency management
@@ -213,6 +235,7 @@ For future package additions:
 ## Implementation Status
 
 ### ✅ Completed
+
 1. **Named catalogs system** implemented in `pnpm-workspace.yaml`
 2. **Root package.json** updated with named catalog references
 3. **Core package** refactored to use named catalogs
@@ -222,6 +245,7 @@ For future package additions:
 7. **Peer dependency rules** established
 
 ### 🔄 Results
+
 - **Zero deprecated warnings** on `pnpm install`
 - **Zero peer dependency conflicts**
 - **Clean, organized dependency management**

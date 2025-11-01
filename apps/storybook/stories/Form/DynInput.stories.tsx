@@ -24,7 +24,7 @@ Advanced text input component with clear button, search functionality, and compr
 ### Features
 - Multiple size variants using design tokens
 - Clear button for easy content clearing
-- Search variant with search icon
+- Search experience with start icon support
 - Error and validation states
 - Disabled and readonly states
 - Placeholder and helper text support
@@ -37,7 +37,7 @@ Advanced text input component with clear button, search functionality, and compr
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'search'],
+      options: ['outline', 'filled', 'ghost'],
     },
     size: {
       control: 'select',
@@ -77,9 +77,10 @@ export const Default: Story = {
 
 export const Search: Story = {
   args: {
-    variant: 'search',
+    variant: 'filled',
     placeholder: 'Search items...',
     clearable: true,
+    startIcon: <DynIcon name="search" size="sm" />, 
   },
 };
 
@@ -137,7 +138,7 @@ export const WithFieldContainer: Story = {
         >
           <DynInput
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={setValue}
             placeholder="John Doe"
             clearable
           />
@@ -151,7 +152,7 @@ export const WithFieldContainer: Story = {
           <DynInput
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={setEmail}
             placeholder="john@example.com"
             error={email && !email.includes('@')}
             clearable
@@ -166,7 +167,7 @@ export const WithFieldContainer: Story = {
           <DynInput
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={setPassword}
             placeholder="••••••••"
             error={password.length > 0 && password.length < 8}
           />
@@ -194,7 +195,7 @@ export const ControlledVsUncontrolled: Story = {
           <label>Controlled Input:</label>
           <DynInput
             value={controlledValue}
-            onChange={(e) => setControlledValue(e.target.value)}
+            onChange={setControlledValue}
             clearable
           />
           <small>Value: {controlledValue}</small>
@@ -204,7 +205,7 @@ export const ControlledVsUncontrolled: Story = {
           <label>Uncontrolled Input:</label>
           <DynInput
             defaultValue="Uncontrolled input"
-            onChange={(e) => console.log('Changed:', e.target.value)}
+            onChange={(value) => console.log('Changed:', value)}
             clearable
           />
           <small>Check console for changes</small>
@@ -224,7 +225,7 @@ export const ControlledVsUncontrolled: Story = {
 // Interactive playground
 export const Playground: Story = {
   args: {
-    variant: 'default',
+    variant: 'outline',
     size: 'md',
     placeholder: 'Playground input...',
     clearable: true,

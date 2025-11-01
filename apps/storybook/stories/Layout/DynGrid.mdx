@@ -1,0 +1,27 @@
+{/* DynGrid.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynGrid.stories';
+
+<Meta of={Stories} />
+
+# DynGrid
+
+Responsive grid layout for dashboards, marketing pages, and product surfaces.
+
+## Column System
+<Canvas of={Stories.TwelveColumnLayout} />
+
+## Spacing Controls
+<Canvas of={Stories.GapAndAlignment} />
+
+## Responsive Breakpoints
+<Canvas of={Stories.ResponsiveColumns} />
+
+## Nested Layouts
+<Canvas of={Stories.NestedLayouts} />
+
+## Playground
+<Canvas of={Stories.InteractivePlayground} />
+
+## Props
+<Controls of={Stories.TwelveColumnLayout} />

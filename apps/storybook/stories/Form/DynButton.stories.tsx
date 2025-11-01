@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DynButton, ThemeProvider } from '@dynui-max/core';
-import { DynIcon } from '@dynui-max/core';
+import type { ComponentVariant } from '@dynui-max/core';
+import { DynButton, DynIcon, ThemeProvider } from '@dynui-max/core';
+
+const variantOptions: ComponentVariant[] = ['solid', 'outline', 'ghost', 'link'];
 
 const meta = {
   title: 'Form/DynButton',
@@ -20,10 +22,10 @@ const meta = {
 Multi-variant button component with loading states, icon support, and polymorphic rendering.
 
 ### Features
-- Multiple visual variants (primary, secondary, outline, ghost)
+- Multiple visual variants (solid, outline, ghost, link)
 - Size variants using design tokens
 - Loading state with spinner
-- Icon support (left, right, icon-only)
+- Icon support (start, end, icon-only)
 - Disabled state handling
 - Polymorphic rendering (as prop)
 - Full keyboard navigation
@@ -35,7 +37,7 @@ Multi-variant button component with loading states, icon support, and polymorphi
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'outline', 'ghost'],
+      options: variantOptions,
     },
     size: {
       control: 'select', 
@@ -62,21 +64,24 @@ type Story = StoryObj<typeof meta>;
 // Basic variants
 export const Primary: Story = {
   args: {
-    variant: 'primary',
+    variant: 'solid',
+    color: 'primary',
     children: 'Primary Button',
   },
 };
 
 export const Secondary: Story = {
   args: {
-    variant: 'secondary',
+    variant: 'solid',
+    color: 'neutral',
     children: 'Secondary Button',
   },
 };
 
 export const Outline: Story = {
   args: {
-    variant: 'outline', 
+    variant: 'outline',
+    color: 'primary',
     children: 'Outline Button',
   },
 };
@@ -84,7 +89,16 @@ export const Outline: Story = {
 export const Ghost: Story = {
   args: {
     variant: 'ghost',
+    color: 'primary',
     children: 'Ghost Button',
+  },
+};
+
+export const Link: Story = {
+  args: {
+    variant: 'link',
+    color: 'primary',
+    children: 'Link Button',
   },
 };
 
@@ -110,21 +124,23 @@ export const Sizes: Story = {
 export const WithIcons: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-      <DynButton leftIcon={<DynIcon name="plus" size="sm" />}>
+      <DynButton startIcon={<DynIcon name="plus" size="sm" />}>
         Add Item
       </DynButton>
-      <DynButton rightIcon={<DynIcon name="arrow-right" size="sm" />}>
+      <DynButton endIcon={<DynIcon name="arrow-right" size="sm" />}>
         Continue
       </DynButton>
-      <DynButton variant="outline" iconOnly aria-label="Settings">
-        <DynIcon name="settings" size="sm" />
-      </DynButton>
+      <DynButton
+        variant="outline"
+        startIcon={<DynIcon name="settings" size="sm" />}
+        aria-label="Settings"
+      />
     </div>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'Buttons with left icons, right icons, and icon-only variants. Icon-only buttons require aria-label for accessibility.'
+        story: 'Buttons with start icons, end icons, and icon-only variants. Icon-only buttons require aria-label for accessibility.'
       }
     }
   }
@@ -135,10 +151,14 @@ export const LoadingStates: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
       <DynButton loading>Loading...</DynButton>
-      <DynButton variant="secondary" loading>
+      <DynButton variant="solid" color="neutral" loading>
         Processing
       </DynButton>
-      <DynButton variant="outline" loading leftIcon={<DynIcon name="upload" size="sm" />}>
+      <DynButton
+        variant="outline"
+        loading
+        startIcon={<DynIcon name="upload" size="sm" />}
+      >
         Uploading
       </DynButton>
     </div>
@@ -157,14 +177,24 @@ export const States: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column', alignItems: 'flex-start' }}>
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <DynButton>Normal</DynButton>
-        <DynButton disabled>Disabled</DynButton>
-        <DynButton loading>Loading</DynButton>
+        <DynButton variant="solid">Normal</DynButton>
+        <DynButton variant="solid" disabled>
+          Disabled
+        </DynButton>
+        <DynButton variant="solid" loading>
+          Loading
+        </DynButton>
       </div>
       <div style={{ display: 'flex', gap: '1rem' }}>
-        <DynButton variant="secondary">Normal</DynButton>
-        <DynButton variant="secondary" disabled>Disabled</DynButton>
-        <DynButton variant="secondary" loading>Loading</DynButton>
+        <DynButton variant="solid" color="neutral">
+          Normal
+        </DynButton>
+        <DynButton variant="solid" color="neutral" disabled>
+          Disabled
+        </DynButton>
+        <DynButton variant="solid" color="neutral" loading>
+          Loading
+        </DynButton>
       </div>
     </div>
   ),
@@ -181,7 +211,7 @@ export const States: Story = {
 export const PolymorphicRendering: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column', alignItems: 'flex-start' }}>
-      <DynButton as="a" href="#" variant="primary">
+      <DynButton as="a" href="#" variant="solid">
         Link Button
       </DynButton>
       <DynButton as="div" role="button" tabIndex={0}>
@@ -204,7 +234,8 @@ export const PolymorphicRendering: Story = {
 // Interactive playground
 export const Playground: Story = {
   args: {
-    variant: 'primary',
+    variant: 'solid',
+    color: 'primary',
     size: 'md',
     children: 'Playground Button',
     loading: false,

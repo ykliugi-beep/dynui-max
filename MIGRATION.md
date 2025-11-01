@@ -3,12 +3,15 @@
 ## From dyn-ui to DynUI-Max
 
 ### Overview
+
 DynUI-Max is a comprehensive rewrite and enhancement of the original dyn-ui library, providing better TypeScript support, accessibility, and design token integration.
 
 ### Breaking Changes
 
 #### 1. Design Tokens Integration
+
 **Before (dyn-ui):**
+
 ```tsx
 // Hardcoded styles
 <DynButton style={{ padding: '8px 16px', fontSize: '14px' }}>
@@ -17,6 +20,7 @@ DynUI-Max is a comprehensive rewrite and enhancement of the original dyn-ui libr
 ```
 
 **After (DynUI-Max):**
+
 ```tsx
 // Design token system
 import '@dynui-max/design-tokens/css';
@@ -27,7 +31,9 @@ import '@dynui-max/design-tokens/css';
 ```
 
 #### 2. Theme Provider Required
+
 **Before (dyn-ui):**
+
 ```tsx
 // No theme provider needed
 <App>
@@ -36,6 +42,7 @@ import '@dynui-max/design-tokens/css';
 ```
 
 **After (DynUI-Max):**
+
 ```tsx
 // Theme provider required for proper token resolution
 import { ThemeProvider } from '@dynui-max/core';
@@ -48,13 +55,16 @@ import { ThemeProvider } from '@dynui-max/core';
 ```
 
 #### 3. Enhanced TypeScript Types
+
 **Before (dyn-ui):**
+
 ```tsx
 // Loose typing
 <DynSelect options={options} onChange={(value: any) => {}} />
 ```
 
 **After (DynUI-Max):**
+
 ```tsx
 // Strict typing with generic support
 <DynSelect<string>
@@ -66,7 +76,9 @@ import { ThemeProvider } from '@dynui-max/core';
 #### 4. Component API Changes
 
 ##### DynSelect
+
 **Before:**
+
 ```tsx
 <DynSelect
   options={[{ id: 1, text: 'Option 1' }]}
@@ -76,6 +88,7 @@ import { ThemeProvider } from '@dynui-max/core';
 ```
 
 **After:**
+
 ```tsx
 <DynSelect
   options={[{ value: '1', label: 'Option 1' }]}
@@ -84,7 +97,9 @@ import { ThemeProvider } from '@dynui-max/core';
 ```
 
 ##### DynTable
+
 **Before:**
+
 ```tsx
 <DynTable
   data={users}
@@ -95,6 +110,7 @@ import { ThemeProvider } from '@dynui-max/core';
 ```
 
 **After:**
+
 ```tsx
 <DynTable
   dataSource={users}
@@ -107,6 +123,7 @@ import { ThemeProvider } from '@dynui-max/core';
 ### New Features in DynUI-Max
 
 #### 1. Advanced Keyboard Navigation
+
 ```tsx
 // All interactive components support full keyboard navigation
 <DynTabs 
@@ -121,6 +138,7 @@ import { ThemeProvider } from '@dynui-max/core';
 ```
 
 #### 2. Enhanced Accessibility
+
 ```tsx
 // Automatic ARIA attributes and roles
 <DynModal
@@ -133,6 +151,7 @@ import { ThemeProvider } from '@dynui-max/core';
 ```
 
 #### 3. Flexible Layout System
+
 ```tsx
 // New DynBox for flexible layouts
 <DynBox 
@@ -154,6 +173,7 @@ import { ThemeProvider } from '@dynui-max/core';
 ```
 
 #### 4. Theme Switching
+
 ```tsx
 // Built-in theme switching
 <ThemeSwitcher variant="toggle" showLabels />
@@ -166,6 +186,7 @@ setTheme('dark');
 ### Migration Steps
 
 #### Step 1: Update Dependencies
+
 ```bash
 # Remove old dyn-ui
 npm uninstall dyn-ui
@@ -175,12 +196,14 @@ npm install @dynui-max/core @dynui-max/design-tokens
 ```
 
 #### Step 2: Import Design Tokens
+
 ```tsx
 // Add to your main CSS or at app root
 import '@dynui-max/design-tokens/css';
 ```
 
 #### Step 3: Add Theme Provider
+
 ```tsx
 import { ThemeProvider } from '@dynui-max/core';
 
@@ -191,6 +214,7 @@ import { ThemeProvider } from '@dynui-max/core';
 ```
 
 #### Step 4: Update Imports
+
 ```tsx
 // Before
 import { DynButton, DynInput } from 'dyn-ui';
@@ -200,6 +224,7 @@ import { DynButton, DynInput } from '@dynui-max/core';
 ```
 
 #### Step 5: Update Component Props
+
 Refer to the API documentation and Storybook for updated prop interfaces. Most components maintain similar APIs but with enhanced TypeScript types.
 
 ### Component Mapping
@@ -232,15 +257,17 @@ Refer to the API documentation and Storybook for updated prop interfaces. Most c
 ### Support
 
 For migration assistance:
+
 - 📖 Check Storybook examples at [docs URL when deployed]
-- 📚 Review API documentation 
+- 📚 Review API documentation
 - 🐛 Open issues on GitHub for specific migration problems
 
 ---
 
 **Migration Timeline Recommendation:**
+
 1. **Phase 1**: Update build system and dependencies
-2. **Phase 2**: Add theme provider and design token imports 
+2. **Phase 2**: Add theme provider and design token imports
 3. **Phase 3**: Update component imports and basic props
 4. **Phase 4**: Leverage new features (DynBox, enhanced accessibility)
 5. **Phase 5**: Add theme switching and advanced functionality
