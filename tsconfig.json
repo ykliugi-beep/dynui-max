@@ -44,7 +44,6 @@
     "removeComments": false,
     "noEmit": true,
     "importHelpers": true,
-    "importsNotUsedAsValues": "error",
     "downlevelIteration": true,
     "sourceRoot": "",
     "mapRoot": "",
@@ -55,21 +54,18 @@
     "stripInternal": false,
     "noEmitHelpers": false,
     "noEmitOnError": false,
-    "preserveConstEnums": false,
+    "preserveConstEnums": true,
     "declarationDir": "./dist",
     "preserveValueImports": false,
     
     // Interop Constraints  
     "verbatimModuleSyntax": true,
     
-    // Language and Environment
+    // Language and Environment - Fixed JSX Configuration
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "jsx": "react-jsx",
-    "jsxFactory": "React.createElement",
-    "jsxFragmentFactory": "React.Fragment",
     "jsxImportSource": "react",
-    "reactNamespace": "React",
     "noLib": false,
     "useDefineForClassFields": true,
     
