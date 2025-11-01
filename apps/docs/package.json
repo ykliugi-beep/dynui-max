@@ -14,9 +14,9 @@
     "@dynui-max/design-tokens": "workspace:*"
   },
   "devDependencies": {
-    "typedoc": "^0.25.13",
+    "typedoc": "catalog:typescript",
     "typedoc-plugin-markdown": "^3.17.1",
     "http-server": "^14.1.1",
-    "rimraf": "^5.0.5"
+    "rimraf": "catalog:tooling"
   }
 }

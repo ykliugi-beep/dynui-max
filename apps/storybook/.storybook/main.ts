@@ -11,14 +11,13 @@ function getAbsolutePath(value: string): any {
 
 const config: StorybookConfig = {
   stories: [
-    '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-    '../../../packages/core/src/components/**/*.stories.@(js|jsx|mjs|ts|tsx)'
+    '../stories/**/*.mdx',
+    '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'
   ],
   addons: [
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@storybook/addon-interactions'),
     getAbsolutePath('@storybook/addon-a11y'),
-    'storybook-design-token',
     getAbsolutePath('@storybook/addon-docs')
   ],
   framework: {
