@@ -29,7 +29,6 @@
     "chromatic": "catalog:storybook",
     "storybook": "catalog:storybook",
     "typescript": "catalog:typescript",
-    "vite": "catalog:build",
-    "@storybook/react": "catalog:storybook"
+    "vite": "catalog:build"
   }
 }
