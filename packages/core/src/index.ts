@@ -97,7 +97,7 @@ export type { DynAvatarProps } from './components/DynAvatar';
 
 // Utility Components
 export { ThemeSwitcher } from './components/ThemeSwitcher';
-export type { ThemeSwitcherProps } from './components/ThemeSwitcher';
+export type { ThemeSwitcherProps, ThemeMode } from './components/ThemeSwitcher';
 
 // Hooks
 export { useClickOutside } from './hooks/useClickOutside';
