@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import clsx from 'clsx';
 import { DynIcon } from '../DynIcon';
 import './DynBreadcrumb.css';
