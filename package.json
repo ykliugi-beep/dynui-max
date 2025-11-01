@@ -105,7 +105,8 @@
       "npmlog": "*",
       "expect-playwright": "*",
       "jest-playwright-preset": "*",
-      "jest-process-manager": "*"
+      "jest-process-manager": "*",
+      "source-map": "*"
     },
     "peerDependencyRules": {
       "allowedVersions": {
