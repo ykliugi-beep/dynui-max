@@ -56,10 +56,10 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>((
   },
   ref
 ) => {
-  const { theme, setTheme } = useTheme();
-  
+  const { themeName, setTheme } = useTheme();
+
   const handleToggle = () => {
-    const nextTheme = theme === 'light' ? 'dark' : 'light';
+    const nextTheme = themeName === 'light' ? 'dark' : 'light';
     setTheme(nextTheme);
   };
   
@@ -73,9 +73,9 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>((
     className
   );
   
-  const currentIcon = theme === 'light' ? 'sun' : 'moon';
-  const currentLabel = theme === 'light' ? 'Light' : 'Dark';
-  const toggleLabel = `Switch to ${theme === 'light' ? 'dark' : 'light'} theme`;
+  const currentIcon = themeName === 'light' ? 'sun' : 'moon';
+  const currentLabel = themeName === 'light' ? 'Light' : 'Dark';
+  const toggleLabel = `Switch to ${themeName === 'light' ? 'dark' : 'light'} theme`;
   
   if (variant === 'dropdown') {
     // TODO: Implement dropdown variant with DynSelect
@@ -104,7 +104,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>((
         <input
           type="checkbox"
           className="dyn-theme-switcher__input"
-          checked={theme === 'dark'}
+          checked={themeName === 'dark'}
           onChange={handleToggle}
           aria-label={toggleLabel}
         />
