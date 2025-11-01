@@ -99,7 +99,6 @@
       "abab": "*",
       "domexception": "*",
       "inflight": "*",
-      "source-map": "*",
       "are-we-there-yet": "*",
       "gauge": "*",
       "iltorb": "*",
