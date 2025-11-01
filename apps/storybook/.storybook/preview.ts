@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Preview } from '@storybook/react';
 import { themes } from '@storybook/theming';
 import '../../../packages/design-tokens/dist/css/tokens.css';
