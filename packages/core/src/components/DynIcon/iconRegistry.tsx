@@ -90,10 +90,33 @@ const SpinnerIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const SunIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
+    <path d="M10 6a4 4 0 100 8 4 4 0 000-8z" />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M10 1a1 1 0 011 1v1a1 1 0 11-2 0V2a1 1 0 011-1zm0 14a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM4.222 4.222a1 1 0 011.414 0L6.757 5.34a1 1 0 11-1.414 1.414L4.222 5.636a1 1 0 010-1.414zm9.02 9.02a1 1 0 011.414 0l1.121 1.12a1 1 0 11-1.414 1.415l-1.12-1.121a1 1 0 010-1.414zM1 10a1 1 0 011-1h1a1 1 0 110 2H2a1 1 0 01-1-1zm14-1a1 1 0 100 2h1a1 1 0 100-2h-1zM4.222 15.778a1 1 0 010-1.415l1.121-1.12a1 1 0 111.414 1.414l-1.12 1.121a1 1 0 01-1.415 0zM13.243 5.34a1 1 0 011.414-1.414l1.12 1.121a1 1 0 11-1.414 1.414L13.243 5.34z"
+    />
+  </svg>
+);
+
+const MoonIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M17.293 13.293A8 8 0 016.707 2.707a8 8 0 108.586 8.586z"
+    />
+  </svg>
+);
+
 // Register default icons
 iconRegistry.registerMany({
   check: CheckIcon,
   'chevron-down': ChevronDownIcon,
   x: XIcon,
-  spinner: SpinnerIcon
+  spinner: SpinnerIcon,
+  sun: SunIcon,
+  moon: MoonIcon
 });
