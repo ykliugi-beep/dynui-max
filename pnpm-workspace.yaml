@@ -27,6 +27,7 @@ catalogs:
     "@vitejs/plugin-react": ^4.3.3
     esbuild: ^0.23.1
     "@swc/core": ^1.14.0
+    source-map: ^0.8.2
 
   # Testing Stack - Stabilne 2.x verzije  
   testing:
