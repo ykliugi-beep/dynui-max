@@ -23,6 +23,7 @@ const meta: Meta<typeof ThemeSwitcher> = {
 - Button, toggle, and dropdown variants
 - Size variants using design tokens
 - Theme context integration
+- Controlled and uncontrolled usage
 - Keyboard navigation support
 - Accessible labels and ARIA attributes
         `
@@ -266,8 +267,8 @@ export const Variants: Story = {
       <DynBox>
         <h4 style={{ marginBottom: '16px', color: 'var(--dyn-color-text-primary)' }}>Dropdown Variant</h4>
         <DynBox display="flex" align="center" gap="lg">
-          <ThemeSwitcher variant="dropdown" size="md" />
-          <ThemeSwitcher variant="dropdown" size="md" showLabels />
+          <ThemeSwitcher variant="dropdown" size="md" showSystem />
+          <ThemeSwitcher variant="dropdown" size="md" showLabels showSystem />
         </DynBox>
       </DynBox>
     </DynBox>
@@ -276,6 +277,80 @@ export const Variants: Story = {
     docs: {
       description: {
         story: 'All visual variants of ThemeSwitcher with and without labels.'
+      }
+      }
+    }
+};
+
+/**
+ * Demonstrates the controlled API with the dropdown radiogroup variant.
+ */
+export const SystemRadiogroup: Story = {
+  args: {
+    variant: 'dropdown',
+    showSystem: true,
+    showLabels: true
+  },
+  render: (args) => {
+    const [mode, setMode] = useState<ThemeMode>('system');
+
+    return (
+      <DynBox display="flex" direction="column" gap="lg">
+        <DynBox>
+          <p style={{ margin: 0, color: 'var(--dyn-color-text-secondary)' }}>
+            The dropdown variant exposes light, dark, and system modes using a radiogroup for accessibility.
+          </p>
+        </DynBox>
+
+        <DynBox display="flex" align="center" gap="md">
+          <strong style={{ color: 'var(--dyn-color-text-primary)' }}>Selected mode:</strong>
+          <span style={{ color: 'var(--dyn-color-text-secondary)' }}>{mode}</span>
+        </DynBox>
+
+        <ThemeSwitcher
+          {...args}
+          mode={mode}
+          onChange={(nextMode) => {
+            setMode(nextMode);
+            args.onChange?.(nextMode);
+          }}
+        />
+      </DynBox>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Controlled usage of the dropdown variant that exposes the new system option via a radiogroup.'
+      }
+    }
+  }
+};
+
+/**
+ * Disabled state for all variants.
+ */
+export const DisabledState: Story = {
+  render: () => (
+    <DynBox display="flex" direction="column" gap="lg">
+      <DynBox display="flex" align="center" gap="md">
+        <ThemeSwitcher disabled />
+        <span style={{ color: 'var(--dyn-color-text-secondary)' }}>Button variant</span>
+      </DynBox>
+      <DynBox display="flex" align="center" gap="md">
+        <ThemeSwitcher variant="toggle" disabled showLabels />
+        <span style={{ color: 'var(--dyn-color-text-secondary)' }}>Toggle variant</span>
+      </DynBox>
+      <DynBox display="flex" align="center" gap="md">
+        <ThemeSwitcher variant="dropdown" disabled showSystem showLabels />
+        <span style={{ color: 'var(--dyn-color-text-secondary)' }}>Dropdown radiogroup</span>
+      </DynBox>
+    </DynBox>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'All variants can be disabled to prevent user interaction.'
       }
     }
   }
