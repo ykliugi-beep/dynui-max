@@ -16,7 +16,7 @@ export { default as semanticTokens } from './tokens/semantic';
 export { lightTheme, darkTheme } from './themes';
 
 // Version and metadata
-export const VERSION = '0.1.0';
+export { VERSION } from './version';
 export const TOKEN_PREFIX = 'dyn' as const;
 
 /**
