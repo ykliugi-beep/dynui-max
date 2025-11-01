@@ -60,6 +60,7 @@ const currentTheme = darkTheme;
 ## Token Categories
 
 ### Base Tokens (Primitives)
+
 - **Colors**: Primary scale (50-950), Gray scale, White/Black
 - **Spacing**: xs, sm, md, lg, xl, 2xl, 3xl
 - **Typography**: Font sizes, weights, line heights, families
@@ -69,6 +70,7 @@ const currentTheme = darkTheme;
 - **Z-Index**: Layering hierarchy
 
 ### Semantic Tokens (Contextual)
+
 - **Text Colors**: primary, secondary, muted, inverse
 - **Backgrounds**: primary, secondary, muted, inverse  
 - **Borders**: primary, secondary, muted
@@ -83,6 +85,7 @@ const currentTheme = darkTheme;
 ## Build System
 
 Tokens are processed through Style Dictionary to generate:
+
 - CSS custom properties (`:root`, `.theme-light`, `.theme-dark`)
 - TypeScript definitions and exports
 - JSON token maps for tooling

@@ -51,6 +51,7 @@ function App() {
 ### P0 Prerequisites (Phase 5 Blockers)
 
 #### DynIcon
+
 Icon component with registry system and token integration.
 
 ```tsx
@@ -63,12 +64,14 @@ Icon component with registry system and token integration.
 ```
 
 **Props**:
+
 - `name`: Icon name from registry
 - `size`: 'sm' | 'md' | 'lg'
 - `color`: 'current' | 'primary' | 'secondary' | 'muted' | 'success' | 'warning' | 'danger'
 - `title`: Accessible title (optional, decorative if omitted)
 
 #### DynFieldContainer
+
 Comprehensive form field wrapper with validation and accessibility.
 
 ```tsx
@@ -85,6 +88,7 @@ Comprehensive form field wrapper with validation and accessibility.
 ```
 
 **Props**:
+
 - `label`: Field label text
 - `description`: Additional description
 - `hint`: Help text for users
@@ -94,6 +98,7 @@ Comprehensive form field wrapper with validation and accessibility.
 - `orientation`: 'vertical' | 'horizontal'
 
 #### DynStepper
+
 Step navigation component with progress indication.
 
 ```tsx
@@ -112,6 +117,7 @@ const steps = [
 ```
 
 **Props**:
+
 - `currentStep`: Active step index
 - `onStepChange`: Step change callback
 - `steps`: Array of step data with key, label, status, disabled
@@ -120,6 +126,7 @@ const steps = [
 ### Theme System
 
 #### ThemeProvider
+
 Provides theme context and CSS variable injection.
 
 ```tsx
@@ -129,6 +136,7 @@ Provides theme context and CSS variable injection.
 ```
 
 #### useTheme Hook
+
 Access theme context and controls.
 
 ```tsx
