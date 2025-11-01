@@ -115,4 +115,4 @@ export type {
 } from '@dynui-max/design-tokens';
 
 // Version
-export const VERSION = '0.2.0';
+export { VERSION } from './version';
