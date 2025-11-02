@@ -75,6 +75,26 @@ describe('ThemeSwitcher', () => {
     ).toBeInTheDocument();
   });
 
+  it('supports toggling via keyboard activation', async () => {
+    const user = userEvent.setup();
+    renderWithTheme('light');
+
+    const toggleButton = screen.getByRole('button', { name: /switch to dark theme/i });
+    toggleButton.focus();
+
+    await user.keyboard('{Space}');
+
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+    });
+
+    await user.keyboard('{Enter}');
+
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    });
+  });
+
   it('cycles through system mode when enabled', async () => {
     const user = userEvent.setup();
     render(
@@ -115,5 +135,26 @@ describe('ThemeSwitcher', () => {
     await waitFor(() => {
       expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
     });
+  });
+
+  it('supports arrow key navigation in dropdown variant', async () => {
+    const user = userEvent.setup();
+    render(
+      <ThemeProvider defaultTheme="light">
+        <ThemeSwitcher variant="dropdown" showSystem showLabels />
+      </ThemeProvider>
+    );
+
+    const group = screen.getByRole('radiogroup', { name: /theme mode/i });
+    const options = within(group).getAllByRole('radio');
+
+    options[0].focus();
+    await user.keyboard('{ArrowRight}');
+
+    expect(options[1]).toHaveAttribute('aria-checked', 'true');
+
+    await user.keyboard('{ArrowLeft}');
+
+    expect(options[0]).toHaveAttribute('aria-checked', 'true');
   });
 });

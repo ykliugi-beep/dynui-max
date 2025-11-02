@@ -1,12 +1,20 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render } from '../test/test-utils';
 import { useKeyboard } from './useKeyboard';
 import React, { useState } from 'react';
 
-const TestComponent = ({ enabled = true, target = 'document' as const }) => {
+const TestComponent = ({
+  enabled = true,
+  target = 'document' as const,
+  keyValue = 'k'
+}: {
+  enabled?: boolean;
+  target?: 'window' | 'document';
+  keyValue?: string;
+}) => {
   const [count, setCount] = useState(0);
   useKeyboard(
-    'k',
+    keyValue,
     () => {
       setCount((prev) => prev + 1);
     },
@@ -39,5 +47,49 @@ describe('useKeyboard', () => {
     window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k' }));
 
     expect(document.querySelector('[data-count="1"]')).toBeInTheDocument();
+  });
+
+  it('rebinds listeners when the key changes', () => {
+    const { rerender } = render(<TestComponent keyValue="a" />);
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a' }));
+    expect(document.querySelector('[data-count="1"]')).toBeInTheDocument();
+
+    rerender(<TestComponent keyValue="b" />);
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a' }));
+    expect(document.querySelector('[data-count="1"]')).toBeInTheDocument();
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'b' }));
+    expect(document.querySelector('[data-count="2"]')).toBeInTheDocument();
+  });
+
+  it('activates listeners when enabled toggles from false to true', () => {
+    const { rerender } = render(<TestComponent enabled={false} />);
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k' }));
+    expect(document.querySelector('[data-count="0"]')).toBeInTheDocument();
+
+    rerender(<TestComponent enabled />);
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k' }));
+    expect(document.querySelector('[data-count="1"]')).toBeInTheDocument();
+  });
+
+  it('cleans up listeners when component unmounts', () => {
+    const handler = vi.fn();
+
+    const CustomComponent = () => {
+      useKeyboard('z', handler);
+      return null;
+    };
+
+    const { unmount } = render(<CustomComponent />);
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'z' }));
+    expect(handler).toHaveBeenCalledTimes(1);
+
+    unmount();
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'z' }));
+    expect(handler).toHaveBeenCalledTimes(1);
   });
 });

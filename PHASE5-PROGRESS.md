@@ -114,7 +114,7 @@ These additions bring the component catalog to full parity with `packages/core/s
 
 - ✅ 29/29 core components now include Vitest rendering suites, keyboard interaction checks, and axe-powered a11y guards.
 - ✅ All new suites run under `pnpm test`, `pnpm test:coverage`, and `pnpm test:a11y` with the existing ≥80% thresholds.
-- ✅ Shared hooks (`useKeyboard`, `useFocusTrap`) have integration-style coverage to validate keyboard dispatch and focus trapping edge cases.
+- ✅ Shared hooks (`useKeyboard`, `useFocusTrap`) have integration-style coverage to validate re-binding, Shift+Tab wraparound, and empty-trap edge cases.
 
 ### Technical & Accessibility Excellence
 
