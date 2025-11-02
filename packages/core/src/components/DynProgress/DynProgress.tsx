@@ -38,8 +38,11 @@ export const DynProgress: React.FC<DynProgressProps> = ({
   className,
   ...props
 }) => {
+  const isInvalidRange = max <= min;
+  const isIndeterminate = indeterminate || isInvalidRange;
+
   const { percentage, ariaNow, ariaText } = useMemo(() => {
-    if (indeterminate || max <= min) {
+    if (isIndeterminate) {
       return {
         percentage: 0,
         ariaNow: undefined,
@@ -55,14 +58,14 @@ export const DynProgress: React.FC<DynProgressProps> = ({
       ariaNow: clamped,
       ariaText: label ?? `${rounded}%`
     };
-  }, [indeterminate, max, min, value, label]);
+  }, [isIndeterminate, max, min, value, label]);
 
   const containerClassName = clsx(
     styles['dyn-progress'],
     styles[`dyn-progress--size-${size}`],
     styles[`dyn-progress--color-${color}`],
     {
-      [styles['dyn-progress--indeterminate']]: indeterminate
+      [styles['dyn-progress--indeterminate']]: isIndeterminate
     },
     className
   );
@@ -71,8 +74,8 @@ export const DynProgress: React.FC<DynProgressProps> = ({
     <div
       className={containerClassName}
       role="progressbar"
-      aria-valuemin={indeterminate ? undefined : min}
-      aria-valuemax={indeterminate ? undefined : max}
+      aria-valuemin={isIndeterminate ? undefined : min}
+      aria-valuemax={isIndeterminate ? undefined : max}
       aria-valuenow={ariaNow}
       aria-valuetext={ariaText}
       {...props}
@@ -80,7 +83,7 @@ export const DynProgress: React.FC<DynProgressProps> = ({
       <div className={styles['dyn-progress__track']}>
         <div
           className={styles['dyn-progress__indicator']}
-          style={{ width: indeterminate ? undefined : `${percentage}%` }}
+          style={{ width: isIndeterminate ? undefined : `${percentage}%` }}
           aria-hidden="true"
         />
       </div>
