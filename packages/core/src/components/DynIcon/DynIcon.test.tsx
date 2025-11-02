@@ -76,6 +76,12 @@ describe('DynIcon', () => {
     const icon = screen.getByTestId('test-icon');
     expect(icon).toHaveClass('custom-class');
   });
+
+  it('applies name-based modifier class', () => {
+    render(<DynIcon name="test" />);
+    const icon = screen.getByTestId('test-icon');
+    expect(icon).toHaveClass('dyn-icon--name-test');
+  });
 });
 
 describe('iconRegistry default icons', () => {
@@ -84,6 +90,7 @@ describe('iconRegistry default icons', () => {
     'check',
     'chevron-down',
     'chevron-right',
+    'chevron-up',
     'chevrons-up-down',
     'code',
     'edit',
