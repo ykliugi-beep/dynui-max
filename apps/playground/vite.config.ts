@@ -7,7 +7,14 @@ export default defineConfig({
   resolve: {
     alias: {
       '@dynui-max/core': resolve(__dirname, '../../packages/core/src'),
-      '@dynui-max/design-tokens': resolve(__dirname, '../../packages/design-tokens/src'),
+      '@dynui-max/design-tokens': resolve(
+        __dirname,
+        '../../packages/design-tokens/src'
+      ),
+      '@dynui-max/design-tokens/css': resolve(
+        __dirname,
+        '../../packages/design-tokens/dist/tokens.css'
+      ),
     },
   },
   server: {
