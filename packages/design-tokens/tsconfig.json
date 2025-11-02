@@ -8,15 +8,25 @@
     "composite": true,
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": false,
+    "noEmit": false,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": false,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": false
   },
   "include": [
-    "src/**/*"
+    "src"
   ],
   "exclude": [
-    "dist/**/*",
-    "build/**/*",
+    "dist",
+    "build",
+    "node_modules",
     "**/*.test.ts",
-    "**/*.spec.ts"
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.stories.ts",
+    "**/*.stories.tsx"
   ]
 }

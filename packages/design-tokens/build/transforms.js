@@ -57,7 +57,7 @@ export const dynCssTransformGroup = {
     'attribute/cti',          // Built-in: adds category/type/item attributes
     'name/cti/dyn-kebab',     // Custom: dyn- prefixed kebab-case names
     'time/seconds',           // Built-in: converts time to seconds
-    'html/icon',              // Built-in: wraps icon values in quotes
+    'content/icon',           // Built-in: wraps icon values in quotes
     'size/px-to-rem',         // Custom: converts px to rem
     'font/family/css',        // Custom: formats font families
     'color/hex'               // Built-in: ensures colors are hex
