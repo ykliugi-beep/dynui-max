@@ -115,9 +115,10 @@ All planned Phase 5 stories have shipped, including DynCard, DynPagination, DynS
 
 ### Automated Test Coverage
 
-- ✅ 26/26 core components now include Vitest rendering suites, keyboard interaction checks, and axe-powered a11y guards.
+- ✅ 29/29 core components now include Vitest rendering suites, keyboard interaction checks, and axe-powered a11y guards.
+- ✅ ThemeSwitcher button, toggle, and dropdown modes now carry full keyboard + axe regression coverage.
 - ✅ All new suites run under `pnpm test`, `pnpm test:coverage`, and `pnpm test:a11y` with the existing ≥80% thresholds.
-- ✅ Shared hooks (`useKeyboard`, `useFocusTrap`) have integration-style coverage to validate keyboard dispatch and focus trapping edge cases.
+- ✅ Shared hooks (`useKeyboard`, `useFocusTrap`) have integration-style coverage to validate re-binding, Shift+Tab wraparound, and empty-trap edge cases.
 
 ### Technical & Accessibility Excellence
 
