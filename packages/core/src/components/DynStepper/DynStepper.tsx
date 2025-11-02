@@ -15,6 +15,63 @@ export interface StepData {
   icon?: React.ReactNode;
 }
 
+export interface DynStepProps {
+  /**
+   * Step title
+   */
+  title: string;
+  
+  /**
+   * Optional step description
+   */
+  description?: string;
+  
+  /**
+   * Step status
+   */
+  status?: StepStatus;
+  
+  /**
+   * Whether step is disabled
+   */
+  disabled?: boolean;
+  
+  /**
+   * Custom icon for step
+   */
+  icon?: React.ReactNode;
+  
+  /**
+   * Step index
+   */
+  index: number;
+  
+  /**
+   * Whether step is clickable
+   */
+  clickable?: boolean;
+  
+  /**
+   * Click handler
+   */
+  onClick?: (index: number) => void;
+  
+  /**
+   * Component size
+   */
+  size?: ComponentSize;
+  
+  /**
+   * Show numbers instead of icons
+   */
+  showNumbers?: boolean;
+  
+  /**
+   * Additional CSS class names
+   */
+  className?: string;
+}
+
 export interface DynStepperProps {
   /**
    * Current active step index
@@ -77,6 +134,96 @@ export interface DynStepperRef {
   nextStep: () => void;
   previousStep: () => void;
 }
+
+/**
+ * DynStep - Individual step component for stepper
+ * 
+ * Features:
+ * - Status indicators (pending, current, complete, error)
+ * - Custom icons or automatic numbering
+ * - Clickable steps
+ * - Keyboard navigation
+ * - Accessibility support
+ */
+export const DynStep: React.FC<DynStepProps> = ({
+  title,
+  description,
+  status = 'pending',
+  disabled = false,
+  icon,
+  index,
+  clickable = false,
+  onClick,
+  size = 'md',
+  showNumbers = true,
+  className
+}) => {
+  const handleClick = useCallback(() => {
+    if (clickable && !disabled && onClick) {
+      onClick(index);
+    }
+  }, [clickable, disabled, onClick, index]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if ((e.key === 'Enter' || e.key === ' ') && clickable && !disabled) {
+      e.preventDefault();
+      handleClick();
+    }
+  }, [handleClick, clickable, disabled]);
+
+  const stepClasses = clsx(
+    'dyn-stepper__step',
+    `dyn-stepper__step--${status}`,
+    `dyn-stepper__step--size-${size}`,
+    {
+      'dyn-stepper__step--clickable': clickable && !disabled,
+      'dyn-stepper__step--disabled': disabled
+    },
+    className
+  );
+
+  return (
+    <div
+      className={stepClasses}
+      onClick={handleClick}
+      role={clickable ? 'button' : undefined}
+      tabIndex={clickable && !disabled ? 0 : undefined}
+      onKeyDown={handleKeyDown}
+      aria-current={status === 'current' ? 'step' : undefined}
+      aria-disabled={disabled}
+    >
+      {/* Step indicator */}
+      <div className="dyn-stepper__indicator">
+        {status === 'error' ? (
+          <DynIcon name="x" size="sm" />
+        ) : status === 'complete' ? (
+          <DynIcon name="check" size="sm" />
+        ) : icon ? (
+          icon
+        ) : showNumbers ? (
+          <span className="dyn-stepper__number">{index + 1}</span>
+        ) : (
+          <div className="dyn-stepper__dot" />
+        )}
+      </div>
+      
+      {/* Step content */}
+      <div className="dyn-stepper__content">
+        <div className="dyn-stepper__title">
+          {title}
+        </div>
+        
+        {description && (
+          <div className="dyn-stepper__description">
+            {description}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+DynStep.displayName = 'DynStep';
 
 /**
  * DynStepper - Step navigation component for wizards and multi-step processes

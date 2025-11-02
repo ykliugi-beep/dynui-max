@@ -62,10 +62,12 @@ export const DynIcon = forwardRef<SVGSVGElement, DynIconProps>((
     return null;
   }
 
+  const sanitizedName = name.toLowerCase().replace(/[^a-z0-9-]/g, '-');
   const classes = clsx(
     'dyn-icon',
     `dyn-icon--size-${size}`,
     `dyn-icon--color-${color}`,
+    sanitizedName && `dyn-icon--name-${sanitizedName}`,
     className
   );
 

@@ -1,145 +1,113 @@
 {
-  "text": {
-    "primary": {
-      "$type": "color",
-      "$value": "{color.gray.900}",
-      "$description": "Primary text color"
+  "color": {
+    "text": {
+      "primary": {
+        "$type": "color",
+        "$value": "{color.gray.900}",
+        "$description": "Primary text color"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "{color.gray.600}",
+        "$description": "Secondary text color"
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "{color.gray.500}",
+        "$description": "Muted text color"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$description": "Inverse text color for dark backgrounds"
+      }
     },
-    "secondary": {
-      "$type": "color",
-      "$value": "{color.gray.600}",
-      "$description": "Secondary text color"
+    "background": {
+      "primary": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$description": "Primary background color"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "{color.gray.50}",
+        "$description": "Secondary background color"
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "{color.gray.100}",
+        "$description": "Muted background color"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "{color.gray.900}",
+        "$description": "Inverse background color"
+      }
     },
-    "tertiary": {
-      "$type": "color",
-      "$value": "{color.gray.500}",
-      "$description": "Tertiary text color"
+    "border": {
+      "primary": {
+        "$type": "color",
+        "$value": "{color.gray.200}",
+        "$description": "Primary border color"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "{color.gray.300}",
+        "$description": "Secondary border color"
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "{color.gray.100}",
+        "$description": "Muted border color"
+      }
     },
-    "inverse": {
-      "$type": "color",
-      "$value": "{color.white}",
-      "$description": "Inverse text color for dark backgrounds"
-    },
-    "disabled": {
-      "$type": "color",
-      "$value": "{color.gray.400}",
-      "$description": "Disabled text color"
-    }
-  },
-  "background": {
-    "primary": {
-      "$type": "color",
-      "$value": "{color.white}",
-      "$description": "Primary background color"
-    },
-    "secondary": {
-      "$type": "color",
-      "$value": "{color.gray.50}",
-      "$description": "Secondary background color"
-    },
-    "tertiary": {
-      "$type": "color",
-      "$value": "{color.gray.100}",
-      "$description": "Tertiary background color"
-    },
-    "inverse": {
-      "$type": "color",
-      "$value": "{color.gray.900}",
-      "$description": "Inverse background color"
-    },
-    "brand": {
-      "$type": "color",
-      "$value": "{color.primary.500}",
-      "$description": "Brand background color"
-    }
-  },
-  "border": {
-    "primary": {
-      "$type": "color",
-      "$value": "{color.gray.200}",
-      "$description": "Primary border color"
-    },
-    "secondary": {
-      "$type": "color",
-      "$value": "{color.gray.300}",
-      "$description": "Secondary border color"
-    },
-    "focus": {
-      "$type": "color",
-      "$value": "{color.primary.500}",
-      "$description": "Focus border color"
-    },
-    "error": {
-      "$type": "color",
-      "$value": "#ef4444",
-      "$description": "Error border color"
-    }
-  },
-  "feedback": {
-    "success": {
-      "$type": "color",
-      "$value": "#10b981",
-      "$description": "Success feedback color"
-    },
-    "warning": {
-      "$type": "color",
-      "$value": "#f59e0b",
-      "$description": "Warning feedback color"
-    },
-    "error": {
-      "$type": "color",
-      "$value": "#ef4444",
-      "$description": "Error feedback color"
-    },
-    "info": {
-      "$type": "color",
-      "$value": "{color.primary.500}",
-      "$description": "Info feedback color"
-    }
-  },
-  "interactive": {
-    "primary": {
-      "default": {
+    "feedback": {
+      "success": {
+        "$type": "color",
+        "$value": "#10b981",
+        "$description": "Success feedback color"
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "#f59e0b",
+        "$description": "Warning feedback color"
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "#ef4444",
+        "$description": "Danger feedback color"
+      },
+      "info": {
         "$type": "color",
         "$value": "{color.primary.500}",
-        "$description": "Primary interactive default state"
+        "$description": "Info feedback color"
+      }
+    },
+    "interactive": {
+      "primary": {
+        "$type": "color",
+        "$value": "{color.primary.500}",
+        "$description": "Primary interactive color"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "{color.gray.100}",
+        "$description": "Secondary interactive color"
       },
       "hover": {
         "$type": "color",
         "$value": "{color.primary.600}",
-        "$description": "Primary interactive hover state"
+        "$description": "Interactive hover state color"
       },
       "active": {
         "$type": "color",
         "$value": "{color.primary.700}",
-        "$description": "Primary interactive active state"
+        "$description": "Interactive active state color"
       },
       "disabled": {
         "$type": "color",
         "$value": "{color.gray.300}",
-        "$description": "Primary interactive disabled state"
-      }
-    },
-    "secondary": {
-      "default": {
-        "$type": "color",
-        "$value": "{color.gray.200}",
-        "$description": "Secondary interactive default state"
-      },
-      "hover": {
-        "$type": "color",
-        "$value": "{color.gray.300}",
-        "$description": "Secondary interactive hover state"
-      },
-      "active": {
-        "$type": "color",
-        "$value": "{color.gray.400}",
-        "$description": "Secondary interactive active state"
-      },
-      "disabled": {
-        "$type": "color",
-        "$value": "{color.gray.100}",
-        "$description": "Secondary interactive disabled state"
+        "$description": "Interactive disabled state color"
       }
     }
   }
