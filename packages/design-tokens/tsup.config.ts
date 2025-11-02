@@ -3,10 +3,16 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm', 'cjs'],
-  dts: true, // CRITICAL: Enable TypeScript declarations
+  dts: {
+    resolve: true,
+    entry: 'src/index.ts'
+  },
   sourcemap: true,
   clean: true,
   external: ['react', 'react-dom'],
+  splitting: false,
+  treeshake: true,
+  tsconfig: './tsconfig.json',
   esbuildOptions: (options) => {
     options.banner = {
       js: '"use client"',
