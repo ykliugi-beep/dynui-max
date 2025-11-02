@@ -72,7 +72,7 @@
     
     "eslint": "catalog:quality",
     
-    "happy-dom": "^15.7.4"
+    "happy-dom": "catalog:testing"
   },
   "keywords": [
     "react",

@@ -38,6 +38,7 @@ catalogs:
     jsdom: ^25.0.1
     vitest-axe: ^0.1.0
     "@axe-core/react": ^4.7.3
+    happy-dom: ^15.7.4
 
   # Storybook - Stabilna 8.x serija (bez problematičnih addon-a)
   storybook:
@@ -78,6 +79,11 @@ catalogs:
     "style-dictionary": ^4.4.0
     postcss: ^8.4.31
     autoprefixer: ^10.4.16
+
+  # Documentation tooling
+  docs:
+    typedoc-plugin-markdown: ^3.17.1
+    http-server: ^14.1.1
 
 # Configuration for dependency resolution and security
 onlyBuiltDependencies:
