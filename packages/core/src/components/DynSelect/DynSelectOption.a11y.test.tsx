@@ -1,0 +1,28 @@
+import { describe, it, expect } from 'vitest';
+import { render } from '../../test/test-utils';
+import { axe, toHaveNoViolations } from 'vitest-axe';
+import { DynSelectOption } from './DynSelectOption';
+
+expect.extend(toHaveNoViolations);
+
+const OPTION = { value: 'value', label: 'Label', description: 'Description' };
+
+describe('DynSelectOption Accessibility', () => {
+  it('has no violations for standard option', async () => {
+    const { container } = render(
+      <DynSelectOption option={OPTION} />
+    );
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('has no violations for multiple selection mode', async () => {
+    const { container } = render(
+      <DynSelectOption option={OPTION} selectionMode="multiple" selected />
+    );
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+});

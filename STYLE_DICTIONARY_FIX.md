@@ -33,7 +33,7 @@ Error: transform must be a function
 
 **Key Custom Transforms**:
 
-- `name/cti/dyn-kebab` - DynUI-prefixed CSS variable names
+- `name/cti/dyn-kebab` - DynUI-prefixed CSS variable names (maps spacing to `--dyn-spacing-*` and typography to `--dyn-typography-*`)
 - `size/px-to-rem` - Pixel to rem conversion for accessibility
 - `font/family/css` - Proper font family formatting
 
@@ -52,7 +52,14 @@ export default {
   platforms: {
     css: {
       transformGroup: 'dyn/css', // Properly registered group
-      // ...
+      buildPath: 'dist/',
+      files: [
+        {
+          destination: 'tokens.css',
+          format: 'css/variables',
+          options: { selector: ':root' }
+        }
+      ]
     }
   }
 };
@@ -66,12 +73,18 @@ export default {
 {
   "color": {
     "primary": {
-      "500": { "value": "#3b82f6" }
+      "500": {
+        "$type": "color",
+        "$value": "#3b82f6"
+      }
     }
   },
   "size": {
     "spacing": {
-      "md": { "value": "16px" }
+      "md": {
+        "$type": "dimension",
+        "$value": "16px"
+      }
     }
   }
 }
@@ -92,8 +105,11 @@ export default {
   "color": {
     "text": {
       "primary": {
-        "value": "{color.gray.900}",
-        "attributes": { "theme": "light" }
+        "$type": "color",
+        "$value": "{color.gray.900}",
+        "attributes": {
+          "theme": "light"
+        }
       }
     }
   }
@@ -112,11 +128,11 @@ export default {
 
 ```
 dist/
-├── tokens.css          # All CSS variables in :root
+├── tokens.css          # All base CSS variables in :root
 ├── tokens.js           # JavaScript/TypeScript exports  
 └── themes/
-    ├── light.css       # Light theme variables
-    └── dark.css        # Dark theme variables
+    ├── light.css       # Light theme variables scoped to .theme-light
+    └── dark.css        # Dark theme variables scoped to .theme-dark
 ```
 
 ### CSS Variable Format
@@ -124,8 +140,9 @@ dist/
 ```css
 :root {
   --dyn-color-primary-500: #3b82f6;
-  --dyn-size-spacing-md: 1rem;
-  --dyn-font-family-sans: Inter, -apple-system, sans-serif;
+  --dyn-spacing-md: 1rem;
+  --dyn-typography-fontFamily-sans: Inter, -apple-system, sans-serif;
+  --dyn-typography-fontSize-md: 1rem;
 }
 
 .theme-dark {
@@ -134,46 +151,24 @@ dist/
 }
 ```
 
+Spacing tokens are emitted as `--dyn-spacing-*` variables while typography tokens follow the `--dyn-typography-*` naming with category-specific keys such as `fontFamily` and `fontSize`.
+
 ## Validation Steps
 
-### 1. Clean Build Test
+### Build the design tokens package
 
 ```bash
-cd packages/design-tokens
-pnpm clean
-pnpm build:tokens
+pnpm --filter @dynui-max/design-tokens build
 ```
 
-**Expected Success Output**:
+**Expected output**:
 
-```bash
-✓ dist/tokens.css
-✓ dist/themes/light.css  
-✓ dist/themes/dark.css
-✓ dist/tokens.js
-```
+- `dist/tokens.css`
+- `dist/themes/light.css`
+- `dist/themes/dark.css`
+- `dist/tokens.js`
 
-### 2. Full Package Build
-
-```bash
-cd packages/design-tokens
-pnpm build
-```
-
-**Should complete without errors and generate**:
-
-- Style Dictionary outputs (CSS/JS)
-- TypeScript declarations via tsup
-- ESM/CJS bundles
-
-### 3. Monorepo Build Test
-
-```bash
-# From root
-pnpm build
-```
-
-**Should build all packages including design-tokens**.
+Ensure workspace dependencies (including catalog-provided tooling such as `rimraf`) are installed via `pnpm install` before running the build. This command runs the same pipeline executed in CI and validates that Style Dictionary and bundler outputs are produced successfully.
 
 ## Transform Details
 
@@ -181,7 +176,7 @@ pnpm build
 
 - `attribute/cti` - Adds category/type/item attributes
 - `time/seconds` - Converts time values to seconds
-- `content/icon` - Wraps icon values in quotes
+- `html/icon` - Wraps icon values in quotes for HTML usage
 - `color/hex` - Ensures color values are hex format
 
 ### Custom Transforms
@@ -197,7 +192,7 @@ pnpm build
   'attribute/cti',      // Built-in
   'name/cti/dyn-kebab', // Custom
   'time/seconds',       // Built-in
-  'content/icon',       // Built-in  
+  'html/icon',          // Built-in  
   'size/px-to-rem',     // Custom
   'font/family/css',    // Custom
   'color/hex'           // Built-in
@@ -224,7 +219,7 @@ pnpm build
 
 - Check source paths in config
 - Verify JSON files have correct structure
-- Ensure tokens have `{ "value": "..." }` format
+- Ensure tokens have `{ "$value": "..." }` format
 
 **4. "Reference not found"**
 
