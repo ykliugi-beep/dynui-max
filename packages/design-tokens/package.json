@@ -1,40 +1,17 @@
 {
   "name": "@dynui-max/design-tokens",
   "version": "0.1.1",
-  "description": "Design token primitives for the DynUI-Max design system with Style Dictionary build system",
-  "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./css": "./dist/tokens.css",
-    "./themes/*": "./dist/themes/*"
-  },
-  "files": [
-    "dist",
-    "build",
-    "README.md"
-  ],
-  "sideEffects": [
-    "**/*.css"
-  ],
+  "private": true,
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
-    "build": "pnpm clean && pnpm build:tokens && pnpm build:js",
+    "clean": "rimraf dist build/tokens.json tsconfig.tsbuildinfo",
+    "build": "pnpm clean && pnpm build:tokens && pnpm build:js && pnpm build:types",
     "build:tokens": "style-dictionary build --config build/config.js",
     "build:js": "tsup --config tsup.config.ts",
-    "build:types": "tsc --emitDeclarationOnly",
-    "clean": "rimraf dist build/tokens.json tsconfig.tsbuildinfo",
-    "dev": "pnpm build:tokens && tsup --config tsup.config.ts --watch",
-    "lint": "eslint src --ext .ts,.tsx",
-    "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "build:types": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
     "style-dictionary": "catalog:design"
@@ -42,18 +19,10 @@
   "devDependencies": {
     "@dynui-max/build-config": "workspace:*",
     "@dynui-max/eslint-config": "workspace:*",
-    "typescript": "catalog:typescript",
-    "tsup": "catalog:build",
+    "eslint": "catalog:quality",
     "rimraf": "catalog:tooling",
-    "vitest": "catalog:testing",
-    "eslint": "catalog:quality"
-  },
-  "keywords": [
-    "design-tokens",
-    "design-system",
-    "css-variables",
-    "style-dictionary",
-    "typescript",
-    "theming"
-  ]
+    "tsup": "catalog:build",
+    "typescript": "catalog:typescript",
+    "vitest": "catalog:testing"
+  }
 }
