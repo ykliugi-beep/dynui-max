@@ -29,7 +29,7 @@ Error: transform must be a function
 
 - Separated custom transforms into dedicated module
 - Proper transform registration with validation
-- Exported initialization function for controlled setup
+- Exported `initializeCustomTransforms()` for controlled setup
 
 **Key Custom Transforms**:
 
@@ -84,6 +84,24 @@ export default {
       "md": {
         "$type": "dimension",
         "$value": "16px"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "24px"
+      }
+    },
+    "radius": {
+      "md": {
+        "$type": "dimension",
+        "$value": "6px"
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "sans": {
+        "$type": "fontFamily",
+        "$value": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif"
       }
     }
   }
@@ -107,9 +125,7 @@ export default {
       "primary": {
         "$type": "color",
         "$value": "{color.gray.900}",
-        "attributes": {
-          "theme": "light"
-        }
+        "$description": "Primary text color"
       }
     }
   }
@@ -129,7 +145,6 @@ export default {
 ```
 dist/
 ├── tokens.css          # All base CSS variables in :root
-├── tokens.js           # JavaScript/TypeScript exports  
 └── themes/
     ├── light.css       # Light theme variables scoped to .theme-light
     └── dark.css        # Dark theme variables scoped to .theme-dark
@@ -141,7 +156,8 @@ dist/
 :root {
   --dyn-color-primary-500: #3b82f6;
   --dyn-spacing-md: 1rem;
-  --dyn-typography-fontFamily-sans: Inter, -apple-system, sans-serif;
+  --dyn-spacing-lg: 1.5rem;
+  --dyn-typography-fontFamily-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   --dyn-typography-fontSize-md: 1rem;
 }
 
@@ -166,7 +182,6 @@ pnpm --filter @dynui-max/design-tokens build
 - `dist/tokens.css`
 - `dist/themes/light.css`
 - `dist/themes/dark.css`
-- `dist/tokens.js`
 
 Ensure workspace dependencies (including catalog-provided tooling such as `rimraf`) are installed via `pnpm install` before running the build. This command runs the same pipeline executed in CI and validates that Style Dictionary and bundler outputs are produced successfully.
 
