@@ -7,6 +7,15 @@
       "outputs": ["dist/**", "build/**", "storybook-static/**"],
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "package.json", "tsconfig*.json"]
     },
+    "build:tokens": {
+      "outputs": ["dist/**", "build/**"],
+      "inputs": ["src/**/*.ts", "tokens/**", "build/**/*.js"]
+    },
+    "build:js": {
+      "dependsOn": ["build:tokens"],
+      "outputs": ["dist/**"],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "package.json", "tsconfig*.json"]
+    },
     "test": {
       "dependsOn": ["^build"],
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx", "*.test.*"],
