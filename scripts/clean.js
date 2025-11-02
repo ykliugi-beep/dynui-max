@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import { access, constants, rm } from 'fs/promises';
+import { access, rm } from 'fs/promises';
+import { constants } from 'node:fs';
 import path from 'path';
 
 const RETRY_LIMIT = 3;
