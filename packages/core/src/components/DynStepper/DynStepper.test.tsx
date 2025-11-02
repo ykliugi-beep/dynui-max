@@ -1,185 +1,294 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '../../test/test-utils';
 import userEvent from '@testing-library/user-event';
-import { DynStepper } from './DynStepper';
-import type { StepData } from './DynStepper';
+import { DynStepper, DynStep } from './DynStepper';
+import type { StepData, DynStepperRef } from './DynStepper';
+import { axe, toHaveNoViolations } from 'jest-axe';
+import React from 'react';
 
-const mockSteps: StepData[] = [
-  { key: 'step1', label: 'Step 1' },
-  { key: 'step2', label: 'Step 2' },
-  { key: 'step3', label: 'Step 3', disabled: true },
-  { key: 'step4', label: 'Step 4' }
+expect.extend(toHaveNoViolations);
+
+const sampleSteps: StepData[] = [
+  { key: 'step1', title: 'Personal Info', description: 'Enter your personal details' },
+  { key: 'step2', title: 'Account Setup', description: 'Create your account' },
+  { key: 'step3', title: 'Preferences', description: 'Set your preferences', disabled: true },
+  { key: 'step4', title: 'Review', description: 'Review and confirm' },
 ];
 
 describe('DynStepper', () => {
-  it('renders all steps', () => {
-    const handleStepChange = vi.fn();
+  describe('Basic Rendering', () => {
+    it('renders all steps with correct titles and descriptions', () => {
+      render(
+        <DynStepper
+          current={1}
+          steps={sampleSteps}
+          data-testid="stepper"
+        />
+      );
+      
+      expect(screen.getByTestId('stepper')).toBeInTheDocument();
+      
+      sampleSteps.forEach(step => {
+        expect(screen.getByText(step.title)).toBeInTheDocument();
+        if (step.description) {
+          expect(screen.getByText(step.description)).toBeInTheDocument();
+        }
+      });
+    });
     
-    render(
-      <DynStepper 
-        currentStep={0} 
-        onStepChange={handleStepChange} 
-        steps={mockSteps}
-      />
-    );
+    it('applies correct orientation classes', () => {
+      const { rerender } = render(
+        <DynStepper current={0} steps={sampleSteps} orientation="horizontal" />
+      );
+      
+      expect(document.querySelector('.dyn-stepper--horizontal')).toBeInTheDocument();
+      
+      rerender(
+        <DynStepper current={0} steps={sampleSteps} orientation="vertical" />
+      );
+      
+      expect(document.querySelector('.dyn-stepper--vertical')).toBeInTheDocument();
+    });
     
-    expect(screen.getByText('Step 1')).toBeInTheDocument();
-    expect(screen.getByText('Step 2')).toBeInTheDocument();
-    expect(screen.getByText('Step 3')).toBeInTheDocument();
-    expect(screen.getByText('Step 4')).toBeInTheDocument();
+    it('shows step numbers when showNumbers is true', () => {
+      render(
+        <DynStepper current={1} steps={sampleSteps} showNumbers={true} />
+      );
+      
+      // Should show numbers 1, 2, 3, 4
+      for (let i = 1; i <= sampleSteps.length; i++) {
+        expect(screen.getByText(i.toString())).toBeInTheDocument();
+      }
+    });
   });
 
-  it('marks current step as active', () => {
-    const handleStepChange = vi.fn();
+  describe('User Interaction', () => {
+    it('calls onChange when clicking on clickable steps', async () => {
+      const user = userEvent.setup();
+      const handleChange = vi.fn();
+      
+      render(
+        <DynStepper
+          current={2}
+          steps={sampleSteps}
+          onChange={handleChange}
+          clickable={true}
+        />
+      );
+      
+      // Click on completed step (should be clickable)
+      await user.click(screen.getByText('Personal Info'));
+      expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
+      
+      // Click on current step (should be clickable)
+      await user.click(screen.getByText('Preferences'));
+      expect(handleChange).toHaveBeenCalledWith(2, sampleSteps[2]);
+    });
     
-    render(
-      <DynStepper 
-        currentStep={1} 
-        onStepChange={handleStepChange} 
-        steps={mockSteps}
-      />
-    );
+    it('does not call onChange when clickable is false', async () => {
+      const user = userEvent.setup();
+      const handleChange = vi.fn();
+      
+      render(
+        <DynStepper
+          current={1}
+          steps={sampleSteps}
+          onChange={handleChange}
+          clickable={false}
+        />
+      );
+      
+      await user.click(screen.getByText('Personal Info'));
+      expect(handleChange).not.toHaveBeenCalled();
+    });
     
-    const activeStep = screen.getByRole('button', { name: /Step 2: Step 2/ });
-    expect(activeStep).toHaveAttribute('aria-current', 'step');
-    expect(activeStep).toHaveClass('dyn-step--active');
+    it('does not allow clicking on disabled steps', async () => {
+      const user = userEvent.setup();
+      const handleChange = vi.fn();
+      
+      render(
+        <DynStepper
+          current={0}
+          steps={sampleSteps}
+          onChange={handleChange}
+          clickable={true}
+        />
+      );
+      
+      // Try to click on disabled step
+      await user.click(screen.getByText('Preferences'));
+      expect(handleChange).not.toHaveBeenCalled();
+    });
   });
 
-  it('marks completed steps', () => {
-    const handleStepChange = vi.fn();
-    
-    render(
-      <DynStepper 
-        currentStep={2} 
-        onStepChange={handleStepChange} 
-        steps={mockSteps}
-      />
-    );
-    
-    const completedSteps = screen.getAllByRole('button');
-    expect(completedSteps[0]).toHaveClass('dyn-step--completed');
-    expect(completedSteps[1]).toHaveClass('dyn-step--completed');
+  describe('Keyboard Navigation', () => {
+    it('handles Enter and Space keys on clickable steps', async () => {
+      const user = userEvent.setup();
+      const handleChange = vi.fn();
+      
+      render(
+        <DynStepper
+          current={2}
+          steps={sampleSteps}
+          onChange={handleChange}
+          clickable={true}
+        />
+      );
+      
+      // Find the clickable step element
+      const firstStepElement = screen.getByText('Personal Info').closest('[role="button"]') as HTMLElement;
+      
+      // Focus and press Enter
+      firstStepElement.focus();
+      await user.keyboard('{Enter}');
+      expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
+      
+      // Press Space
+      await user.keyboard(' ');
+      expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
+      
+      expect(handleChange).toHaveBeenCalledTimes(2);
+    });
   });
 
-  it('handles step clicks', async () => {
-    const user = userEvent.setup();
-    const handleStepChange = vi.fn();
-    
-    render(
-      <DynStepper 
-        currentStep={0} 
-        onStepChange={handleStepChange} 
-        steps={mockSteps}
-      />
-    );
-    
-    const step2 = screen.getByRole('button', { name: /Step 2: Step 2/ });
-    await user.click(step2);
-    
-    expect(handleStepChange).toHaveBeenCalledWith(1);
+  describe('Ref Methods', () => {
+    it('exposes ref methods for programmatic navigation', () => {
+      const handleChange = vi.fn();
+      let stepperRef: DynStepperRef | null = null;
+      
+      const TestComponent = () => {
+        return (
+          <DynStepper
+            ref={(ref) => { stepperRef = ref; }}
+            current={1}
+            steps={sampleSteps}
+            onChange={handleChange}
+          />
+        );
+      };
+      
+      render(<TestComponent />);
+      
+      expect(stepperRef).toBeDefined();
+      expect(typeof stepperRef?.goToStep).toBe('function');
+      expect(typeof stepperRef?.nextStep).toBe('function');
+      expect(typeof stepperRef?.previousStep).toBe('function');
+      
+      // Test goToStep method
+      stepperRef?.goToStep(0);
+      expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
+      
+      // Test nextStep method
+      stepperRef?.nextStep();
+      expect(handleChange).toHaveBeenCalledWith(2, sampleSteps[2]);
+      
+      // Test previousStep method
+      stepperRef?.previousStep();
+      expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
+    });
   });
 
-  it('does not handle clicks on active step', async () => {
-    const user = userEvent.setup();
-    const handleStepChange = vi.fn();
+  describe('Accessibility', () => {
+    it('has proper ARIA attributes', () => {
+      render(
+        <DynStepper current={1} steps={sampleSteps} data-testid="stepper" />
+      );
+      
+      const stepper = screen.getByTestId('stepper');
+      
+      expect(stepper).toHaveAttribute('role', 'progressbar');
+      expect(stepper).toHaveAttribute('aria-valuemin', '0');
+      expect(stepper).toHaveAttribute('aria-valuemax', (sampleSteps.length - 1).toString());
+      expect(stepper).toHaveAttribute('aria-valuenow', '1');
+      expect(stepper).toHaveAttribute('aria-valuetext', sampleSteps[1].title);
+    });
     
-    render(
-      <DynStepper 
-        currentStep={1} 
-        onStepChange={handleStepChange} 
-        steps={mockSteps}
-      />
-    );
-    
-    const activeStep = screen.getByRole('button', { name: /Step 2: Step 2/ });
-    await user.click(activeStep);
-    
-    expect(handleStepChange).not.toHaveBeenCalled();
+    it('has no accessibility violations', async () => {
+      const { container } = render(
+        <DynStepper current={1} steps={sampleSteps} />
+      );
+      
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
   });
+});
 
-  it('does not handle clicks on disabled steps', async () => {
-    const user = userEvent.setup();
-    const handleStepChange = vi.fn();
+describe('DynStep', () => {
+  describe('Individual Step Component', () => {
+    it('renders step with all props', () => {
+      const handleClick = vi.fn();
+      
+      render(
+        <DynStep
+          title="Test Step"
+          description="Test description"
+          status="current"
+          index={0}
+          clickable={true}
+          onClick={handleClick}
+          size="md"
+          showNumbers={true}
+        />
+      );
+      
+      expect(screen.getByText('Test Step')).toBeInTheDocument();
+      expect(screen.getByText('Test description')).toBeInTheDocument();
+      expect(screen.getByText('1')).toBeInTheDocument(); // Step number
+    });
     
-    render(
-      <DynStepper 
-        currentStep={0} 
-        onStepChange={handleStepChange} 
-        steps={mockSteps}
-      />
-    );
+    it('handles click interaction when clickable', async () => {
+      const user = userEvent.setup();
+      const handleClick = vi.fn();
+      
+      render(
+        <DynStep
+          title="Clickable Step"
+          index={0}
+          clickable={true}
+          onClick={handleClick}
+        />
+      );
+      
+      await user.click(screen.getByText('Clickable Step'));
+      expect(handleClick).toHaveBeenCalledWith(0);
+    });
     
-    const disabledStep = screen.getByRole('button', { name: /Step 3: Step 3/ });
-    expect(disabledStep).toBeDisabled();
+    it('does not handle click when disabled', async () => {
+      const user = userEvent.setup();
+      const handleClick = vi.fn();
+      
+      render(
+        <DynStep
+          title="Disabled Step"
+          index={0}
+          disabled={true}
+          clickable={true}
+          onClick={handleClick}
+        />
+      );
+      
+      await user.click(screen.getByText('Disabled Step'));
+      expect(handleClick).not.toHaveBeenCalled();
+    });
     
-    await user.click(disabledStep);
-    expect(handleStepChange).not.toHaveBeenCalled();
-  });
-
-  it('applies vertical orientation class', () => {
-    const handleStepChange = vi.fn();
-    const { container } = render(
-      <DynStepper 
-        currentStep={0} 
-        onStepChange={handleStepChange} 
-        steps={mockSteps}
-        orientation="vertical"
-      />
-    );
-    
-    expect(container.firstChild).toHaveClass('dyn-stepper--vertical');
-  });
-
-  it('shows check icon for completed steps', () => {
-    const handleStepChange = vi.fn();
-    
-    render(
-      <DynStepper 
-        currentStep={2} 
-        onStepChange={handleStepChange} 
-        steps={mockSteps}
-      />
-    );
-    
-    // Check icons should be present for completed steps
-    const completedSteps = screen.getAllByRole('button');
-    const step1 = completedSteps[0];
-    expect(step1).toHaveClass('dyn-step--completed');
-  });
-
-  it('shows error icon for error status', () => {
-    const errorSteps: StepData[] = [
-      { key: 'step1', label: 'Step 1', status: 'error' },
-      { key: 'step2', label: 'Step 2' }
-    ];
-    
-    const handleStepChange = vi.fn();
-    
-    render(
-      <DynStepper 
-        currentStep={1} 
-        onStepChange={handleStepChange} 
-        steps={errorSteps}
-      />
-    );
-    
-    const errorStep = screen.getByRole('button', { name: /Step 1: Step 1/ });
-    expect(errorStep).toHaveClass('dyn-step--error');
-  });
-
-  it('forwards ref correctly', () => {
-    const ref = React.createRef<HTMLDivElement>();
-    const handleStepChange = vi.fn();
-    
-    render(
-      <DynStepper 
-        ref={ref}
-        currentStep={0} 
-        onStepChange={handleStepChange} 
-        steps={mockSteps}
-      />
-    );
-    
-    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    it('has proper accessibility attributes', () => {
+      render(
+        <DynStep
+          title="Accessible Step"
+          status="current"
+          index={1}
+          clickable={true}
+          onClick={() => {}}
+        />
+      );
+      
+      const stepElement = screen.getByText('Accessible Step').closest('[role="button"]');
+      
+      expect(stepElement).toHaveAttribute('role', 'button');
+      expect(stepElement).toHaveAttribute('tabindex', '0');
+      expect(stepElement).toHaveAttribute('aria-current', 'step');
+      expect(stepElement).toHaveAttribute('aria-disabled', 'false');
+    });
   });
 });
