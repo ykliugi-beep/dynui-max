@@ -9,6 +9,9 @@ function getAbsolutePath(value: string): any {
   return dirname(require.resolve(join(value, 'package.json')));
 }
 
+const resolveFromWorkspaceRoot = (relativePath: string) =>
+  join(__dirname, relativePath);
+
 const config: StorybookConfig = {
   stories: [
     '../stories/**/*.mdx',
@@ -39,38 +42,12 @@ const config: StorybookConfig = {
   viteFinal: async (config) => {
     // Ensure design tokens CSS is available
     if (config.resolve) {
-      const alias = config.resolve.alias ?? [];
-      const aliasEntries = Array.isArray(alias)
-        ? alias
-        : Object.entries(alias).map(([find, replacement]) => ({ find, replacement }));
-      const filteredEntries = aliasEntries.filter(
-        ({ find }) =>
-          find !== '@dynui-max/core' &&
-          find !== '@dynui-max/design-tokens' &&
-          find !== '@dynui-max/design-tokens/css'
-      );
-
-      config.resolve.alias = [
-        ...filteredEntries,
-        {
-          find: '@dynui-max/design-tokens/css',
-          replacement: join(
-            __dirname,
-            '../../../packages/design-tokens/dist/tokens.css'
-          ),
-        },
-        {
-          find: '@dynui-max/design-tokens',
-          replacement: join(
-            __dirname,
-            '../../../packages/design-tokens/src'
-          ),
-        },
-        {
-          find: '@dynui-max/core',
-          replacement: join(__dirname, '../../../packages/core/src'),
-        },
-      ];
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@dynui-max/core': resolveFromWorkspaceRoot('../../../packages/core/src'),
+        '@dynui-max/design-tokens': resolveFromWorkspaceRoot('../../../packages/design-tokens/src'),
+        '@dynui-max/design-tokens/css': resolveFromWorkspaceRoot('../../../packages/design-tokens/dist/tokens.css'),
+      };
     }
     return config;
   },
