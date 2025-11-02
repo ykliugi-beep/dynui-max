@@ -24,7 +24,7 @@
     // Modules
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -47,7 +47,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "removeComments": false,
-    "noEmit": true,
+    "noEmit": false,
     "importHelpers": true,
     "downlevelIteration": true,
     "sourceRoot": "",
@@ -63,8 +63,8 @@
     "declarationDir": "./dist",
     "preserveValueImports": false,
     
-    // Interop Constraints  
-    "verbatimModuleSyntax": true,
+    // Interop Constraints - Fixed for workspace compatibility
+    "verbatimModuleSyntax": false,
     
     // Language and Environment - Fixed JSX Configuration
     "experimentalDecorators": true,
@@ -79,13 +79,20 @@
   },
   "include": [
     "src/**/*",
-    "**/*.ts",
-    "**/*.tsx"
+    "packages/*/src/**/*.ts",
+    "packages/*/src/**/*.tsx",
+    "apps/*/src/**/*.ts", 
+    "apps/*/src/**/*.tsx",
+    "tools/*/src/**/*.ts",
+    "tools/*/src/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
+    "**/node_modules",
     "dist",
+    "**/dist",
     "build",
+    "**/build",
     "storybook-static",
     "coverage",
     "**/*.test.ts",
