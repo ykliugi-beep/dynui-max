@@ -21,14 +21,21 @@ if (!existsSync(configPath)) {
 }
 console.log('✅ Config file exists');
 
+const pnpmCommand = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
+
 // Test actual build process
-const buildProcess = spawn('pnpm', ['build:tokens'], {
+const buildProcess = spawn(pnpmCommand, ['build:tokens'], {
   cwd: __dirname,
   stdio: 'pipe'
 });
 
 let output = '';
 let hasError = false;
+
+buildProcess.on('error', (error) => {
+  console.error('❌ Failed to start pnpm:', error.message);
+  process.exit(1);
+});
 
 buildProcess.stdout.on('data', (data) => {
   output += data.toString();
@@ -46,34 +53,32 @@ buildProcess.on('close', (code) => {
     console.log('✅ Style Dictionary build successful!');
     
     // Check generated files
-    const artifactChecks = [
-      { label: 'CSS tokens', path: join(__dirname, 'dist', 'tokens.css') },
-      { label: 'JS tokens', path: join(__dirname, 'dist', 'tokens.js') },
-      { label: 'Light theme CSS', path: join(__dirname, 'dist', 'themes', 'light.css') },
-      { label: 'Dark theme CSS', path: join(__dirname, 'dist', 'themes', 'dark.css') }
+    const cssFile = join(__dirname, 'dist', 'tokens.css');
+    const jsFile = join(__dirname, 'dist', 'tokens.js');
+    const lightThemeFile = join(__dirname, 'dist', 'themes', 'light.css');
+    const darkThemeFile = join(__dirname, 'dist', 'themes', 'dark.css');
+
+    const checks = [
+      { path: cssFile, label: 'CSS tokens' },
+      { path: jsFile, label: 'JS tokens' },
+      { path: lightThemeFile, label: 'Light theme CSS' },
+      { path: darkThemeFile, label: 'Dark theme CSS' }
     ];
 
-    const artifactStatuses = artifactChecks.map(({ label, path }) => ({
-      label,
-      path,
-      exists: existsSync(path)
-    }));
+    let missing = false;
 
-    const missingArtifacts = artifactStatuses.filter(({ exists }) => !exists);
-
-    if (missingArtifacts.length > 0) {
-      for (const { label, path, exists } of artifactStatuses) {
-        const status = exists ? '✅' : '❌';
-        const message = exists ? `${status} ${label} generated` : `${status} ${label} not found at ${path}`;
-        console[exists ? 'log' : 'error'](message);
+    for (const check of checks) {
+      if (existsSync(check.path)) {
+        console.log(`✅ ${check.label} generated`);
+      } else {
+        console.error(`❌ ${check.label} not found at ${check.path}`);
+        missing = true;
       }
-
-      console.error('❌ Build is missing required artifacts');
-      process.exit(1);
     }
 
-    for (const { label } of artifactStatuses) {
-      console.log(`✅ ${label} generated`);
+    if (missing) {
+      console.error('❌ Build is missing required artifacts');
+      process.exit(1);
     }
 
     console.log('🎉 All tests passed!');
