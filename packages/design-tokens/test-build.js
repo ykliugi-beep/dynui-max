@@ -22,13 +22,21 @@ if (!existsSync(configPath)) {
 console.log('✅ Config file exists');
 
 // Test actual build process
-const buildProcess = spawn('pnpm', ['build:tokens'], {
+const pnpmCommand = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
+
+const buildProcess = spawn(pnpmCommand, ['build:tokens'], {
   cwd: __dirname,
   stdio: 'pipe'
 });
 
 let output = '';
 let hasError = false;
+
+buildProcess.on('error', (error) => {
+  hasError = true;
+  console.error('❌ Failed to start pnpm process');
+  console.error(error.message);
+});
 
 buildProcess.stdout.on('data', (data) => {
   output += data.toString();
