@@ -42,6 +42,7 @@
     "deps:update": "pnpm update -r --interactive",
     "deps:audit": "pnpm audit --audit-level moderate",
     "size:analyze": "pnpm build && bundlesize",
+    "size:analyze:detailed": "pnpm build && node scripts/bundle-analysis.js",
     "prepare": "husky"
   },
   "dependencies": { 
@@ -58,6 +59,7 @@
     "jsdom": "catalog:testing",
     "vitest": "catalog:testing",
     "vitest-axe": "catalog:testing",
+    "jest-axe": "catalog:testing",
     
     "@storybook/addon-a11y": "catalog:storybook",
     "@storybook/addon-docs": "catalog:storybook",
@@ -89,7 +91,8 @@
     "husky": "catalog:tooling",
     "turbo": "catalog:tooling",
     "rimraf": "catalog:tooling",
-    "bundlesize": "catalog:tooling"
+    "bundlesize": "catalog:tooling",
+    "gzip-size": "catalog:tooling"
   },
   "pnpm": {
     "allowedDeprecatedVersions": {
