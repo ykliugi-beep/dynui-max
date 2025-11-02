@@ -34,6 +34,27 @@ const FocusTrapExample = ({ initiallyOpen = false, returnFocus = true }: Example
   );
 };
 
+const EmptyTrapExample = () => {
+  const [open, setOpen] = useState(false);
+  const trapRef = useFocusTrap({ enabled: open });
+
+  return (
+    <div>
+      <button type="button" data-testid="open" onClick={() => setOpen(true)}>
+        Open empty
+      </button>
+      {open && (
+        <div ref={trapRef} data-testid="trap">
+          <p>Static content</p>
+        </div>
+      )}
+      <button type="button" data-testid="close" onClick={() => setOpen(false)}>
+        Outside close
+      </button>
+    </div>
+  );
+};
+
 describe('useFocusTrap', () => {
   it('focuses first element when trap is enabled', () => {
     render(<FocusTrapExample initiallyOpen />);
@@ -67,5 +88,46 @@ describe('useFocusTrap', () => {
 
     await user.click(screen.getByText('Close'));
     expect(trigger).toHaveFocus();
+  });
+
+  it('wraps focus backwards with shift+tab', async () => {
+    const user = userEvent.setup();
+    render(<FocusTrapExample initiallyOpen />);
+
+    await user.tab({ shift: true });
+    expect(screen.getByText('Close')).toHaveFocus();
+  });
+
+  it('respects returnFocus=false by leaving focus where it lands', async () => {
+    const user = userEvent.setup();
+    render(<FocusTrapExample returnFocus={false} />);
+
+    const trigger = screen.getByTestId('trigger');
+    trigger.focus();
+    await user.click(trigger);
+
+    expect(screen.getByText('First')).toHaveFocus();
+
+    await user.click(screen.getByText('Close'));
+    expect(trigger).not.toHaveFocus();
+    expect(document.body).toHaveFocus();
+  });
+
+  it('gracefully handles traps without focusable children', async () => {
+    const user = userEvent.setup();
+    render(<EmptyTrapExample />);
+
+    const openButton = screen.getByTestId('open');
+    const closeButton = screen.getByTestId('close');
+
+    await user.click(openButton);
+    expect(screen.getByTestId('trap')).toBeInTheDocument();
+    expect(openButton).toHaveFocus();
+
+    await user.tab();
+    expect(closeButton).toHaveFocus();
+
+    await user.click(closeButton);
+    expect(screen.queryByTestId('trap')).not.toBeInTheDocument();
   });
 });
