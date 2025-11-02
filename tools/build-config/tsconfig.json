@@ -6,6 +6,7 @@
     "outDir": "./dist",
     "noEmit": false,
     "declaration": true,
+    "emitDeclarationOnly": true,
     "declarationMap": false,
     "sourceMap": false,
     "composite": false
