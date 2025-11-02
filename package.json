@@ -99,14 +99,14 @@
       "abab": "*",
       "domexception": "*",
       "inflight": "*",
-      "source-map": "*",
       "are-we-there-yet": "*",
       "gauge": "*",
       "iltorb": "*",
       "npmlog": "*",
       "expect-playwright": "*",
       "jest-playwright-preset": "*",
-      "jest-process-manager": "*"
+      "jest-process-manager": "*",
+      "source-map": "0.8.0-beta.0"
     },
     "peerDependencyRules": {
       "allowedVersions": {
