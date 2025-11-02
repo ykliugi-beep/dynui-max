@@ -1,0 +1,20 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynToast.stories';
+
+<Meta of={Stories} />
+
+# DynToast
+
+Notification component for success, warning, and error feedback.
+
+## Playground
+<Canvas of={Stories.Playground} />
+
+## With Actions
+<Canvas of={Stories.WithActions} />
+
+## Auto Dismiss
+<Canvas of={Stories.AutoDismissPattern} />
+
+## Props
+<Controls of={Stories.Playground} />

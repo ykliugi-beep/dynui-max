@@ -45,16 +45,24 @@ export const Default: Story = {
         <DynMenu
           items={baseItems}
           onSelect={setSelection}
-          trigger={({ isOpen, ref, className, ...triggerProps }) => (
-            <DynButton
-              ref={ref}
-              className={className}
-              variant="solid"
-              color="primary"
+          trigger={({ isOpen, className, ...triggerProps }) => (
+            <button
               {...triggerProps}
+              className={className}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: 'none',
+                border: '1px solid var(--dyn-color-border-primary)',
+                borderRadius: '0.5rem',
+                padding: '0.5rem 0.75rem',
+                cursor: 'pointer'
+              }}
             >
+              <DynIcon name={isOpen ? 'x' : 'chevron-down'} size="sm" aria-hidden="true" />
               {isOpen ? 'Close menu' : 'Open menu'}
-            </DynButton>
+            </button>
           )}
         />
         <span style={{ color: 'var(--dyn-color-text-muted)' }}>
@@ -86,17 +94,24 @@ export const WithIcons: Story = {
           description: 'Remove permanently',
         },
       ]}
-      trigger={({ ref, className, ...triggerProps }) => (
-        <DynButton
-          ref={ref}
-          className={className}
-          variant="solid"
-          color="neutral"
-          endIcon={<DynIcon name="chevron-down" size="sm" />}
+      trigger={({ className, ...triggerProps }) => (
+        <button
           {...triggerProps}
+          className={className}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: 'none',
+            border: '1px solid var(--dyn-color-border-primary)',
+            borderRadius: '0.5rem',
+            padding: '0.5rem 0.75rem',
+            cursor: 'pointer'
+          }}
         >
           File actions
-        </DynButton>
+          <DynIcon name="chevron-down" size="sm" aria-hidden="true" />
+        </button>
       )}
     />
   ),
@@ -144,16 +159,21 @@ export const Placements: Story = {
             key={placement}
             placement={placement}
             items={baseItems}
-            trigger={({ ref, className, ...triggerProps }) => (
-              <DynButton
-                ref={ref}
-                className={className}
-                variant="outline"
-                color="neutral"
+            trigger={({ className, ...triggerProps }) => (
+              <button
                 {...triggerProps}
+                className={className}
+                style={{
+                  background: 'none',
+                  border: '1px solid var(--dyn-color-border-primary)',
+                  borderRadius: '0.5rem',
+                  padding: '0.5rem 0.75rem',
+                  cursor: 'pointer',
+                  textTransform: 'capitalize'
+                }}
               >
-                {placement}
-              </DynButton>
+                {placement.replace('-', ' ')}
+              </button>
             )}
           />
         ))}

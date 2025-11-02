@@ -9,6 +9,9 @@ function getAbsolutePath(value: string): any {
   return dirname(require.resolve(join(value, 'package.json')));
 }
 
+const resolveFromWorkspaceRoot = (relativePath: string) =>
+  join(__dirname, relativePath);
+
 const config: StorybookConfig = {
   stories: [
     '../stories/**/*.mdx',
@@ -41,8 +44,9 @@ const config: StorybookConfig = {
     if (config.resolve) {
       config.resolve.alias = {
         ...config.resolve.alias,
-        '@dynui-max/core': join(__dirname, '../../../packages/core/src'),
-        '@dynui-max/design-tokens': join(__dirname, '../../../packages/design-tokens/src'),
+        '@dynui-max/core': resolveFromWorkspaceRoot('../../../packages/core/src'),
+        '@dynui-max/design-tokens': resolveFromWorkspaceRoot('../../../packages/design-tokens/src'),
+        '@dynui-max/design-tokens/css': resolveFromWorkspaceRoot('../../../packages/design-tokens/dist/tokens.css'),
       };
     }
     return config;

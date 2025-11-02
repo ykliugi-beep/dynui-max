@@ -1,6 +1,8 @@
+import packageJson from '../package.json' assert { type: 'json' };
+
 /**
  * DynUI-Max Core Components
- * 
+ *
  * Production-ready React + TypeScript component library
  * with design tokens integration and comprehensive a11y support.
  */
@@ -16,8 +18,8 @@ export { iconRegistry } from './components/DynIcon/iconRegistry';
 export { DynFieldContainer } from './components/DynFieldContainer';
 export type { DynFieldContainerProps } from './components/DynFieldContainer';
 
-export { DynStepper } from './components/DynStepper';
-export type { DynStepperProps, DynStepperRef, StepData, StepStatus } from './components/DynStepper';
+export { DynStepper, DynStep } from './components/DynStepper';
+export type { DynStepperProps, DynStepProps, DynStepperRef, StepData, StepStatus } from './components/DynStepper';
 
 // Form Components
 export { DynButton } from './components/DynButton';
@@ -60,6 +62,9 @@ export type { DynModalProps } from './components/DynModal';
 export { DynDivider } from './components/DynDivider';
 export type { DynDividerProps } from './components/DynDivider';
 
+export { DynCard } from './components/DynCard';
+export type { DynCardProps } from './components/DynCard';
+
 // Navigation Components
 export { DynTabs } from './components/DynTabs';
 export type { DynTabsProps, DynTabsRef, TabItem } from './components/DynTabs';
@@ -75,6 +80,9 @@ export type { DynBreadcrumbProps, BreadcrumbItem } from './components/DynBreadcr
 
 export { DynBreadcrumbItem } from './components/DynBreadcrumb/DynBreadcrumbItem';
 export type { DynBreadcrumbItemProps } from './components/DynBreadcrumb/DynBreadcrumbItem';
+
+export { DynPagination } from './components/DynPagination';
+export type { DynPaginationProps, DynPaginationLabels } from './components/DynPagination';
 
 // Data Display Components
 export { DynTable } from './components/DynTable';
@@ -94,6 +102,16 @@ export type { DynBadgeProps } from './components/DynBadge';
 
 export { DynAvatar } from './components/DynAvatar';
 export type { DynAvatarProps } from './components/DynAvatar';
+
+// Feedback Components
+export { DynSpinner } from './components/DynSpinner';
+export type { DynSpinnerProps } from './components/DynSpinner';
+
+export { DynToast } from './components/DynToast';
+export type { DynToastProps } from './components/DynToast';
+
+export { DynProgress } from './components/DynProgress';
+export type { DynProgressProps } from './components/DynProgress';
 
 // Utility Components
 export { ThemeSwitcher } from './components/ThemeSwitcher';
@@ -115,4 +133,4 @@ export type {
 } from '@dynui-max/design-tokens';
 
 // Version
-export const VERSION = '0.2.0';
+export const VERSION = packageJson.version;

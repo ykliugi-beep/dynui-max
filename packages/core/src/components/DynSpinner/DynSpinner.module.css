@@ -1,0 +1,84 @@
+/**
+ * DynSpinner styles leveraging animation tokens
+ */
+
+@keyframes dyn-spinner-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.dyn-spinner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dyn-spacing-sm, 0.5rem);
+  font-family: var(--dyn-typography-fontFamily-sans);
+  color: var(--dyn-color-text-muted);
+}
+
+.dyn-spinner--inline {
+  display: inline-flex;
+}
+
+.dyn-spinner__visual {
+  display: inline-flex;
+  width: var(--dyn-spacing-lg, 1.5rem);
+  height: var(--dyn-spacing-lg, 1.5rem);
+  border-radius: 9999px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: var(--dyn-color-border-muted);
+  border-top-color: currentColor;
+  animation: dyn-spinner-rotate 0.75s linear infinite;
+}
+
+.dyn-spinner__label {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+}
+
+.dyn-spinner__label--visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.dyn-spinner--size-sm .dyn-spinner__visual {
+  width: var(--dyn-spacing-md, 1rem);
+  height: var(--dyn-spacing-md, 1rem);
+  border-width: 2px;
+}
+
+.dyn-spinner--size-lg .dyn-spinner__visual {
+  width: var(--dyn-spacing-xl, 2rem);
+  height: var(--dyn-spacing-xl, 2rem);
+  border-width: 4px;
+}
+
+.dyn-spinner--color-primary {
+  color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-spinner--color-success {
+  color: var(--dyn-color-feedback-success);
+}
+
+.dyn-spinner--color-warning {
+  color: var(--dyn-color-feedback-warning);
+}
+
+.dyn-spinner--color-danger {
+  color: var(--dyn-color-feedback-danger);
+}
+
+.dyn-spinner--color-neutral {
+  color: var(--dyn-color-text-muted);
+}

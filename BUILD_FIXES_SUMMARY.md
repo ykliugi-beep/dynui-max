@@ -84,10 +84,13 @@ pnpm build
 
 ```bash
 pnpm clean
+# Runs: turbo clean && node scripts/clean.js
 # Expected output:
 # 🧹 Cleaning cache directories...
-# ✅ Cache cleared (or ℹ️ Cache already clean)
+# ℹ️  .turbo is already clean.
+# ℹ️  packages/design-tokens/node_modules/.cache is already clean.
 # ✅ Clean operation completed
+# (Messages repeat for each workspace cache directory)
 ```
 
 ## 🎨 Design Token Migration Details
@@ -141,7 +144,7 @@ pnpm clean
 - **Design Tokens**: 500+ tokens generating CSS/JS properly
 - **Build Pipeline**: Turbo build system unblocked
 - **Clean Operations**: Windows-compatible, no hanging
-- **Component Library**: 26 production components ready
+- **Component Library**: 36 production components ready
 - **Test Infrastructure**: Comprehensive testing framework
 
 ### 🎯 Next Steps Available

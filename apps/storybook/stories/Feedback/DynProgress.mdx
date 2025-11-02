@@ -1,0 +1,20 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynProgress.stories';
+
+<Meta of={Stories} />
+
+# DynProgress
+
+Linear progress indicator for determinate and indeterminate flows.
+
+## Playground
+<Canvas of={Stories.Playground} />
+
+## Size Variants
+<Canvas of={Stories.Sizes} />
+
+## Indeterminate Upload
+<Canvas of={Stories.IndeterminateUpload} />
+
+## Props
+<Controls of={Stories.Playground} />

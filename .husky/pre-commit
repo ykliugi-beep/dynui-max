@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
-if [ "$HUSKY" = "0" ]; then
-  exit 0
-fi
+. "$(dirname "$0")/_/husky.sh"
 
 set -e
 pnpm typecheck
 pnpm lint
-pnpm test --run --changed
+pnpm test -- --run --changed
