@@ -106,7 +106,7 @@
       "expect-playwright": "*",
       "jest-playwright-preset": "*",
       "jest-process-manager": "*",
-      "source-map": "*"
+      "source-map": "0.8.0-beta.0"
     },
     "peerDependencyRules": {
       "allowedVersions": {
