@@ -27,7 +27,7 @@ Error: transform must be a function
 - ✅ **API Migration**: Updated to v4 hooks API (`hooks.transforms`, `hooks.formats`)
 - ✅ **Token Format**: Converted 200+ tokens to W3C DTCG standard (`$value`, `$type`)
 - ✅ **Transform Properties**: `transformer`→`transform`, `matcher`→`filter`
-- ✅ **Removed Invalid Transforms**: Eliminated non-existent `html/icon` transform
+- ✅ **Removed Invalid Transforms**: Ensured only registered transforms are referenced
 - ✅ **Config Export**: Changed to config object export for CLI usage
 
 ### Windows File Locking Issues
