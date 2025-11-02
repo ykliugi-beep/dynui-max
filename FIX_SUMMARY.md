@@ -86,7 +86,7 @@ export default {
 - ✅ **Transform Property**: `transformer` → `transform`
 - ✅ **Token Properties**: `value` → `$value`, `type` → `$type`  
 - ✅ **Hooks API**: Sve custom transformacije registruju se u `hooks` objektu
-- ✅ **Transform Names**: `content/icon` → `html/icon`
+- ✅ **Transform Names**: Removed reference to invalid `html/icon` transform
 - ✅ **Config Export**: Export config objekta umesto instance-a
 - ✅ **DTCG Format**: Svi tokeni konvertovani u W3C DTCG standard
 - ✅ **Filter Functions**: `matcher` → `filter`

@@ -191,7 +191,6 @@ Ensure workspace dependencies (including catalog-provided tooling such as `rimra
 
 - `attribute/cti` - Adds category/type/item attributes
 - `time/seconds` - Converts time values to seconds
-- `html/icon` - Wraps icon values in quotes for HTML usage
 - `color/hex` - Ensures color values are hex format
 
 ### Custom Transforms
@@ -207,7 +206,6 @@ Ensure workspace dependencies (including catalog-provided tooling such as `rimra
   'attribute/cti',      // Built-in
   'name/cti/dyn-kebab', // Custom
   'time/seconds',       // Built-in
-  'html/icon',          // Built-in  
   'size/px-to-rem',     // Custom
   'font/family/css',    // Custom
   'color/hex'           // Built-in
