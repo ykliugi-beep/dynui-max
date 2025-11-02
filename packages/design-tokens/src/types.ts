@@ -18,6 +18,7 @@ export interface ColorScale {
 }
 
 export interface SpacingTokens {
+  '2xs': string;
   xs: string;
   sm: string;
   md: string;
