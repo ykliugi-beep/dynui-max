@@ -8,6 +8,11 @@ import { initializeCustomTransforms } from './transforms.js';
 // Ensure our custom transforms are registered before building
 initializeCustomTransforms();
 
+const themeConfigs = [
+  { name: 'light', selector: '.theme-light' },
+  { name: 'dark', selector: '.theme-dark' }
+];
+
 // Export a simple, working configuration
 export default {
   source: ['src/tokens/**/*.json'],
@@ -24,20 +29,11 @@ export default {
             selector: ':root'
           }
         },
-        {
-          destination: 'themes/light.css',
+        ...themeConfigs.map(({ name, selector }) => ({
+          destination: `themes/${name}.css`,
           format: 'css/variables',
-          options: {
-            selector: '.theme-light'
-          }
-        },
-        {
-          destination: 'themes/dark.css',
-          format: 'css/variables',
-          options: {
-            selector: '.theme-dark'
-          }
-        }
+          options: { selector }
+        }))
       ]
     },
 
