@@ -15,7 +15,9 @@
     "allowImportingTsExtensions": false
   },
   "include": [
-    "src"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.json"
   ],
   "exclude": [
     "dist",
