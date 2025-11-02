@@ -84,6 +84,7 @@ pnpm build
 
 ```bash
 pnpm clean
+# Runs: turbo clean && node scripts/clean.js
 # Expected output:
 # 🧹 Cleaning cache directories...
 # ✅ Cache cleared (or ℹ️ Cache already clean)
