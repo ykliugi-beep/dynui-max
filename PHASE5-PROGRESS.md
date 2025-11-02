@@ -1,48 +1,73 @@
 # DynUI-Max Phase 5 Progress Report
 
-## 📊 Current Status: **100% Complete** (31/31 stories)
+## 📊 Current Status
 
-All shipped components now have a corresponding Storybook story, and the form/layout/navigation sets also include MDX documentation where available. In total we have 31 `.stories.tsx` files (including the global `TokensShowcase`) and 20 MDX companion docs under `apps/storybook/stories/`.
+- **Interactive stories:** 31 Storybook entries covering all 29 exported components (100% coverage).
+- **Component docs:** 19 MDX guides published (66% coverage across the catalog).
+
+Real counts are based on the files currently present in [`apps/storybook/stories/`](apps/storybook/stories/): 30 component-focused `.stories.tsx` files plus the global [`TokensShowcase.stories.tsx`](apps/storybook/stories/TokensShowcase.stories.tsx), alongside 19 component MDX guides and the platform-wide [`Introduction.mdx`](apps/storybook/stories/Introduction.mdx).
+
+### ✅ Component Coverage Snapshot
+
+| Category | Components | Story Coverage | MDX Coverage | Outstanding Docs |
+| --- | --- | --- | --- | --- |
+| Form | 8 | 8/8 | 8/8 | — |
+| Layout | 6 | 6/6 | 5/6 | [`DynModal`](apps/storybook/stories/Layout/DynModal.stories.tsx) (doc pending) |
+| Navigation | 5 | 5/5 | 2/5 | [`DynBreadcrumb`](apps/storybook/stories/Navigation/DynBreadcrumb.stories.tsx), [`DynMenu`](apps/storybook/stories/Navigation/DynMenu.stories.tsx), [`DynTabs`](apps/storybook/stories/Navigation/DynTabs.stories.tsx) |
+| Data | 5 | 5/5 | 1/5 | [`DynAvatar`](apps/storybook/stories/Data/DynAvatar.stories.tsx), [`DynBadge`](apps/storybook/stories/Data/DynBadge.stories.tsx), [`DynTable`](apps/storybook/stories/Data/DynTable.stories.tsx), [`DynTreeView`](apps/storybook/stories/Data/DynTreeView.stories.tsx) |
+| Feedback | 3 | 3/3 | 3/3 | — |
+| Infrastructure | 2 | 2/2 | 0/2 | [`DynIcon`](apps/storybook/stories/Infrastructure/DynIcon.stories.tsx), [`ThemeSwitcher`](apps/storybook/stories/Infrastructure/ThemeSwitcher.stories.tsx) |
+
+> ℹ️ `DynStepper` is represented in both the navigation and infrastructure folders. Its stories live in each context, while the MDX guide currently resides under [`Navigation/DynStepper.mdx`](apps/storybook/stories/Navigation/DynStepper.mdx).
 
 ### ✅ **Completed Components**
 
-#### Form Components (8/8) – **Stories + Docs**
+#### Form Components (8/8 stories · 8/8 docs)
 
-#### Layout Components (6/6) - **100% Complete** 🎉
+- [x] [DynButton Stories](apps/storybook/stories/Form/DynButton.stories.tsx) · [MDX](apps/storybook/stories/Form/DynButton.mdx)
+- [x] [DynCheckbox Stories](apps/storybook/stories/Form/DynCheckbox.stories.tsx) · [MDX](apps/storybook/stories/Form/DynCheckbox.mdx)
+- [x] [DynFieldContainer Stories](apps/storybook/stories/Form/DynFieldContainer.stories.tsx) · [MDX](apps/storybook/stories/Form/DynFieldContainer.mdx)
+- [x] [DynInput Stories](apps/storybook/stories/Form/DynInput.stories.tsx) · [MDX](apps/storybook/stories/Form/DynInput.mdx)
+- [x] [DynLabel Stories](apps/storybook/stories/Form/DynLabel.stories.tsx) · [MDX](apps/storybook/stories/Form/DynLabel.mdx)
+- [x] [DynRadio Stories](apps/storybook/stories/Form/DynRadio.stories.tsx) · [MDX](apps/storybook/stories/Form/DynRadio.mdx)
+- [x] [DynSelect Stories](apps/storybook/stories/Form/DynSelect.stories.tsx) · [MDX](apps/storybook/stories/Form/DynSelect.mdx)
+- [x] [DynTextArea Stories](apps/storybook/stories/Form/DynTextArea.stories.tsx) · [MDX](apps/storybook/stories/Form/DynTextArea.mdx)
 
-- ✅ DynBox - Layout utility with responsive props
-- ✅ DynModal - Advanced overlay with focus management
-- ✅ DynGrid - Responsive grid with auto-fit
-- ✅ DynContainer - Max-width responsive container
-- ✅ DynDivider - Horizontal/vertical dividers
-- ✅ DynCard - Content cards with actions (NEW)
+#### Layout Components (6/6 stories · 5/6 docs)
 
-#### Navigation Components (4/4) - **100% Complete** 🎉
+- [x] [DynBox Stories](apps/storybook/stories/Layout/DynBox.stories.tsx) · [MDX](apps/storybook/stories/Layout/DynBox.mdx)
+- [x] [DynCard Stories](apps/storybook/stories/Layout/DynCard.stories.tsx) · [MDX](apps/storybook/stories/Layout/DynCard.mdx)
+- [x] [DynContainer Stories](apps/storybook/stories/Layout/DynContainer.stories.tsx) · [MDX](apps/storybook/stories/Layout/DynContainer.mdx)
+- [x] [DynDivider Stories](apps/storybook/stories/Layout/DynDivider.stories.tsx) · [MDX](apps/storybook/stories/Layout/DynDivider.mdx)
+- [x] [DynGrid Stories](apps/storybook/stories/Layout/DynGrid.stories.tsx) · [MDX](apps/storybook/stories/Layout/DynGrid.mdx)
+- [x] [DynModal Stories](apps/storybook/stories/Layout/DynModal.stories.tsx) · ☐ MDX pending
 
-- ✅ DynBreadcrumb - Hierarchy navigation
-- ✅ DynMenu - Advanced dropdown with nested items
-- ✅ DynPagination - Page navigation controls (NEW)
-- ✅ DynTabs - Tabbed navigation patterns
+#### Navigation Components (5/5 stories · 2/5 docs)
 
-#### Data Components (5/5) - **100% Complete** 🎉
+- [x] [DynBreadcrumb Stories](apps/storybook/stories/Navigation/DynBreadcrumb.stories.tsx) · ☐ MDX pending
+- [x] [DynMenu Stories](apps/storybook/stories/Navigation/DynMenu.stories.tsx) · ☐ MDX pending
+- [x] [DynPagination Stories](apps/storybook/stories/Navigation/DynPagination.stories.tsx) · [MDX](apps/storybook/stories/Navigation/DynPagination.mdx)
+- [x] [DynStepper Stories](apps/storybook/stories/Navigation/DynStepper.stories.tsx) · [MDX](apps/storybook/stories/Navigation/DynStepper.mdx)
+- [x] [DynTabs Stories](apps/storybook/stories/Navigation/DynTabs.stories.tsx) · ☐ MDX pending
 
-- ✅ DynTable - Data tables with sorting/filtering
-- ✅ DynListView - List with virtual scrolling
-- ✅ DynBadge - Status indicators and tags
-- ✅ DynAvatar - User representations with status
+#### Data Components (5/5 stories · 1/5 docs)
 
-#### Feedback & Infrastructure Components (6/6) - **100% Complete** 🎉
+- [x] [DynAvatar Stories](apps/storybook/stories/Data/DynAvatar.stories.tsx) · ☐ MDX pending
+- [x] [DynBadge Stories](apps/storybook/stories/Data/DynBadge.stories.tsx) · ☐ MDX pending
+- [x] [DynListView Stories](apps/storybook/stories/Data/DynListView.stories.tsx) · [MDX](apps/storybook/stories/Data/DynListView.mdx)
+- [x] [DynTable Stories](apps/storybook/stories/Data/DynTable.stories.tsx) · ☐ MDX pending
+- [x] [DynTreeView Stories](apps/storybook/stories/Data/DynTreeView.stories.tsx) · ☐ MDX pending
 
-- ✅ DynSpinner - Loading states and animations
-- ✅ DynToast - Notification system
-- ✅ DynProgress - Progress bars and indicators
-- ✅ DynIcon - SVG icon system
-- ✅ DynFieldContainer - Form field wrapper
-- ✅ DynStepper - Multi-step workflows
+#### Feedback Components (3/3 stories · 3/3 docs)
 
-#### Utility Components (1/1) - **100% Complete** 🎉
+- [x] [DynProgress Stories](apps/storybook/stories/Feedback/DynProgress.stories.tsx) · [MDX](apps/storybook/stories/Feedback/DynProgress.mdx)
+- [x] [DynSpinner Stories](apps/storybook/stories/Feedback/DynSpinner.stories.tsx) · [MDX](apps/storybook/stories/Feedback/DynSpinner.mdx)
+- [x] [DynToast Stories](apps/storybook/stories/Feedback/DynToast.stories.tsx) · [MDX](apps/storybook/stories/Feedback/DynToast.mdx)
 
-- ✅ ThemeSwitcher - Light/dark theme toggle
+#### Infrastructure Components (2/2 stories · 0/2 docs)
+
+- [x] [DynIcon Stories](apps/storybook/stories/Infrastructure/DynIcon.stories.tsx) · ☐ MDX pending
+- [x] [ThemeSwitcher Stories](apps/storybook/stories/Infrastructure/ThemeSwitcher.stories.tsx) · ☐ MDX pending
 
 - 📘 [Introduction](apps/storybook/stories/Introduction.mdx)
 - 🎨 [Tokens Showcase](apps/storybook/stories/TokensShowcase.stories.tsx)
@@ -51,56 +76,28 @@ All shipped components now have a corresponding Storybook story, and the form/la
 
 ## 🚀 **New in This Update (Issue #3)**
 
-Issue #3 closed the loop on the final missing Storybook coverage. The following stories were added and cross-linked for quick access:
+Issue #3 closed the loop on the outstanding Storybook coverage by delivering the following assets:
 
-1. ✅ [DynContainer Stories](apps/storybook/stories/Layout/DynContainer.stories.tsx) · [MDX](apps/storybook/stories/Layout/DynContainer.mdx)
-2. ✅ [DynDivider Stories](apps/storybook/stories/Layout/DynDivider.stories.tsx) · [MDX](apps/storybook/stories/Layout/DynDivider.mdx)
-3. ✅ [DynTabs Stories](apps/storybook/stories/Navigation/DynTabs.stories.tsx)
-4. ✅ [DynTreeView Stories](apps/storybook/stories/Data/DynTreeView.stories.tsx)
-5. ✅ [ThemeSwitcher Stories](apps/storybook/stories/Infrastructure/ThemeSwitcher.stories.tsx)
+- ✅ [DynCard Stories](apps/storybook/stories/Layout/DynCard.stories.tsx) · [MDX](apps/storybook/stories/Layout/DynCard.mdx)
+- ✅ [DynContainer Stories](apps/storybook/stories/Layout/DynContainer.stories.tsx) · [MDX](apps/storybook/stories/Layout/DynContainer.mdx)
+- ✅ [DynDivider Stories](apps/storybook/stories/Layout/DynDivider.stories.tsx) · [MDX](apps/storybook/stories/Layout/DynDivider.mdx)
+- ✅ [DynTabs Stories](apps/storybook/stories/Navigation/DynTabs.stories.tsx)
+- ✅ [DynTreeView Stories](apps/storybook/stories/Data/DynTreeView.stories.tsx)
+- ✅ [ThemeSwitcher Stories](apps/storybook/stories/Infrastructure/ThemeSwitcher.stories.tsx)
+- ✅ [DynPagination Stories](apps/storybook/stories/Navigation/DynPagination.stories.tsx) · [MDX](apps/storybook/stories/Navigation/DynPagination.mdx)
+- ✅ [DynSpinner Stories](apps/storybook/stories/Feedback/DynSpinner.stories.tsx) · [MDX](apps/storybook/stories/Feedback/DynSpinner.mdx)
+- ✅ [DynToast Stories](apps/storybook/stories/Feedback/DynToast.stories.tsx) · [MDX](apps/storybook/stories/Feedback/DynToast.mdx)
+- ✅ [DynProgress Stories](apps/storybook/stories/Feedback/DynProgress.stories.tsx) · [MDX](apps/storybook/stories/Feedback/DynProgress.mdx)
 
-These stories bring the component catalog to full parity with the implementation in `packages/core/src/components/`.
-
-### 10. **DynCard Stories** ✅
-
-- Media-rich cards with header/footer slots
-- Interactive selectable card patterns
-- Dashboard and analytics examples
-- Token-driven spacing and typography usage
-
-### 11. **DynPagination Stories** ✅
-
-- Ellipsis collapsing and boundary controls
-- Table footer integrations
-- Size variants with responsive layout
-- Accessibility scenarios for screen readers
-
-### 12. **DynSpinner Stories** ✅
-
-- Inline loading indicators within actions
-- Semantic color palette demonstrations
-- Accessibility labeling guidance
-- Integration with buttons and cards
-
-### 13. **DynToast Stories** ✅
-
-- Notification stacking with dismiss controls
-- Status-specific visuals and tone
-- Action button patterns (primary/secondary)
-- Auto-dismiss and manual close examples
-
-### 14. **DynProgress Stories** ✅
-
-- Determinate vs indeterminate walkthroughs
-- Size and color token variants
-- Upload and onboarding workflows
-- Accessibility best practices for progressbars
+These additions bring the component catalog to full parity with `packages/core/src/components/` for interactive stories and raise the MDX total to 19 guides.
 
 ---
 
-## 📋 **Remaining Work** (0/31 stories)
+## 📋 **Remaining Work**
 
-All planned Phase 5 stories have shipped, including DynCard, DynPagination, DynSpinner, DynToast, and DynProgress. Focus now shifts to polish and documentation refinements.
+- [ ] Draft MDX docs for the remaining layout & infrastructure components: [`DynModal`](apps/storybook/stories/Layout/DynModal.stories.tsx), [`DynIcon`](apps/storybook/stories/Infrastructure/DynIcon.stories.tsx), [`ThemeSwitcher`](apps/storybook/stories/Infrastructure/ThemeSwitcher.stories.tsx). **ETA:** 2025-11-07
+- [ ] Author navigation concept docs for [`DynBreadcrumb`](apps/storybook/stories/Navigation/DynBreadcrumb.stories.tsx), [`DynMenu`](apps/storybook/stories/Navigation/DynMenu.stories.tsx), and [`DynTabs`](apps/storybook/stories/Navigation/DynTabs.stories.tsx). **ETA:** 2025-11-14
+- [ ] Publish data visualization MDX guides covering [`DynAvatar`](apps/storybook/stories/Data/DynAvatar.stories.tsx), [`DynBadge`](apps/storybook/stories/Data/DynBadge.stories.tsx), [`DynTable`](apps/storybook/stories/Data/DynTable.stories.tsx), and [`DynTreeView`](apps/storybook/stories/Data/DynTreeView.stories.tsx). **ETA:** 2025-11-21
 
 ---
 
@@ -108,14 +105,14 @@ All planned Phase 5 stories have shipped, including DynCard, DynPagination, DynS
 
 ### Story & Doc Coverage
 
-- ✅ Story coverage spans 31 `.stories.tsx` files representing all 36 exported components.
-- ✅ 20 MDX docs provide conceptual guidance for form, layout, navigation, and data primitives.
+- ✅ All 29 exported components have at least one dedicated `.stories.tsx` file (31 stories total including shared variants and tokens showcase).
+- ✅ 19 MDX docs provide conceptual guidance for form, layout, navigation, feedback, and data primitives.
+- ☐ Remaining MDX backlog covers 10 components (see “Remaining Work” for owners & ETAs).
 - ✅ Category introductions (`Introduction.mdx`, `TokensShowcase.stories.tsx`) give platform-level context.
 
 ### Automated Test Coverage
 
 - ✅ 29/29 core components now include Vitest rendering suites, keyboard interaction checks, and axe-powered a11y guards.
-- ✅ ThemeSwitcher button, toggle, and dropdown modes now carry full keyboard + axe regression coverage.
 - ✅ All new suites run under `pnpm test`, `pnpm test:coverage`, and `pnpm test:a11y` with the existing ≥80% thresholds.
 - ✅ Shared hooks (`useKeyboard`, `useFocusTrap`) have integration-style coverage to validate re-binding, Shift+Tab wraparound, and empty-trap edge cases.
 
@@ -139,7 +136,7 @@ All planned Phase 5 stories have shipped, including DynCard, DynPagination, DynS
 ## 🎆 **Phase 5 Impact**
 
 - **100% Storybook coverage** across the DynUI-Max component catalog.
-- **Improved documentation depth** via 20 MDX guides paired with interactive stories.
+- **Improved documentation depth** via 19 MDX guides paired with interactive stories.
 - **Streamlined onboarding** with updated introduction and token showcase materials.
 - **Production-ready quality gates** established
 - **Comprehensive testing infrastructure** in place
@@ -150,5 +147,5 @@ All planned Phase 5 stories have shipped, including DynCard, DynPagination, DynS
 
 ---
 
-*Last updated: October 30, 2025*  
-*Next milestone: 100% completion by November 7, 2025*
+*Last updated: November 2, 2025*
+*Next milestone: MDX parity targeted for November 21, 2025*
