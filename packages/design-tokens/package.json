@@ -24,8 +24,6 @@
     "**/*.css"
   ],
   "scripts": {
-
-    "build:types": "tsc --emitDeclarationOnly",
     "build": "pnpm clean && pnpm build:tokens && pnpm build:js",
     "build:tokens": "style-dictionary build --config build/config.js",
     "build:js": "tsup --config tsup.config.ts",
