@@ -35,6 +35,7 @@ export interface BaseTokens {
     black: string;
   };
   spacing: {
+    '2xs': string;
     xs: string;
     sm: string;
     md: string;

@@ -10,7 +10,38 @@ export const dynKebabTransform = {
   name: 'name/cti/dyn-kebab',
   type: 'name',
   transform: (token) => {
-    return `dyn-${token.path.join('-')}`;
+    const path = Array.isArray(token.path) ? [...token.path] : [];
+
+    if (path[0] === 'size' && path[1] === 'spacing') {
+      const spacingParts = path.slice(2);
+      return ['dyn', 'spacing', ...spacingParts].filter(Boolean).join('-');
+    }
+
+    if (path[0] === 'size' && path[1] === 'radius') {
+      const radiusParts = path.slice(2);
+      return ['dyn', 'radius', ...radiusParts].filter(Boolean).join('-');
+    }
+
+    if (path[0] === 'font') {
+      const typographyMap = {
+        size: 'fontSize',
+        weight: 'fontWeight',
+        family: 'fontFamily',
+        lineHeight: 'lineHeight'
+      };
+      const typeKey = typographyMap[path[1]] ?? path[1];
+      const typographyParts = path.slice(2);
+      return ['dyn', 'typography', typeKey, ...typographyParts]
+        .filter(Boolean)
+        .join('-');
+    }
+
+    if ((path[0] === 'z' && path[1] === 'index') || path[0] === 'zIndex') {
+      const zParts = path[0] === 'z' ? path.slice(2) : path.slice(1);
+      return ['dyn', 'zIndex', ...zParts].filter(Boolean).join('-');
+    }
+
+    return ['dyn', ...path].filter(Boolean).join('-');
   }
 };
 
