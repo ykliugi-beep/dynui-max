@@ -10,7 +10,7 @@ Phase 5 focuses on comprehensive documentation, publishing infrastructure, and c
 #### 1. Storybook (Component Documentation)
 ```bash
 # Start Storybook development server
-pnpm storybook
+pnpm --filter @dynui-max/storybook dev
 
 # Build Storybook for production
 pnpm storybook:build
@@ -117,7 +117,7 @@ pnpm storybook
 # apps/storybook/stories/[Category]/[Component].stories.tsx
 ```
 
-> **Design token build:** Starting Storybook (including `pnpm storybook`, `pnpm storybook:build`, or `pnpm storybook:preview`) now triggers a pre-step that runs `pnpm --filter @dynui-max/design-tokens build`. This ensures the latest `dist/tokens.css` file is available for token variables without manual intervention. If you run Storybook through another task runner, make sure to execute the same build command beforehand.
+> **Design token build:** Starting Storybook (including `pnpm --filter @dynui-max/storybook dev`, `pnpm storybook`, `pnpm storybook:build`, or `pnpm storybook:preview`) now triggers a pre-step that runs `pnpm --filter @dynui-max/design-tokens build`. The Vite config aliases the package to `packages/design-tokens/src` while the generated CSS is resolved from `packages/design-tokens/dist/tokens.css`, so this pre-step keeps token variables available without manual intervention. If you run Storybook through another task runner, make sure to execute the same build command beforehand.
 
 **Story Requirements:**
 - Default export with meta configuration
