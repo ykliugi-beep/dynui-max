@@ -39,18 +39,38 @@ const config: StorybookConfig = {
   viteFinal: async (config) => {
     // Ensure design tokens CSS is available
     if (config.resolve) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        '@dynui-max/core': join(__dirname, '../../../packages/core/src'),
-        '@dynui-max/design-tokens': join(
-          __dirname,
-          '../../../packages/design-tokens/src'
-        ),
-        '@dynui-max/design-tokens/css': join(
-          __dirname,
-          '../../../packages/design-tokens/dist/tokens.css'
-        ),
-      };
+      const alias = config.resolve.alias ?? [];
+      const aliasEntries = Array.isArray(alias)
+        ? alias
+        : Object.entries(alias).map(([find, replacement]) => ({ find, replacement }));
+      const filteredEntries = aliasEntries.filter(
+        ({ find }) =>
+          find !== '@dynui-max/core' &&
+          find !== '@dynui-max/design-tokens' &&
+          find !== '@dynui-max/design-tokens/css'
+      );
+
+      config.resolve.alias = [
+        ...filteredEntries,
+        {
+          find: '@dynui-max/design-tokens/css',
+          replacement: join(
+            __dirname,
+            '../../../packages/design-tokens/dist/tokens.css'
+          ),
+        },
+        {
+          find: '@dynui-max/design-tokens',
+          replacement: join(
+            __dirname,
+            '../../../packages/design-tokens/src'
+          ),
+        },
+        {
+          find: '@dynui-max/core',
+          replacement: join(__dirname, '../../../packages/core/src'),
+        },
+      ];
     }
     return config;
   },
