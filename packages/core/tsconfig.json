@@ -4,7 +4,12 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "declarationDir": "./dist",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@dynui-max/design-tokens": ["../design-tokens/src"],
+      "@dynui-max/design-tokens/*": ["../design-tokens/src/*"]
+    }
   },
   "include": [
     "src/**/*"
@@ -15,5 +20,8 @@
     "**/*.spec.ts",
     "**/*.stories.ts",
     "**/*.stories.tsx"
+  ],
+  "references": [
+    { "path": "../design-tokens" }
   ]
 }

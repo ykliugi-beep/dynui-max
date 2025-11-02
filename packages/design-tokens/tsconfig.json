@@ -1,18 +1,30 @@
 {
   "extends": "../../tsconfig.json",
-    "compilerOptions": {
+  "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
     "declarationDir": "./dist",
-    "noEmit": false
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": false
   },
   "include": [
-    "src/**/*"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.json"
   ],
   "exclude": [
     "dist/**/*",
     "build/**/*",
     "**/*.test.ts",
-    "**/*.spec.ts"
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.stories.ts",
+    "**/*.stories.tsx"
   ]
 }
