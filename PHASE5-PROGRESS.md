@@ -113,6 +113,12 @@ All planned Phase 5 stories have shipped, including DynCard, DynPagination, DynS
 - ✅ 15 MDX docs provide conceptual guidance for form, layout, navigation, and data primitives.
 - ✅ Category introductions (`Introduction.mdx`, `TokensShowcase.stories.tsx`) give platform-level context.
 
+### Automated Test Coverage
+
+- ✅ 26/26 core components now include Vitest rendering suites, keyboard interaction checks, and axe-powered a11y guards.
+- ✅ All new suites run under `pnpm test`, `pnpm test:coverage`, and `pnpm test:a11y` with the existing ≥80% thresholds.
+- ✅ Shared hooks (`useKeyboard`, `useFocusTrap`) have integration-style coverage to validate keyboard dispatch and focus trapping edge cases.
+
 ### Technical & Accessibility Excellence
 
 - ✅ Story files adhere to our TypeScript + ESLint configurations.

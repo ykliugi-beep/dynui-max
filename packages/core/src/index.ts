@@ -18,8 +18,8 @@ export { iconRegistry } from './components/DynIcon/iconRegistry';
 export { DynFieldContainer } from './components/DynFieldContainer';
 export type { DynFieldContainerProps } from './components/DynFieldContainer';
 
-export { DynStepper } from './components/DynStepper';
-export type { DynStepperProps, DynStepperRef, StepData, StepStatus } from './components/DynStepper';
+export { DynStepper, DynStep } from './components/DynStepper';
+export type { DynStepperProps, DynStepProps, DynStepperRef, StepData, StepStatus } from './components/DynStepper';
 
 // Form Components
 export { DynButton } from './components/DynButton';
