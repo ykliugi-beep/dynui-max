@@ -17,7 +17,7 @@ pnpm storybook:build
 ```
 
 **Features:**
-- Interactive component stories for all 26 components
+- Interactive component stories for all 29 components
 - Design token showcase and examples
 - Accessibility testing integration (addon-a11y)
 - Theme switching capabilities
@@ -92,7 +92,7 @@ git push origin v0.3.0
 ### Quality Standards for Phase 5
 
 #### Documentation Coverage
-- [ ] ✅ Storybook story for every component (26/26)
+- [ ] ✅ Storybook story for every component (29/29)
 - [ ] ✅ Usage examples for all major features
 - [ ] ✅ Accessibility examples and patterns
 - [ ] ✅ Migration guides from dyn-ui
@@ -116,6 +116,8 @@ pnpm storybook
 # Create new story file:
 # apps/storybook/stories/[Category]/[Component].stories.tsx
 ```
+
+> **Design token build:** Starting Storybook (including `pnpm storybook`, `pnpm storybook:build`, or `pnpm storybook:preview`) now triggers a pre-step that runs `pnpm --filter @dynui-max/design-tokens build`. This ensures the latest `dist/tokens.css` file is available for token variables without manual intervention. If you run Storybook through another task runner, make sure to execute the same build command beforehand.
 
 **Story Requirements:**
 - Default export with meta configuration
@@ -231,7 +233,7 @@ pnpm build
 ---
 
 **Phase 5 Success Criteria:**
-- ✅ Complete Storybook with all 26 components
+- ✅ Complete Storybook with all 29 components
 - ✅ API documentation generation
 - ✅ Automated publishing pipeline
 - ✅ GitHub Pages deployment

@@ -42,6 +42,14 @@ const config: StorybookConfig = {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@dynui-max/core': join(__dirname, '../../../packages/core/src'),
+        '@dynui-max/design-tokens': join(
+          __dirname,
+          '../../../packages/design-tokens/src'
+        ),
+        '@dynui-max/design-tokens/css': join(
+          __dirname,
+          '../../../packages/design-tokens/dist/tokens.css'
+        ),
       };
     }
     return config;
