@@ -1,0 +1,20 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynCard.stories';
+
+<Meta of={Stories} />
+
+# DynCard
+
+Composable surface component with tokens-driven spacing, typography, and status affordances.
+
+## Playground
+<Canvas of={Stories.Playground} />
+
+## Media & Footer
+<Canvas of={Stories.WithMedia} />
+
+## Interactive
+<Canvas of={Stories.InteractiveSelectable} />
+
+## Props
+<Controls of={Stories.Playground} />

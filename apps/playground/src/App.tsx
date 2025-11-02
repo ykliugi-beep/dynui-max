@@ -15,6 +15,11 @@ import {
   DynBadge,
   DynAvatar,
   DynModal,
+  DynPagination,
+  DynCard,
+  DynSpinner,
+  DynToast,
+  DynProgress,
   ThemeSwitcher,
   DynIcon,
   DynFieldContainer,
@@ -37,6 +42,13 @@ const sampleUsers: User[] = [
   { key: '1', name: 'Alice Johnson', email: 'alice@company.com', role: 'Developer', status: 'active' },
   { key: '2', name: 'Bob Smith', email: 'bob@company.com', role: 'Designer', status: 'active' },
   { key: '3', name: 'Carol Williams', email: 'carol@company.com', role: 'Manager', status: 'inactive' },
+  { key: '4', name: 'David Kim', email: 'david@company.com', role: 'QA Engineer', status: 'active' },
+  { key: '5', name: 'Eva Brown', email: 'eva@company.com', role: 'Data Scientist', status: 'inactive' },
+  { key: '6', name: 'Frank Harris', email: 'frank@company.com', role: 'Support', status: 'active' },
+  { key: '7', name: 'Grace Lee', email: 'grace@company.com', role: 'Developer', status: 'active' },
+  { key: '8', name: 'Henry White', email: 'henry@company.com', role: 'Product Owner', status: 'inactive' },
+  { key: '9', name: 'Ivy Patel', email: 'ivy@company.com', role: 'Designer', status: 'active' },
+  { key: '10', name: 'Jake Turner', email: 'jake@company.com', role: 'Developer', status: 'active' }
 ];
 
 const tableColumns: TableColumn<User>[] = [
@@ -103,6 +115,13 @@ function PlaygroundContent() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState('overview');
+  const [tablePage, setTablePage] = useState(1);
+  const [syncing, setSyncing] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  const pageSize = 5;
+  const totalPages = Math.ceil(sampleUsers.length / pageSize);
+  const paginatedUsers = sampleUsers.slice((tablePage - 1) * pageSize, tablePage * pageSize);
 
   type SelectChangeValue = Parameters<NonNullable<DynSelectProps['onChange']>>[0];
 
@@ -126,53 +145,84 @@ function PlaygroundContent() {
     setActiveTab(value);
   };
 
+  const handlePageChange = (page: number) => {
+    setTablePage(page);
+  };
+
+  const handleSyncUsers = () => {
+    if (syncing) return;
+    setShowToast(false);
+    setSyncing(true);
+    window.setTimeout(() => {
+      setSyncing(false);
+      setShowToast(true);
+    }, 800);
+  };
+
+  const dismissToast = () => setShowToast(false);
+
   const tabs: TabItem[] = [
     {
       value: 'overview',
       label: 'Overview',
       panel: (
-        <DynBox p="lg">
-          <h2>DynUI-Max Playground</h2>
-          <p>Interactive playground for testing all 26 production components in real-time.</p>
+        <DynBox p="lg" display="flex" direction="column" gap="lg">
+          <DynCard
+            title="DynUI-Max Playground"
+            subtitle="Interactive playground for testing all 29 production components in real-time."
+            actions={<DynBadge color="primary">Live demo</DynBadge>}
+          >
+            <p style={{ margin: 0 }}>
+              Explore how design tokens, accessibility, and TypeScript-first APIs combine across the library.
+            </p>
+            <DynProgress
+              value={selectedUsers.length}
+              max={sampleUsers.length}
+              label={`${selectedUsers.length}/${sampleUsers.length} users synced`}
+              color="success"
+            />
+          </DynCard>
 
-          <DynBox mt="lg" display="flex" gap="md" direction="column">
-            <DynFieldContainer label="Search Components" helpText="Try searching for components or features">
-              <DynInput
-                variant="search"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                placeholder="Search components..."
-                clearable
-              />
-            </DynFieldContainer>
+          <DynCard variant="outlined" title="Try the controls" subtitle="Search, filter, and launch workflows">
+            <DynBox display="flex" gap="md" direction="column">
+              <DynFieldContainer label="Search Components" helpText="Try searching for components or features">
+                <DynInput
+                  variant="search"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  placeholder="Search components..."
+                  clearable
+                />
+              </DynFieldContainer>
 
-            <DynFieldContainer label="Select Framework" required>
-              <DynSelect
-                options={selectOptions}
-                value={selectedFramework}
-                onChange={handleFrameworkChange}
-                placeholder="Choose your framework..."
-                searchable
-              />
-            </DynFieldContainer>
+              <DynFieldContainer label="Select Framework" required>
+                <DynSelect
+                  options={selectOptions}
+                  value={selectedFramework}
+                  onChange={handleFrameworkChange}
+                  placeholder="Choose your framework..."
+                  searchable
+                />
+              </DynFieldContainer>
 
-            <DynBox display="flex" gap="md">
-              <DynButton
-                color="primary"
-                onClick={() => setModalOpen(true)}
-                startIcon={<DynIcon name="plus" size="sm" />}
-              >
-                Add New Item
-              </DynButton>
-              <DynButton
-                variant="outline"
-                onClick={() => alert('Export feature coming soon!')}
-                endIcon={<DynIcon name="arrow-right" size="sm" />}
-              >
-                Export Data
-              </DynButton>
+              <DynBox display="flex" gap="md">
+                <DynButton
+                  color="primary"
+                  onClick={() => setModalOpen(true)}
+                  startIcon={<DynIcon name="plus" size="sm" />}
+                >
+                  Add New Item
+                </DynButton>
+                <DynButton
+                  variant="outline"
+                  onClick={() => alert('Export feature coming soon!')}
+                  endIcon={<DynIcon name="arrow-right" size="sm" />}
+                >
+                  Export Data
+                </DynButton>
+              </DynBox>
             </DynBox>
-          </DynBox>
+          </DynCard>
         </DynBox>
       )
     },
@@ -181,26 +231,51 @@ function PlaygroundContent() {
       label: 'Users',
       panel: (
         <DynBox p="lg">
-          <DynBox display="flex" justify="space-between" align="center" mb="md">
-            <h2>User Management</h2>
-            <DynBox display="flex" align="center" gap="md">
-              {selectedUsers.length > 0 && (
-                <DynBadge color="primary">{selectedUsers.length} selected</DynBadge>
-              )}
-              <ThemeSwitcher size="sm" showLabels />
+          <DynCard
+            title="User Management"
+            subtitle="Assign roles, monitor selection, and sync access."
+            actions={<ThemeSwitcher size="sm" showLabels />}
+          >
+            <DynBox display="flex" justify="space-between" align="center" mb="md">
+              <DynBox display="flex" align="center" gap="sm">
+                <DynBadge color="primary">{sampleUsers.length} users</DynBadge>
+                {selectedUsers.length > 0 && (
+                  <DynBadge color="success">{selectedUsers.length} selected</DynBadge>
+                )}
+              </DynBox>
+              <DynButton
+                color="primary"
+                onClick={handleSyncUsers}
+                startIcon={syncing ? <DynSpinner inline size="sm" label="" /> : <DynIcon name="upload" size="sm" />}
+                disabled={selectedUsers.length === 0 || syncing}
+              >
+                {syncing ? 'Syncing…' : 'Sync selected'}
+              </DynButton>
             </DynBox>
-          </DynBox>
-          
-          <DynTable
-            columns={tableColumns}
-            dataSource={sampleUsers}
-            rowSelection={{
-              selectedRowKeys: selectedUsers,
-              onChange: handleUserSelectionChange,
-              type: 'checkbox'
-            }}
-            onRowClick={(user: User) => alert(`User: ${user.name}`)}
-          />
+
+            <DynTable
+              columns={tableColumns}
+              dataSource={paginatedUsers}
+              rowSelection={{
+                selectedRowKeys: selectedUsers,
+                onChange: handleUserSelectionChange,
+                type: 'checkbox'
+              }}
+              onRowClick={(user: User) => alert(`User: ${user.name}`)}
+            />
+
+            <DynBox display="flex" justify="space-between" align="center" mt="md">
+              <span style={{ fontSize: '0.875rem', opacity: 0.8 }}>
+                Showing {(tablePage - 1) * pageSize + 1}–{Math.min(tablePage * pageSize, sampleUsers.length)} of {sampleUsers.length}
+              </span>
+              <DynPagination
+                totalPages={totalPages}
+                currentPage={tablePage}
+                onPageChange={handlePageChange}
+                showFirstLast={false}
+              />
+            </DynBox>
+          </DynCard>
         </DynBox>
       )
     },
@@ -230,6 +305,15 @@ function PlaygroundContent() {
 
   return (
     <DynContainer size="xl">
+      {showToast && (
+        <DynToast
+          status="success"
+          title="Sync complete"
+          description={`${selectedUsers.length} user${selectedUsers.length === 1 ? '' : 's'} updated across environments.`}
+          onDismiss={dismissToast}
+        />
+      )}
+
       {/* Header */}
       <DynBox as="header" display="flex" justify="space-between" align="center" py="lg" mb="lg">
         <div>

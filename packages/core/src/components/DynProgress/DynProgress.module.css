@@ -1,0 +1,102 @@
+/**
+ * DynProgress styles built with design tokens
+ */
+
+@keyframes dyn-progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(-10%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.dyn-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dyn-spacing-xs, 0.25rem);
+  font-family: var(--dyn-typography-fontFamily-sans);
+  color: var(--dyn-color-text-muted);
+}
+
+.dyn-progress__track {
+  position: relative;
+  width: 100%;
+  background-color: var(--dyn-color-background-secondary);
+  border-radius: var(--dyn-radius-full, 9999px);
+  overflow: hidden;
+  height: var(--dyn-spacing-sm, 0.5rem);
+}
+
+.dyn-progress__indicator {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--dyn-color-interactive-primary) 0%,
+    var(--dyn-color-interactive-hover) 100%
+  );
+  border-radius: inherit;
+  transition: width 0.2s ease;
+}
+
+.dyn-progress__label {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+  color: var(--dyn-color-text-primary);
+}
+
+.dyn-progress--size-sm .dyn-progress__track {
+  height: var(--dyn-spacing-xs, 0.25rem);
+}
+
+.dyn-progress--size-lg .dyn-progress__track {
+  height: var(--dyn-spacing-md, 1rem);
+}
+
+.dyn-progress--color-primary .dyn-progress__indicator {
+  background: linear-gradient(
+    90deg,
+    var(--dyn-color-interactive-primary) 0%,
+    var(--dyn-color-interactive-hover) 100%
+  );
+}
+
+.dyn-progress--color-success .dyn-progress__indicator {
+  background: linear-gradient(
+    90deg,
+    var(--dyn-color-feedback-success) 0%,
+    var(--dyn-color-feedback-success-strong, var(--dyn-color-feedback-success)) 100%
+  );
+}
+
+.dyn-progress--color-warning .dyn-progress__indicator {
+  background: linear-gradient(
+    90deg,
+    var(--dyn-color-feedback-warning) 0%,
+    var(--dyn-color-feedback-warning-strong, var(--dyn-color-feedback-warning)) 100%
+  );
+}
+
+.dyn-progress--color-danger .dyn-progress__indicator {
+  background: linear-gradient(
+    90deg,
+    var(--dyn-color-feedback-danger) 0%,
+    var(--dyn-color-feedback-danger-strong, var(--dyn-color-feedback-danger)) 100%
+  );
+}
+
+.dyn-progress--color-neutral .dyn-progress__indicator {
+  background: linear-gradient(
+    90deg,
+    var(--dyn-color-border-muted) 0%,
+    var(--dyn-color-border-primary) 100%
+  );
+}
+
+.dyn-progress--indeterminate .dyn-progress__indicator {
+  width: 50%;
+  animation: dyn-progress-indeterminate 1.4s ease-in-out infinite;
+}

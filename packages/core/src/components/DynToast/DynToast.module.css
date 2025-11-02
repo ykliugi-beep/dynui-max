@@ -1,0 +1,94 @@
+/**
+ * DynToast styles using semantic tokens
+ */
+
+.dyn-toast {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--dyn-spacing-sm, 0.5rem);
+  align-items: flex-start;
+  padding: var(--dyn-spacing-md, 1rem);
+  border-radius: var(--dyn-radius-lg, 0.5rem);
+  box-shadow: var(--dyn-shadow-md, 0 10px 15px -3px rgba(15, 23, 42, 0.1));
+  background-color: var(--dyn-color-background-primary);
+  color: var(--dyn-color-text-primary);
+  border: 1px solid transparent;
+  max-width: 26rem;
+}
+
+.dyn-toast__indicator {
+  width: var(--dyn-spacing-xs, 0.25rem);
+  height: 100%;
+  border-radius: var(--dyn-radius-full, 9999px);
+  background-color: currentColor;
+}
+
+.dyn-toast__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dyn-spacing-xs, 0.25rem);
+}
+
+.dyn-toast__title {
+  font-size: var(--dyn-typography-fontSize-md, 1rem);
+  font-weight: var(--dyn-typography-fontWeight-semibold, 600);
+  margin: 0;
+}
+
+.dyn-toast__description {
+  font-size: var(--dyn-typography-fontSize-sm, 0.875rem);
+  margin: 0;
+  color: var(--dyn-color-text-muted);
+}
+
+.dyn-toast__actions {
+  margin-top: var(--dyn-spacing-xs, 0.25rem);
+  display: flex;
+  gap: var(--dyn-spacing-sm, 0.5rem);
+}
+
+.dyn-toast__dismiss {
+  appearance: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  padding: var(--dyn-spacing-xs, 0.25rem);
+  border-radius: var(--dyn-radius-sm, 0.25rem);
+}
+
+.dyn-toast__dismiss:hover {
+  background-color: var(--dyn-color-background-secondary);
+}
+
+.dyn-toast__dismiss:focus-visible {
+  outline: 2px solid var(--dyn-color-interactive-focus);
+  outline-offset: 2px;
+}
+
+.dyn-toast--info {
+  border-color: var(--dyn-color-border-primary);
+  color: var(--dyn-color-interactive-primary);
+}
+
+.dyn-toast--success {
+  border-color: var(--dyn-color-feedback-success);
+  color: var(--dyn-color-feedback-success);
+}
+
+.dyn-toast--warning {
+  border-color: var(--dyn-color-feedback-warning);
+  color: var(--dyn-color-feedback-warning);
+}
+
+.dyn-toast--danger {
+  border-color: var(--dyn-color-feedback-danger);
+  color: var(--dyn-color-feedback-danger);
+}
+
+.dyn-toast--success .dyn-toast__description,
+.dyn-toast--warning .dyn-toast__description,
+.dyn-toast--danger .dyn-toast__description,
+.dyn-toast--info .dyn-toast__description {
+  color: var(--dyn-color-text-primary);
+}
