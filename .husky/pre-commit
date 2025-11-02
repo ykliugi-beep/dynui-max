@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+if [ "$HUSKY" = "0" ]; then
+  exit 0
+fi
+
+set -e
+pnpm typecheck
+pnpm lint
+pnpm test -- --filter='!@dynui-max/monorepo' -- --run --changed
