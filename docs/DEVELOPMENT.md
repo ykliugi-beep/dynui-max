@@ -117,6 +117,8 @@ pnpm storybook
 # apps/storybook/stories/[Category]/[Component].stories.tsx
 ```
 
+> **Design token build:** Starting Storybook (including `pnpm storybook`, `pnpm storybook:build`, or `pnpm storybook:preview`) now triggers a pre-step that runs `pnpm --filter @dynui-max/design-tokens build`. This ensures the latest `dist/tokens.css` file is available for token variables without manual intervention. If you run Storybook through another task runner, make sure to execute the same build command beforehand.
+
 **Story Requirements:**
 - Default export with meta configuration
 - Multiple story variants (basic, with props, interactive)

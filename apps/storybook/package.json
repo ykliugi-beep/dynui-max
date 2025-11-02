@@ -4,8 +4,11 @@
   "private": true,
   "description": "Storybook documentation for DynUI-Max components",
   "scripts": {
+    "predev": "pnpm --filter @dynui-max/design-tokens build",
     "dev": "storybook dev -p 6006",
+    "prebuild": "pnpm --filter @dynui-max/design-tokens build",
     "build": "storybook build",
+    "prepreview": "pnpm --filter @dynui-max/design-tokens build",
     "preview": "storybook preview",
     "test": "test-storybook",
     "test:coverage": "test-storybook --coverage",
