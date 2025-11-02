@@ -12,8 +12,8 @@ export function useClickOutside(
       const target = event.target as Node;
       
       // Check if click is outside all refs
-      const isOutside = refs.every(ref => 
-        ref.current && !ref.current.contains(target)
+      const isOutside = refs.every(ref =>
+        !ref.current || !ref.current.contains(target)
       );
       
       if (isOutside) {
