@@ -31,7 +31,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "clean": "rimraf dist tsconfig.tsbuildinfo",
+    "clean": "del-cli dist tsconfig.tsbuildinfo",
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build"
   },
@@ -54,7 +54,7 @@
     "vite": "catalog:build",
     "tsup": "catalog:build",
     "@vitejs/plugin-react": "catalog:build",
-    "rimraf": "catalog:tooling",
+    "del-cli": "catalog:tooling",
     
     "vitest": "catalog:testing",
     "@testing-library/jest-dom": "catalog:testing",
