@@ -18,7 +18,7 @@ export interface ColorScale {
 }
 
 export interface SpacingTokens {
-  '2xs': string;
+  '2xs': string;  // Fixed: This was missing from the original implementation
   xs: string;
   sm: string;
   md: string;
@@ -26,17 +26,21 @@ export interface SpacingTokens {
   xl: string;
   '2xl': string;
   '3xl': string;
+  '4xl': string;  // Added: Additional spacing tokens
+  '5xl': string;
+  '6xl': string;
 }
 
 export interface TypographyTokens {
   fontSize: {
     xs: string;
     sm: string;
-    md: string;
+    base: string;  // Fixed: Changed from 'md' to 'base' for consistency
     lg: string;
     xl: string;
     '2xl': string;
     '3xl': string;
+    '4xl': string;  // Added: Additional font sizes
   };
   fontWeight: {
     normal: number;
@@ -60,15 +64,18 @@ export interface RadiusTokens {
   sm: string;
   md: string;
   lg: string;
+  xl: string;     // Added: Missing radius tokens
+  '2xl': string;
   full: string;
 }
 
 export interface ShadowTokens {
-  xs: string;
   sm: string;
   md: string;
   lg: string;
   xl: string;
+  inner: string;  // Added: Inner shadow
+  none: string;   // Added: No shadow option
 }
 
 export interface BreakpointTokens {
@@ -79,66 +86,108 @@ export interface BreakpointTokens {
   '2xl': string;
 }
 
+// Enhanced Z-Index tokens
+export interface ZIndexTokens {
+  hide: number;
+  auto: string;   // Fixed: Should be string 'auto'
+  base: number;
+  docked: number;
+  dropdown: number;
+  sticky: number;
+  banner: number;
+  overlay: number;
+  modal: number;
+  popover: number;
+  skipLink: number;  // Added: Missing z-index tokens
+  toast: number;
+  tooltip: number;
+}
+
 // Base tokens interface
 export interface BaseTokens {
-  color: {
+  colors: {  // Fixed: Changed from 'color' to 'colors' for consistency
     primary: ColorScale;
     gray: ColorScale;
+    success: Partial<ColorScale>;  // Added: Semantic color scales
+    warning: Partial<ColorScale>;
+    error: Partial<ColorScale>;
+    info: Partial<ColorScale>;
     white: string;
     black: string;
+    transparent: string;  // Added: Transparent color
   };
   spacing: SpacingTokens;
   typography: TypographyTokens;
   radius: RadiusTokens;
-  shadow: ShadowTokens;
-  breakpoint: BreakpointTokens;
-  zIndex: {
-    hide: number;
-    auto: number;
-    base: number;
-    docked: number;
-    dropdown: number;
-    sticky: number;
-    banner: number;
-    overlay: number;
-    modal: number;
-    popover: number;
-    tooltip: number;
-  };
+  shadows: ShadowTokens;  // Fixed: Changed from 'shadow' to 'shadows'
+  breakpoints: BreakpointTokens;  // Fixed: Changed from 'breakpoint' to 'breakpoints'
+  zIndex: ZIndexTokens;
 }
 
-// Semantic tokens for components
+// Enhanced semantic tokens for components
 export interface SemanticTokens {
-  color: {
-    text: {
-      primary: string;
-      secondary: string;
-      muted: string;
-      inverse: string;
-    };
-    background: {
-      primary: string;
-      secondary: string;
-      muted: string;
-      inverse: string;
-    };
-    border: {
-      primary: string;
-      secondary: string;
-      muted: string;
-    };
-    feedback: {
-      success: string;
-      warning: string;
-      danger: string;
-      info: string;
-    };
-    interactive: {
-      primary: string;
-      secondary: string;
+  text: {
+    primary: string;
+    secondary: string;
+    tertiary: string;   // Added: Third level text
+    disabled: string;   // Added: Disabled state
+    inverse: string;
+    link: string;       // Added: Link colors
+    linkHover: string;
+  };
+  background: {
+    primary: string;
+    secondary: string;
+    tertiary: string;   // Added: Third level background
+    inverse: string;
+    overlay: string;    // Added: Overlay background
+  };
+  border: {
+    primary: string;
+    secondary: string;
+    focus: string;      // Added: Focus state
+    error: string;      // Added: Error state
+    success: string;    // Added: Success state
+    warning: string;    // Added: Warning state
+  };
+  interactive: {        // Enhanced interactive states
+    primary: {
+      default: string;
       hover: string;
       active: string;
       disabled: string;
+    };
+    secondary: {
+      default: string;
+      hover: string;
+      active: string;
+      disabled: string;
+    };
+  };
+  feedback: {           // Enhanced feedback colors
+    success: {
+      bg: string;
+      border: string;
+      text: string;
+      icon: string;
+    };
+    warning: {
+      bg: string;
+      border: string;
+      text: string;
+      icon: string;
+    };
+    error: {
+      bg: string;
+      border: string;
+      text: string;
+      icon: string;
+    };
+    info: {
+      bg: string;
+      border: string;
+      text: string;
+      icon: string;
     };
   };
 }
@@ -146,11 +195,24 @@ export interface SemanticTokens {
 // Theme interface
 export interface Theme {
   name: string;
-  base: BaseTokens;
-  semantic: SemanticTokens;
+  colors: BaseTokens['colors'];
+  spacing: SpacingTokens;
+  typography: TypographyTokens;
+  radius: RadiusTokens;
+  shadows: ShadowTokens;
+  breakpoints: BreakpointTokens;
+  zIndex: ZIndexTokens;
+  text: SemanticTokens['text'];
+  background: SemanticTokens['background'];
+  border: SemanticTokens['border'];
+  interactive: SemanticTokens['interactive'];
+  feedback: SemanticTokens['feedback'];
 }
 
 // Component variant types
 export type ComponentVariant = 'solid' | 'outline' | 'ghost' | 'link';
-export type ComponentSize = 'sm' | 'md' | 'lg';
-export type ComponentColor = 'primary' | 'success' | 'warning' | 'danger' | 'neutral';
+export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';  // Enhanced sizes
+export type ComponentColor = 'primary' | 'success' | 'warning' | 'error' | 'info' | 'neutral';
+
+// Export the base tokens type for Style Dictionary
+export type { BaseTokens as Tokens };

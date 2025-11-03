@@ -1,0 +1,238 @@
+name: Quality Gates Enforcement
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+# Environment variables
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '9.12.3'
+  CI: true
+  STORYBOOK_DISABLE_TELEMETRY: 1
+
+jobs:
+  # Gate A: TypeScript strict mode - zero errors (ENFORCED)
+  gate-a-typecheck:
+    name: 'Gate A - TypeScript Strict (ENFORCED)'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build dependencies
+        run: pnpm build --filter="@dynui-max/design-tokens"
+      - name: TypeCheck with ENFORCEMENT
+        run: |
+          echo "🔍 Running TypeScript strict mode check..."
+          pnpm typecheck
+          echo "✅ Gate A: TypeScript strict mode - PASSED"
+
+  # Gate B: Code Quality - ESLint + Prettier (ENFORCED)  
+  gate-b-quality:
+    name: 'Gate B - Code Quality (ENFORCED)'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint with ENFORCEMENT
+        run: |
+          echo "🔍 Running ESLint quality check..."
+          pnpm lint
+          echo "✅ Gate B: Code quality - PASSED"
+      - name: Format check with ENFORCEMENT
+        run: |
+          echo "🔍 Running Prettier format check..."
+          pnpm format:check
+          echo "✅ Gate B: Code formatting - PASSED"
+
+  # Gate C: Test Coverage ≥80% (NEW ENFORCEMENT)
+  gate-c-coverage:
+    name: 'Gate C - Test Coverage ≥80% (ENFORCED)'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build dependencies
+        run: pnpm build --filter="@dynui-max/design-tokens"
+      - name: Test Coverage with ENFORCEMENT
+        run: |
+          echo "🔍 Running test coverage with ≥80% threshold enforcement..."
+          pnpm test:coverage
+          
+          # Extract coverage percentage and enforce threshold
+          COVERAGE_FILE="packages/core/coverage/coverage-summary.json"
+          if [ -f "$COVERAGE_FILE" ]; then
+            COVERAGE=$(node -p "
+              const fs = require('fs');
+              const coverage = JSON.parse(fs.readFileSync('$COVERAGE_FILE', 'utf8'));
+              Math.round(coverage.total.lines.pct);
+            ")
+            echo "📊 Test coverage: ${COVERAGE}%"
+            
+            if [ "$COVERAGE" -lt "80" ]; then
+              echo "❌ GATE C FAILED: Coverage ${COVERAGE}% < 80% threshold"
+              echo "❌ This PR is BLOCKED until test coverage reaches ≥80%"
+              exit 1
+            else
+              echo "✅ Gate C: Test coverage ${COVERAGE}% ≥ 80% - PASSED"
+            fi
+          else
+            echo "❌ GATE C FAILED: Coverage report not found"
+            echo "❌ Ensure test:coverage generates coverage/coverage-summary.json"
+            exit 1
+          fi
+
+  # Gate D: Bundle Size <150KB (NEW ENFORCEMENT) 
+  gate-d-bundle:
+    name: 'Gate D - Bundle Size <150KB (ENFORCED)'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build packages
+        run: pnpm build
+      - name: Bundle Size Analysis with ENFORCEMENT
+        run: |
+          echo "🔍 Analyzing bundle size with <150KB limit enforcement..."
+          
+          # Create bundle analysis script if it doesn't exist
+          cat > scripts/bundle-analysis.js << 'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const { gzipSizeSync } = require('gzip-size');
+          
+          function analyzeBundle() {
+            const distDir = 'packages/core/dist';
+            if (!fs.existsSync(distDir)) {
+              console.error('❌ Build directory not found:', distDir);
+              process.exit(1);
+            }
+            
+            let totalSize = 0;
+            const files = fs.readdirSync(distDir)
+              .filter(file => file.endsWith('.js'))
+              .map(file => {
+                const filePath = path.join(distDir, file);
+                const content = fs.readFileSync(filePath);
+                const gzipSize = gzipSizeSync(content);
+                totalSize += gzipSize;
+                return { file, size: gzipSize };
+              });
+            
+            console.log('📦 Bundle Analysis:');
+            files.forEach(({ file, size }) => {
+              console.log(`  ${file}: ${(size / 1024).toFixed(2)}KB (gzipped)`);
+            });
+            
+            const totalKB = totalSize / 1024;
+            console.log(`📊 Total bundle size: ${totalKB.toFixed(2)}KB (gzipped)`);
+            
+            const limit = 150;
+            if (totalKB > limit) {
+              console.error(`❌ GATE D FAILED: Bundle size ${totalKB.toFixed(2)}KB > ${limit}KB limit`);
+              console.error(`❌ This PR is BLOCKED until bundle size is reduced`);
+              process.exit(1);
+            } else {
+              console.log(`✅ Gate D: Bundle size ${totalKB.toFixed(2)}KB < ${limit}KB - PASSED`);
+            }
+          }
+          
+          analyzeBundle();
+          EOF
+          
+          mkdir -p scripts
+          node scripts/bundle-analysis.js
+
+  # Gate E: Accessibility (ENFORCED)
+  gate-e-a11y:
+    name: 'Gate E - Accessibility (ENFORCED)'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js  
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build dependencies
+        run: pnpm build --filter="@dynui-max/design-tokens"
+      - name: Accessibility Tests with ENFORCEMENT
+        run: |
+          echo "🔍 Running accessibility tests with axe-core enforcement..."
+          pnpm test:a11y
+          echo "✅ Gate E: Accessibility tests - PASSED"
+
+  # FINAL GATE: All quality gates must pass
+  quality-gates-summary:
+    name: '🎯 Quality Gates Summary'
+    runs-on: ubuntu-latest
+    needs: [gate-a-typecheck, gate-b-quality, gate-c-coverage, gate-d-bundle, gate-e-a11y]
+    if: always()
+    steps:
+      - name: Quality Gates Results
+        run: |
+          echo "🎯 QUALITY GATES ENFORCEMENT SUMMARY:"
+          echo "✅ Gate A: TypeScript Strict - ${{ needs.gate-a-typecheck.result }}"
+          echo "✅ Gate B: Code Quality - ${{ needs.gate-b-quality.result }}"  
+          echo "✅ Gate C: Test Coverage ≥80% - ${{ needs.gate-c-coverage.result }}"
+          echo "✅ Gate D: Bundle Size <150KB - ${{ needs.gate-d-bundle.result }}"
+          echo "✅ Gate E: Accessibility - ${{ needs.gate-e-a11y.result }}"
+          
+          if [ "${{ needs.gate-a-typecheck.result }}" != "success" ] || 
+             [ "${{ needs.gate-b-quality.result }}" != "success" ] || 
+             [ "${{ needs.gate-c-coverage.result }}" != "success" ] || 
+             [ "${{ needs.gate-d-bundle.result }}" != "success" ] || 
+             [ "${{ needs.gate-e-a11y.result }}" != "success" ]; then
+            echo ""
+            echo "❌ QUALITY GATES FAILED - PR BLOCKED"
+            echo "❌ All quality gates must pass before merge"
+            echo "📋 Please fix the failing gates and push again"
+            exit 1
+          else
+            echo ""
+            echo "🎉 ALL QUALITY GATES PASSED - PR APPROVED"
+            echo "✅ Ready for merge after code review"
+          fi
