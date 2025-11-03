@@ -223,6 +223,7 @@ pnpm build
 ### Next Phase Planning
 
 #### Phase 6: Community & Ecosystem (v0.4.0+)
+- Specification anchor: [DynUI Fixed Enhanced Specification](../dynui-fixed-enhanced-specification.md)
 - Community feedback integration
 - Advanced component variants
 - Plugin system for custom components

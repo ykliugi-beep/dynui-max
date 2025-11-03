@@ -118,6 +118,10 @@ dynui-max/
 └── docs/                  # Specifications and development guides
 ```
 
+### 📘 Specifications & Phase Readiness
+
+- [DynUI Fixed Enhanced Specification](dynui-fixed-enhanced-specification.md) — canonical scope + quality bar for Phase 6 entry.
+
 ## 🚀 Quick Start
 
 ```bash
