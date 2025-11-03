@@ -13,4 +13,4 @@ fi
 
 pnpm typecheck
 pnpm lint
-pnpm test --run --changed
+pnpm test -- --run --changed
