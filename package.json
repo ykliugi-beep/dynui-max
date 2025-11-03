@@ -4,7 +4,14 @@
   "type": "module",
   "private": true,
   "description": "Production-ready React + TypeScript component library with design tokens and comprehensive testing",
-  "keywords": ["design-system", "react", "typescript", "components", "design-tokens", "accessibility"],
+  "keywords": [
+    "design-system",
+    "react",
+    "typescript",
+    "components",
+    "design-tokens",
+    "accessibility"
+  ],
   "repository": { "type": "git", "url": "https://github.com/ykliugi-beep/dynui-max.git" },
   "license": "MIT",
   "author": "DynUI-Max Team",
@@ -90,9 +97,9 @@
     
     "husky": "catalog:tooling",
     "turbo": "catalog:tooling",
-    "rimraf": "catalog:tooling",
     "bundlesize": "catalog:tooling",
-    "gzip-size": "catalog:tooling"
+    "gzip-size": "catalog:tooling",
+    "del-cli": "catalog:tooling"
   },
   "pnpm": {
     "allowedDeprecatedVersions": {
@@ -115,7 +122,7 @@
       "allowedVersions": {
         "react": "18",
         "react-dom": "18", 
-        "typescript": "5.4",
+        "typescript": "5.6",
         "storybook": "8"
       },
       "ignoreMissing": [
