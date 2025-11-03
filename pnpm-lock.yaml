@@ -138,6 +138,7 @@ catalogs:
       version: 0.25.13
 
 overrides:
+  source-map: ^0.8.2
   typescript: ^5.4.5
 
 importers:
