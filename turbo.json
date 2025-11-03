@@ -1,54 +1,45 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": ["//"],
+  "extends": ["./turbo.env.json"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "build/**", "storybook-static/**"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "package.json", "tsconfig*.json"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "package.json", "tsconfig*.json"]
     },
     "build:tokens": {
       "outputs": ["dist/**", "build/**"],
-      "inputs": ["src/**/*.ts", "tokens/**", "build/**/*.js"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "inputs": ["src/**/*.ts", "tokens/**", "build/**/*.js"]
     },
     "build:js": {
       "dependsOn": ["build:tokens"],
       "outputs": ["dist/**"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "package.json", "tsconfig*.json"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "package.json", "tsconfig*.json"]
     },
     "test": {
       "dependsOn": ["^build"],
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx", "*.test.*"],
-      "outputs": ["coverage/**"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "outputs": ["coverage/**"]
     },
     "test:coverage": {
       "dependsOn": ["^build"],
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx", "*.test.*"],
-      "outputs": ["coverage/**"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "outputs": ["coverage/**"]
     },
     "test:a11y": {
       "dependsOn": ["storybook:build"],
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "**/*.stories.*"],
-      "outputs": ["test-results/**"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "outputs": ["test-results/**"]
     },
     "lint": {
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "*.json", "*.js", "*.ts", ".eslintrc*"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "*.json", "*.js", "*.ts", ".eslintrc*"]
     },
     "typecheck": {
       "dependsOn": ["^build"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig*.json"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig*.json"]
     },
     "quality:gates": {
-      "dependsOn": ["typecheck", "lint", "test:coverage"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "dependsOn": ["typecheck", "lint", "test:coverage"]
     },
     "dev": {
       "cache": false,
@@ -57,14 +48,12 @@
     "storybook": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^build"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "dependsOn": ["^build"]
     },
     "storybook:build": {
       "dependsOn": ["^build"],
       "outputs": ["storybook-static/**"],
-      "inputs": ["src/**", "**/*.stories.*", ".storybook/**"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "inputs": ["src/**", "**/*.stories.*", ".storybook/**"]
     },
     "docs:build": {
       "dependsOn": ["^build"],
@@ -74,30 +63,25 @@
         "typedoc.json",
         "custom.css"
       ],
-      "outputs": ["dist/**"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "outputs": ["dist/**"]
     },
     "playground": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^build"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "dependsOn": ["^build"]
     },
     "playground:build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"],
-      "inputs": ["src/**", "index.html", "vite.config.*"],
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "inputs": ["src/**", "index.html", "vite.config.*"]
     },
     "publish": {
       "dependsOn": ["build", "quality:gates"],
       "inputs": ["package.json", "dist/**", "lib/**"],
-      "cache": false,
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "cache": false
     },
     "clean": {
-      "cache": false,
-      "env": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"]
+      "cache": false
     }
   }
 }
