@@ -1,13 +1,13 @@
 {
   "name": "@dynui-max/docs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "API documentation for DynUI-Max components",
   "scripts": {
     "dev": "typedoc --watch",
     "build": "typedoc",
     "serve": "http-server ./dist -p 8080",
-    "clean": "rimraf dist"
+    "clean": "del-cli dist"
   },
   "dependencies": {
     "@dynui-max/core": "workspace:*",
@@ -17,6 +17,6 @@
     "typedoc": "catalog:typescript",
     "typedoc-plugin-markdown": "catalog:docs",
     "http-server": "catalog:docs",
-    "rimraf": "catalog:tooling"
+    "del-cli": "catalog:tooling"
   }
 }

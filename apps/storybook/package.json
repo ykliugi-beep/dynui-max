@@ -1,6 +1,6 @@
 {
   "name": "@dynui-max/storybook",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Storybook documentation for DynUI-Max components",
   "scripts": {
@@ -12,7 +12,8 @@
     "preview": "storybook preview",
     "test": "test-storybook",
     "test:coverage": "test-storybook --coverage",
-    "chromatic": "chromatic --exit-zero-on-changes"
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "clean": "del-cli storybook-static"
   },
   "dependencies": {
     "@dynui-max/core": "workspace:*",
@@ -33,6 +34,7 @@
     "chromatic": "catalog:storybook",
     "storybook": "catalog:storybook",
     "typescript": "catalog:typescript",
-    "vite": "catalog:build"
+    "vite": "catalog:build",
+    "del-cli": "catalog:tooling"
   }
 }

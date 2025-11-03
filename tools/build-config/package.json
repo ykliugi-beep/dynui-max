@@ -1,6 +1,6 @@
 {
   "name": "@dynui-max/build-config",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "private": true,
   "type": "module",
   "main": "./dist/index.cjs",
@@ -16,10 +16,10 @@
   },
   "scripts": {
     "build": "pnpm clean && tsup index.ts --format esm,cjs --dts --sourcemap --splitting false --out-dir dist --tsconfig tsconfig.json",
-    "clean": "rimraf dist tsconfig.tsbuildinfo"
+    "clean": "del-cli dist tsconfig.tsbuildinfo"
   },
   "devDependencies": {
-    "rimraf": "catalog:tooling",
+    "del-cli": "catalog:tooling",
     "tsup": "catalog:build",
     "typescript": "catalog:typescript"
   }

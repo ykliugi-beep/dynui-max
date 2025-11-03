@@ -1,13 +1,13 @@
 {
   "name": "@dynui-max/design-tokens",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "private": true,
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "clean": "rimraf dist build/tokens.json tsconfig.tsbuildinfo",
+    "clean": "del-cli dist build/tokens.json tsconfig.tsbuildinfo",
     "build": "pnpm clean && pnpm build:tokens && pnpm build:js && pnpm build:types",
     "build:tokens": "style-dictionary build --config build/config.js",
     "build:js": "tsup --config tsup.config.ts",
@@ -20,7 +20,7 @@
     "@dynui-max/build-config": "workspace:*",
     "@dynui-max/eslint-config": "workspace:*",
     "eslint": "catalog:quality",
-    "rimraf": "catalog:tooling",
+    "del-cli": "catalog:tooling",
     "tsup": "catalog:build",
     "typescript": "catalog:typescript",
     "vitest": "catalog:testing"
