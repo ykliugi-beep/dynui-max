@@ -14,11 +14,11 @@ catalogs:
     "@types/react": ^18.3.12
     "@types/react-dom": ^18.3.1
 
-  # TypeScript Ecosystem - LTS verzije kompatibilne sa tooling-om
+  # TypeScript Ecosystem - Updated to specification requirements
   typescript:
-    typescript: ^5.4.5  # Downgraded for typedoc compatibility
+    typescript: ^5.6.3  # Updated from 5.4.5 to match specification
     "@types/node": ^20.17.6
-    typedoc: ^0.25.13    # Latest version compatible with TypeScript 5.4.x
+    typedoc: ^0.26.8    # Updated for TypeScript 5.6.x compatibility
 
   # Build & Development Tools
   build:
@@ -53,7 +53,6 @@ catalogs:
     "@storybook/test": ^8.3.5
     "@storybook/test-runner": ^0.23.0
     chromatic: ^11.12.6
-    # Note: storybook-design-token removed due to compatibility issues
 
   # Code Quality Tools
   quality:
@@ -74,7 +73,7 @@ catalogs:
     bundlesize: ^0.18.2
     "@changesets/cli": ^2.29.7
     "@changesets/changelog-github": ^0.5.1
-    gzip-size: ^7.0.0  # For bundle analysis script
+    gzip-size: ^7.0.0
 
   # Style & Design System Tools
   design:
@@ -100,8 +99,7 @@ peerDependencyRules:
   allowedVersions:
     react: "18"
     react-dom: "18"
-    typescript: "5.4"
-    # Allow older Storybook versions for addons compatibility
+    typescript: "5.6"  # Updated to match new version
     storybook: "8"
   ignoreMissing:
     - "@types/react"
