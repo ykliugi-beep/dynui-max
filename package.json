@@ -20,9 +20,11 @@
     "//=== Core Development ====": "",
     "build": "turbo build",
     "dev": "turbo dev",
-    "clean": "turbo clean && node scripts/clean.js",
+    "clean": "turbo clean && pnpm clean:artifacts",
+    "clean:artifacts": "del-cli \"packages/**/dist\" \"apps/**/dist\" \"tools/**/dist\" \"**/tsconfig.tsbuildinfo\" \"apps/**/storybook-static\"",
     "reset": "node -e \"const fs=require('fs'),cp=require('child_process');fs.rmSync('node_modules',{recursive:true,force:true});fs.rmSync('pnpm-lock.yaml',{force:true});cp.execSync('pnpm install',{stdio:'inherit'})\"",
-    "reset:full": "pnpm reset && pnpm build",
+    "reset:full": "pnpm clean && pnpm build",
+
     "//=== Quality Gates ====": "",
     "test": "turbo test",
     "test:coverage": "turbo test:coverage",
@@ -33,6 +35,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "quality:gates": "pnpm typecheck && pnpm lint && pnpm test:coverage",
+
     "//=== Phase 5: Documentation & Publishing ====": "",
     "storybook": "turbo storybook --filter=@dynui-max/storybook",
     "storybook:build": "turbo storybook:build --filter=@dynui-max/storybook",
@@ -40,11 +43,13 @@
     "docs:build": "pnpm storybook:build && pnpm docs:api",
     "playground": "turbo playground --filter=@dynui-max/playground",
     "playground:build": "turbo playground:build --filter=@dynui-max/playground",
+
     "//=== Publishing Pipeline ====": "", 
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",
     "publish:packages": "pnpm build && pnpm quality:gates && pnpm changeset:publish",
+
     "//=== Maintenance ====": "",
     "deps:update": "pnpm update -r --interactive",
     "deps:audit": "pnpm audit --audit-level moderate",
