@@ -2,24 +2,24 @@
 
 Production-ready React + TypeScript component library with design tokens, comprehensive testing, and CI quality gates.
 
-## 🎯 Status: **Essential Library Complete - 36 Components**
+## 🎯 Status: **Core Library Complete – 29 Components**
 
-✅ **Phase 1-4 Complete**: Infrastructure, design tokens, core components, and quality gates  
-🚀 **36 Production Components**: Essential component library with tokens integration
+✅ **Phase 1-4 Complete**: Infrastructure, design tokens, core components, and quality gates
+🚀 **29 Production Components**: Token-driven React components with shared utilities
 🔥 **100% Component Test Coverage**: Rendering, variant, keyboard, and a11y suites for every core component plus shared hooks
-🏁 **Ready for Phase 5**: Documentation & Publishing
+🏁 **Phase 5 in Progress**: Storybook + MDX backlog tracked below
 
 ### 📊 Component Coverage Analysis
 
-**Source Repositories Analyzed:**
+**Storybook & Docs Snapshot (Phase 5):**
 
-- `mgasic/dyn-ui`: 35 components
-- `mgasic/dynui-fixed`: 32 components  
-- **Total Available**: 42 unique components
-- **DynUI-Max Implemented**: 36 components (**85.7% total coverage**)
-- **Essential Components**: 34/34 implemented (**100% essential coverage**)
+- **Interactive stories:** 31 `.stories.tsx` files covering all 29 exported components.
+- **Component MDX guides:** 19 published (10 remaining for parity).
+- **Reference material:** `TokensShowcase.stories.tsx` + `Introduction.mdx` for platform context.
 
-## ✅ Complete Component Library (36 Components)
+## ✅ Component Inventory (29 Components)
+
+The live catalog under [`packages/core/src/components/`](packages/core/src/components) contains 29 primary component folders. Additional leaf exports provide granular building blocks where needed.
 
 ### **P0 Prerequisites (3/3) - Complete** ✅
 
@@ -33,9 +33,8 @@ Production-ready React + TypeScript component library with design tokens, compre
 - ✅ **DynInput** - Advanced text input with clear button, search, validation states
 - ✅ **DynTextArea** - Auto-resize textarea with character counting
 - ✅ **DynSelect** - Advanced dropdown with search, multi-select, keyboard navigation
-- ✅ **DynSelectOption** - Individual select option with icons, descriptions
 - ✅ **DynCheckbox** - Checkbox with indeterminate state and integrated labels
-- ✅ **DynRadio** + **DynRadioGroup** - Radio buttons with arrow key navigation
+- ✅ **DynRadio** - Radio buttons with arrow key navigation
 - ✅ **DynLabel** - Form labels with required indicators and weight variants
 
 ### **Layout & Container Components (6/6) - Complete** ✅
@@ -47,18 +46,18 @@ Production-ready React + TypeScript component library with design tokens, compre
 - ✅ **DynDivider** - Visual separators with optional labels
 - ✅ **DynCard** - Content surfaces with header, media, and footer slots
 
-### **Navigation Components (4/4) - Complete** ✅
+### **Navigation Components (5/5) - Complete** ✅
 
 - ✅ **DynTabs** - Tab navigation with keyboard support and orientation variants
-- ✅ **DynMenu** + **DynMenuItem** - Dropdown context menu with keyboard navigation
-- ✅ **DynBreadcrumb** + **DynBreadcrumbItem** - Navigation breadcrumbs with overflow handling
+- ✅ **DynMenu** - Dropdown context menu with keyboard navigation
+- ✅ **DynBreadcrumb** - Navigation breadcrumbs with overflow handling
 - ✅ **DynPagination** - Page navigation with ellipsis collapsing and keyboard support
+- ✅ **DynStepper** - Step navigation with progress indication and keyboard support
 
-### **Data Display Components (6/6) - Complete** ✅
+### **Data Display Components (5/5) - Complete** ✅
 
 - ✅ **DynTable** - Advanced data table with sorting, selection, loading states
 - ✅ **DynTreeView** - Hierarchical tree with expand/collapse, selection
-- ✅ **DynTreeNode** - Individual tree node with keyboard navigation
 - ✅ **DynListView** - Flexible list with avatars, descriptions, actions
 - ✅ **DynBadge** - Status badges with multiple variants
 - ✅ **DynAvatar** - User avatars with image fallback to initials
@@ -79,31 +78,16 @@ Production-ready React + TypeScript component library with design tokens, compre
 - ✅ **Theme Hooks** - useTheme for theme switching and context access
 - ✅ **Custom Hooks** - useClickOutside, useKeyboard, useFocusTrap
 
-## 🎯 Remaining Components (16)
+## 📝 Documentation Backlog (10 Components)
 
-### 🔥 **Missing Essential (0) - All Covered!** ✅
+Phase 5 focuses on closing the MDX gap for the following components:
 
-*All essential components that exist in both repositories are now implemented.*
+- **Layout:** `DynModal`
+- **Navigation:** `DynBreadcrumb`, `DynMenu`, `DynTabs`
+- **Data Display:** `DynAvatar`, `DynBadge`, `DynTable`, `DynTreeView`
+- **Infrastructure:** `DynIcon`, `ThemeSwitcher`
 
-### ⚡ **Optional Components (16) - Nice to Have**
-
-**Advanced Data Visualization (3):**
-
-- DynChart - Data visualization (requires Chart.js/D3)
-- DynGauge - Progress gauges and meters
-- DynDatePicker - Date picker with natural language parsing (complex)
-
-**Advanced Layout (4):**
-
-- DynPage - Page layout wrapper
-- DynModalPlacement - Advanced modal positioning
-- DynToolbar - Action toolbars
-- DynUI - Root application wrapper
-
-**Specialized Components (9):**
-
-- DynListItem, DynStep, DynTab, DynTabPanel, Separator
-- Support components for existing implementations
+Each component already has interactive Storybook coverage; only the conceptual MDX guides remain outstanding.
 
 ## 🏗️ Architecture
 
@@ -111,7 +95,7 @@ Production-ready React + TypeScript component library with design tokens, compre
 dynui-max/
 ├── packages/
 │   ├── design-tokens/     # Complete token system with Style Dictionary
-│   └── core/              # 36 React components with tokens integration
+│   └── core/              # 29 React components with tokens integration
 ├── apps/                  # Future: Storybook + playground apps
 ├── tools/                 # Future: Shared build configs
 ├── .github/workflows/     # Quality Gates CI/CD
@@ -249,17 +233,18 @@ Complete design token system with Style Dictionary build.
 
 ### [@dynui-max/core](./packages/core/)
 
-**36 production-ready React components** with design tokens integration.
+**29 production-ready React components** with design tokens integration.
 
-#### Form & Input (7 components)
+#### Form & Input (8 components)
 
 - **DynButton** - Multi-variant with loading, icons, polymorphic rendering
 - **DynInput** - Advanced with clear button, validation, error states
 - **DynTextArea** - Auto-resize with character counting
-- **DynSelect/DynSelectOption** - Advanced dropdown with search, multi-select
+- **DynSelect** - Advanced dropdown with search, multi-select
 - **DynCheckbox** - With indeterminate state, integrated labels
-- **DynRadio/DynRadioGroup** - With arrow key navigation
+- **DynRadio** - With arrow key navigation
 - **DynLabel** - Form labels with required indicators
+- **DynFieldContainer** - Form wrapper with validation & accessibility helpers
 
 #### Layout & Container (6 components)
 
@@ -270,17 +255,18 @@ Complete design token system with Style Dictionary build.
 - **DynDivider** - Visual separators with optional labels
 - **DynCard** - Content surfaces with header, media, and footer slots
 
-#### Navigation (4 components)
+#### Navigation (5 components)
 
 - **DynTabs** - Tab navigation with keyboard support, orientation variants
-- **DynMenu/DynMenuItem** - Context menus with keyboard navigation
-- **DynBreadcrumb/DynBreadcrumbItem** - Navigation breadcrumbs with overflow
+- **DynMenu** - Context menus with keyboard navigation
+- **DynBreadcrumb** - Navigation breadcrumbs with overflow
 - **DynPagination** - Page navigation with ellipsis collapsing and keyboard support
+- **DynStepper** - Multi-step navigation with progress indicators
 
 #### Data Display (5 components)
 
 - **DynTable** - Advanced data table with sorting, selection, loading
-- **DynTreeView/DynTreeNode** - Hierarchical data with expand/collapse
+- **DynTreeView** - Hierarchical data with expand/collapse
 - **DynListView** - Flexible lists with avatars, descriptions, actions
 - **DynBadge** - Status badges with multiple variants
 - **DynAvatar** - User avatars with image fallback
@@ -293,9 +279,20 @@ Complete design token system with Style Dictionary build.
 
 #### Infrastructure (2 components + 3 hooks)
 
-- **DynIcon/DynFieldContainer/DynStepper** - Core system components
+- **DynIcon/DynFieldContainer** - Core system components
 - **ThemeProvider/ThemeSwitcher** - Theme system with switching
 - **Hooks**: useClickOutside, useKeyboard, useFocusTrap
+
+#### Additional leaf exports
+
+- **DynSelectOption** – Select menu option primitive (pairs with `DynSelect`).
+- **DynRadioGroup** – Group controller for `DynRadio` inputs.
+- **DynGridItem** – Responsive grid cell companion for `DynGrid`.
+- **DynMenuItem** – Standalone menu item primitive.
+- **DynBreadcrumbItem** – Individual breadcrumb link helper.
+- **DynTreeNode** – Render helper for nested `DynTreeView` data.
+- **DynStep** – Step definition primitive for `DynStepper`.
+- **iconRegistry** – Central icon mapping consumed by `DynIcon`.
 
 ## 🛡️ Quality Standards
 
@@ -359,7 +356,9 @@ Every component uses design tokens exclusively:
 
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
-| **Components** | Essential coverage | **34/34** (100%) | ✅ **COMPLETE** |
+| **Components** | Core catalog | **29/29** (100%) | ✅ **COMPLETE** |
+| **Storybook** | Interactive stories | **31 entries** | ✅ **COMPLETE** |
+| **MDX Guides** | Conceptual docs | **19/29** | ⚠️ **IN PROGRESS** |
 | **Design Tokens** | 500+ tokens | **500+** | ✅ **COMPLETE** |
 | **TypeScript** | 100% strict | **100%** | ✅ **COMPLETE** |
 | **Accessibility** | WCAG 2.1 AA | **Patterns ready** | ✅ **READY** |
@@ -370,8 +369,9 @@ Every component uses design tokens exclusively:
 
 ### **📦 Comprehensive Component Coverage**
 
-- **✨ 36 Production Components**: Essential library complete
-- **🎯 100% Essential Coverage**: All critical components implemented
+- **✨ 29 Production Components**: Core library aligned with `packages/core/src/components`
+- **🎯 100% Catalog Coverage**: Every exported component ships with tests & stories
+- **📝 19/29 MDX Guides**: Remaining 10 tracked in Phase 5 backlog
 - **🎨 500+ Design Tokens**: Comprehensive token system with themes
 - **🛡️ Zero Hardcoded Styles**: 100% tokens integration
 - **♿ WCAG 2.1 AA Ready**: Full accessibility patterns
@@ -412,7 +412,7 @@ Every component uses design tokens exclusively:
 
 ### ✅ Phase 3: Component Library (Complete)
 
-- **36 production components** with tokens integration
+- **29 production components** with tokens integration
 - Theme system with provider + hooks
 - Advanced functionality (search, keyboard nav, focus management)
 - **Essential library coverage achieved**
@@ -423,9 +423,10 @@ Every component uses design tokens exclusively:
 - Quality Gates A-E implemented and ready for enforcement
 - Coverage infrastructure with 80%+ thresholds
 
-### 🎯 Phase 5: Documentation & Publishing (Next)
+### 🎯 Phase 5: Documentation & Publishing (In Progress)
 
-- Storybook setup with interactive stories for all 36 components
+- Storybook coverage complete for all 29 components (31 stories total)
+- 19/29 component MDX guides published (10 remaining)
 - API documentation generation
 - NPM publishing pipeline
 - Migration guides and comprehensive examples
@@ -440,10 +441,10 @@ Every component uses design tokens exclusively:
 
 ## 📈 Production Readiness
 
-**Status**: **Essential Component Library Complete** ✅  
+**Status**: **Core Component Library Complete** ✅
 **Coverage**: **29/29 Core Components Tested** (100%) 🎯
-**Quality**: **Production-Grade Infrastructure** ✅  
-**Next**: **Phase 5 Documentation & Publishing** 🚀  
+**Docs**: **19/29 MDX Guides Published** (10 remaining) ⚠️
+**Next**: **Phase 5 Documentation & Publishing** 🚀
 
 ### **Enterprise Features Ready**
 
@@ -458,9 +459,10 @@ Every component uses design tokens exclusively:
 ---
 
 **Repository**: <https://github.com/ykliugi-beep/dynui-max>  
-**Status**: **Production Component Library Complete** ✅  
+**Status**: **Production Component Library Complete** ✅
 **Components**: **29/29 Core Components Implemented** 🏁
-**Coverage**: **Full Component Test Suite (Unit + a11y)** 🎯
+**Stories**: **31/31 Storybook Entries Published** ✅
+**Docs**: **19/29 MDX Guides Live** ⚠️
 
 **Ready for Monero project and enterprise applications!** 🚀
 

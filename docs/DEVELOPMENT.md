@@ -17,7 +17,7 @@ pnpm storybook:build
 ```
 
 **Features:**
-- Interactive component stories for all 36 components
+- Interactive component stories covering all 29 components (31 `.stories.tsx` entries)
 - Design token showcase and examples
 - Accessibility testing integration (addon-a11y)
 - Theme switching capabilities
@@ -92,10 +92,11 @@ git push origin v0.3.0
 ### Quality Standards for Phase 5
 
 #### Documentation Coverage
-- [ ] ✅ Storybook story for every component (36/36)
-- [ ] ✅ Usage examples for all major features
-- [ ] ✅ Accessibility examples and patterns
-- [ ] ✅ Migration guides from dyn-ui
+- [x] Storybook stories for every component (31 entries covering 29 components)
+- [ ] MDX guide published for every component (19/29 complete)
+- [ ] Usage examples for all major features
+- [ ] Accessibility examples and patterns
+- [ ] Migration guides from dyn-ui
 - [ ] API documentation completeness
 
 #### Publishing Checklist
@@ -234,7 +235,8 @@ pnpm build
 ---
 
 **Phase 5 Success Criteria:**
-- ✅ Complete Storybook with all 36 components
+- ✅ Complete Storybook coverage for all 29 components (31 stories)
+- ⏳ MDX parity for the remaining 10 components (19/29 complete)
 - ✅ API documentation generation
 - ✅ Automated publishing pipeline
 - ✅ GitHub Pages deployment
@@ -242,4 +244,4 @@ pnpm build
 - ⏳ NPM publishing
 - ⏳ Community feedback integration
 
-**Status**: Phase 5 infrastructure complete, ready for content creation and deployment testing.
+**Status**: Phase 5 infrastructure complete; MDX backlog and publishing validation remain in progress.
