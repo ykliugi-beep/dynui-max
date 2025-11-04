@@ -17,7 +17,7 @@
   "author": "DynUI-Max Team",
   "workspaces": ["packages/*", "apps/*", "tools/*"],
   "scripts": {
-    "//=== Core Development ====": "",
+    "//=== Core Development =====": "",
     "build": "turbo build",
     "dev": "turbo dev",
     "clean": "turbo clean && pnpm clean:artifacts",
@@ -25,7 +25,7 @@
     "reset": "node -e \"const fs=require('fs'),cp=require('child_process');fs.rmSync('node_modules',{recursive:true,force:true});fs.rmSync('pnpm-lock.yaml',{force:true});cp.execSync('pnpm install',{stdio:'inherit'})\"",
     "reset:full": "pnpm clean && pnpm build",
 
-    "//=== Quality Gates ====": "",
+    "//=== Quality Gates =====": "",
     "test": "turbo test",
     "test:coverage": "turbo test:coverage",
     "test:a11y": "turbo test:a11y",
@@ -36,7 +36,7 @@
     "format:check": "prettier --check .",
     "quality:gates": "pnpm typecheck && pnpm lint && pnpm test:coverage",
 
-    "//=== Phase 5: Documentation & Publishing ====": "",
+    "//=== Phase 5: Documentation & Publishing =====": "",
     "storybook": "turbo storybook --filter=@dynui-max/storybook",
     "storybook:build": "turbo storybook:build --filter=@dynui-max/storybook",
     "docs:api": "turbo docs:build --filter=@dynui-max/docs",
@@ -44,13 +44,13 @@
     "playground": "turbo playground --filter=@dynui-max/playground",
     "playground:build": "turbo playground:build --filter=@dynui-max/playground",
 
-    "//=== Publishing Pipeline ====": "", 
+    "//=== Publishing Pipeline =====": "", 
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",
     "publish:packages": "pnpm build && pnpm quality:gates && pnpm changeset:publish",
 
-    "//=== Maintenance ====": "",
+    "//=== Maintenance =====": "",
     "deps:update": "pnpm update -r --interactive",
     "deps:audit": "pnpm audit --audit-level moderate",
     "size:analyze": "pnpm build && bundlesize",
@@ -71,7 +71,6 @@
     "jsdom": "catalog:testing",
     "vitest": "catalog:testing",
     "vitest-axe": "catalog:testing",
-    "jest-axe": "catalog:testing",
     
     "@storybook/addon-a11y": "catalog:storybook",
     "@storybook/addon-docs": "catalog:storybook",
@@ -102,9 +101,7 @@
     
     "husky": "catalog:tooling",
     "turbo": "catalog:tooling",
-    "bundlesize": "catalog:tooling",
-    "gzip-size": "catalog:tooling",
-    "del-cli": "catalog:tooling"
+    "bundlesize": "catalog:tooling"
   },
   "pnpm": {
     "allowedDeprecatedVersions": {
@@ -126,7 +123,7 @@
       "allowedVersions": {
         "react": "18",
         "react-dom": "18", 
-        "typescript": "5.6",
+        "typescript": "5.4",
         "storybook": "8"
       },
       "ignoreMissing": [
@@ -136,8 +133,8 @@
       ]
     },
     "overrides": {
-      "typescript": "catalog:typescript",
-      "source-map": "^0.8.2"
+      "typescript": "^5.4.5",
+      "source-map": "^0.7.6"
     }
   },
   "engines": { 
