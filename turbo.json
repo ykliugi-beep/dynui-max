@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": ["./turbo.env.json"],
+  "extends": ["//turbo.env.json"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
