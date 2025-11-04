@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": ["//turbo.env.json"],
+  "globalEnv": ["NODE_ENV", "CI", "STORYBOOK_*", "NPM_TOKEN"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
