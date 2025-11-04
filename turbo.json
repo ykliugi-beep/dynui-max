@@ -1,37 +1,170 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": ["//"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", "build/**", "storybook-static/**"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "package.json", "tsconfig*.json"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        "build/**",
+        "storybook-static/**"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "package.json",
+        "tsconfig*.json"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
+    },
+    "build:tokens": {
+      "outputs": [
+        "dist/**",
+        "build/**"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "tokens/**",
+        "build/**/*.js"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
+    },
+    "build:js": {
+      "dependsOn": [
+        "build:tokens"
+      ],
+      "outputs": [
+        "dist/**"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "package.json",
+        "tsconfig*.json"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "test": {
-      "dependsOn": ["^build"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx", "*.test.*"],
-      "outputs": ["coverage/**"],
-      "env": ["NODE_ENV"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tests/**/*.ts",
+        "tests/**/*.tsx",
+        "*.test.*"
+      ],
+      "outputs": [
+        "coverage/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "test:coverage": {
-      "dependsOn": ["^build"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx", "*.test.*"],
-      "outputs": ["coverage/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tests/**/*.ts",
+        "tests/**/*.tsx",
+        "*.test.*"
+      ],
+      "outputs": [
+        "coverage/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "test:a11y": {
-      "dependsOn": ["storybook:build"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "**/*.stories.*"],
-      "outputs": ["test-results/**"]
+      "dependsOn": [
+        "storybook:build"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "**/*.stories.*"
+      ],
+      "outputs": [
+        "test-results/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "lint": {
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "*.json", "*.js", "*.ts", ".eslintrc*"]
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "*.json",
+        "*.js",
+        "*.ts",
+        ".eslintrc*"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "typecheck": {
-      "dependsOn": ["^build"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig*.json"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tsconfig*.json"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "quality:gates": {
-      "dependsOn": ["typecheck", "lint", "test:coverage"]
+      "dependsOn": [
+        "typecheck",
+        "lint",
+        "test:coverage"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "dev": {
       "cache": false,
@@ -40,46 +173,113 @@
     "storybook": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "storybook:build": {
-      "dependsOn": ["^build"],
-      "outputs": ["storybook-static/**"],
-      "inputs": ["src/**", "**/*.stories.*", ".storybook/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "storybook-static/**"
+      ],
+      "inputs": [
+        "src/**",
+        "**/*.stories.*",
+        ".storybook/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "docs:build": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "../../packages/core/src/**/*.ts",
         "../../packages/core/src/**/*.tsx",
         "typedoc.json",
         "custom.css"
       ],
-      "outputs": ["dist/**"]
+      "outputs": [
+        "dist/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "playground": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "playground:build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"],
-      "inputs": ["src/**", "index.html", "vite.config.*"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ],
+      "inputs": [
+        "src/**",
+        "index.html",
+        "vite.config.*"
+      ],
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "publish": {
-      "dependsOn": ["build", "quality:gates"],
-      "inputs": ["package.json", "dist/**", "lib/**"],
-      "cache": false
+      "dependsOn": [
+        "build",
+        "quality:gates"
+      ],
+      "inputs": [
+        "package.json",
+        "dist/**",
+        "lib/**"
+      ],
+      "cache": false,
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     },
     "clean": {
-      "cache": false
+      "cache": false,
+      "env": [
+        "NODE_ENV",
+        "CI",
+        "STORYBOOK_*",
+        "NPM_TOKEN"
+      ]
     }
-  },
-  "globalEnv": [
-    "NODE_ENV",
-    "CI",
-    "STORYBOOK_*",
-    "NPM_TOKEN"
-  ]
+  }
 }
