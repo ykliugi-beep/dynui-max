@@ -120,8 +120,7 @@
       "npmlog": "*",
       "expect-playwright": "*",
       "jest-playwright-preset": "*",
-      "jest-process-manager": "*",
-      "source-map": "*"
+      "jest-process-manager": "*"
     },
     "peerDependencyRules": {
       "allowedVersions": {
@@ -138,7 +137,7 @@
     },
     "overrides": {
       "typescript": "catalog:typescript",
-      "source-map": "0.7.4"
+      "source-map": "^0.8.2"
     }
   },
   "engines": { 
