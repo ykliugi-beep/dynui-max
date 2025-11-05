@@ -17,33 +17,32 @@
   "author": "DynUI-Max Team",
   "workspaces": ["packages/*", "apps/*", "tools/*"],
   "scripts": {
-    "//=== Core Development (No Turbo) =====": "",
-    "build": "pnpm -r --stream build",
-    "dev": "pnpm -r --parallel dev",
-    "clean": "pnpm -r --parallel clean && pnpm clean:artifacts",
-    "clean:artifacts": "del-cli \"packages/**/dist\" \"apps/**/dist\" \"tools/**/dist\" \"**/tsconfig.tsbuildinfo\" \"apps/**/storybook-static\"",
-    "reset": "node -e \"const fs=require('fs'),cp=require('child_process');fs.rmSync('node_modules',{recursive:true,force:true});fs.rmSync('pnpm-lock.yaml',{force:true});cp.execSync('pnpm install',{stdio:'inherit'})\"",
+    "//=== Core Development =====": "",
+    "build": "pnpm -r run build",                 
+    "dev": "concurrently \"pnpm --filter=@dynui-max/core dev\" \"pnpm --filter=@dynui-max/storybook dev\"",
+    "clean": "pnpm -r run clean && pnpm clean:artifacts",
+    "clean:artifacts": "rimraf \"packages/**/dist\" \"apps/**/dist\" \"tools/**/dist\" \"**/tsconfig.tsbuildinfo\" \"apps/**/storybook-static\"",
+    "reset": "rimraf node_modules pnpm-lock.yaml && pnpm install",
     "reset:full": "pnpm clean && pnpm build",
 
-    "//=== Quality Gates (PNPM Native) =====": "",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:a11y": "pnpm -r --parallel test:a11y",
-    "typecheck": "pnpm -r --parallel typecheck",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "//=== Quality Gates =====": "",
+    "test": "pnpm -r --if-present run test",
+    "test:coverage": "pnpm -r --if-present run test:coverage",
+    "test:a11y": "pnpm --filter=@dynui-max/core run test:a11y",
+    "typecheck": "pnpm -r --if-present run typecheck",
+    "lint": "pnpm -r --if-present run lint",
+    "lint:fix": "pnpm -r --if-present run lint -- --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "quality:gates": "pnpm typecheck && pnpm lint && pnpm test:coverage",
 
-    "//=== Phase 5: Documentation & Publishing =====": "",
-    "storybook": "pnpm --filter=@dynui-max/storybook storybook",
-    "storybook:build": "pnpm --filter=@dynui-max/storybook storybook:build",
-    "docs:api": "pnpm --filter=@dynui-max/docs docs:build",
+    "//=== Documentation & Apps =====": "",
+    "storybook": "pnpm --filter=@dynui-max/storybook run dev",
+    "storybook:build": "pnpm --filter=@dynui-max/storybook run build",
+    "docs:api": "pnpm --filter=@dynui-max/docs run docs:build",
     "docs:build": "pnpm storybook:build && pnpm docs:api",
-    "playground": "pnpm --filter=@dynui-max/playground playground",
-    "playground:build": "pnpm --filter=@dynui-max/playground playground:build",
+    "playground": "pnpm --filter=@dynui-max/playground run playground",
+    "playground:build": "pnpm --filter=@dynui-max/playground run playground:build",
 
     "//=== Publishing Pipeline =====": "", 
     "changeset": "changeset",
@@ -64,6 +63,8 @@
   "devDependencies": {
     "@changesets/changelog-github": "catalog:tooling",
     "@changesets/cli": "catalog:tooling",
+    "concurrently": "^8.2.2",
+    "rimraf": "catalog:tooling",
     
     "@axe-core/react": "catalog:testing",
     "@testing-library/jest-dom": "catalog:testing",
@@ -71,6 +72,7 @@
     "@testing-library/user-event": "catalog:testing",
     "jsdom": "catalog:testing",
     "vitest": "catalog:testing",
+    "jest-axe": "catalog:testing",
     "vitest-axe": "catalog:testing",
     
     "@storybook/addon-a11y": "catalog:storybook",
@@ -105,8 +107,8 @@
     
     "husky": "catalog:tooling",
     "bundlesize": "catalog:tooling",
-    "del-cli": "catalog:tooling",
-    "rimraf": "catalog:tooling"
+    "gzip-size": "catalog:tooling",
+    "del-cli": "catalog:tooling"
   },
   "pnpm": {
     "allowedDeprecatedVersions": {
@@ -124,11 +126,11 @@
       "jest-playwright-preset": "*",
       "jest-process-manager": "*"
     },
-    "peerDependencyRules": {
+     "peerDependencyRules": {
       "allowedVersions": {
         "react": "18",
         "react-dom": "18", 
-        "typescript": "5.4",
+        "typescript": "5.6",
         "storybook": "8"
       },
       "ignoreMissing": [
@@ -138,7 +140,7 @@
       ]
     },
     "overrides": {
-      "typescript": "^5.4.5",
+      "typescript": "catalog:typescript",
       "source-map": "^0.7.6"
     }
   },
