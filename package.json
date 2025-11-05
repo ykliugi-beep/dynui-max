@@ -101,6 +101,9 @@
     "eslint-config-prettier": "catalog:quality",
     "eslint-plugin-react": "catalog:quality",
     "eslint-plugin-react-hooks": "catalog:quality",
+    "@eslint/js": "catalog:quality",
+    "eslint-plugin-react-refresh": "catalog:quality",
+    "globals": "catalog:quality",
     
     "husky": "catalog:tooling",
     "bundlesize": "catalog:tooling",
