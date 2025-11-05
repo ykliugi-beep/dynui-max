@@ -14,30 +14,31 @@ catalogs:
     "@types/react": ^18.3.12
     "@types/react-dom": ^18.3.1
 
-  # TypeScript Ecosystem - Updated to specification requirements
+  # TypeScript Ecosystem - Updated to latest stable
   typescript:
-    typescript: ^5.4.5
-    "@types/node": ^20.17.6
-    typedoc: ^0.25.13
+    typescript: ^5.6.3
+    "@types/node": ^22.8.7
+    typedoc: ^0.26.10
 
-  # Build & Development Tools - Fixed source-map version
+  # Build & Development Tools - Latest stable versions
   build:
     vite: ^5.4.10
     tsup: ^8.3.5
     "@vitejs/plugin-react": ^4.3.3
-    source-map: ^0.7.6
+    "source-map": ^0.7.6
 
-  # Testing Stack - Stabilne 2.x verzije  
+  # Testing Stack - Updated versions
   testing:
     vitest: ^2.1.5
     "@testing-library/react": ^16.0.1
     "@testing-library/jest-dom": ^6.6.3
     "@testing-library/user-event": ^14.5.2
     jsdom: ^25.0.1
-    vitest-axe: ^0.1.0
-    "@axe-core/react": ^4.7.3
+    "vitest-axe": ^0.1.0
+    "@axe-core/react": ^4.10.0
+    "happy-dom": ^15.7.4
 
-  # Storybook - Stabilna 8.x serija (bez problematičnih addon-a)
+  # Storybook - Latest 8.x series
   storybook:
     storybook: ^8.3.5
     "@storybook/addon-a11y": ^8.3.5
@@ -50,24 +51,27 @@ catalogs:
     "@storybook/test-runner": ^0.23.0
     chromatic: ^11.12.6
 
-  # Code Quality Tools
+  # Code Quality Tools - Latest versions with ESLint 9.x flat config support
   quality:
     eslint: ^9.15.0
     prettier: ^3.3.3
     "@typescript-eslint/parser": ^8.15.0
     "@typescript-eslint/eslint-plugin": ^8.15.0
-    eslint-config-prettier: ^9.1.0
-    eslint-plugin-react: ^7.36.1
-    eslint-plugin-react-hooks: ^5.0.0
+    "eslint-config-prettier": ^9.1.0
+    "eslint-plugin-react": ^7.36.1
+    "eslint-plugin-react-hooks": ^5.0.0
+    "eslint-plugin-react-refresh": ^0.4.14
+    "@eslint/js": ^9.15.0
+    "globals": ^15.12.0
 
-  # Monorepo & Build Orchestration - Fixed turbo version
+  # Monorepo & Build Orchestration - Remove turbo, keep other tools
   tooling:
     husky: ^9.1.6
-    turbo: ^2.5.4
     rimraf: ^6.0.1
     bundlesize: ^0.18.2
     "@changesets/cli": ^2.29.7
     "@changesets/changelog-github": ^0.5.1
+    "del-cli": ^6.0.0
 
   # Style & Design System Tools
   design:
