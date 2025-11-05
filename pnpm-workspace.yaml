@@ -60,14 +60,14 @@ catalogs:
     eslint-plugin-react: ^7.36.1
     eslint-plugin-react-hooks: ^5.0.0
 
-  # Monorepo & Build Orchestration - Fixed turbo version
+  # Monorepo & Build Tools (without Turbo)
   tooling:
     husky: ^9.1.6
-    turbo: ^2.5.4
     rimraf: ^6.0.1
     bundlesize: ^0.18.2
     "@changesets/cli": ^2.29.7
     "@changesets/changelog-github": ^0.5.1
+    concurrently: ^8.2.2
 
   # Style & Design System Tools
   design:
