@@ -10,8 +10,7 @@
     }
   },
   "include": [
-    "src/**/*",
-    "vitest.config.ts"
+    "src/**/*"
   ],
   "references": [
     {
@@ -21,6 +20,7 @@
   "exclude": [
     "node_modules",
     "dist",
+    "vitest.config.ts",
     "**/*.stories.tsx"
   ]
 }
