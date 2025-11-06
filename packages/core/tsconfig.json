@@ -2,8 +2,6 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
-    "declarationDir": "dist",
     "baseUrl": ".",
     "paths": {
       "@dynui-max/design-tokens": ["../design-tokens/src"]
