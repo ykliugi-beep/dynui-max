@@ -1,8 +1,8 @@
 const StyleDictionary = require('style-dictionary');
-const { registerTransforms } = require('./transforms');
+const { initializeCustomTransforms } = require('./transforms');
 
-// Register custom transforms
-registerTransforms(StyleDictionary);
+// Initialize custom transforms and groups (CJS-compatible)
+initializeCustomTransforms();
 
 // Custom format for CSS variables with theming support
 StyleDictionary.registerFormat({
@@ -38,30 +38,18 @@ module.exports = {
   source: ['src/tokens/**/*.json'],
   platforms: {
     css: {
-      transformGroup: 'css',
+      transformGroup: 'dyn/css',
       buildPath: 'dist/',
-      transforms: [
-        'attribute/cti',
-        'name/cti/kebab-dyn',
-        'time/seconds',
-        'content/icon',
-        'size/rem',
-        'color/css'
-      ],
       files: [
         {
           destination: 'tokens.css',
           format: 'css/variables-themed',
-          options: {
-            theme: 'light'
-          }
+          options: { theme: 'light' }
         },
         {
-          destination: 'tokens-dark.css', 
+          destination: 'tokens-dark.css',
           format: 'css/variables-themed',
-          options: {
-            theme: 'dark'
-          }
+          options: { theme: 'dark' }
         },
         {
           destination: 'variables.css',
@@ -76,10 +64,6 @@ module.exports = {
         {
           destination: 'tokens.js',
           format: 'javascript/es6'
-        },
-        {
-          destination: 'tokens.d.ts',
-          format: 'typescript/es6-declarations'
         }
       ]
     },
