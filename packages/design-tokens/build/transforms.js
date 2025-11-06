@@ -72,3 +72,14 @@ export function initializeCustomTransforms() {
   registerCustomTransforms();
   registerCustomTransformGroups();
 }
+
+// Provide CommonJS exports for Node require() compatibility in build/config.js
+module.exports = {
+  dynKebabTransform,
+  sizeRemTransform,
+  fontFamilyTransform,
+  registerCustomTransforms,
+  dynCssTransformGroup,
+  registerCustomTransformGroups,
+  initializeCustomTransforms
+};
