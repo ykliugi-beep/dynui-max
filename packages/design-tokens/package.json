@@ -11,7 +11,9 @@
     "build": "pnpm clean && pnpm build:tokens && pnpm build:js && pnpm build:types",
     "build:tokens": "style-dictionary build --config build/config.js",
     "build:js": "tsup --config tsup.config.ts",
-    "build:types": "tsc -p tsconfig.build.json"
+    "build:types": "tsc -p tsconfig.build.json",
+    "dev": "pnpm build && pnpm build:js --watch",
+    "test": "vitest run"
   },
   "dependencies": {
     "style-dictionary": "catalog:design"
