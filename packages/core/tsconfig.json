@@ -1,27 +1,24 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "declarationDir": "./dist",
-    "jsx": "react-jsx",
+    "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@dynui-max/design-tokens": ["../design-tokens/src"],
-      "@dynui-max/design-tokens/*": ["../design-tokens/src/*"]
+      "@dynui-max/design-tokens": ["../design-tokens/src"]
     }
   },
   "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "dist/**/*",
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "**/*.stories.ts",
-    "**/*.stories.tsx"
+    "src/**/*",
+    "vitest.config.ts"
   ],
   "references": [
-    { "path": "../design-tokens" }
+    {
+      "path": "../design-tokens"
+    }
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.stories.tsx"
   ]
 }

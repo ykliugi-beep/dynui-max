@@ -1,52 +1,40 @@
-import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+/// <reference types="vitest" />
+
+import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
   test: {
     globals: true,
-    environment: 'happy-dom',
+    environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    exclude: ['node_modules', 'dist'],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html', 'json-summary'],
-      reportsDirectory: './coverage',
-      // ENFORCED: 80% coverage threshold as per specification
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'dist/',
+        'src/test/',
+        '**/*.d.ts',
+        '**/*.config.*',
+        '**/*.stories.*'
+      ],
       thresholds: {
         global: {
+          statements: 80,
           branches: 80,
           functions: 80,
-          lines: 80,
-          statements: 80
+          lines: 80
         }
-      },
-      include: [
-        'src/components/**/*.{ts,tsx}',
-        'src/hooks/**/*.{ts,tsx}',
-        'src/theme/**/*.{ts,tsx}'
-      ],
-      exclude: [
-        'src/components/**/*.stories.{ts,tsx}',
-        'src/components/**/*.test.{ts,tsx}',
-        'src/components/**/*.a11y.test.{ts,tsx}',
-        'src/components/**/index.ts',
-        'src/test/**/*',
-        'src/**/*.d.ts'
-      ]
-    },
-    // Fail tests if coverage thresholds are not met
-    pool: 'threads',
-    poolOptions: {
-      threads: {
-        singleThread: true
       }
     }
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@dynui-max/design-tokens': path.resolve(__dirname, '../design-tokens/src')
+      '@dynui-max/design-tokens': '../design-tokens/src'
     }
   }
-});
+})
