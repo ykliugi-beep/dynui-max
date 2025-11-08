@@ -67,7 +67,7 @@
     "jsdom": "^21.1.0",
     "vitest": "^2.1.5",
     "jest-axe": "^7.1.1",
-    "vitest-axe": "^0.3.4",
+    "vitest-axe": "^0.1.0",
     "@storybook/addon-a11y": "^8.3.5",
     "@storybook/addon-docs": "^8.3.5",
     "@storybook/addon-essentials": "^8.3.5",
