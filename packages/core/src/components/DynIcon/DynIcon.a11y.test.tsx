@@ -1,10 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from 'vitest-axe';
 import { DynIcon } from './DynIcon';
 import { iconRegistry } from './iconRegistry';
 
-expect.extend(toHaveNoViolations);
 
 // Test icon
 const TestIcon = (props: React.SVGProps<SVGSVGElement>) => (

@@ -3,10 +3,9 @@ import { render, screen } from '../../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { DynStepper, DynStep } from './DynStepper';
 import type { StepData, DynStepperRef } from './DynStepper';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'vitest-axe';
 import React from 'react';
 
-expect.extend(toHaveNoViolations);
 
 const sampleSteps: StepData[] = [
   { key: 'step1', title: 'Personal Info', description: 'Enter your personal details' },

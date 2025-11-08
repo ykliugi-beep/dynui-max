@@ -3,9 +3,8 @@ import { render, screen } from '../../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { DynTabs } from './DynTabs';
 import type { TabItem } from './DynTabs';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'vitest-axe';
 
-expect.extend(toHaveNoViolations);
 
 const sampleTabs: TabItem[] = [
   { value: 'overview', label: 'Overview', panel: <div>Overview content</div> },

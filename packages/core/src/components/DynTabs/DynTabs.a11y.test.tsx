@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from 'vitest-axe';
 import { DynTabs } from './DynTabs';
 
-expect.extend(toHaveNoViolations);
 
 const ITEMS = [
   { value: 'overview', label: 'Overview', panel: <div>Overview content</div> },

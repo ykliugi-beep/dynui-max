@@ -1,9 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from 'vitest-axe';
 import { DynModal } from './DynModal';
 
-expect.extend(toHaveNoViolations);
 
 describe('DynModal Accessibility', () => {
   it('has no violations when open with content', async () => {

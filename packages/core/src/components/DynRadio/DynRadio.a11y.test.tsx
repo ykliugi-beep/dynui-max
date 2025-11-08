@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from 'vitest-axe';
 import { DynRadio, DynRadioGroup } from './DynRadio';
 
-expect.extend(toHaveNoViolations);
 
 describe('DynRadio Accessibility', () => {
   it('has no violations for radio group with labels', async () => {

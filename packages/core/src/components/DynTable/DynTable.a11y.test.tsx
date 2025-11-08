@@ -1,9 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from 'vitest-axe';
 import { DynTable } from './DynTable';
 
-expect.extend(toHaveNoViolations);
 
 const COLUMNS = [
   { key: 'name', title: 'Name', dataIndex: 'name' },

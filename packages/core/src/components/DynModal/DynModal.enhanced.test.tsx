@@ -2,9 +2,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '../../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { DynModal } from './DynModal';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'vitest-axe';
 
-expect.extend(toHaveNoViolations);
 
 describe('DynModal - Enhanced Tests', () => {
   let originalActiveElement: Element | null;

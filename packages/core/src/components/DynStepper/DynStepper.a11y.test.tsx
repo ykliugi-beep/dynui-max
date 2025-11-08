@@ -1,10 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'vitest-axe';
 import { DynStepper } from './DynStepper';
 import type { StepData } from './DynStepper';
 
-expect.extend(toHaveNoViolations);
 
 const mockSteps: StepData[] = [
   { key: 'step1', title: 'Personal Info', description: 'Enter your details' },
