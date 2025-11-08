@@ -1,4 +1,4 @@
 import { expect } from "vitest";
-import { toHaveNoViolations } from "vitest-axe/matchers";
+import matchers from "vitest-axe/matchers";
 
-expect.extend({ toHaveNoViolations });
+expect.extend(matchers);
