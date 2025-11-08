@@ -1,79 +1,75 @@
-import React from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { DynIcon } from '../DynIcon';
-import styles from './DynToast.module.css';
+import './DynToast.css';
 
-type ToastStatus = 'info' | 'success' | 'warning' | 'danger';
+type ToastVariant = 'info' | 'success' | 'warning' | 'error';
 
-export interface DynToastProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Visual status that maps to semantic tokens */
-  status?: ToastStatus;
-  /** Heading text displayed at the top of the toast */
+export interface DynToastProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+  variant?: ToastVariant;
   title?: React.ReactNode;
-  /** Additional descriptive text */
-  description?: React.ReactNode;
-  /** Optional action buttons or links */
-  actions?: React.ReactNode;
-  /** Callback invoked when the dismiss button is clicked */
-  onDismiss?: () => void;
-  /** Accessible label for the dismiss button */
-  dismissLabel?: string;
-  /** Whether the toast should be announced assertively */
-  urgent?: boolean;
+  message?: React.ReactNode;
+  duration?: number;
+  onClose?: () => void;
+  closable?: boolean;
 }
 
-const statusToRole: Record<ToastStatus, 'status' | 'alert'> = {
-  info: 'status',
-  success: 'status',
-  warning: 'alert',
-  danger: 'alert'
+const variantIcons: Record<ToastVariant, string> = {
+  info: 'info-circle',
+  success: 'check-circle',
+  warning: 'exclamation-triangle',
+  error: 'times-circle'
 };
 
-export const DynToast: React.FC<DynToastProps> = ({
-  status = 'info',
-  title,
-  description,
-  actions,
-  onDismiss,
-  dismissLabel = 'Dismiss notification',
-  urgent = false,
-  className,
-  role,
-  'aria-live': ariaLive,
-  ...props
-}) => {
-  const computedRole = role ?? statusToRole[status];
-  const liveRegion = ariaLive ?? (computedRole === 'alert' ? 'assertive' : urgent ? 'assertive' : 'polite');
+export const DynToast = forwardRef<HTMLDivElement, DynToastProps>((
+  {
+    variant = 'info',
+    title,
+    message,
+    duration = 5000,
+    onClose,
+    closable = true,
+    className,
+    children,
+    ...props
+  },
+  ref
+) => {
+  useEffect(() => {
+    if (duration > 0 && onClose) {
+      const timer = setTimeout(onClose, duration);
+      return () => clearTimeout(timer);
+    }
+  }, [duration, onClose]);
+
+  const classes = clsx(
+    'dyn-toast',
+    `dyn-toast--${variant}`,
+    className
+  );
 
   return (
-    <div
-      className={clsx(
-        styles['dyn-toast'],
-        styles[`dyn-toast--${status}`],
-        className
-      )}
-      role={computedRole}
-      aria-live={liveRegion}
-      {...props}
-    >
-      <span className={styles['dyn-toast__indicator']} aria-hidden="true" />
-      <div className={styles['dyn-toast__content']}>
-        {title && <div className={styles['dyn-toast__title']}>{title}</div>}
-        {description && <div className={styles['dyn-toast__description']}>{description}</div>}
-        {actions && <div className={styles['dyn-toast__actions']}>{actions}</div>}
+    <div ref={ref} className={classes} role="alert" {...props}>
+      <div className="dyn-toast__icon" aria-hidden="true">
+        <DynIcon name={variantIcons[variant]} />
       </div>
-      {onDismiss && (
+      <div className="dyn-toast__content">
+        {title && <div className="dyn-toast__title">{title}</div>}
+        {message && <div className="dyn-toast__message">{message}</div>}
+        {children}
+      </div>
+      {closable && onClose && (
         <button
+          className="dyn-toast__close"
+          onClick={onClose}
+          aria-label="Close notification"
           type="button"
-          className={styles['dyn-toast__dismiss']}
-          onClick={onDismiss}
-          aria-label={dismissLabel}
         >
-          <DynIcon name="x" size="sm" aria-hidden="true" />
+          <DynIcon name="times" />
         </button>
       )}
     </div>
   );
-};
+});
 
 DynToast.displayName = 'DynToast';
