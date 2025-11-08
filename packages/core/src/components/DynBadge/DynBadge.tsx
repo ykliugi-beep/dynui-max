@@ -51,10 +51,6 @@ export type DynBadgeProps<C extends React.ElementType = 'span'> = PolymorphicCom
   DynBadgeBaseProps
 >;
 
-type DynBadgeComponent = <C extends React.ElementType = 'span'>(
-  props: DynBadgeProps<C>
-) => React.ReactElement | null;
-
 /**
  * DynBadge - Small status and labeling component
  * 
@@ -64,39 +60,41 @@ type DynBadgeComponent = <C extends React.ElementType = 'span'>(
  * - Multiple visual styles (solid, outline, soft)
  * - Polymorphic rendering (span, a, button, etc.)
  */
-export const DynBadge: DynBadgeComponent & { displayName?: string } = forwardRef(
-  <C extends React.ElementType = 'span'>(
-    {
-      size = 'md',
-      color = 'neutral',
-      variant = 'solid',
-      children,
-      className,
-      as,
-      ...props
-    }: DynBadgeProps<C>,
-    ref?: PolymorphicRef<C>
-  ) => {
-    const Component = as || 'span';
-    
-    const classes = clsx(
-      'dyn-badge',
-      `dyn-badge--size-${size}`,
-      `dyn-badge--color-${color}`,
-      `dyn-badge--variant-${variant}`,
-      className
-    );
-    
-    return (
-      <Component
-        ref={ref}
-        className={classes}
-        {...props}
-      >
-        {children}
-      </Component>
-    );
-  }
-) as DynBadgeComponent;
+const DynBadgeComponent = <C extends React.ElementType = 'span'>(
+  {
+    size = 'md',
+    color = 'neutral',
+    variant = 'solid',
+    children,
+    className,
+    as,
+    ...props
+  }: DynBadgeProps<C>,
+  ref?: PolymorphicRef<C>
+) => {
+  const Component = as || 'span';
+  
+  const classes = clsx(
+    'dyn-badge',
+    `dyn-badge--size-${size}`,
+    `dyn-badge--color-${color}`,
+    `dyn-badge--variant-${variant}`,
+    className
+  );
+  
+  return (
+    <Component
+      ref={ref}
+      className={classes}
+      {...props}
+    >
+      {children}
+    </Component>
+  );
+};
 
-DynBadge.displayName = 'DynBadge';
+export const DynBadge = forwardRef(DynBadgeComponent) as <C extends React.ElementType = 'span'>(
+  props: DynBadgeProps<C> & { ref?: PolymorphicRef<C> }
+) => React.ReactElement | null;
+
+(DynBadge as any).displayName = 'DynBadge';

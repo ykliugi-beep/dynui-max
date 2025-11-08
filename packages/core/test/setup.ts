@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
 import { expect } from 'vitest';
-import * as matchers from 'jest-axe';
+import { toHaveNoViolations } from 'jest-axe';
 
-// Extend Vitest's expect with jest-axe matchers
-expect.extend(matchers);
+// Extend Vitest's expect with jest-axe toHaveNoViolations matcher only
+expect.extend({ toHaveNoViolations });
 
 // Add type declarations for jest-axe matchers
 declare module 'vitest' {
