@@ -12,12 +12,12 @@ interface TestData {
 describe('DynTable Accessibility', () => {
   it('should not have accessibility violations', async () => {
     const columns: TableColumn<TestData>[] = [
-      { key: 'id', label: 'ID', sortable: true },
-      { key: 'name', label: 'Name', sortable: true },
-      { key: 'email', label: 'Email' }
+      { key: 'id', title: 'ID', sortable: true },
+      { key: 'name', title: 'Name', sortable: true },
+      { key: 'email', title: 'Email' }
     ];
 
-    const rows: TestData[] = [
+    const dataSource: TestData[] = [
       { id: 1, name: 'John Doe', email: 'john@example.com' },
       { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
     ];
@@ -25,8 +25,7 @@ describe('DynTable Accessibility', () => {
     const { container } = render(
       <DynTable
         columns={columns}
-        rows={rows}
-        caption="Test data table"
+        dataSource={dataSource}
       />
     );
 
