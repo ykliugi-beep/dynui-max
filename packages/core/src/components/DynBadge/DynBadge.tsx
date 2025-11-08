@@ -3,62 +3,32 @@ import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import './DynBadge.css';
 
-export interface DynBadgeProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>, React.ButtonHTMLAttributes<HTMLButtonElement>, React.HTMLAttributes<HTMLSpanElement> {
-  /**
-   * Badge size using design tokens
-   * @default 'md'
-   */
+export interface DynBadgeProps {
   size?: ComponentSize;
-  /**
-   * Color variant
-   * @default 'neutral'
-   */
   color?: ComponentColor;
-  /**
-   * Visual variant
-   * @default 'solid'
-   */
   variant?: 'solid' | 'outline' | 'soft';
-  /**
-   * Badge content
-   */
-  children?: React.ReactNode;
-  /**
-   * Additional CSS class names
-   */
   className?: string;
-  /**
-   * HTML element to render as
-   * @default 'span'
-   */
-  as?: React.ElementType;
+  children?: React.ReactNode;
 }
 
 export const DynBadge = forwardRef<HTMLSpanElement, DynBadgeProps>(
-  (
-    {
-      size = 'md',
-      color = 'neutral',
-      variant = 'solid',
-      children,
-      className,
-      as: Component = 'span',
-      ...props
-    },
-    ref
-  ) => {
-    const classes = clsx(
-      'dyn-badge',
-      `dyn-badge--size-${size}`,
-      `dyn-badge--color-${color}`,
-      `dyn-badge--variant-${variant}`,
-      className
-    );
+  ({ size = 'md', color = 'neutral', variant = 'solid', className, children, ...props }, ref) => {
     return (
-      <Component ref={ref} className={classes} {...props}>
+      <span
+        ref={ref}
+        className={clsx(
+          'dyn-badge',
+          `dyn-badge--size-${size}`,
+          `dyn-badge--color-${color}`,
+          `dyn-badge--variant-${variant}`,
+          className
+        )}
+        {...props}
+      >
         {children}
-      </Component>
+      </span>
     );
   }
 );
+
 DynBadge.displayName = 'DynBadge';
