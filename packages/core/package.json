@@ -61,7 +61,8 @@
     "@testing-library/react": "catalog:testing",
     "@testing-library/user-event": "catalog:testing",
     "@axe-core/react": "catalog:testing",
-    "vitest-axe": "catalog:testing",
+    "jest-axe": "catalog:testing",
+    "axe-core": "catalog:testing",
     
     "storybook": "catalog:storybook",
     "@storybook/addon-a11y": "catalog:storybook",
