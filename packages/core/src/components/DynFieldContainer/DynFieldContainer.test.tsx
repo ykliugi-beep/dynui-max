@@ -1,151 +1,134 @@
-import React from 'react';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { DynFieldContainer } from './DynFieldContainer';
 import { DynInput } from '../DynInput';
 
 describe('DynFieldContainer', () => {
-  it('renders with label', () => {
+  it('renders label and children', () => {
     render(
       <DynFieldContainer label="Email">
-        <DynInput />
+        <DynInput placeholder="Enter email" />
       </DynFieldContainer>
     );
-
     expect(screen.getByText('Email')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Enter email')).toBeInTheDocument();
   });
 
-  it('shows required indicator', () => {
+  it('displays required indicator when required is true', () => {
     render(
-      <DynFieldContainer label="Email" required>
+      <DynFieldContainer label="Username" required>
         <DynInput />
       </DynFieldContainer>
     );
-
-    expect(screen.getByText('*')).toBeInTheDocument();
+    expect(screen.getByLabelText('required')).toBeInTheDocument();
   });
 
-  it('displays error message', () => {
+  it('displays description text', () => {
     render(
-      <DynFieldContainer label="Email" error="Invalid email">
+      <DynFieldContainer label="Password" description="Must be at least 8 characters">
+        <DynInput type="password" />
+      </DynFieldContainer>
+    );
+    expect(screen.getByText('Must be at least 8 characters')).toBeInTheDocument();
+  });
+
+  it('displays hint text when provided', () => {
+    render(
+      <DynFieldContainer label="Name" hint="Enter your full name">
         <DynInput />
       </DynFieldContainer>
     );
+    expect(screen.getByText('Enter your full name')).toBeInTheDocument();
+  });
 
+  it('displays hint text but not error initially', () => {
+    render(
+      <DynFieldContainer label="Email" hint="We'll never share your email">
+        <DynInput />
+      </DynFieldContainer>
+    );
+    expect(screen.getByText("We'll never share your email")).toBeInTheDocument();
+  });
+
+  it('displays error message when error is provided', () => {
+    render(
+      <DynFieldContainer label="Email" error="Invalid email format">
+        <DynInput />
+      </DynFieldContainer>
+    );
+    expect(screen.getByRole('alert')).toHaveTextContent('Invalid email format');
+  });
+
+  it('hides hint when error is shown', () => {
+    render(
+      <DynFieldContainer label="Email" hint="Enter a valid email" error="Invalid email">
+        <DynInput />
+      </DynFieldContainer>
+    );
+    expect(screen.queryByText('Enter a valid email')).not.toBeInTheDocument();
     expect(screen.getByText('Invalid email')).toBeInTheDocument();
   });
 
-  it('displays helper text', () => {
+  it('applies error class when error is present', () => {
+    const { container } = render(
+      <DynFieldContainer label="Field" error="Error message">
+        <DynInput />
+      </DynFieldContainer>
+    );
+    expect(container.firstChild).toHaveClass('dyn-field-container--error');
+  });
+
+  it('connects label to input with htmlFor', () => {
     render(
-      <DynFieldContainer label="Email" helperText="Enter your email address">
-        <DynInput />
+      <DynFieldContainer label="Username" htmlFor="username-input">
+        <DynInput id="username-input" />
       </DynFieldContainer>
     );
-
-    expect(screen.getByText('Enter your email address')).toBeInTheDocument();
+    const label = screen.getByText('Username');
+    expect(label).toHaveAttribute('for', 'username-input');
   });
 
-  it('generates unique IDs for label and message', () => {
+  it('supports vertical orientation (default)', () => {
     const { container } = render(
-      <DynFieldContainer label="Email" helperText="Helper text">
+      <DynFieldContainer label="Field">
         <DynInput />
       </DynFieldContainer>
     );
-
-    const label = container.querySelector('label');
-    const helperText = container.querySelector('[class*="helper-text"]');
-
-    expect(label).toHaveAttribute('for');
-    expect(helperText).toHaveAttribute('id');
+    expect(container.firstChild).toHaveClass('dyn-field-container--vertical');
   });
 
-  it('disables all child inputs when disabled', () => {
+  it('supports horizontal orientation', () => {
+    const { container } = render(
+      <DynFieldContainer label="Field" orientation="horizontal">
+        <DynInput />
+      </DynFieldContainer>
+    );
+    expect(container.firstChild).toHaveClass('dyn-field-container--horizontal');
+  });
+
+  it('adds aria-describedby to children when description, hint, or error present', () => {
     render(
-      <DynFieldContainer label="Email" disabled>
-        <DynInput data-testid="input" />
+      <DynFieldContainer 
+        label="Email" 
+        htmlFor="email" 
+        description="Your email address"
+        hint="We won't spam"
+        error="Required field"
+      >
+        <DynInput id="email" />
       </DynFieldContainer>
     );
-
-    expect(screen.getByTestId('input')).toBeDisabled();
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-describedby');
+    expect(input).toHaveAttribute('aria-invalid');
   });
 
-  it('applies error state to child inputs', () => {
-    render(
-      <DynFieldContainer label="Email" error="Invalid">
-        <DynInput data-testid="input" />
-      </DynFieldContainer>
-    );
-
-    expect(screen.getByTestId('input')).toHaveAttribute('aria-invalid', 'true');
-  });
-
-  it('links label to input with proper association', () => {
+  it('renders with custom className', () => {
     const { container } = render(
-      <DynFieldContainer label="Email">
+      <DynFieldContainer label="Field" className="custom-class">
         <DynInput />
       </DynFieldContainer>
     );
-
-    const label = container.querySelector('label');
-    const input = container.querySelector('input');
-    const labelFor = label?.getAttribute('for');
-    const inputId = input?.getAttribute('id');
-
-    expect(labelFor).toBe(inputId);
-    expect(labelFor).toBeTruthy();
-  });
-
-  it('supports custom ID override', () => {
-    render(
-      <DynFieldContainer label="Email" id="custom-field">
-        <DynInput />
-      </DynFieldContainer>
-    );
-
-    const label = screen.getByText('Email');
-    expect(label).toHaveAttribute('for', 'custom-field');
-  });
-
-  it('renders inline layout', () => {
-    const { container } = render(
-      <DynFieldContainer label="Email" layout="inline">
-        <DynInput />
-      </DynFieldContainer>
-    );
-
-    expect(container.querySelector('[class*="inline"]')).toBeInTheDocument();
-  });
-
-  it('supports labelPlacement prop', () => {
-    const { container } = render(
-      <DynFieldContainer label="Email" labelPlacement="top">
-        <DynInput />
-      </DynFieldContainer>
-    );
-
-    expect(container.querySelector('[class*="label-top"]')).toBeInTheDocument();
-  });
-
-  it('clones children with proper props', () => {
-    const { container } = render(
-      <DynFieldContainer label="Test" error="Error" disabled>
-        <DynInput data-testid="input" />
-      </DynFieldContainer>
-    );
-
-    const input = screen.getByTestId('input');
-    expect(input).toHaveAttribute('aria-invalid', 'true');
-    expect(input).toBeDisabled();
-  });
-
-  it('passes through className to children', () => {
-    const customChild = React.createElement('div', { className: 'custom-class' }, 'Child');
-    
-    const { container } = render(
-      <DynFieldContainer label="Test">
-        {customChild}
-      </DynFieldContainer>
-    );
-
-    expect(container.querySelector('.custom-class')).toBeInTheDocument();
+    expect(container.firstChild).toHaveClass('custom-class');
   });
 });

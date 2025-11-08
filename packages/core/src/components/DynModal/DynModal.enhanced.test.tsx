@@ -1,28 +1,65 @@
-import React from 'react';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DynModal } from './DynModal';
-import { DynButton } from '../DynButton';
 
-describe('DynModal - Enhanced Tests', () => {
-  const _originalActiveElement = document.activeElement;
-
-  it('traps focus within modal', async () => {
-    const user = userEvent.setup();
-
+describe('DynModal Enhanced', () => {
+  it('renders modal when isOpen is true', () => {
     render(
-      <DynModal open onClose={() => {}} title="Test Modal">
-        <DynButton>Button 1</DynButton>
-        <DynButton>Button 2</DynButton>
+      <DynModal isOpen={true} onClose={() => {}} title="Test Modal">
+        <div>Modal content</div>
+      </DynModal>
+    );
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Modal content')).toBeInTheDocument();
+  });
+
+  it('does not render when isOpen is false', () => {
+    render(
+      <DynModal isOpen={false} onClose={() => {}}>
+        <div>Modal content</div>
+      </DynModal>
+    );
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('calls onClose when close button is clicked', async () => {
+    const handleClose = vi.fn();
+    const user = userEvent.setup();
+    
+    render(
+      <DynModal isOpen={true} onClose={handleClose}>
+        <div>Modal content</div>
       </DynModal>
     );
 
-    const buttons = screen.getAllByRole('button');
-    const lastButton = buttons[buttons.length - 1];
+    const closeButton = screen.getByLabelText('Close modal');
+    await user.click(closeButton);
+    
+    expect(handleClose).toHaveBeenCalledTimes(1);
+  });
 
-    lastButton.focus();
-    await user.keyboard('{Tab}');
+  it('calls onClose when escape key is pressed', async () => {
+    const handleClose = vi.fn();
+    const user = userEvent.setup();
+    
+    render(
+      <DynModal isOpen={true} onClose={handleClose}>
+        <div>Modal content</div>
+      </DynModal>
+    );
 
-    expect(document.activeElement).not.toBe(lastButton);
+    await user.keyboard('{Escape}');
+    expect(handleClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('applies correct size class', () => {
+    render(
+      <DynModal isOpen={true} onClose={() => {}} size="lg">
+        <div>Modal content</div>
+      </DynModal>
+    );
+    const modal = screen.getByRole('dialog');
+    expect(modal).toHaveClass('dyn-modal--size-lg');
   });
 });

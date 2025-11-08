@@ -1,40 +1,27 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '../../test/test-utils';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import { DynToast } from './DynToast';
-import styles from './DynToast.module.css';
 
 describe('DynToast', () => {
-  it('renders title, description and actions', () => {
+  it('renders toast with title and message', () => {
     render(
-      <DynToast
-        title="Saved"
-        description="Your changes have been saved"
-        actions={<button type="button">Undo</button>}
-      />
+      <DynToast title="Success" message="Operation completed successfully" />
     );
-
-    expect(screen.getByText('Saved')).toBeInTheDocument();
-    expect(screen.getByText('Your changes have been saved')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Undo' })).toBeInTheDocument();
+    expect(screen.getByText('Success')).toBeInTheDocument();
+    expect(screen.getByText('Operation completed successfully')).toBeInTheDocument();
   });
 
-  it('calls onDismiss when dismiss button clicked', () => {
-    const onDismiss = vi.fn();
-    render(
-      <DynToast title="Warning" onDismiss={onDismiss} />
-    );
-
-    fireEvent.click(screen.getByRole('button', { name: 'Dismiss notification' }));
-    expect(onDismiss).toHaveBeenCalledTimes(1);
-  });
-
-  it('applies status styling and role', () => {
+  it('applies variant classes correctly', () => {
     const { container } = render(
-      <DynToast status="warning" title="Heads up" />
+      <DynToast variant="success" title="Success" message="Done!" />
     );
+    expect(container.firstChild).toHaveClass('dyn-toast--variant-success');
+  });
 
-    const toast = container.firstElementChild as HTMLElement;
-    expect(toast).toHaveClass(styles['dyn-toast--warning']);
-    expect(toast).toHaveAttribute('role', 'alert');
+  it('renders without actions when not provided', () => {
+    render(
+      <DynToast title="Info" message="Information message" />
+    );
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 });

@@ -16,37 +16,39 @@ type PolymorphicComponentPropWithRef<
   Props = object
 > = PolymorphicComponentProp<C, Props> & { ref?: PolymorphicRef<C> };
 
+export interface DynBadgeBaseProps {
+  /**
+   * Badge size using design tokens
+   * @default 'md'
+   */
+  size?: ComponentSize;
+  
+  /**
+   * Color variant
+   * @default 'neutral'
+   */
+  color?: ComponentColor;
+  
+  /**
+   * Visual variant
+   * @default 'solid'
+   */
+  variant?: 'solid' | 'outline' | 'soft';
+  
+  /**
+   * Badge content
+   */
+  children?: React.ReactNode;
+  
+  /**
+   * Additional CSS class names
+   */
+  className?: string;
+}
+
 export type DynBadgeProps<C extends React.ElementType = 'span'> = PolymorphicComponentPropWithRef<
   C,
-  {
-    /**
-     * Badge size using design tokens
-     * @default 'md'
-     */
-    size?: ComponentSize;
-    
-    /**
-     * Color variant
-     * @default 'neutral'
-     */
-    color?: ComponentColor;
-    
-    /**
-     * Visual variant
-     * @default 'solid'
-     */
-    variant?: 'solid' | 'outline' | 'soft';
-    
-    /**
-     * Badge content
-     */
-    children: React.ReactNode;
-    
-    /**
-     * Additional CSS class names
-     */
-    className?: string;
-  }
+  DynBadgeBaseProps
 >;
 
 type DynBadgeComponent = <C extends React.ElementType = 'span'>(
@@ -62,7 +64,7 @@ type DynBadgeComponent = <C extends React.ElementType = 'span'>(
  * - Multiple visual styles (solid, outline, soft)
  * - Polymorphic rendering (span, a, button, etc.)
  */
-export const DynBadge: DynBadgeComponent = forwardRef(
+export const DynBadge: DynBadgeComponent & { displayName?: string } = forwardRef(
   <C extends React.ElementType = 'span'>(
     {
       size = 'md',
@@ -97,4 +99,4 @@ export const DynBadge: DynBadgeComponent = forwardRef(
   }
 ) as DynBadgeComponent;
 
-(DynBadge as any).displayName = 'DynBadge';
+DynBadge.displayName = 'DynBadge';

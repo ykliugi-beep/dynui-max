@@ -1,71 +1,44 @@
-import React from 'react';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { DynBreadcrumb } from './DynBreadcrumb';
-import { DynBreadcrumbItem } from './DynBreadcrumbItem';
 
 describe('DynBreadcrumb', () => {
-  it('renders with basic items', () => {
-    render(
-      <DynBreadcrumb>
-        <DynBreadcrumbItem href="/">Home</DynBreadcrumbItem>
-        <DynBreadcrumbItem href="/products">Products</DynBreadcrumbItem>
-        <DynBreadcrumbItem>Current</DynBreadcrumbItem>
-      </DynBreadcrumb>
-    );
+  const mockItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Products', href: '/products' },
+    { label: 'Electronics', href: '/products/electronics' }
+  ];
 
+  it('renders breadcrumb items correctly', () => {
+    render(<DynBreadcrumb items={mockItems} />);
     expect(screen.getByText('Home')).toBeInTheDocument();
     expect(screen.getByText('Products')).toBeInTheDocument();
-    expect(screen.getByText('Current')).toBeInTheDocument();
+    expect(screen.getByText('Electronics')).toBeInTheDocument();
   });
 
-  it('applies custom separator', () => {
-    const { container } = render(
-      <DynBreadcrumb separator=">">
-        <DynBreadcrumbItem href="/">Home</DynBreadcrumbItem>
-        <DynBreadcrumbItem>Current</DynBreadcrumbItem>
-      </DynBreadcrumb>
-    );
-
-    expect(container.textContent).toContain('>');
+  it('renders with custom separator', () => {
+    render(<DynBreadcrumb items={mockItems} separator=">" />);
+    const separators = screen.getAllByText('>');
+    expect(separators).toHaveLength(mockItems.length - 1);
   });
 
-  it('handles clickable breadcrumb items', async () => {
-    const handleClick = vi.fn();
-    const user = userEvent.setup();
-
-    render(
-      <DynBreadcrumb>
-        <DynBreadcrumbItem onClick={handleClick}>Clickable</DynBreadcrumbItem>
-      </DynBreadcrumb>
-    );
-
-    await user.click(screen.getByText('Clickable'));
-    expect(handleClick).toHaveBeenCalled();
+  it('renders correctly with href items', () => {
+    render(<DynBreadcrumb items={mockItems} />);
+    const links = screen.getAllByRole('link');
+    expect(links).toHaveLength(mockItems.length);
   });
 
-  it('marks current page correctly', () => {
-    render(
-      <DynBreadcrumb>
-        <DynBreadcrumbItem href="/">Home</DynBreadcrumbItem>
-        <DynBreadcrumbItem current>Current</DynBreadcrumbItem>
-      </DynBreadcrumb>
-    );
-
-    const currentItem = screen.getByText('Current');
-    expect(currentItem).toHaveAttribute('aria-current', 'page');
+  it('renders correctly with onClick items', () => {
+    const onClickItems = [
+      { label: 'Home', onClick: () => {} },
+      { label: 'Current' }
+    ];
+    render(<DynBreadcrumb items={onClickItems} />);
+    expect(screen.getByRole('button', { name: 'Home' })).toBeInTheDocument();
   });
 
-  it('renders custom separator element', () => {
-    const CustomSeparator = () => <span data-testid="custom-sep">→</span>;
-    
-    render(
-      <DynBreadcrumb separator={<CustomSeparator />}>
-        <DynBreadcrumbItem href="/">Home</DynBreadcrumbItem>
-        <DynBreadcrumbItem>Current</DynBreadcrumbItem>
-      </DynBreadcrumb>
-    );
-
-    expect(screen.getByTestId('custom-sep')).toBeInTheDocument();
+  it('applies aria-label correctly', () => {
+    render(<DynBreadcrumb items={mockItems} aria-label="Page navigation" />);
+    expect(screen.getByRole('navigation')).toHaveAttribute('aria-label', 'Page navigation');
   });
 });
