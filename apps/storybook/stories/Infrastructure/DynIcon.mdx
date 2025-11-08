@@ -1,30 +1,88 @@
-import { Meta } from '@storybook/blocks';
+{/* DynIcon.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynIcon.stories';
 
-<Meta title="Infrastructure/DynIcon" />
+<Meta of={Stories} />
 
 # DynIcon
 
-Icon registry system with size and color token integration.
+Icon system with size, color, and accessibility features.
 
-## Features
+## Overview
 
-- **Icon Registry**: Centralized icon management system
-- **Size Variants**: Multiple size options using design tokens
-- **Color Integration**: Theme-aware color system
-- **Accessibility**: Proper ARIA labels and semantic meaning
-- **SVG Optimization**: Optimized SVG rendering
-- **Custom Icons**: Support for custom icon registration
+DynIcon provides a unified icon component:
+- Design token-driven sizing and colors
+- Accessible labels
+- Customizable icon set
+- Consistent styling across app
 
-## Usage Examples
+<Canvas of={Stories.Default} />
 
-- Button icons
-- Navigation indicators
-- Status symbols
-- Decorative elements
+## Use Cases
+
+- **Buttons** - Visual affordance for actions
+- **Navigation** - Menu and breadcrumb icons
+- **Status indicators** - Success, warning, error states
+- **Form fields** - Input prefixes/suffixes
+
+## Variants
+
+### Sizes
+
+<Canvas of={Stories.Sizes} />
+
+### Colors
+
+<Canvas of={Stories.Colors} />
+
+### Icon Set
+
+<Canvas of={Stories.IconSet} />
+
+## Accessibility
+
+- Decorative icons: `aria-hidden="true"`
+- Meaningful icons: include accessible label
+- Sufficient color contrast
+- Don't rely solely on icons (pair with text)
 
 ## Best Practices
 
-- Use semantic icon names
-- Provide alternative text for context
-- Keep icon library lean and focused
-- Ensure icons work at different sizes
+✅ **Do:**
+- Use consistent icon sizes within context
+- Pair icons with text labels when possible
+- Choose recognizable, standard icons
+- Use semantic colors (red=error, green=success)
+
+❌ **Don't:**
+- Use icons alone without labels for important actions
+- Mix icon styles (outline vs filled)
+- Use unclear or ambiguous icons
+- Forget accessible labels
+
+## Props
+
+<Controls of={Stories.Default} />
+
+## Examples
+
+### In Buttons
+
+```tsx
+import { DynButton, DynIcon } from '@dynui-max/core';
+
+<DynButton>
+  <DynIcon name="plus" size="sm" />
+  Add Item
+</DynButton>
+```
+
+### Icon Only (with label)
+
+```tsx
+import { DynIcon } from '@dynui-max/core';
+
+<button aria-label="Close">
+  <DynIcon name="close" aria-hidden="true" />
+</button>
+```

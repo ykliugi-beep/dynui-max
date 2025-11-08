@@ -1,31 +1,130 @@
-import { Meta } from '@storybook/blocks';
+{/* DynTable.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynTable.stories';
 
-<Meta title="Data/DynTable" />
+<Meta of={Stories} />
 
 # DynTable
 
 Advanced data table with sorting, selection, and loading states.
 
-## Features
+## Overview
 
-- **Sorting**: Click column headers to sort data
-- **Row Selection**: Single or multiple row selection
-- **Loading States**: Skeleton loading and empty states
-- **Responsive Design**: Mobile-friendly table layout
-- **Accessibility**: Screen reader support and keyboard navigation
-- **Custom Renderers**: Custom cell rendering functions
-- **Pagination**: Built-in pagination controls
+DynTable displays structured data with rich functionality:
+- Column sorting (ascending/descending)
+- Row selection (single and multi-select)
+- Loading and empty states
+- Custom cell rendering
+- Sticky headers
+- Responsive design
 
-## Usage Examples
+<Canvas of={Stories.Default} />
 
-- Data grids
-- Admin dashboards
-- Report tables
-- Content management
+## Use Cases
+
+- **Data grids** - Display datasets with sorting/filtering
+- **User lists** - Manage users with batch actions
+- **Reports** - Financial data, analytics tables
+- **Product catalogs** - Inventory management
+
+## Variants
+
+### Sortable Columns
+
+<Canvas of={Stories.Sortable} />
+
+### Row Selection
+
+<Canvas of={Stories.WithSelection} />
+
+### Loading State
+
+<Canvas of={Stories.Loading} />
+
+### Empty State
+
+<Canvas of={Stories.Empty} />
+
+## Accessibility
+
+### Keyboard Navigation
+
+- **Tab** - Navigate between interactive elements
+- **Space** - Toggle row selection
+- **Enter** - Activate sort on header
+- **Arrow keys** - Navigate cells (when implemented)
+
+### Screen Reader Support
+
+- Uses semantic `<table>` elements
+- `scope` attributes on headers
+- `aria-sort` on sortable columns
+- Selection state announced
 
 ## Best Practices
 
-- Keep column count reasonable for readability
-- Provide clear sorting indicators
-- Use loading states for better UX
-- Test with screen readers
+✅ **Do:**
+- Use clear, descriptive column headers
+- Provide loading and empty states
+- Limit visible columns (5-8 typically)
+- Make sort direction clear
+- Show selection count
+
+❌ **Don't:**
+- Display too many columns (use column toggling)
+- Make all columns sortable if not needed
+- Forget loading states for async data
+- Use tables for non-tabular data
+
+## Props
+
+<Controls of={Stories.Default} />
+
+## Examples
+
+### Basic Table
+
+```tsx
+import { DynTable } from '@dynui-max/core';
+
+const columns = [
+  { key: 'name', title: 'Name', dataIndex: 'name' },
+  { key: 'email', title: 'Email', dataIndex: 'email' },
+  { key: 'role', title: 'Role', dataIndex: 'role' },
+];
+
+const data = [
+  { key: '1', name: 'Alice', email: 'alice@example.com', role: 'Admin' },
+  { key: '2', name: 'Bob', email: 'bob@example.com', role: 'User' },
+];
+
+<DynTable columns={columns} dataSource={data} />
+```
+
+### With Custom Rendering
+
+```tsx
+import { DynTable, DynBadge, DynAvatar } from '@dynui-max/core';
+
+const columns = [
+  { 
+    key: 'user', 
+    title: 'User',
+    render: (_, record) => (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <DynAvatar name={record.name} size="sm" />
+        <span>{record.name}</span>
+      </div>
+    )
+  },
+  { 
+    key: 'status', 
+    title: 'Status',
+    render: (status) => (
+      <DynBadge color={status === 'active' ? 'success' : 'neutral'}>
+        {status}
+      </DynBadge>
+    )
+  },
+];
+```
