@@ -1,16 +1,18 @@
 import '@testing-library/jest-dom';
 import { expect } from 'vitest';
-import { toHaveNoViolations } from 'jest-axe';
+import type { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
+import type { AxeMatchers } from 'jest-axe';
 
-// Extend Vitest's expect with jest-axe toHaveNoViolations matcher only
-expect.extend({ toHaveNoViolations });
+// Import jest-axe properly
+import * as jestAxe from 'jest-axe';
 
-// Add type declarations for jest-axe matchers
+// Extend expect with jest-axe matchers
+expect.extend(jestAxe);
+
+// Type declarations
 declare module 'vitest' {
-  interface Assertion {
-    toHaveNoViolations(): void;
+  interface Assertion<T = any> extends TestingLibraryMatchers<typeof expect.stringContaining, T> {
+    toHaveNoViolations(): T;
   }
-  interface AsymmetricMatchersContaining {
-    toHaveNoViolations(): void;
-  }
+  interface AsymmetricMatchersContaining extends AxeMatchers {}
 }

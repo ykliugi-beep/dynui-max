@@ -4,19 +4,27 @@ import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import './DynBadge.css';
 
 // Polymorphic component types
-type PolymorphicRef<C extends React.ElementType> = React.ComponentPropsWithRef<C>['ref'];
-
-type PolymorphicComponentProp<C extends React.ElementType, Props = object> = {
+type AsProp<C extends React.ElementType> = {
   as?: C;
-} & Props &
-  Omit<React.ComponentPropsWithoutRef<C>, keyof Props | 'as'>;
+};
+
+type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
+
+type PolymorphicComponentProp<
+  C extends React.ElementType,
+  Props = object
+> = React.PropsWithChildren<Props & AsProp<C>> &
+  Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
+
+type PolymorphicRef<C extends React.ElementType> =
+  React.ComponentPropsWithRef<C>['ref'];
 
 type PolymorphicComponentPropWithRef<
   C extends React.ElementType,
   Props = object
 > = PolymorphicComponentProp<C, Props> & { ref?: PolymorphicRef<C> };
 
-export interface DynBadgeBaseProps {
+export interface DynBadgeProps {
   /**
    * Badge size using design tokens
    * @default 'md'
@@ -46,10 +54,9 @@ export interface DynBadgeBaseProps {
   className?: string;
 }
 
-export type DynBadgeProps<C extends React.ElementType = 'span'> = PolymorphicComponentPropWithRef<
-  C,
-  DynBadgeBaseProps
->;
+type DynBadgeComponent = <C extends React.ElementType = 'span'>(
+  props: PolymorphicComponentPropWithRef<C, DynBadgeProps>
+) => React.ReactElement | null;
 
 /**
  * DynBadge - Small status and labeling component
@@ -60,41 +67,39 @@ export type DynBadgeProps<C extends React.ElementType = 'span'> = PolymorphicCom
  * - Multiple visual styles (solid, outline, soft)
  * - Polymorphic rendering (span, a, button, etc.)
  */
-const DynBadgeComponent = <C extends React.ElementType = 'span'>(
-  {
-    size = 'md',
-    color = 'neutral',
-    variant = 'solid',
-    children,
-    className,
-    as,
-    ...props
-  }: DynBadgeProps<C>,
-  ref?: PolymorphicRef<C>
-) => {
-  const Component = as || 'span';
-  
-  const classes = clsx(
-    'dyn-badge',
-    `dyn-badge--size-${size}`,
-    `dyn-badge--color-${color}`,
-    `dyn-badge--variant-${variant}`,
-    className
-  );
-  
-  return (
-    <Component
-      ref={ref}
-      className={classes}
-      {...props}
-    >
-      {children}
-    </Component>
-  );
-};
+export const DynBadge: DynBadgeComponent = forwardRef(
+  <C extends React.ElementType = 'span'>(
+    {
+      size = 'md',
+      color = 'neutral',
+      variant = 'solid',
+      children,
+      className,
+      as,
+      ...props
+    }: PolymorphicComponentPropWithRef<C, DynBadgeProps>,
+    ref?: PolymorphicRef<C>
+  ) => {
+    const Component = as || 'span';
+    
+    const classes = clsx(
+      'dyn-badge',
+      `dyn-badge--size-${size}`,
+      `dyn-badge--color-${color}`,
+      `dyn-badge--variant-${variant}`,
+      className
+    );
+    
+    return (
+      <Component
+        ref={ref}
+        className={classes}
+        {...props}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
 
-export const DynBadge = forwardRef(DynBadgeComponent) as <C extends React.ElementType = 'span'>(
-  props: DynBadgeProps<C> & { ref?: PolymorphicRef<C> }
-) => React.ReactElement | null;
-
-(DynBadge as any).displayName = 'DynBadge';
+DynBadge.displayName = 'DynBadge';
