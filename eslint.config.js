@@ -15,11 +15,13 @@ export default [
       'storybook-static/**',
       'coverage/**',
       '**/*.d.ts',
-      '**/turbo.json'
+      '**/turbo.json',
+      'eslint.config.js'  // Exclude self from linting
     ]
   },
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
+    ignores: ['eslint.config.js'],  // Don't parse config file with TS parser
     languageOptions: {
       ecmaVersion: 2020,
       globals: {
@@ -34,7 +36,8 @@ export default [
         ecmaFeatures: {
           jsx: true
         },
-        project: ['./tsconfig.json', './packages/*/tsconfig.json']
+        // Remove project - causes issues with config files
+        // project: ['./tsconfig.json', './packages/*/tsconfig.json']
       }
     },
     plugins: {
