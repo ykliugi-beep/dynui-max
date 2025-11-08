@@ -4,7 +4,6 @@ import type { ComponentSize } from '@dynui-max/design-tokens';
 import type { InputVariant } from '../DynInput';
 import { DynIcon } from '../DynIcon';
 import { useClickOutside } from '../../hooks/useClickOutside';
-import { useKeyboard } from '../../hooks/useKeyboard';
 import './DynSelect.css';
 
 export interface SelectOption {
@@ -12,6 +11,7 @@ export interface SelectOption {
   label: string;
   description?: string;
   disabled?: boolean;
+  icon?: string | React.ReactNode;
 }
 
 export interface DynSelectProps {
