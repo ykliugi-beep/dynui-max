@@ -1,8 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from 'vitest-axe';
 import { DynButton } from './DynButton';
-
-expect.extend(toHaveNoViolations);
 
 describe('DynButton', () => {
   it('renders correctly with default props', () => {
