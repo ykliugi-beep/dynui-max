@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import styles from './DynCard.module.css';
@@ -6,7 +6,7 @@ import styles from './DynCard.module.css';
 type CardVariant = 'elevated' | 'outlined' | 'subtle';
 type CornerRadius = ComponentSize | 'none' | 'full' | 'xl' | '2xl';
 
-export interface DynCardProps extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
+export interface DynCardProps {
   variant?: CardVariant;
   padding?: ComponentSize;
   radius?: CornerRadius;
@@ -17,7 +17,9 @@ export interface DynCardProps extends Omit<React.HTMLAttributes<HTMLElement>, 't
   actions?: React.ReactNode;
   footer?: React.ReactNode;
   interactive?: boolean;
-  as?: React.ElementType;
+  children?: React.ReactNode;
+  className?: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const radiusToClass: Record<CornerRadius, string> = {
@@ -31,7 +33,7 @@ const radiusToClass: Record<CornerRadius, string> = {
   full: 'dyn-card--radius-full'
 };
 
-export const DynCard = React.forwardRef<HTMLElement, DynCardProps>((
+export const DynCard = forwardRef<HTMLDivElement, DynCardProps>((
   {
     variant = 'elevated',
     padding = 'md',
@@ -43,9 +45,9 @@ export const DynCard = React.forwardRef<HTMLElement, DynCardProps>((
     actions,
     footer,
     interactive = false,
-    as: Component = 'article',
     className,
     children,
+    onClick,
     ...props
   },
   ref
@@ -69,24 +71,20 @@ export const DynCard = React.forwardRef<HTMLElement, DynCardProps>((
     </div>
   ) : null);
 
-  const dataProps = {
-    ...(interactive ? { 'data-interactive': 'true' } : {})
-  };
-
   return (
-    <Component
+    <div
       ref={ref}
       className={classNames}
       role={interactive ? 'group' : undefined}
       tabIndex={interactive ? 0 : undefined}
-      {...dataProps}
+      onClick={onClick}
       {...props}
     >
       {media && <div className={styles['dyn-card__media']}>{media}</div>}
       {headerContent}
       {children && <div className={styles['dyn-card__body']}>{children}</div>}
       {footer && <div className={styles['dyn-card__footer']}>{footer}</div>}
-    </Component>
+    </div>
   );
 });
 
