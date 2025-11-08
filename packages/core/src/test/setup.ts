@@ -1,16 +1,14 @@
 import '@testing-library/jest-dom';
 import { beforeAll, afterEach, expect } from 'vitest';
 import { cleanup } from '@testing-library/react';
-import { toHaveNoViolations, axe } from 'jest-axe';
+import { toHaveNoViolations } from 'jest-axe';
 
-// ===================================================
-// CRITICAL: Register jest-axe matchers globally
-// This fixes "toHaveNoViolations" TypeScript errors
-// ===================================================
-expect.extend(toHaveNoViolations);
+// CRITICAL: Extend ONLY the matcher
+// @ts-expect-error - jest-axe types don't perfectly match Vitest matcher signature
+expect.extend({ toHaveNoViolations });
 
-// Export axe for use in test files
-export { axe };
+// Export axe separately
+export { axe } from 'jest-axe';
 
 // Cleanup after each test
 afterEach(() => {
@@ -33,7 +31,6 @@ beforeAll(() => {
     }),
   });
 
-  // Mock localStorage
   const localStorageMock = {
     getItem: (_key: string) => null,
     setItem: (_key: string, _value: string) => {},

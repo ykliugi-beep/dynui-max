@@ -6,13 +6,15 @@
     "paths": {
       "@dynui-max/design-tokens": ["../design-tokens/src"]
     },
-    "types": ["vitest/globals", "jest"]
+    "types": ["vitest/globals"]
   },
   "include": [
     "src/**/*",
+    "src/test/**/*",
     "test/**/*",
     "**/*.test.ts",
-    "**/*.test.tsx"
+    "**/*.test.tsx",
+    "src/test/vitest-enf.d.ts"  
   ],
   "references": [
     {

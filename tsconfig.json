@@ -85,7 +85,7 @@
     "apps/*/src/**/*.tsx",
     "tools/*/src/**/*.ts",
     "tools/*/src/**/*.tsx"
-  ],
+, "packages/core/src/test/vitest-enf.d.ts"  ],
   "exclude": [
     "node_modules",
     "**/node_modules",
