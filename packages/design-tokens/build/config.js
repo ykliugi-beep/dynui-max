@@ -2,7 +2,7 @@ import StyleDictionary from 'style-dictionary';
 import { initializeCustomTransforms } from './transforms.js';
 
 // REGISTRUJ custom transfome i grupe na GLOBALNOM StyleDictionary objektu
-i nitializeCustomTransforms(StyleDictionary);
+initializeCustomTransforms(StyleDictionary);
 
 // Custom format for CSS variables with theming support
 StyleDictionary.registerFormat({
