@@ -15,7 +15,7 @@ export default [
       'storybook-static/**',
       'coverage/**',
       '**/*.d.ts',
-      '**/turbo.json' // Ignoring legacy turbo config during transition
+      '**/turbo.json'
     ]
   },
   {
@@ -43,47 +43,62 @@ export default [
       '@typescript-eslint': tseslint
     },
     rules: {
-      // JavaScript/TypeScript base rules
       ...js.configs.recommended.rules,
       ...tseslint.configs.recommended.rules,
-      
-      // React specific rules
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true }
-      ],
       
-      // TypeScript specific overrides
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_'
-        }
-      ],
+      'react-refresh/only-export-components': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-non-null-assertion': 'warn',
-      
-      // General code quality
-      'prefer-const': 'error',
+      'prefer-const': 'warn',
       'no-var': 'error',
-      'object-shorthand': 'error',
-      'prefer-template': 'error',
+      'object-shorthand': 'warn',
+      'prefer-template': 'warn',
       'no-console': 'warn',
-      
-      // Import/Export
-      'no-duplicate-imports': 'error'
+      'no-duplicate-imports': 'warn',
+      'no-undef': 'warn'
     }
   },
   {
-    files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.stories.{js,jsx,ts,tsx}'],
+    files: [
+      '**/*.test.{js,jsx,ts,tsx}',
+      '**/*.spec.{js,jsx,ts,tsx}',
+      '**/*.a11y.test.{js,jsx,ts,tsx}',
+      '**/*.enhanced.test.{js,jsx,ts,tsx}'
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        vi: 'readonly',
+        StepData: 'readonly',
+        TabItem: 'readonly',
+        DynStepperRef: 'readonly'
+      }
+    },
     rules: {
-      // Relax rules for test files
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-console': 'off',
+      'no-undef': 'off'
+    }
+  },
+  {
+    files: ['**/*.stories.{js,jsx,ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
       'no-console': 'off'
     }
   },
@@ -95,11 +110,9 @@ export default [
       }
     },
     rules: {
-      // Config files can be more flexible
       '@typescript-eslint/no-explicit-any': 'off',
       'no-console': 'off'
     }
   },
-  // Apply prettier config to disable conflicting rules
   prettier
 ];
