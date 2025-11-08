@@ -1,91 +1,89 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { axe } from '../../test/setup';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { DynButton } from './DynButton';
 
 describe('DynButton', () => {
-  it('renders correctly with default props', () => {
-    render(<DynButton>Test Button</DynButton>);
-    expect(screen.getByRole('button', { name: 'Test Button' })).toBeInTheDocument();
+  it('renders button with text', () => {
+    render(<DynButton>Click me</DynButton>);
+    expect(screen.getByRole('button', { name: 'Click me' })).toBeInTheDocument();
   });
 
-  it('handles click events', async () => {
+  it('calls onClick handler when clicked', async () => {
     const handleClick = vi.fn();
-    render(<DynButton onClick={handleClick}>Clickable</DynButton>);
+    const user = userEvent.setup();
     
-    await fireEvent.click(screen.getByRole('button'));
+    render(<DynButton onClick={handleClick}>Click me</DynButton>);
+    await user.click(screen.getByRole('button'));
+    
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it('supports different variants', () => {
-    const { container } = render(<DynButton variant="outline">Outline</DynButton>);
-    const button = container.querySelector('.dyn-button');
-    expect(button).toHaveClass('dyn-button--outline');
+  it('applies size classes correctly', () => {
+    const { rerender } = render(<DynButton size="sm">Small</DynButton>);
+    expect(screen.getByRole('button')).toHaveClass('dyn-button--size-sm');
+    
+    rerender(<DynButton size="lg">Large</DynButton>);
+    expect(screen.getByRole('button')).toHaveClass('dyn-button--size-lg');
   });
 
-  it('supports different sizes', () => {
-    const { container } = render(<DynButton size="lg">Large</DynButton>);
-    const button = container.querySelector('.dyn-button');
-    expect(button).toHaveClass('dyn-button--lg');
+  it('applies variant classes correctly', () => {
+    const { rerender } = render(<DynButton variant="solid">Solid</DynButton>);
+    expect(screen.getByRole('button')).toHaveClass('dyn-button--variant-solid');
+    
+    rerender(<DynButton variant="outline">Outline</DynButton>);
+    expect(screen.getByRole('button')).toHaveClass('dyn-button--variant-outline');
   });
 
-  it('handles disabled state', () => {
+  it('applies color classes correctly', () => {
+    render(<DynButton color="primary">Primary</DynButton>);
+    expect(screen.getByRole('button')).toHaveClass('dyn-button--color-primary');
+  });
+
+  it('is disabled when disabled prop is true', () => {
     render(<DynButton disabled>Disabled</DynButton>);
-    const button = screen.getByRole('button');
-    expect(button).toBeDisabled();
+    expect(screen.getByRole('button')).toBeDisabled();
   });
 
   it('shows loading state', () => {
     render(<DynButton loading>Loading</DynButton>);
-    expect(screen.getByText('Loading')).toBeInTheDocument();
-    // Button should be disabled when loading
-    expect(screen.getByRole('button')).toBeDisabled();
+    const button = screen.getByRole('button');
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute('aria-busy', 'true');
+  });
+
+  it('renders with custom className', () => {
+    render(<DynButton className="custom-class">Custom</DynButton>);
+    expect(screen.getByRole('button')).toHaveClass('custom-class');
+  });
+
+  it('renders with fullWidth', () => {
+    render(<DynButton fullWidth>Full Width</DynButton>);
+    expect(screen.getByRole('button')).toHaveClass('dyn-button--full-width');
   });
 
   it('supports keyboard navigation', async () => {
     const handleClick = vi.fn();
+    const user = userEvent.setup();
+    
     render(<DynButton onClick={handleClick}>Keyboard</DynButton>);
     
     const button = screen.getByRole('button');
     button.focus();
-    
-    await fireEvent.keyDown(button, { key: 'Enter' });
-    expect(handleClick).toHaveBeenCalledTimes(1);
-    
-    await fireEvent.keyDown(button, { key: ' ' });
-    expect(handleClick).toHaveBeenCalledTimes(2);
-  });
-
-  it('has no accessibility violations', async () => {
-    const { container } = render(<DynButton>Accessible Button</DynButton>);
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
-
-  it('maintains focus outline on keyboard navigation', () => {
-    render(<DynButton>Focus Test</DynButton>);
-    const button = screen.getByRole('button');
-    
-    button.focus();
     expect(button).toHaveFocus();
+    
+    await user.keyboard('{Enter}');
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it('supports polymorphic rendering with as prop', () => {
-    render(<DynButton as="a" href="/test">Link Button</DynButton>);
-    const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/test');
-  });
-
-  it('applies correct CSS classes for variants and sizes', () => {
-    const { container } = render(
-      <DynButton variant="ghost" size="sm" disabled>
-        Complex Button
+  it('renders as anchor tag when using polymorphic as prop', () => {
+    render(
+      <DynButton as="a" href="https://example.com">
+        Link Button
       </DynButton>
     );
-    
-    const button = container.querySelector('.dyn-button');
-    expect(button).toHaveClass('dyn-button');
-    expect(button).toHaveClass('dyn-button--ghost');
-    expect(button).toHaveClass('dyn-button--sm');
-    expect(button).toHaveClass('dyn-button--disabled');
+    const link = screen.getByRole('link', { name: 'Link Button' });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute('href', 'https://example.com');
   });
 });

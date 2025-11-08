@@ -1,20 +1,18 @@
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { describe, it, expect } from 'vitest';
+import { render } from '@testing-library/react';
+import { axe } from 'jest-axe';
 import { DynBreadcrumb } from './DynBreadcrumb';
-import { DynBreadcrumbItem } from './DynBreadcrumbItem';
 
-expect.extend(toHaveNoViolations);
-
-describe('DynBreadcrumb - Accessibility', () => {
-  it('has no accessibility violations', async () => {
+describe('DynBreadcrumb Accessibility', () => {
+  it('should not have accessibility violations', async () => {
+    const items = [
+      { label: 'Home', href: '/' },
+      { label: 'Products', href: '/products' },
+      { label: 'Current Page' }
+    ];
     const { container } = render(
-      <DynBreadcrumb aria-label="Breadcrumb navigation">
-        <DynBreadcrumbItem href="/">Home</DynBreadcrumbItem>
-        <DynBreadcrumbItem href="/products">Products</DynBreadcrumbItem>
-        <DynBreadcrumbItem current>Current Page</DynBreadcrumbItem>
-      </DynBreadcrumb>
+      <DynBreadcrumb items={items} aria-label="Breadcrumb navigation" />
     );
-
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });

@@ -1,9 +1,7 @@
+import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from 'jest-axe';
 import { DynTable } from './DynTable';
-import type { TableColumn } from './DynTable';
-
-expect.extend(toHaveNoViolations);
 
 interface TestData {
   id: number;
@@ -11,24 +9,24 @@ interface TestData {
   email: string;
 }
 
-const mockData: TestData[] = [
-  { id: 1, name: 'John Doe', email: 'john@example.com' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
-];
+describe('DynTable Accessibility', () => {
+  it('should not have accessibility violations', async () => {
+    const columns = [
+      { key: 'id', label: 'ID', sortable: true },
+      { key: 'name', label: 'Name', sortable: true },
+      { key: 'email', label: 'Email' }
+    ];
 
-const mockColumns: TableColumn<TestData>[] = [
-  { key: 'name', title: 'Name', dataIndex: 'name' },
-  { key: 'email', title: 'Email', dataIndex: 'email' },
-  { key: 'actions', title: 'Actions', sortable: true }
-];
+    const rows: TestData[] = [
+      { id: 1, name: 'John Doe', email: 'john@example.com' },
+      { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
+    ];
 
-describe('DynTable - Accessibility', () => {
-  it('has no accessibility violations', async () => {
     const { container } = render(
-      <DynTable
-        columns={mockColumns}
-        data={mockData}
-        caption="User data table"
+      <DynTable<TestData>
+        columns={columns}
+        rows={rows}
+        caption="Test data table"
       />
     );
 
