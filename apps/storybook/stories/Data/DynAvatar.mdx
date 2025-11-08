@@ -1,30 +1,104 @@
-import { Meta } from '@storybook/blocks';
+{/* DynAvatar.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynAvatar.stories';
 
-<Meta title="Data/DynAvatar" />
+<Meta of={Stories} />
 
 # DynAvatar
 
-User avatar component with image fallback to initials and multiple size variants.
+User avatar with image fallback to initials and customizable styling.
 
-## Features
+## Overview
 
-- **Image Fallback**: Graceful fallback to initials when image fails
-- **Size Variants**: Multiple size options (xs, sm, md, lg, xl)
-- **Accessibility**: Proper alt text and ARIA attributes
-- **Status Indicators**: Optional status dot for online/offline states
-- **Responsive Images**: Optimized loading and display
-- **Custom Styling**: Theme integration with design tokens
+DynAvatar displays user profile images with automatic fallback:
+- Image with graceful error handling
+- Automatic initials generation from name
+- Multiple size variants
+- Status indicator support
+- Accessible alt text
 
-## Usage Examples
+<Canvas of={Stories.Default} />
 
-- User profiles
-- Comment sections
-- Team member lists
-- Message threads
+## Use Cases
+
+- **User profiles** - Display user identity in headers, lists
+- **Comment threads** - Show comment authors
+- **Team members** - Display team rosters
+- **Chat interfaces** - Show conversation participants
+
+## Variants
+
+### Sizes
+
+<Canvas of={Stories.Sizes} />
+
+### With Status Indicator
+
+<Canvas of={Stories.WithStatus} />
+
+### Fallback Initials
+
+<Canvas of={Stories.Fallback} />
+
+## Accessibility
+
+- Proper `alt` text for images
+- Fallback to text content for screen readers
+- Color contrast meets WCAG AA standards
+- Status indicators have accessible labels
 
 ## Best Practices
 
-- Always provide fallback text (name or initials)
-- Use appropriate sizes for context
-- Optimize images for performance
-- Consider privacy implications
+✅ **Do:**
+- Always provide a `name` prop for fallback initials
+- Use appropriate size for context
+- Optimize images for display size
+- Include status only when meaningful
+
+❌ **Don't:**
+- Use excessively large images
+- Omit alt text or name
+- Stack too many avatars (use avatar group)
+- Use for non-person entities without context
+
+## Props
+
+<Controls of={Stories.Default} />
+
+## Examples
+
+### Basic Avatar
+
+```tsx
+import { DynAvatar } from '@dynui-max/core';
+
+<DynAvatar 
+  name="John Doe" 
+  src="https://example.com/avatar.jpg"
+  size="md"
+/>
+```
+
+### Avatar Group
+
+```tsx
+import { DynAvatar, DynBox } from '@dynui-max/core';
+
+const users = [
+  { name: 'Alice Johnson', src: '...' },
+  { name: 'Bob Smith', src: '...' },
+  { name: 'Carol White', src: '...' },
+];
+
+<DynBox display="flex" style={{ marginLeft: '-8px' }}>
+  {users.map(user => (
+    <DynAvatar
+      key={user.name}
+      name={user.name}
+      src={user.src}
+      size="sm"
+      style={{ marginLeft: '-8px', border: '2px solid white' }}
+    />
+  ))}
+</DynBox>
+```
