@@ -72,10 +72,16 @@ catalogs:
     "@changesets/cli": ^2.29.7
     "@changesets/changelog-github": ^0.5.1
     concurrently: ^8.2.2
+    "del-cli": ^5.1.0
 
   # Style & Design System Tools
   design:
     "style-dictionary": ^4.4.0
+
+  # Documentation Tools (MISSING - NOW ADDED)
+  docs:
+    "typedoc-plugin-markdown": ^4.2.9
+    "http-server": ^14.1.1
 
 # Package manager specification
 packageManager: "pnpm@9.12.3"

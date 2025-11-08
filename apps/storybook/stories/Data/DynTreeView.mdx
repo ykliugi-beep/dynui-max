@@ -1,31 +1,109 @@
-import { Meta } from '@storybook/blocks';
+{/* DynTreeView.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynTreeView.stories';
 
-<Meta title="Data/DynTreeView" />
+<Meta of={Stories} />
 
 # DynTreeView
 
-Hierarchical tree component with expand/collapse and selection functionality.
+Hierarchical tree with expand/collapse and selection support.
 
-## Features
+## Overview
 
-- **Hierarchical Data**: Support for nested tree structures
-- **Expand/Collapse**: Interactive node expansion
-- **Selection**: Single or multiple node selection
-- **Keyboard Navigation**: Full keyboard support with arrow keys
-- **Accessibility**: ARIA tree implementation
-- **Custom Icons**: Configurable expand/collapse and node icons
-- **Lazy Loading**: Support for dynamic data loading
+DynTreeView displays nested hierarchical data:
+- Expand/collapse nodes
+- Multi-level nesting
+- Node selection
+- Keyboard navigation
+- Custom icons and rendering
+- Lazy loading support
 
-## Usage Examples
+<Canvas of={Stories.Default} />
 
-- File system browsers
-- Organizational charts
-- Category hierarchies
-- Decision trees
+## Use Cases
+
+- **File browsers** - Folder and file hierarchies
+- **Organizational charts** - Company structure
+- **Navigation menus** - Nested site structure
+- **Category trees** - Product taxonomies
+
+## Variants
+
+### With Icons
+
+<Canvas of={Stories.WithIcons} />
+
+### Selectable Nodes
+
+<Canvas of={Stories.Selectable} />
+
+### Lazy Loading
+
+<Canvas of={Stories.LazyLoad} />
+
+## Accessibility
+
+### Keyboard Navigation
+
+- **ArrowUp/ArrowDown** - Navigate between nodes
+- **ArrowRight** - Expand node
+- **ArrowLeft** - Collapse node
+- **Enter/Space** - Select/toggle node
+- **Home/End** - Jump to first/last node
+
+### Screen Reader Support
+
+- Uses `role="tree"` and `role="treeitem"`
+- `aria-expanded` indicates node state
+- `aria-selected` for selected nodes
+- `aria-level` indicates nesting depth
 
 ## Best Practices
 
+✅ **Do:**
+- Use clear, hierarchical labels
+- Show expand/collapse affordances
 - Limit initial expansion depth
-- Provide clear visual hierarchy
-- Use consistent iconography
-- Implement efficient data loading for large trees
+- Provide icons for node types
+- Support keyboard navigation
+
+❌ **Don't:**
+- Auto-expand all nodes (performance)
+- Nest too deeply (>5 levels)
+- Use for flat lists (use DynListView)
+- Hide expand/collapse controls
+
+## Props
+
+<Controls of={Stories.Default} />
+
+## Examples
+
+### File Browser
+
+```tsx
+import { DynTreeView } from '@dynui-max/core';
+
+const treeData = [
+  {
+    key: 'root',
+    title: 'Documents',
+    children: [
+      {
+        key: 'projects',
+        title: 'Projects',
+        children: [
+          { key: 'p1', title: 'Project Alpha', isLeaf: true },
+          { key: 'p2', title: 'Project Beta', isLeaf: true },
+        ],
+      },
+      { key: 'personal', title: 'Personal', isLeaf: true },
+    ],
+  },
+];
+
+<DynTreeView 
+  treeData={treeData}
+  defaultExpandedKeys={['root']}
+/>
+```

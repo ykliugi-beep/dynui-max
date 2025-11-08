@@ -1,30 +1,105 @@
-import { Meta } from '@storybook/blocks';
+{/* ThemeSwitcher.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './ThemeSwitcher.stories';
 
-<Meta title="Infrastructure/ThemeSwitcher" />
+<Meta of={Stories} />
 
 # ThemeSwitcher
 
 Theme toggle component with button, toggle, and dropdown variants.
 
-## Features
+## Overview
 
-- **Multiple Variants**: Button, toggle switch, dropdown options
-- **Theme Persistence**: Remembers user preference
-- **Smooth Transitions**: Animated theme switching
-- **Accessibility**: Keyboard navigation and screen reader support
-- **System Preference**: Respects OS theme preference
-- **Custom Themes**: Support for additional theme options
+ThemeSwitcher allows users to change between light and dark themes:
+- Multiple UI variants (button, toggle, dropdown)
+- Persistent theme preference
+- Smooth transitions
+- System preference detection
+- Accessible controls
 
-## Usage Examples
+<Canvas of={Stories.Default} />
 
-- Application headers
-- Settings panels
-- User preference controls
-- Accessibility toolbars
+## Use Cases
+
+- **User preferences** - Allow theme customization
+- **Accessibility** - Support user visual needs
+- **App headers** - Common placement in navigation
+- **Settings pages** - Part of appearance settings
+
+## Variants
+
+### Button Variant
+
+<Canvas of={Stories.ButtonVariant} />
+
+### Toggle Switch
+
+<Canvas of={Stories.ToggleVariant} />
+
+### Dropdown Menu
+
+<Canvas of={Stories.DropdownVariant} />
+
+## Accessibility
+
+### Keyboard Navigation
+
+- **Tab** - Focus theme switcher
+- **Enter/Space** - Toggle theme (button/toggle)
+- **Arrow keys** - Navigate dropdown options
+
+### Screen Reader Support
+
+- Clear labels ("Switch to dark theme")
+- Current theme announced
+- Role and state properly conveyed
 
 ## Best Practices
 
-- Place in consistent, discoverable location
-- Provide clear visual feedback
-- Test with different themes
-- Consider user preference persistence
+✅ **Do:**
+- Persist theme preference (localStorage)
+- Respect system preference by default
+- Provide smooth transitions
+- Place in accessible location (header)
+- Include clear visual indicator
+
+❌ **Don't:**
+- Force theme without user control
+- Use jarring transitions
+- Hide theme switcher
+- Forget to test both themes
+
+## Props
+
+<Controls of={Stories.Default} />
+
+## Examples
+
+### Basic Usage
+
+```tsx
+import { ThemeSwitcher, ThemeProvider } from '@dynui-max/core';
+
+function App() {
+  return (
+    <ThemeProvider defaultTheme="light">
+      <header>
+        <ThemeSwitcher variant="button" />
+      </header>
+      {/* App content */}
+    </ThemeProvider>
+  );
+}
+```
+
+### With Custom Icons
+
+```tsx
+import { ThemeSwitcher } from '@dynui-max/core';
+
+<ThemeSwitcher 
+  variant="toggle"
+  lightIcon="sun"
+  darkIcon="moon"
+/>
+```

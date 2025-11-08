@@ -72,7 +72,6 @@
     "@testing-library/user-event": "catalog:testing",
     "jsdom": "catalog:testing",
     "vitest": "catalog:testing",
-    "jest-axe": "catalog:testing",
     "vitest-axe": "catalog:testing",
     
     "@storybook/addon-a11y": "catalog:storybook",
@@ -101,14 +100,9 @@
     "eslint-config-prettier": "catalog:quality",
     "eslint-plugin-react": "catalog:quality",
     "eslint-plugin-react-hooks": "catalog:quality",
-    "@eslint/js": "catalog:quality",
-    "eslint-plugin-react-refresh": "catalog:quality",
-    "globals": "catalog:quality",
     
     "husky": "catalog:tooling",
-    "bundlesize": "catalog:tooling",
-    "gzip-size": "catalog:tooling",
-    "del-cli": "catalog:tooling"
+    "bundlesize": "catalog:tooling"
   },
   "pnpm": {
     "allowedDeprecatedVersions": {
@@ -126,11 +120,11 @@
       "jest-playwright-preset": "*",
       "jest-process-manager": "*"
     },
-     "peerDependencyRules": {
+    "peerDependencyRules": {
       "allowedVersions": {
         "react": "18",
         "react-dom": "18", 
-        "typescript": "5.6",
+        "typescript": "5.4",
         "storybook": "8"
       },
       "ignoreMissing": [
@@ -140,7 +134,7 @@
       ]
     },
     "overrides": {
-      "typescript": "catalog:typescript",
+      "typescript": "^5.4.5",
       "source-map": "^0.7.6"
     }
   },
