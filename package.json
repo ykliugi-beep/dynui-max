@@ -17,6 +17,7 @@
   "author": "DynUI-Max Team",
   "workspaces": ["packages/*", "apps/*", "tools/*"],
   "scripts": {
+    "//=== Core Development =====": "",
     "build": "pnpm run -r build",
     "dev": "concurrently \"pnpm --filter=@dynui-max/core run dev\" \"pnpm --filter=@dynui-max/storybook run dev\"",
     "clean": "pnpm -r run clean && pnpm clean:artifacts",
@@ -24,6 +25,7 @@
     "reset": "rimraf node_modules pnpm-lock.yaml && pnpm install",
     "reset:full": "pnpm clean && pnpm build",
 
+    "//=== Quality Gates =====": "",
     "test": "pnpm -r --if-present run test",
     "test:coverage": "pnpm -r --if-present run test:coverage",
     "test:a11y": "pnpm run --filter @dynui-max/core test:a11y",
@@ -34,6 +36,7 @@
     "format:check": "prettier --check .",
     "quality:gates": "pnpm typecheck && pnpm lint && pnpm test:coverage",
 
+    "//=== Documentation & Apps =====": "",
     "storybook": "pnpm --filter=@dynui-max/storybook run dev",
     "storybook:build": "pnpm --filter=@dynui-max/storybook run build",
     "docs:api": "pnpm --filter=@dynui-max/docs run docs:build",
@@ -41,68 +44,70 @@
     "playground": "pnpm --filter=@dynui-max/playground run playground",
     "playground:build": "pnpm --filter=@dynui-max/playground run playground:build",
 
+    "//=== Publishing Pipeline =====": "", 
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",
     "publish:packages": "pnpm build && pnpm quality:gates && pnpm changeset:publish",
 
+    "//=== Maintenance =====": "",
     "deps:update": "pnpm update -r --interactive",
     "deps:audit": "pnpm audit --audit-level moderate",
     "size:analyze": "pnpm build && bundlesize",
     "size:analyze:detailed": "pnpm build && node scripts/bundle-analysis.js",
     "prepare": "husky"
   },
-  "dependencies": {
-    "@dynui-max/design-tokens": "workspace:*"
+  "dependencies": { 
+    "@dynui-max/design-tokens": "workspace:*" 
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^3.0.3",
-    "@changesets/cli": "^2.26.2",
+    "@changesets/changelog-github": "catalog:tooling",
+    "@changesets/cli": "catalog:tooling",
     "concurrently": "^8.2.2",
-    "rimraf": "^5.0.5",
-    "@axe-core/react": "^1.6.1",
-    "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^14.1.2",
-    "@testing-library/user-event": "^14.5.2",
-    "jsdom": "^21.1.0",
-    "vitest": "^2.1.5",
-    "jest-axe": "^7.1.1",
-    "vitest-axe": "^0.1.0",
-    "@storybook/addon-a11y": "^8.3.5",
-    "@storybook/addon-docs": "^8.3.5",
-    "@storybook/addon-essentials": "^8.3.5",
-    "@storybook/addon-interactions": "^8.3.5",
-    "@storybook/react-vite": "^8.3.5",
-    "@storybook/test": "^8.3.5",
-    "@storybook/test-runner": "^8.3.5",
-    "chromatic": "^7.6.0",
-    "storybook": "^8.3.5",
-    "typescript": "^5.6.3",
-    "@types/node": "^20.10.6",
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
-    "vite": "^5.0.8",
-    "tsup": "^8.0.1",
-    "@vitejs/plugin-react": "^4.2.0",
-    "eslint": "^9.1.0",
-    "prettier": "^3.1.1",
-    "@typescript-eslint/parser": "^6.11.0",
-    "@typescript-eslint/eslint-plugin": "^6.11.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "@eslint/js": "^8.53.0",
-    "eslint-plugin-react-refresh": "^0.4.0",
-    "globals": "^13.21.0",
-    "husky": "^8.0.3",
-    "bundlesize": "^0.18.1",
-    "gzip-size": "^7.0.0",
-    "del-cli": "^5.0.0"
+    "rimraf": "catalog:tooling",
+    
+    "@axe-core/react": "catalog:testing",
+    "@testing-library/jest-dom": "catalog:testing",
+    "@testing-library/react": "catalog:testing",
+    "@testing-library/user-event": "catalog:testing",
+    "jsdom": "catalog:testing",
+    "vitest": "catalog:testing",
+    "vitest-axe": "catalog:testing",
+    
+    "@storybook/addon-a11y": "catalog:storybook",
+    "@storybook/addon-docs": "catalog:storybook",
+    "@storybook/addon-essentials": "catalog:storybook",
+    "@storybook/addon-interactions": "catalog:storybook",
+    "@storybook/react-vite": "catalog:storybook",
+    "@storybook/test": "catalog:storybook",
+    "@storybook/test-runner": "catalog:storybook",
+    "chromatic": "catalog:storybook",
+    "storybook": "catalog:storybook",
+    
+    "typescript": "catalog:typescript",
+    "@types/node": "catalog:typescript",
+    "@types/react": "catalog:core",
+    "@types/react-dom": "catalog:core",
+    
+    "vite": "catalog:build",
+    "tsup": "catalog:build",
+    "@vitejs/plugin-react": "catalog:build",
+    
+    "eslint": "catalog:quality",
+    "prettier": "catalog:quality",
+    "@typescript-eslint/parser": "catalog:quality",
+    "@typescript-eslint/eslint-plugin": "catalog:quality",
+    "eslint-config-prettier": "catalog:quality",
+    "eslint-plugin-react": "catalog:quality",
+    "eslint-plugin-react-hooks": "catalog:quality",
+    
+    "husky": "catalog:tooling",
+    "bundlesize": "catalog:tooling"
   },
   "pnpm": {
     "allowedDeprecatedVersions": {
       "glob": "*",
-      "rimraf": "*",
+      "rimraf": "*", 
       "@types/minimatch": "*",
       "abab": "*",
       "domexception": "*",
@@ -118,8 +123,8 @@
     "peerDependencyRules": {
       "allowedVersions": {
         "react": "18",
-        "react-dom": "18",
-        "typescript": "5.6",
+        "react-dom": "18", 
+        "typescript": "5.4",
         "storybook": "8"
       },
       "ignoreMissing": [
@@ -129,13 +134,13 @@
       ]
     },
     "overrides": {
-      "typescript": "^5.6.3",
+      "typescript": "^5.4.5",
       "source-map": "^0.7.6"
     }
   },
-  "engines": {
-    "node": ">=20.0.0",
-    "pnpm": ">=9.0.0"
+  "engines": { 
+    "node": ">=20.0.0", 
+    "pnpm": ">=9.0.0" 
   },
   "packageManager": "pnpm@9.12.3",
   "bundlesize": [
