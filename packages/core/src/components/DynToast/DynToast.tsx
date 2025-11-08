@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { DynIcon } from '../DynIcon';
-import './DynToast.css';
+import styles from './DynToast.module.css';
 
 type ToastVariant = 'info' | 'success' | 'warning' | 'error';
 
@@ -43,24 +43,24 @@ export const DynToast = forwardRef<HTMLDivElement, DynToastProps>((
   }, [duration, onClose]);
 
   const classes = clsx(
-    'dyn-toast',
-    `dyn-toast--${variant}`,
+    styles['dyn-toast'],
+    styles[`dyn-toast--${variant}`],
     className
   );
 
   return (
     <div ref={ref} className={classes} role="alert" {...props}>
-      <div className="dyn-toast__icon" aria-hidden="true">
+      <div className={styles['dyn-toast__icon']} aria-hidden="true">
         <DynIcon name={variantIcons[variant]} />
       </div>
-      <div className="dyn-toast__content">
-        {title && <div className="dyn-toast__title">{title}</div>}
-        {message && <div className="dyn-toast__message">{message}</div>}
+      <div className={styles['dyn-toast__content']}>
+        {title && <div className={styles['dyn-toast__title']}>{title}</div>}
+        {message && <div className={styles['dyn-toast__message']}>{message}</div>}
         {children}
       </div>
       {closable && onClose && (
         <button
-          className="dyn-toast__close"
+          className={styles['dyn-toast__close']}
           onClick={onClose}
           aria-label="Close notification"
           type="button"
