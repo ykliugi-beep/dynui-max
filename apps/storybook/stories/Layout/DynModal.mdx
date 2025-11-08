@@ -1,30 +1,109 @@
-import { Meta } from '@storybook/blocks';
+{/* DynModal.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynModal.stories';
 
-<Meta title="Layout/DynModal" />
+<Meta of={Stories} />
 
 # DynModal
 
-Accessible modal dialog component with focus management and portal rendering.
+Accessible modal dialog with focus trap, portal rendering, and backdrop management.
 
-## Features
+## Overview
 
-- **Focus Management**: Automatically traps focus within modal
-- **Portal Rendering**: Renders outside normal DOM hierarchy
-- **Keyboard Navigation**: ESC to close, proper tab ordering
-- **Accessibility**: WCAG 2.1 AA compliant with ARIA attributes
-- **Backdrop Control**: Optional backdrop click to close
-- **Animation Support**: Smooth open/close transitions
+DynModal provides a fully accessible modal dialog implementation with:
+- Automatic focus management and trap
+- Portal rendering for proper z-index stacking
+- Backdrop click and ESC key dismissal
+- ARIA compliance for screen readers
+- Customizable sizing and styling
 
-## Usage Examples
+<Canvas of={Stories.Default} />
 
-- Confirmation dialogs
-- Form modals
-- Image galleries
-- Settings panels
+## Use Cases
+
+- **Confirmation dialogs** - Delete confirmations, unsaved changes warnings
+- **Forms and wizards** - Multi-step forms, data entry dialogs
+- **Content viewers** - Image galleries, video players, detail views
+- **Alerts and notices** - Important messages requiring user attention
+
+## Variants
+
+### Size Options
+
+<Canvas of={Stories.SizeVariants} />
+
+### Non-Dismissable Backdrop
+
+<Canvas of={Stories.NonDismissableBackdrop} />
+
+## Accessibility Features
+
+### Keyboard Navigation
+
+- **ESC** - Close modal and return focus to trigger element
+- **Tab** - Navigate through focusable elements (trapped within modal)
+- **Shift + Tab** - Navigate backwards
+- **Enter/Space** - Activate buttons and controls
+
+### Screen Reader Support
+
+- Proper ARIA role (`dialog`) and labels
+- Focus trap prevents navigation outside modal
+- Backdrop announced as modal overlay
+- Close button has accessible label
 
 ## Best Practices
 
-- Always provide a clear close mechanism
-- Use descriptive titles and content
-- Test keyboard navigation thoroughly
-- Consider mobile viewport constraints
+✅ **Do:**
+- Always provide a close button or ESC key handler
+- Return focus to trigger element on close
+- Use appropriate size for content
+- Include clear action buttons
+- Provide descriptive `aria-label`
+
+❌ **Don't:**
+- Nest modals within modals
+- Make modals uncloseable
+- Use for non-critical information
+- Overload with too much content
+
+## Props
+
+<Controls of={Stories.Default} />
+
+## Examples
+
+### Confirmation Dialog
+
+```tsx
+import { DynModal, DynButton, DynBox } from '@dynui-max/core';
+import { useState } from 'react';
+
+function DeleteConfirmation() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <DynButton onClick={() => setIsOpen(true)} variant="danger">
+        Delete Item
+      </DynButton>
+      <DynModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        size="sm"
+      >
+        <DynBox display="flex" direction="column" gap="md">
+          <h2>Confirm Deletion</h2>
+          <p>Are you sure? This action cannot be undone.</p>
+          <DynBox display="flex" gap="sm" justify="flex-end">
+            <DynButton variant="outline" onClick={() => setIsOpen(false)}>
+              Cancel
+            </DynButton>
+            <DynButton variant="danger">Delete</DynButton>
+          </DynBox>
+        </DynBox>
+      </DynModal>
+    </>
+  );
+}
+```

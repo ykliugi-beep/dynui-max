@@ -1,30 +1,116 @@
-import { Meta } from '@storybook/blocks';
+{/* DynTabs.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynTabs.stories';
 
-<Meta title="Navigation/DynTabs" />
+<Meta of={Stories} />
 
 # DynTabs
 
-Tab navigation component with keyboard support and orientation variants.
+Tab navigation with keyboard support and orientation variants.
 
-## Features
+## Overview
 
-- **Keyboard Navigation**: Arrow keys, Home, End support
-- **Orientation Options**: Horizontal and vertical layouts
-- **Accessibility**: ARIA tabpanel implementation
-- **Dynamic Content**: Support for lazy loading
-- **Visual States**: Active, hover, disabled states
-- **Responsive Design**: Mobile-friendly interaction
+DynTabs organizes content into separate views accessible via tabs:
+- Keyboard navigation (arrow keys)
+- Horizontal and vertical orientations
+- Controlled and uncontrolled modes
+- Lazy loading support
+- Icon and badge support
 
-## Usage Examples
+<Canvas of={Stories.Default} />
 
-- Settings panels
-- Content organization
-- Dashboard sections
-- Form wizards
+## Use Cases
+
+- **Settings panels** - Organize settings into categories
+- **Dashboards** - Switch between different data views
+- **Multi-step forms** - Navigate form sections
+- **Documentation** - Separate examples, API, code views
+
+## Variants
+
+### Vertical Tabs
+
+<Canvas of={Stories.Vertical} />
+
+### With Icons
+
+<Canvas of={Stories.WithIcons} />
+
+### Disabled Tabs
+
+<Canvas of={Stories.WithDisabled} />
+
+## Accessibility
+
+### Keyboard Navigation
+
+- **ArrowLeft/ArrowRight** - Navigate tabs (horizontal)
+- **ArrowUp/ArrowDown** - Navigate tabs (vertical)
+- **Home/End** - Jump to first/last tab
+- **Tab** - Move focus to tab panel content
+
+### Screen Reader Support
+
+- Uses `role="tablist"`, `role="tab"`, `role="tabpanel"`
+- `aria-selected` indicates active tab
+- `aria-controls` links tabs to panels
+- `aria-labelledby` associates panels with tabs
 
 ## Best Practices
 
-- Keep tab labels short and descriptive
-- Limit number of tabs for usability
-- Ensure content loads efficiently
-- Test keyboard navigation thoroughly
+✅ **Do:**
+- Use clear, concise tab labels
+- Limit number of tabs (typically 3-7)
+- Show active tab clearly
+- Load content lazily when appropriate
+- Maintain state when switching tabs
+
+❌ **Don't:**
+- Use tabs for sequential steps (use stepper instead)
+- Hide critical information in tabs
+- Nest tabs within tabs
+- Use too many tabs (>10)
+
+## Props
+
+<Controls of={Stories.Default} />
+
+## Examples
+
+### Basic Tabs
+
+```tsx
+import { DynTabs } from '@dynui-max/core';
+
+const items = [
+  { value: 'overview', label: 'Overview', panel: <div>Overview content</div> },
+  { value: 'details', label: 'Details', panel: <div>Details content</div> },
+  { value: 'settings', label: 'Settings', panel: <div>Settings content</div> },
+];
+
+<DynTabs items={items} defaultValue="overview" />
+```
+
+### Controlled Tabs
+
+```tsx
+import { DynTabs } from '@dynui-max/core';
+import { useState } from 'react';
+
+function ControlledTabs() {
+  const [activeTab, setActiveTab] = useState('tab1');
+
+  const items = [
+    { value: 'tab1', label: 'Tab 1', panel: <div>Content 1</div> },
+    { value: 'tab2', label: 'Tab 2', panel: <div>Content 2</div> },
+  ];
+
+  return (
+    <DynTabs 
+      items={items} 
+      value={activeTab} 
+      onChange={setActiveTab}
+    />
+  );
+}
+```
