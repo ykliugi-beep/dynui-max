@@ -1,4 +1,4 @@
-import { useEffect, RefObject } from 'react';
+import { useEffect, useRef, RefObject } from 'react';
 
 const FOCUSABLE_ELEMENTS = [
   'a[href]',
@@ -15,15 +15,16 @@ export interface UseFocusTrapOptions {
   returnFocus?: boolean;
 }
 
-export function useFocusTrap(
-  elementRef: RefObject<HTMLElement>,
+export function useFocusTrap<T extends HTMLElement = HTMLElement>(
   options: UseFocusTrapOptions = {}
-) {
+): RefObject<T> {
   const {
     enabled = true,
     initialFocus = true,
     returnFocus = true
   } = options;
+
+  const elementRef = useRef<T>(null);
 
   useEffect(() => {
     if (!enabled || !elementRef.current) return;
@@ -75,5 +76,7 @@ export function useFocusTrap(
         previousActiveElement?.focus();
       }
     };
-  }, [elementRef, enabled, initialFocus, returnFocus]);
+  }, [enabled, initialFocus, returnFocus]);
+
+  return elementRef;
 }
