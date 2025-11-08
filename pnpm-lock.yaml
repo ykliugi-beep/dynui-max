@@ -22,23 +22,6 @@ catalogs:
     '@types/react-dom':
       specifier: ^18.3.1
       version: 18.3.7
-    react:
-      specifier: ^18.3.1
-      version: 18.3.1
-    react-dom:
-      specifier: ^18.3.1
-      version: 18.3.1
-  design:
-    style-dictionary:
-      specifier: ^4.4.0
-      version: 4.4.0
-  docs:
-    http-server:
-      specifier: ^14.1.1
-      version: 14.1.1
-    typedoc-plugin-markdown:
-      specifier: ^4.2.9
-      version: 4.9.0
   quality:
     '@typescript-eslint/eslint-plugin':
       specifier: ^8.15.0
@@ -74,9 +57,6 @@ catalogs:
     '@storybook/addon-interactions':
       specifier: ^8.3.5
       version: 8.6.14
-    '@storybook/react':
-      specifier: ^8.3.5
-      version: 8.6.14
     '@storybook/react-vite':
       specifier: ^8.3.5
       version: 8.6.14
@@ -108,9 +88,6 @@ catalogs:
     axe-core:
       specifier: ^4.10.0
       version: 4.11.0
-    happy-dom:
-      specifier: ^15.7.4
-      version: 15.11.7
     jest-axe:
       specifier: ^9.0.0
       version: 9.0.0
@@ -130,9 +107,6 @@ catalogs:
     bundlesize:
       specifier: ^0.18.2
       version: 0.18.2
-    del-cli:
-      specifier: ^5.1.0
-      version: 5.1.0
     husky:
       specifier: ^9.1.6
       version: 9.1.7
@@ -143,9 +117,6 @@ catalogs:
     '@types/node':
       specifier: ^22.8.7
       version: 22.19.0
-    typedoc:
-      specifier: ^0.26.10
-      version: 0.26.11
 
 overrides:
   typescript: ^5.4.5
@@ -240,6 +211,9 @@ importers:
       eslint-plugin-react-hooks:
         specifier: catalog:quality
         version: 5.2.0(eslint@9.39.1)
+      eslint-plugin-react-refresh:
+        specifier: ^0.4.24
+        version: 0.4.24(eslint@9.39.1)
       husky:
         specifier: catalog:tooling
         version: 9.1.7
@@ -2855,6 +2829,11 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
+
+  eslint-plugin-react-refresh@0.4.24:
+    resolution: {integrity: sha512-nLHIW7TEq3aLrEYWpVaJ1dRgFR+wLDPN8e8FpYAql/bMV2oBEfC37K0gLEGgv9fy66juNShSMV8OkTqzltcG/w==}
+    peerDependencies:
+      eslint: '>=8.40'
 
   eslint-plugin-react@7.37.5:
     resolution: {integrity: sha512-Qteup0SqU15kdocexFNAJMvCJEfa2xUKNV4CC1xsVMrIIqEy3SQ/rqyxCWNzfrd3/ldy6HMlD2e0JDVpDg2qIA==}
@@ -8280,6 +8259,10 @@ snapshots:
       eslint: 9.39.1
 
   eslint-plugin-react-hooks@5.2.0(eslint@9.39.1):
+    dependencies:
+      eslint: 9.39.1
+
+  eslint-plugin-react-refresh@0.4.24(eslint@9.39.1):
     dependencies:
       eslint: 9.39.1
 

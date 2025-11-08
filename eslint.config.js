@@ -50,8 +50,9 @@ export default [
       ...tseslint.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       
-      'react-refresh/only-export-components': 'off',
-      '@typescript-eslint/no-unused-vars': 'warn',
+      // ✅ RELAKSIRANO - warnings umesto errors
+      'react-refresh/only-export-components': 'off', // Ne blokiraj za ovo
+      '@typescript-eslint/no-unused-vars': 'warn', // Warning umesto error
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
@@ -62,9 +63,10 @@ export default [
       'prefer-template': 'warn',
       'no-console': 'warn',
       'no-duplicate-imports': 'warn',
-      'no-undef': 'warn'
+      'no-undef': 'warn' // ✅ Ovo je ključno - warning umesto error
     }
   },
+  // ✅ TEST FILES - VITEST GLOBALS
   {
     files: [
       '**/*.test.{js,jsx,ts,tsx}',
@@ -85,6 +87,7 @@ export default [
         beforeAll: 'readonly',
         afterAll: 'readonly',
         vi: 'readonly',
+        // ✅ DODAJ SPECIFIČNE TIPOVE
         StepData: 'readonly',
         TabItem: 'readonly',
         DynStepperRef: 'readonly'
@@ -92,9 +95,9 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'off', // ✅ Potpuno isključi za testove
       'no-console': 'off',
-      'no-undef': 'off'
+      'no-undef': 'off' // ✅ Isključi za testove
     }
   },
   {
