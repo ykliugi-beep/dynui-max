@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe } from 'vitest-axe';
+import { axe } from '../../test/setup';
 import { DynFieldContainer } from './DynFieldContainer';
 
 const MockInput = ({ id, ...props }: any) => <input id={id} {...props} />;

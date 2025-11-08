@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '../../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { DynModal } from './DynModal';
-import { axe } from 'vitest-axe';
+import { axe } from '../../test/setup';
 
 
 describe('DynModal - Enhanced Tests', () => {

@@ -1,0 +1,139 @@
+warning: in the working copy of 'tools/build-config/dist/index.cjs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tools/build-config/dist/index.d.cts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tools/build-config/dist/index.d.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tools/build-config/dist/index.js', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/packages/core/src/components/DynAvatar/DynAvatar.a11y.test.tsx b/packages/core/src/components/DynAvatar/DynAvatar.a11y.test.tsx[m
+[1mindex fd31d78..e2ac61f 100644[m
+[1m--- a/packages/core/src/components/DynAvatar/DynAvatar.a11y.test.tsx[m
+[1m+++ b/packages/core/src/components/DynAvatar/DynAvatar.a11y.test.tsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import { describe, it, expect } from 'vitest';[m
+ import { render } from '../../test/test-utils';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynAvatar } from './DynAvatar';[m
+ [m
+ describe('DynAvatar Accessibility', () => {[m
+[1mdiff --git a/packages/core/src/components/DynBadge/DynBadge.a11y.test.tsx b/packages/core/src/components/DynBadge/DynBadge.a11y.test.tsx[m
+[1mindex df560ec..e45c419 100644[m
+[1m--- a/packages/core/src/components/DynBadge/DynBadge.a11y.test.tsx[m
+[1m+++ b/packages/core/src/components/DynBadge/DynBadge.a11y.test.tsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import { describe, it, expect } from 'vitest';[m
+ import { render } from '../../test/test-utils';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynBadge } from './DynBadge';[m
+ [m
+ describe('DynBadge Accessibility', () => {[m
+[1mdiff --git a/packages/core/src/components/DynBox/DynBox.a11y.test.tsx b/packages/core/src/components/DynBox/DynBox.a11y.test.tsx[m
+[1mindex 4b651a9..e8182f4 100644[m
+[1m--- a/packages/core/src/components/DynBox/DynBox.a11y.test.tsx[m
+[1m+++ b/packages/core/src/components/DynBox/DynBox.a11y.test.tsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import { describe, it, expect } from 'vitest';[m
+ import { render } from '../../test/test-utils';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynBox } from './DynBox';[m
+ [m
+ describe('DynBox Accessibility', () => {[m
+[1mdiff --git a/packages/core/src/components/DynBreadcrumb/DynBreadcrumb.a11y.test.tsx b/packages/core/src/components/DynBreadcrumb/DynBreadcrumb.a11y.test.tsx[m
+[1mindex ea34a5e..4e91a07 100644[m
+[1m--- a/packages/core/src/components/DynBreadcrumb/DynBreadcrumb.a11y.test.tsx[m
+[1m+++ b/packages/core/src/components/DynBreadcrumb/DynBreadcrumb.a11y.test.tsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import { describe, it, expect, vi } from 'vitest';[m
+ import { render } from '../../test/test-utils';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynBreadcrumb } from './DynBreadcrumb';[m
+ [m
+ describe('DynBreadcrumb Accessibility', () => {[m
+[1mdiff --git a/packages/core/src/components/DynBreadcrumb/DynBreadcrumbItem.a11y.test.tsx b/packages/core/src/components/DynBreadcrumb/DynBreadcrumbItem.a11y.test.tsx[m
+[1mindex 20d32bf..5b8f397 100644[m
+[1m--- a/packages/core/src/components/DynBreadcrumb/DynBreadcrumbItem.a11y.test.tsx[m
+[1m+++ b/packages/core/src/components/DynBreadcrumb/DynBreadcrumbItem.a11y.test.tsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import { describe, it, expect } from 'vitest';[m
+ import { render } from '../../test/test-utils';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynBreadcrumbItem } from './DynBreadcrumbItem';[m
+ [m
+ describe('DynBreadcrumbItem Accessibility', () => {[m
+[1mdiff --git a/packages/core/src/components/DynButton/DynButton.a11y.test.tsx b/packages/core/src/components/DynButton/DynButton.a11y.test.tsx[m
+[1mindex 58a74aa..ab2f2f1 100644[m
+[1m--- a/packages/core/src/components/DynButton/DynButton.a11y.test.tsx[m
+[1m+++ b/packages/core/src/components/DynButton/DynButton.a11y.test.tsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import { describe, it, expect } from 'vitest';[m
+ import { render } from '../../test/test-utils';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynButton } from './DynButton';[m
+ import { DynIcon } from '../DynIcon';[m
+ [m
+[1mdiff --git a/packages/core/src/components/DynButton/DynButton.test.tsx b/packages/core/src/components/DynButton/DynButton.test.tsx[m
+[1mindex 74d2906..c5e9048 100644[m
+[1m--- a/packages/core/src/components/DynButton/DynButton.test.tsx[m
+[1m+++ b/packages/core/src/components/DynButton/DynButton.test.tsx[m
+[36m@@ -1,5 +1,5 @@[m
+ import { render, screen, fireEvent } from '@testing-library/react';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynButton } from './DynButton';[m
+ [m
+ describe('DynButton', () => {[m
+[1mdiff --git a/packages/core/src/components/DynCard/DynCard.a11y.test.tsx b/packages/core/src/components/DynCard/DynCard.a11y.test.tsx[m
+[1mindex 3ff49bb..5ed0e4b 100644[m
+[1m--- a/packages/core/src/components/DynCard/DynCard.a11y.test.tsx[m
+[1m+++ b/packages/core/src/components/DynCard/DynCard.a11y.test.tsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import { describe, it, expect } from 'vitest';[m
+ import { render } from '../../test/test-utils';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynCard } from './DynCard';[m
+ [m
+ describe('DynCard Accessibility', () => {[m
+[1mdiff --git a/packages/core/src/components/DynCheckbox/DynCheckbox.a11y.test.tsx b/packages/core/src/components/DynCheckbox/DynCheckbox.a11y.test.tsx[m
+[1mindex 186ec4f..6affc5e 100644[m
+[1m--- a/packages/core/src/components/DynCheckbox/DynCheckbox.a11y.test.tsx[m
+[1m+++ b/packages/core/src/components/DynCheckbox/DynCheckbox.a11y.test.tsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import { describe, it, expect } from 'vitest';[m
+ import { render } from '../../test/test-utils';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynCheckbox } from './DynCheckbox';[m
+ [m
+ describe('DynCheckbox Accessibility', () => {[m
+[1mdiff --git a/packages/core/src/components/DynDivider/DynDivider.a11y.test.tsx b/packages/core/src/components/DynDivider/DynDivider.a11y.test.tsx[m
+[1mindex 6a57962..b217388 100644[m
+[1m--- a/packages/core/src/components/DynDivider/DynDivider.a11y.test.tsx[m
+[1m+++ b/packages/core/src/components/DynDivider/DynDivider.a11y.test.tsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import { describe, it, expect } from 'vitest';[m
+ import { render } from '../../test/test-utils';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynDivider } from './DynDivider';[m
+ [m
+ describe('DynDivider Accessibility', () => {[m
+[1mdiff --git a/packages/core/src/components/DynFieldContainer/DynFieldContainer.a11y.test.tsx b/packages/core/src/components/DynFieldContainer/DynFieldContainer.a11y.test.tsx[m
+[1mindex ad27167..c78a848 100644[m
+[1m--- a/packages/core/src/components/DynFieldContainer/DynFieldContainer.a11y.test.tsx[m
+[1m+++ b/packages/core/src/components/DynFieldContainer/DynFieldContainer.a11y.test.tsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import { describe, it, expect } from 'vitest';[m
+ import { render } from '../../test/test-utils';[m
+[31m-import { axe } from 'vitest-axe';[m
+[32m+[m[32mimport { axe } from '../../test/setup';[m
+ import { DynFieldContainer } from './DynFieldContainer';[m
+ [m
+ const MockInput = ({ id, ...props }: any) => <input id={id} {...props} />;[m
+[1mdiff --git a/packages/core/src/components/DynGrid/DynGrid.a11y.test.tsx b/packages/core/src/components/DynGrid/DynGrid.a11y.test.tsx[m
+[1mindex 4435880..6ffaba8 100644[m
+[1m--- a/packages/core/src/components/DynGrid/DynGrid.a11y.test.tsx[m
+[1m+++ b/packages/core/src/

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe } from 'vitest-axe';
+import { axe } from '../../test/setup';
 import { DynBreadcrumb } from './DynBreadcrumb';
 
 describe('DynBreadcrumb Accessibility', () => {

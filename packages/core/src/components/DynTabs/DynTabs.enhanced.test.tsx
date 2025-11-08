@@ -3,7 +3,7 @@ import { render, screen } from '../../test/test-utils';
 import userEvent from '@testing-library/user-event';
 import { DynTabs } from './DynTabs';
 import type { TabItem } from './DynTabs';
-import { axe } from 'vitest-axe';
+import { axe } from '../../test/setup';
 
 
 const sampleTabs: TabItem[] = [

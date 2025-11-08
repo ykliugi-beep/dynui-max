@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { axe } from 'vitest-axe';
+import { axe } from '../../test/setup';
 import { DynButton } from './DynButton';
 
 describe('DynButton', () => {
