@@ -1,13 +1,14 @@
-const StyleDictionary = require('style-dictionary');
-const { initializeCustomTransforms } = require('./transforms');
+import StyleDictionary from 'style-dictionary';
+import { initializeCustomTransforms } from './transforms.js';
 
-// Initialize custom transforms and groups (CJS-compatible)
-initializeCustomTransforms();
+// Initialize custom transforms and groups (ESM-compatible)
+const sd = new StyleDictionary();
+initializeCustomTransforms(sd);
 
 // Custom format for CSS variables with theming support
-StyleDictionary.registerFormat({
+sd.registerFormat({
   name: 'css/variables-themed',
-  formatter: function({dictionary, options}) {
+  format: ({dictionary, options}) => {
     const theme = options.theme || 'light';
     
     return `/* DynUI Design Tokens - ${theme} theme */
@@ -34,7 +35,7 @@ ${dictionary.allTokens.map(token => {
 });
 
 // Enhanced configuration with multiple output formats
-module.exports = {
+export default {
   source: ['src/tokens/**/*.json'],
   platforms: {
     css: {
