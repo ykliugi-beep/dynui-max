@@ -3,35 +3,30 @@ import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import './DynBadge.css';
 
-export interface DynBadgeProps {
+export interface DynBadgeProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>, React.ButtonHTMLAttributes<HTMLButtonElement>, React.HTMLAttributes<HTMLSpanElement> {
   /**
    * Badge size using design tokens
    * @default 'md'
    */
   size?: ComponentSize;
-  
   /**
    * Color variant
    * @default 'neutral'
    */
   color?: ComponentColor;
-  
   /**
    * Visual variant
    * @default 'solid'
    */
   variant?: 'solid' | 'outline' | 'soft';
-  
   /**
    * Badge content
    */
   children?: React.ReactNode;
-  
   /**
    * Additional CSS class names
    */
   className?: string;
-  
   /**
    * HTML element to render as
    * @default 'span'
@@ -39,15 +34,6 @@ export interface DynBadgeProps {
   as?: React.ElementType;
 }
 
-/**
- * DynBadge - Small status and labeling component
- * 
- * Features:
- * - Size variants using spacing tokens
- * - Color variants using semantic tokens
- * - Multiple visual styles (solid, outline, soft)
- * - Polymorphic rendering (span, a, button, etc.)
- */
 export const DynBadge = forwardRef<HTMLSpanElement, DynBadgeProps>(
   (
     {
@@ -68,17 +54,11 @@ export const DynBadge = forwardRef<HTMLSpanElement, DynBadgeProps>(
       `dyn-badge--variant-${variant}`,
       className
     );
-    
     return (
-      <Component
-        ref={ref}
-        className={classes}
-        {...props}
-      >
+      <Component ref={ref} className={classes} {...props}>
         {children}
       </Component>
     );
   }
 );
-
 DynBadge.displayName = 'DynBadge';
