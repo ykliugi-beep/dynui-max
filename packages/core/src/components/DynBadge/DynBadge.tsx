@@ -3,27 +3,6 @@ import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import './DynBadge.css';
 
-// Polymorphic component types
-type AsProp<C extends React.ElementType> = {
-  as?: C;
-};
-
-type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
-
-type PolymorphicComponentProp<
-  C extends React.ElementType,
-  Props = object
-> = React.PropsWithChildren<Props & AsProp<C>> &
-  Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
-
-type PolymorphicRef<C extends React.ElementType> =
-  React.ComponentPropsWithRef<C>['ref'];
-
-type PolymorphicComponentPropWithRef<
-  C extends React.ElementType,
-  Props = object
-> = PolymorphicComponentProp<C, Props> & { ref?: PolymorphicRef<C> };
-
 export interface DynBadgeProps {
   /**
    * Badge size using design tokens
@@ -52,11 +31,13 @@ export interface DynBadgeProps {
    * Additional CSS class names
    */
   className?: string;
+  
+  /**
+   * HTML element to render as
+   * @default 'span'
+   */
+  as?: React.ElementType;
 }
-
-type DynBadgeComponent = <C extends React.ElementType = 'span'>(
-  props: PolymorphicComponentPropWithRef<C, DynBadgeProps>
-) => React.ReactElement | null;
 
 /**
  * DynBadge - Small status and labeling component
@@ -67,21 +48,19 @@ type DynBadgeComponent = <C extends React.ElementType = 'span'>(
  * - Multiple visual styles (solid, outline, soft)
  * - Polymorphic rendering (span, a, button, etc.)
  */
-export const DynBadge: DynBadgeComponent = forwardRef(
-  <C extends React.ElementType = 'span'>(
+export const DynBadge = forwardRef<HTMLSpanElement, DynBadgeProps>(
+  (
     {
       size = 'md',
       color = 'neutral',
       variant = 'solid',
       children,
       className,
-      as,
+      as: Component = 'span',
       ...props
-    }: PolymorphicComponentPropWithRef<C, DynBadgeProps>,
-    ref?: PolymorphicRef<C>
+    },
+    ref
   ) => {
-    const Component = as || 'span';
-    
     const classes = clsx(
       'dyn-badge',
       `dyn-badge--size-${size}`,

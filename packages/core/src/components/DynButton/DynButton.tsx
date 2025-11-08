@@ -4,23 +4,7 @@ import type { ComponentVariant, ComponentSize, ComponentColor } from '@dynui-max
 import { DynIcon } from '../DynIcon';
 import './DynButton.css';
 
-// Polymorphic types for DynButton
-type AsProp<C extends React.ElementType> = {
-  as?: C;
-};
-
-type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
-
-type PolymorphicComponentProp<
-  C extends React.ElementType,
-  Props = object
-> = React.PropsWithChildren<Props & AsProp<C>> &
-  Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
-
-type PolymorphicRef<C extends React.ElementType> =
-  React.ComponentPropsWithRef<C>['ref'];
-
-export interface DynButtonBaseProps {
+export interface DynButtonProps {
   /**
    * Visual style variant
    * @default 'solid'
@@ -45,6 +29,11 @@ export interface DynButtonBaseProps {
   loading?: boolean;
   
   /**
+   * Disabled state
+   */
+  disabled?: boolean;
+  
+  /**
    * Icon at the start of the button
    */
   startIcon?: React.ReactNode;
@@ -61,15 +50,31 @@ export interface DynButtonBaseProps {
   fullWidth?: boolean;
   
   /**
+   * HTML element to render as
+   * @default 'button'
+   */
+  as?: React.ElementType;
+  
+  /**
    * Button content
    */
   children?: React.ReactNode;
+  
+  /**
+   * Additional CSS class names
+   */
+  className?: string;
+  
+  /**
+   * Click handler
+   */
+  onClick?: React.MouseEventHandler;
+  
+  /**
+   * Type attribute for button element
+   */
+  type?: 'button' | 'submit' | 'reset';
 }
-
-export type DynButtonProps<C extends React.ElementType = 'button'> = PolymorphicComponentProp<
-  C,
-  DynButtonBaseProps
-> & { ref?: PolymorphicRef<C> };
 
 /**
  * DynButton - Versatile button component with tokens integration
@@ -84,8 +89,8 @@ export type DynButtonProps<C extends React.ElementType = 'button'> = Polymorphic
  * - Polymorphic rendering (button, a, etc.)
  * - Full accessibility support
  */
-export const DynButton = forwardRef(
-  <C extends React.ElementType = 'button'>(
+export const DynButton = forwardRef<HTMLButtonElement, DynButtonProps>(
+  (
     {
       variant = 'solid',
       size = 'md',
@@ -95,14 +100,14 @@ export const DynButton = forwardRef(
       fullWidth = false,
       startIcon,
       endIcon,
-      as,
+      as: Component = 'button',
       className,
       children,
+      type = 'button',
       ...props
-    }: DynButtonProps<C>,
-    ref?: PolymorphicRef<C>
+    },
+    ref
   ) => {
-    const Component = as || 'button';
     const isDisabled = disabled || loading;
     
     const classes = clsx(
@@ -124,6 +129,7 @@ export const DynButton = forwardRef(
         ref={ref}
         className={classes}
         disabled={Component === 'button' ? isDisabled : undefined}
+        type={Component === 'button' ? type : undefined}
         aria-busy={loading}
         {...props}
       >
@@ -157,8 +163,6 @@ export const DynButton = forwardRef(
       </Component>
     );
   }
-) as <C extends React.ElementType = 'button'>(
-  props: DynButtonProps<C>
-) => React.ReactElement | null;
+);
 
 DynButton.displayName = 'DynButton';
