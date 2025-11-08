@@ -12,6 +12,8 @@ export interface DynAvatarProps {
   shape?: 'circle' | 'square';
   status?: 'online' | 'offline' | 'away' | 'busy';
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  tabIndex?: number;
 }
 
 const getInitials = (name: string): string => {
@@ -32,6 +34,8 @@ export const DynAvatar = forwardRef<HTMLDivElement, DynAvatarProps>((
     shape = 'circle',
     status,
     className,
+    onClick,
+    tabIndex,
     ...props
   },
   ref
@@ -55,7 +59,14 @@ export const DynAvatar = forwardRef<HTMLDivElement, DynAvatarProps>((
   const showFallback = !showImage && !showInitials && fallback;
 
   return (
-    <div ref={ref} className={classes} {...props}>
+    <div
+      ref={ref}
+      className={classes}
+      onClick={onClick}
+      tabIndex={onClick ? (tabIndex ?? 0) : undefined}
+      role={onClick ? 'button' : undefined}
+      {...props}
+    >
       {showImage && (
         <img
           src={src}
