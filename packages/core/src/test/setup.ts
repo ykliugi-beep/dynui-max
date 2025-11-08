@@ -1,16 +1,16 @@
 import '@testing-library/jest-dom';
 import { beforeAll, afterEach, expect } from 'vitest';
 import { cleanup } from '@testing-library/react';
-import { toHaveNoViolations } from 'jest-axe';
+import { toHaveNoViolations, axe } from 'jest-axe';
 
 // ===================================================
-// CRITICAL FIX: Register jest-axe matchers globally
-// This fixes 70+ "toHaveNoViolations" TypeScript errors
+// CRITICAL: Register jest-axe matchers globally
+// This fixes "toHaveNoViolations" TypeScript errors
 // ===================================================
 expect.extend(toHaveNoViolations);
 
 // Export axe for use in test files
-export { axe } from 'jest-axe';
+export { axe };
 
 // Cleanup after each test
 afterEach(() => {
@@ -29,11 +29,11 @@ beforeAll(() => {
       removeListener: () => {},
       addEventListener: () => {},
       removeEventListener: () => {},
-      dispatchEvent: () => {},
+      dispatchEvent: () => false,
     }),
   });
 
-  // Mock localStorage with unused parameter prefix
+  // Mock localStorage
   const localStorageMock = {
     getItem: (_key: string) => null,
     setItem: (_key: string, _value: string) => {},
