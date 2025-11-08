@@ -1,12 +1,11 @@
 import StyleDictionary from 'style-dictionary';
 import { initializeCustomTransforms } from './transforms.js';
 
-// Initialize custom transforms and groups (ESM-compatible)
-const sd = new StyleDictionary();
-initializeCustomTransforms(sd);
+// REGISTRUJ custom transfome i grupe na GLOBALNOM StyleDictionary objektu
+i nitializeCustomTransforms(StyleDictionary);
 
 // Custom format for CSS variables with theming support
-sd.registerFormat({
+StyleDictionary.registerFormat({
   name: 'css/variables-themed',
   format: ({dictionary, options}) => {
     const theme = options.theme || 'light';
