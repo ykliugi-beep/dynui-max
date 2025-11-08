@@ -5,10 +5,14 @@
     "baseUrl": ".",
     "paths": {
       "@dynui-max/design-tokens": ["../design-tokens/src"]
-    }
+    },
+    "types": ["vitest/globals", "jest"]
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "test/**/*",
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ],
   "references": [
     {
