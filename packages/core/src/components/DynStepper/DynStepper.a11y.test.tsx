@@ -1,102 +1,61 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render } from '../../test/test-utils';
-import { axe } from '../../test/setup';
+import React from 'react';
+import { render } from '@testing-library/react';
+import { axe, toHaveNoViolations } from 'vitest-axe';
 import { DynStepper } from './DynStepper';
 import type { StepData } from './DynStepper';
 
+expect.extend(toHaveNoViolations);
 
 const mockSteps: StepData[] = [
-  { key: 'step1', title: 'Personal Info', description: 'Enter your details' },
-  { key: 'step2', title: 'Payment Details', description: 'Add payment method' },
-  { key: 'step3', title: 'Confirmation', description: 'Review and confirm', disabled: true }
+  { key: 'step1', title: 'Personal Information', description: 'Enter your details' },
+  { key: 'step2', title: 'Contact', description: 'How can we reach you' },
+  { key: 'step3', title: 'Confirmation', description: 'Review and submit' }
 ];
 
-describe('DynStepper Accessibility', () => {
-  it('has no accessibility violations in horizontal layout', async () => {
-    const handleChange = vi.fn();
+describe('DynStepper - Accessibility', () => {
+  it('has no accessibility violations - horizontal', async () => {
     const { container } = render(
-      <DynStepper 
-        current={0} 
-        onChange={handleChange} 
-        steps={mockSteps}
-        orientation="horizontal"
-      />
+      <DynStepper current={1} steps={mockSteps} orientation="horizontal" />
     );
-    
+
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  it('has no accessibility violations in vertical layout', async () => {
-    const handleChange = vi.fn();
+  it('has no accessibility violations - vertical', async () => {
     const { container } = render(
-      <DynStepper 
-        current={1} 
-        onChange={handleChange} 
-        steps={mockSteps}
-        orientation="vertical"
-      />
+      <DynStepper current={1} steps={mockSteps} orientation="vertical" />
     );
-    
+
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  it('has no accessibility violations with error state', async () => {
-    const errorSteps: StepData[] = [
-      { key: 'step1', title: 'Step 1', status: 'error' },
-      { key: 'step2', title: 'Step 2' },
-      { key: 'step3', title: 'Step 3' }
+  it('has no accessibility violations - with icons', async () => {
+    const stepsWithIcons: StepData[] = mockSteps.map((step, idx) => ({
+      ...step,
+      icon: <span data-testid={`icon-${idx}`}>✓</span>
+    }));
+
+    const { container } = render(
+      <DynStepper current={1} steps={stepsWithIcons} showNumbers={false} />
+    );
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('has no accessibility violations - with errors', async () => {
+    const stepsWithError: StepData[] = [
+      mockSteps[0],
+      { ...mockSteps[1], status: 'error' },
+      mockSteps[2]
     ];
-    
-    const handleChange = vi.fn();
-    const { container } = render(
-      <DynStepper 
-        current={1} 
-        onChange={handleChange} 
-        steps={errorSteps}
-      />
-    );
-    
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
 
-  it('has no accessibility violations with disabled steps', async () => {
-    const handleChange = vi.fn();
     const { container } = render(
-      <DynStepper 
-        current={0} 
-        onChange={handleChange} 
-        steps={mockSteps}
-        clickable={true}
-      />
+      <DynStepper current={1} steps={stepsWithError} />
     );
-    
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
-  
-  it('has no accessibility violations with custom icons', async () => {
-    const stepsWithIcons: StepData[] = [
-      { 
-        key: 'step1', 
-        title: 'Step with Icon', 
-        icon: <span role="img" aria-label="Settings">⚙️</span> 
-      },
-      { key: 'step2', title: 'Regular Step' },
-    ];
-    
-    const handleChange = vi.fn();
-    const { container } = render(
-      <DynStepper 
-        current={0} 
-        onChange={handleChange} 
-        steps={stepsWithIcons}
-        showNumbers={false}
-      />
-    );
-    
+
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });

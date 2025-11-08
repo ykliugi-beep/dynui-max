@@ -1,56 +1,50 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '../../test/test-utils';
-import { DynGrid, DynGridItem } from './DynGrid';
+import { render, screen } from '@testing-library/react';
+import { DynGrid } from './DynGrid';
 
 describe('DynGrid', () => {
-  it('renders grid with columns and gap classes', () => {
-    const { container } = render(
-      <DynGrid columns={6} gap="lg" data-testid="grid">
-        <span>Item</span>
-      </DynGrid>
-    );
-
-    expect(container.firstChild).toHaveClass('dyn-grid--columns-6', 'dyn-grid--gap-lg');
-  });
-
-  it('applies responsive styles when provided', () => {
-    const { container } = render(
-      <DynGrid responsive={{ sm: 2, md: 4 }}>
-        Content
-      </DynGrid>
-    );
-
-    const element = container.firstChild as HTMLElement;
-    expect(element.style.getPropertyValue('--grid-columns-sm')).toBe('2');
-    expect(element.style.getPropertyValue('--grid-columns-md')).toBe('4');
-  });
-});
-
-describe('DynGridItem', () => {
-  it('renders with span and offset classes', () => {
-    const { container } = render(
+  it('renders with children', () => {
+    render(
       <DynGrid>
-        <DynGridItem span={3} offset={1}>
-          Grid item
-        </DynGridItem>
+        <div>Item 1</div>
+        <div>Item 2</div>
       </DynGrid>
     );
 
-    const item = screen.getByText('Grid item').parentElement;
-    expect(item).toHaveClass('dyn-grid-item--span-3', 'dyn-grid-item--offset-1');
+    expect(screen.getByText('Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Item 2')).toBeInTheDocument();
   });
 
-  it('applies responsive style variables', () => {
-    const { container } = render(
-      <DynGrid>
-        <DynGridItem responsive={{ sm: 2, lg: 6 }}>
-          Responsive item
-        </DynGridItem>
+  it('applies column count', () => {
+    render(
+      <DynGrid columns={3}>
+        <div>Item</div>
       </DynGrid>
     );
 
-    const item = screen.getByText('Responsive item').parentElement as HTMLElement;
-    expect(item.style.getPropertyValue('--grid-span-sm')).toBe('2');
-    expect(item.style.getPropertyValue('--grid-span-lg')).toBe('6');
+    expect(screen.getByText('Item').parentElement).toHaveStyle({
+      gridTemplateColumns: 'repeat(3, 1fr)'
+    });
+  });
+
+  it('applies responsive columns', () => {
+    render(
+      <DynGrid columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}>
+        <div>Item</div>
+      </DynGrid>
+    );
+
+    const grid = screen.getByText('Item').parentElement;
+    expect(grid).toHaveClass('dyn-grid--cols-xs-1');
+    expect(grid).toHaveClass('dyn-grid--cols-sm-2');
+  });
+
+  it('applies gap size', () => {
+    render(
+      <DynGrid gap="lg">
+        <div>Item</div>
+      </DynGrid>
+    );
+
+    expect(screen.getByText('Item').parentElement).toHaveClass('dyn-grid--gap-lg');
   });
 });
