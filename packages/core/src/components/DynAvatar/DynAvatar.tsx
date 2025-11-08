@@ -1,27 +1,36 @@
-import { forwardRef, useState, useEffect, useRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import './DynAvatar.css';
 
-export interface DynAvatarProps extends React.HTMLAttributes<HTMLDivElement> {
-  size?: ComponentSize;
+export interface DynAvatarProps {
+  size?: ComponentSize | 'xl' | '2xl';
   src?: string;
   alt?: string;
+  name?: string;
   fallback?: React.ReactNode;
   shape?: 'circle' | 'square';
   status?: 'online' | 'offline' | 'away' | 'busy';
-  showStatus?: boolean;
+  className?: string;
 }
+
+const getInitials = (name: string): string => {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+  return name.substring(0, 2).toUpperCase();
+};
 
 export const DynAvatar = forwardRef<HTMLDivElement, DynAvatarProps>((
   {
     size = 'md',
     src,
     alt = '',
+    name,
     fallback,
     shape = 'circle',
     status,
-    showStatus = false,
     className,
     ...props
   },
@@ -29,70 +38,44 @@ export const DynAvatar = forwardRef<HTMLDivElement, DynAvatarProps>((
 ) => {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    if (!src) {
-      setImageLoaded(false);
-      setImageError(false);
-      return;
-    }
-
-    const img = imgRef.current;
-    if (img?.complete && img?.naturalWidth) {
-      setImageLoaded(true);
-      setImageError(false);
-    }
-  }, [src]);
 
   const classes = clsx(
     'dyn-avatar',
     `dyn-avatar--size-${size}`,
     `dyn-avatar--shape-${shape}`,
     {
-      'dyn-avatar--with-status': showStatus && status,
-      [`dyn-avatar--status-${status}`]: showStatus && status
+      'dyn-avatar--with-status': status,
+      'dyn-avatar--loading': src && !imageLoaded && !imageError
     },
     className
   );
 
-  const showFallback = !src || imageError || !imageLoaded;
+  const showImage = src && !imageError;
+  const showInitials = !showImage && name;
+  const showFallback = !showImage && !showInitials && fallback;
 
   return (
     <div ref={ref} className={classes} {...props}>
-      {!showFallback && (
+      {showImage && (
         <img
-          ref={imgRef}
           src={src}
-          alt={alt}
+          alt={alt || name || 'Avatar'}
           className="dyn-avatar__image"
-          onLoad={() => {
-            setImageLoaded(true);
-            setImageError(false);
-          }}
-          onError={() => {
-            setImageLoaded(false);
-            setImageError(true);
-          }}
+          onLoad={() => setImageLoaded(true)}
+          onError={() => setImageError(true)}
         />
       )}
-      
-      {showFallback && (
-        <div className="dyn-avatar__fallback">
-          {fallback || (
-            <span className="dyn-avatar__initials">
-              {alt?.charAt(0)?.toUpperCase() || '?'}
-            </span>
-          )}
-        </div>
+      {showInitials && (
+        <span className="dyn-avatar__initials" aria-label={name}>
+          {getInitials(name)}
+        </span>
       )}
-      
-      {showStatus && status && (
+      {showFallback && (
+        <span className="dyn-avatar__fallback">{fallback}</span>
+      )}
+      {status && (
         <span
-          className={clsx(
-            'dyn-avatar__status',
-            `dyn-avatar__status--${status}`
-          )}
+          className={clsx('dyn-avatar__status', `dyn-avatar__status--${status}`)}
           aria-label={`Status: ${status}`}
         />
       )}

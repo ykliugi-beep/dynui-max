@@ -1,23 +1,23 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import clsx from 'clsx';
-import type { ComponentSize } from '@dynui-max/design-tokens';
 import './DynDivider.css';
 
-export interface DynDividerProps extends React.HTMLAttributes<HTMLHRElement> {
+export interface DynDividerProps {
   orientation?: 'horizontal' | 'vertical';
-  thickness?: ComponentSize;
-  spacing?: ComponentSize;
-  variant?: 'solid' | 'dashed' | 'dotted';
+  thickness?: 'thin' | 'medium' | 'thick';
+  color?: 'default' | 'light' | 'dark';
+  spacing?: 'none' | 'sm' | 'md' | 'lg';
   label?: React.ReactNode;
-  labelPosition?: 'start' | 'center' | 'end';
+  labelPosition?: 'left' | 'center' | 'right';
+  className?: string;
 }
 
 export const DynDivider = forwardRef<HTMLHRElement, DynDividerProps>((
   {
     orientation = 'horizontal',
-    thickness = 'sm',
+    thickness = 'thin',
+    color = 'default',
     spacing = 'md',
-    variant = 'solid',
     label,
     labelPosition = 'center',
     className,
@@ -29,8 +29,8 @@ export const DynDivider = forwardRef<HTMLHRElement, DynDividerProps>((
     'dyn-divider',
     `dyn-divider--${orientation}`,
     `dyn-divider--thickness-${thickness}`,
+    `dyn-divider--color-${color}`,
     `dyn-divider--spacing-${spacing}`,
-    `dyn-divider--variant-${variant}`,
     {
       'dyn-divider--with-label': label,
       [`dyn-divider--label-${labelPosition}`]: label
@@ -40,7 +40,7 @@ export const DynDivider = forwardRef<HTMLHRElement, DynDividerProps>((
 
   if (label) {
     return (
-      <div className={classes} role="separator">
+      <div className={classes} role="separator" aria-orientation={orientation}>
         <hr ref={ref} className="dyn-divider__line" {...props} />
         <span className="dyn-divider__label">{label}</span>
         <hr className="dyn-divider__line" />
@@ -48,7 +48,15 @@ export const DynDivider = forwardRef<HTMLHRElement, DynDividerProps>((
     );
   }
 
-  return <hr ref={ref} className={classes} {...props} />;
+  return (
+    <hr
+      ref={ref}
+      className={classes}
+      role="separator"
+      aria-orientation={orientation}
+      {...props}
+    />
+  );
 });
 
 DynDivider.displayName = 'DynDivider';

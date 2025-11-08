@@ -4,57 +4,20 @@ import type { ComponentSize } from '@dynui-max/design-tokens';
 import './DynContainer.css';
 
 export interface DynContainerProps {
-  /**
-   * Container size variant
-   * @default 'md'
-   */
-  size?: ComponentSize | 'xl' | '2xl';
-  
-  /**
-   * Center content horizontally
-   * @default true
-   */
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  padding?: ComponentSize;
   centered?: boolean;
-  
-  /**
-   * Full width (removes max-width)
-   */
-  fluid?: boolean;
-  
-  /**
-   * Container content
-   */
-  children: React.ReactNode;
-  
-  /**
-   * Additional CSS class names
-   */
+  children?: React.ReactNode;
   className?: string;
-  
-  /**
-   * HTML element to render as
-   * @default 'div'
-   */
-  as?: React.ElementType;
 }
 
-/**
- * DynContainer - Layout container with responsive width constraints
- * 
- * Features:
- * - Size variants with max-width constraints
- * - Centered or fluid layout options
- * - Responsive padding
- * - Polymorphic rendering
- */
-export const DynContainer = forwardRef<HTMLElement, DynContainerProps>((
+export const DynContainer = forwardRef<HTMLDivElement, DynContainerProps>((
   {
-    size = 'md',
-    centered = true,
-    fluid = false,
+    size = 'lg',
+    padding,
+    centered = false,
     children,
     className,
-    as: Component = 'div',
     ...props
   },
   ref
@@ -63,20 +26,16 @@ export const DynContainer = forwardRef<HTMLElement, DynContainerProps>((
     'dyn-container',
     `dyn-container--size-${size}`,
     {
-      'dyn-container--centered': centered,
-      'dyn-container--fluid': fluid
+      [`dyn-container--padding-${padding}`]: padding,
+      'dyn-container--centered': centered
     },
     className
   );
-  
+
   return (
-    <Component
-      ref={ref}
-      className={classes}
-      {...props}
-    >
+    <div ref={ref} className={classes} {...props}>
       {children}
-    </Component>
+    </div>
   );
 });
 
