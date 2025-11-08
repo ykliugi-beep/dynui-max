@@ -1,6 +1,5 @@
-import React, { forwardRef, useMemo } from 'react';
+import { forwardRef, useRef } from 'react';
 import clsx from 'clsx';
-import { DynIcon } from '../DynIcon';
 import './DynBreadcrumb.css';
 
 export interface BreadcrumbItem {
@@ -11,141 +10,86 @@ export interface BreadcrumbItem {
 }
 
 export interface DynBreadcrumbProps {
-  /**
-   * Breadcrumb items
-   */
   items: BreadcrumbItem[];
-  
-  /**
-   * Separator icon/text
-   * @default chevron-right icon
-   */
-  separator?: React.ReactNode;
-  
-  /**
-   * Maximum visible items (others will be collapsed)
-   */
+  separator?: string;
   maxItems?: number;
-  
-  /**
-   * Additional CSS class names
-   */
   className?: string;
-  
-  /**
-   * Test identifier
-   */
+  'aria-label'?: string;
   'data-testid'?: string;
 }
 
-/**
- * DynBreadcrumb - Navigation breadcrumb component
- * 
- * Features:
- * - Automatic overflow handling
- * - Customizable separator
- * - Link and button support
- * - ARIA navigation pattern
- */
-export const DynBreadcrumb = forwardRef<HTMLNavElement, DynBreadcrumbProps>((
+// Type guards for better type safety
+function hasHref(item: BreadcrumbItem): item is BreadcrumbItem & { href: string } {
+  return typeof item.href === 'string' && item.href.length > 0;
+}
+
+function hasOnClick(item: BreadcrumbItem): item is BreadcrumbItem & { onClick: () => void } {
+  return typeof item.onClick === 'function';
+}
+
+export const DynBreadcrumb = forwardRef<HTMLElement, DynBreadcrumbProps>((
   {
     items,
-    separator = <DynIcon name="chevron-right" size="sm" />,
+    separator = '/',
     maxItems,
     className,
-    'data-testid': dataTestId,
-    ...props
+    'aria-label': ariaLabel = 'Breadcrumb',
+    'data-testid': dataTestId
   },
   ref
 ) => {
-  // Handle overflow when maxItems is specified
-  const displayItems = useMemo(() => {
-    if (!maxItems || items.length <= maxItems) {
-      return items;
-    }
-    
-    if (maxItems === 1) {
-      return [items[items.length - 1]];
-    }
-    
-    if (maxItems === 2) {
-      return [
-        items[0],
+  const navRef = useRef<HTMLElement>(null);
+  
+  const displayItems = maxItems && items.length > maxItems
+    ? [
+        ...items.slice(0, 1),
         { label: '...', disabled: true },
-        items[items.length - 1]
-      ];
-    }
-    
-    const start = items.slice(0, 1);
-    const end = items.slice(-(maxItems - 2));
-    const overflow = { label: '...', disabled: true };
-    
-    return [...start, overflow, ...end];
-  }, [items, maxItems]);
+        ...items.slice(-(maxItems - 2))
+      ]
+    : items;
   
   return (
     <nav
-      ref={ref}
+      ref={ref || navRef}
       className={clsx('dyn-breadcrumb', className)}
-      aria-label="Breadcrumb"
+      aria-label={ariaLabel}
       data-testid={dataTestId}
-      {...props}
     >
       <ol className="dyn-breadcrumb__list">
         {displayItems.map((item, index) => {
           const isLast = index === displayItems.length - 1;
-          const isOverflow = item.label === '...';
           
           return (
             <li key={index} className="dyn-breadcrumb__item">
-              {isOverflow ? (
-                <span className="dyn-breadcrumb__overflow">
-                  {item.label}
-                </span>
-              ) : item.href ? (
+              {hasHref(item) && !item.disabled ? (
                 <a
                   href={item.href}
-                  className={clsx(
-                    'dyn-breadcrumb__link',
-                    {
-                      'dyn-breadcrumb__link--current': isLast,
-                      'dyn-breadcrumb__link--disabled': item.disabled
-                    }
-                  )}
+                  className="dyn-breadcrumb__link"
                   aria-current={isLast ? 'page' : undefined}
-                  tabIndex={item.disabled ? -1 : undefined}
                 >
                   {item.label}
                 </a>
-              ) : item.onClick ? (
+              ) : hasOnClick(item) && !item.disabled ? (
                 <button
                   type="button"
-                  className={clsx(
-                    'dyn-breadcrumb__button',
-                    {
-                      'dyn-breadcrumb__button--current': isLast,
-                      'dyn-breadcrumb__button--disabled': item.disabled
-                    }
-                  )}
                   onClick={item.onClick}
-                  disabled={item.disabled}
+                  className="dyn-breadcrumb__link"
                   aria-current={isLast ? 'page' : undefined}
                 >
                   {item.label}
                 </button>
               ) : (
                 <span
-                  className={clsx(
-                    'dyn-breadcrumb__text',
-                    { 'dyn-breadcrumb__text--current': isLast }
-                  )}
+                  className={clsx('dyn-breadcrumb__text', {
+                    'dyn-breadcrumb__text--disabled': item.disabled,
+                    'dyn-breadcrumb__text--current': isLast
+                  })}
                   aria-current={isLast ? 'page' : undefined}
                 >
                   {item.label}
                 </span>
               )}
               
-              {/* Separator */}
               {!isLast && (
                 <span className="dyn-breadcrumb__separator" aria-hidden="true">
                   {separator}
