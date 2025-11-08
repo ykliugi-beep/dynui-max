@@ -39,6 +39,12 @@ export interface DynButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
   endIcon?: React.ReactNode;
   
   /**
+   * Full width button
+   * @default false
+   */
+  fullWidth?: boolean;
+  
+  /**
    * Polymorphic component - render as different element
    * @default 'button'
    */
@@ -59,6 +65,7 @@ export interface DynButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
  * - Color variants using semantic tokens
  * - Loading state with spinner
  * - Start/end icon support
+ * - Full width support
  * - Polymorphic rendering (button, a, etc.)
  * - Full accessibility support
  */
@@ -69,6 +76,7 @@ export const DynButton = forwardRef<HTMLButtonElement, DynButtonProps>((
     color = 'primary',
     loading = false,
     disabled = false,
+    fullWidth = false,
     startIcon,
     endIcon,
     as: Component = 'button',
@@ -88,6 +96,7 @@ export const DynButton = forwardRef<HTMLButtonElement, DynButtonProps>((
     {
       'dyn-button--loading': loading,
       'dyn-button--disabled': isDisabled,
+      'dyn-button--full-width': fullWidth,
       'dyn-button--icon-only': !children && (startIcon || endIcon)
     },
     className

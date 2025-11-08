@@ -6,8 +6,11 @@ import { DynModal } from './DynModal';
 describe('DynModal Enhanced', () => {
   it('renders modal when isOpen is true', () => {
     render(
-      <DynModal isOpen={true} onClose={() => {}} title="Test Modal">
-        <div>Modal content</div>
+      <DynModal isOpen={true} onClose={() => {}}>
+        <div>
+          <h2>Modal Title</h2>
+          <p>Modal content</p>
+        </div>
       </DynModal>
     );
     expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -61,5 +64,14 @@ describe('DynModal Enhanced', () => {
     );
     const modal = screen.getByRole('dialog');
     expect(modal).toHaveClass('dyn-modal--size-lg');
+  });
+
+  it('supports custom aria-label', () => {
+    render(
+      <DynModal isOpen={true} onClose={() => {}} aria-label="Custom Modal">
+        <div>Modal content</div>
+      </DynModal>
+    );
+    expect(screen.getByRole('dialog')).toHaveAttribute('aria-label', 'Custom Modal');
   });
 });

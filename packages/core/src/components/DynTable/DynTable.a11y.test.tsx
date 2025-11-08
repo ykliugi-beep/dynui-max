@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import { axe } from 'jest-axe';
-import { DynTable } from './DynTable';
+import { DynTable, TableColumn } from './DynTable';
 
 interface TestData {
   id: number;
@@ -11,7 +11,7 @@ interface TestData {
 
 describe('DynTable Accessibility', () => {
   it('should not have accessibility violations', async () => {
-    const columns = [
+    const columns: TableColumn<TestData>[] = [
       { key: 'id', label: 'ID', sortable: true },
       { key: 'name', label: 'Name', sortable: true },
       { key: 'email', label: 'Email' }
@@ -23,7 +23,7 @@ describe('DynTable Accessibility', () => {
     ];
 
     const { container } = render(
-      <DynTable<TestData>
+      <DynTable
         columns={columns}
         rows={rows}
         caption="Test data table"
