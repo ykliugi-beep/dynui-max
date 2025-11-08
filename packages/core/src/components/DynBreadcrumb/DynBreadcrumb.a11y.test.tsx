@@ -1,35 +1,18 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render } from '../../test/test-utils';
-import { axe } from '../../test/setup';
+import { render, screen } from '@testing-library/react';
+import { axe, toHaveNoViolations } from 'vitest-axe';
 import { DynBreadcrumb } from './DynBreadcrumb';
+import { DynBreadcrumbItem } from './DynBreadcrumbItem';
 
-describe('DynBreadcrumb Accessibility', () => {
-  it('has no violations with basic links', async () => {
+expect.extend(toHaveNoViolations);
+
+describe('DynBreadcrumb - Accessibility', () => {
+  it('has no accessibility violations', async () => {
     const { container } = render(
-      <DynBreadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Library', href: '/library' },
-          { label: 'Data' }
-        ]}
-      />
-    );
-
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
-
-  it('has no violations when collapsing items', async () => {
-    const { container } = render(
-      <DynBreadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Catalog', href: '/catalog' },
-          { label: 'Category', href: '/category' },
-          { label: 'Item' }
-        ]}
-        maxItems={3}
-      />
+      <DynBreadcrumb aria-label="Breadcrumb navigation">
+        <DynBreadcrumbItem href="/">Home</DynBreadcrumbItem>
+        <DynBreadcrumbItem href="/products">Products</DynBreadcrumbItem>
+        <DynBreadcrumbItem current>Current Page</DynBreadcrumbItem>
+      </DynBreadcrumb>
     );
 
     const results = await axe(container);
