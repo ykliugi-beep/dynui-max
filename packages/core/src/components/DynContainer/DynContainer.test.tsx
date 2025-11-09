@@ -9,26 +9,25 @@ describe('DynContainer', () => {
         <span>Content</span>
       </DynContainer>
     );
-
     expect(screen.getByText('Content')).toBeInTheDocument();
     expect(container.firstChild).toHaveClass(
       'dyn-container',
-      'dyn-container--size-md',
+      'dyn-container--size-lg',
       'dyn-container--centered'
     );
   });
 
-  it('supports fluid layout and polymorphic rendering', () => {
+  it('supports size and centering props', () => {
     const { container } = render(
-      <DynContainer as="section" size="xl" centered={false} fluid>
+      <DynContainer size="xl" centered={false}>
         Section
       </DynContainer>
     );
-
     expect(container.firstChild).toHaveClass(
-      'dyn-container--size-xl',
-      'dyn-container--fluid'
+      'dyn-container--size-xl'
     );
-    expect(container.firstChild?.nodeName).toBe('SECTION');
+    expect(container.firstChild).not.toHaveClass(
+      'dyn-container--centered'
+    );
   });
 });

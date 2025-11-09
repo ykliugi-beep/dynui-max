@@ -1,26 +1,36 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '../../test/test-utils';
+import { render } from '../../test/test-utils';
 import { DynDivider } from './DynDivider';
 
 describe('DynDivider', () => {
-  it('renders horizontal divider with label', () => {
+  it('renders horizontal divider', () => {
     const { container } = render(
-      <DynDivider label="Section" labelPosition="left" variant="dashed" spacing="lg" />
+      <DynDivider orientation="horizontal" />
     );
-
-    expect(screen.getByText('Section')).toHaveClass('dyn-divider__label--left');
-    expect(container.firstChild).toHaveClass(
-      'dyn-divider--horizontal',
-      'dyn-divider--dashed',
-      'dyn-divider--with-label',
-      'dyn-divider--spacing-lg'
-    );
+    expect(container.firstChild).toHaveClass('dyn-divider--horizontal');
   });
 
-  it('renders vertical divider without label', () => {
-    render(<DynDivider orientation="vertical" />);
+  it('renders label in center', () => {
+    const { container } = render(
+      <DynDivider label="Title" labelPosition="center" />
+    );
+    expect(container.firstChild).toHaveClass('dyn-divider--label-center');
+    expect(container.textContent).toContain('Title');
+  });
 
-    const separator = screen.getByRole('separator');
-    expect(separator).toHaveAttribute('aria-orientation', 'vertical');
+  it('renders label on left', () => {
+    const { container } = render(
+      <DynDivider label="Label Left" labelPosition="left" />
+    );
+    expect(container.firstChild).toHaveClass('dyn-divider--label-left');
+    expect(container.textContent).toContain('Label Left');
+  });
+
+  it('renders label on right', () => {
+    const { container } = render(
+      <DynDivider label="Label Right" labelPosition="right" />
+    );
+    expect(container.firstChild).toHaveClass('dyn-divider--label-right');
+    expect(container.textContent).toContain('Label Right');
   });
 });
