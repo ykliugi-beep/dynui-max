@@ -1,14 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from '../../test/setup';
 import { DynBox } from './DynBox';
-
-expect.extend(toHaveNoViolations);
 
 describe('DynBox Accessibility', () => {
   it('has no accessibility violations for structural layout', async () => {
     const { container } = render(
-      <DynBox as="section" aria-label="Layout section">
+      <DynBox aria-label="Layout section">
         <p>Structured content</p>
       </DynBox>
     );
@@ -23,7 +21,6 @@ describe('DynBox Accessibility', () => {
         Click me
       </DynBox>
     );
-
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });

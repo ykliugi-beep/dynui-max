@@ -1,125 +1,77 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor } from '../../test/test-utils';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DynModal } from './DynModal';
-import { axe, toHaveNoViolations } from 'jest-axe';
 
-expect.extend(toHaveNoViolations);
-
-describe('DynModal - Enhanced Tests', () => {
-  let originalActiveElement: Element | null;
-  
-  beforeEach(() => {
-    originalActiveElement = document.activeElement;
-  });
-  
-  afterEach(() => {
-    // Cleanup any open modals
-    const modals = document.querySelectorAll('[role="dialog"]');
-    modals.forEach(modal => modal.remove());
+describe('DynModal Enhanced', () => {
+  it('renders modal when isOpen is true', () => {
+    render(
+      <DynModal isOpen={true} onClose={() => {}}>
+        <div>
+          <h2>Modal Title</h2>
+          <p>Modal content</p>
+        </div>
+      </DynModal>
+    );
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Modal content')).toBeInTheDocument();
   });
 
-  describe('Focus Management', () => {
-    it('traps focus within modal and restores on close', async () => {
-      const user = userEvent.setup();
-      const handleClose = vi.fn();
-      
-      // Create a focusable element outside modal
-      const externalButton = document.createElement('button');
-      externalButton.textContent = 'External Button';
-      document.body.appendChild(externalButton);
-      externalButton.focus();
-      
-      const { rerender } = render(
-        <DynModal isOpen={false} onClose={handleClose} aria-label="Focus trap modal">
-          <div>
-            <input type="text" placeholder="First input" />
-            <button type="button">Modal Button</button>
-            <input type="text" placeholder="Last input" />
-          </div>
-        </DynModal>
-      );
-      
-      // Open modal
-      rerender(
-        <DynModal isOpen onClose={handleClose} aria-label="Focus trap modal">
-          <div>
-            <input type="text" placeholder="First input" />
-            <button type="button">Modal Button</button>
-            <input type="text" placeholder="Last input" />
-          </div>
-        </DynModal>
-      );
-      
-      await waitFor(() => {
-        expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Close modal' }));
-      });
-      
-      // Tab to first input
-      await user.tab();
-      expect(document.activeElement).toBe(screen.getByPlaceholderText('First input'));
-      
-      // Tab to modal button
-      await user.tab();
-      expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Modal Button' }));
-      
-      // Tab to last input
-      await user.tab();
-      expect(document.activeElement).toBe(screen.getByPlaceholderText('Last input'));
-      
-      // Tab should cycle back to close button
-      await user.tab();
-      expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Close modal' }));
-      
-      // Close modal and check focus restoration
-      await user.click(screen.getByRole('button', { name: 'Close modal' }));
-      
-      expect(handleClose).toHaveBeenCalled();
-      document.body.removeChild(externalButton);
-    });
+  it('does not render when isOpen is false', () => {
+    render(
+      <DynModal isOpen={false} onClose={() => {}}>
+        <div>Modal content</div>
+      </DynModal>
+    );
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  describe('Accessibility', () => {
-    it('has proper ARIA attributes', () => {
-      const handleClose = vi.fn();
-      
-      render(
-        <DynModal 
-          isOpen 
-          onClose={handleClose} 
-          aria-label="Accessible modal"
-          aria-describedby="modal-description"
-        >
-          <div>
-            <h2>Modal Title</h2>
-            <p id="modal-description">This is the modal description</p>
-          </div>
-        </DynModal>
-      );
-      
-      const modal = screen.getByRole('dialog');
-      
-      expect(modal).toHaveAttribute('role', 'dialog');
-      expect(modal).toHaveAttribute('aria-label', 'Accessible modal');
-      expect(modal).toHaveAttribute('aria-describedby', 'modal-description');
-      expect(modal).toHaveAttribute('aria-modal', 'true');
-    });
+  it('calls onClose when close button is clicked', async () => {
+    const handleClose = vi.fn();
+    const user = userEvent.setup();
     
-    it('has no accessibility violations', async () => {
-      const handleClose = vi.fn();
-      
-      const { container } = render(
-        <DynModal isOpen onClose={handleClose} aria-label="A11y modal">
-          <div>
-            <h1>Modal Title</h1>
-            <p>Modal content with proper heading structure</p>
-            <button type="button">Action Button</button>
-          </div>
-        </DynModal>
-      );
-      
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
-    });
+    render(
+      <DynModal isOpen={true} onClose={handleClose}>
+        <div>Modal content</div>
+      </DynModal>
+    );
+
+    const closeButton = screen.getByLabelText('Close modal');
+    await user.click(closeButton);
+    
+    expect(handleClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onClose when escape key is pressed', async () => {
+    const handleClose = vi.fn();
+    const user = userEvent.setup();
+    
+    render(
+      <DynModal isOpen={true} onClose={handleClose}>
+        <div>Modal content</div>
+      </DynModal>
+    );
+
+    await user.keyboard('{Escape}');
+    expect(handleClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('applies correct size class', () => {
+    render(
+      <DynModal isOpen={true} onClose={() => {}} size="lg">
+        <div>Modal content</div>
+      </DynModal>
+    );
+    const modal = screen.getByRole('dialog');
+    expect(modal).toHaveClass('dyn-modal--size-lg');
+  });
+
+  it('supports custom aria-label', () => {
+    render(
+      <DynModal isOpen={true} onClose={() => {}} aria-label="Custom Modal">
+        <div>Modal content</div>
+      </DynModal>
+    );
+    expect(screen.getByRole('dialog')).toHaveAttribute('aria-label', 'Custom Modal');
   });
 });

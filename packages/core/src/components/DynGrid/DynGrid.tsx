@@ -4,104 +4,34 @@ import type { ComponentSize } from '@dynui-max/design-tokens';
 import './DynGrid.css';
 
 export interface DynGridProps {
-  /**
-   * Number of columns
-   * @default 12
-   */
   columns?: number;
-  
-  /**
-   * Gap between grid items
-   * @default 'md'
-   */
   gap?: ComponentSize;
-  
-  /**
-   * Row gap (if different from gap)
-   */
   rowGap?: ComponentSize;
-  
-  /**
-   * Column gap (if different from gap)
-   */
   columnGap?: ComponentSize;
-  
-  /**
-   * Responsive columns configuration
-   */
   responsive?: {
     sm?: number;
     md?: number;
     lg?: number;
     xl?: number;
   };
-  
-  /**
-   * Grid content
-   */
   children: React.ReactNode;
-  
-  /**
-   * Additional CSS class names
-   */
   className?: string;
-  
-  /**
-   * HTML element to render as
-   * @default 'div'
-   */
-  as?: React.ElementType;
 }
 
 export interface DynGridItemProps {
-  /**
-   * Column span
-   * @default 1
-   */
   span?: number;
-  
-  /**
-   * Column offset
-   */
   offset?: number;
-  
-  /**
-   * Responsive span configuration
-   */
   responsive?: {
     sm?: number;
     md?: number;
     lg?: number;
     xl?: number;
   };
-  
-  /**
-   * Grid item content
-   */
   children: React.ReactNode;
-  
-  /**
-   * Additional CSS class names
-   */
   className?: string;
-  
-  /**
-   * HTML element to render as
-   * @default 'div'
-   */
-  as?: React.ElementType;
 }
 
-/**
- * DynGrid - CSS Grid layout component
- * 
- * Features:
- * - Responsive column system (12-column default)
- * - Gap control using design tokens
- * - Responsive breakpoint support
- * - Flexible item spanning and offsetting
- */
-export const DynGrid = forwardRef<HTMLElement, DynGridProps>((
+export const DynGrid = forwardRef<HTMLDivElement, DynGridProps>((
   {
     columns = 12,
     gap = 'md',
@@ -110,7 +40,6 @@ export const DynGrid = forwardRef<HTMLElement, DynGridProps>((
     responsive,
     children,
     className,
-    as: Component = 'div',
     ...props
   },
   ref
@@ -138,30 +67,26 @@ export const DynGrid = forwardRef<HTMLElement, DynGridProps>((
   };
   
   return (
-    <Component
+    <div
       ref={ref}
       className={classes}
       style={style}
       {...props}
     >
       {children}
-    </Component>
+    </div>
   );
 });
 
 DynGrid.displayName = 'DynGrid';
 
-/**
- * DynGridItem - Individual grid item with span and offset controls
- */
-export const DynGridItem = forwardRef<HTMLElement, DynGridItemProps>((
+export const DynGridItem = forwardRef<HTMLDivElement, DynGridItemProps>((
   {
     span = 1,
     offset,
     responsive,
     children,
     className,
-    as: Component = 'div',
     ...props
   },
   ref
@@ -187,14 +112,14 @@ export const DynGridItem = forwardRef<HTMLElement, DynGridItemProps>((
   };
   
   return (
-    <Component
+    <div
       ref={ref}
       className={classes}
       style={style}
       {...props}
     >
       {children}
-    </Component>
+    </div>
   );
 });
 

@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from '../../test/setup';
 import { DynProgress } from './DynProgress';
 
-expect.extend(toHaveNoViolations);
 
 describe('DynProgress Accessibility', () => {
   it('has no accessibility violations', async () => {

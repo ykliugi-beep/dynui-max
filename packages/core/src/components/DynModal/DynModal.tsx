@@ -100,7 +100,7 @@ export const DynModal = forwardRef<HTMLDivElement, DynModalProps>((
   },
   ref
 ) => {
-  const modalRef = useFocusTrap({
+  const modalRef = useFocusTrap<HTMLDivElement>({
     enabled: isOpen,
     returnFocus: true
   });
@@ -149,7 +149,12 @@ export const DynModal = forwardRef<HTMLDivElement, DynModalProps>((
   
   // Combine refs
   const combinedRef = useCallback((node: HTMLDivElement | null) => {
-    modalRef.current = node;
+    // Assign to modalRef
+    if (modalRef && 'current' in modalRef) {
+      (modalRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    }
+    
+    // Assign to forwarded ref
     if (ref) {
       if (typeof ref === 'function') {
         ref(node);

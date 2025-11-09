@@ -27,14 +27,15 @@ catalogs:
     "@vitejs/plugin-react": ^4.3.3
     "source-map": ^0.7.6
 
-  # Testing Stack - Updated versions
+  # Testing Stack - Updated versions with jest-axe instead of vitest-axe
   testing:
     vitest: ^2.1.5
     "@testing-library/react": ^16.0.1
     "@testing-library/jest-dom": ^6.6.3
     "@testing-library/user-event": ^14.5.2
     jsdom: ^25.0.1
-    "vitest-axe": ^0.1.0
+    "jest-axe": ^9.0.0
+    "axe-core": ^4.10.0
     "@axe-core/react": ^4.10.0
     "happy-dom": ^15.7.4
 
@@ -72,10 +73,16 @@ catalogs:
     "@changesets/cli": ^2.29.7
     "@changesets/changelog-github": ^0.5.1
     concurrently: ^8.2.2
+    "del-cli": ^5.1.0
 
   # Style & Design System Tools
   design:
     "style-dictionary": ^4.4.0
+
+  # Documentation Tools
+  docs:
+    "typedoc-plugin-markdown": ^4.2.9
+    "http-server": ^14.1.1
 
 # Package manager specification
 packageManager: "pnpm@9.12.3"

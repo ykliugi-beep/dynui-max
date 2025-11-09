@@ -3,57 +3,24 @@ import clsx from 'clsx';
 import './DynDivider.css';
 
 export interface DynDividerProps {
-  /**
-   * Divider orientation
-   * @default 'horizontal'
-   */
   orientation?: 'horizontal' | 'vertical';
-  
-  /**
-   * Visual variant
-   * @default 'solid'
-   */
-  variant?: 'solid' | 'dashed' | 'dotted';
-  
-  /**
-   * Optional label text
-   */
-  label?: string;
-  
-  /**
-   * Label position for horizontal dividers
-   * @default 'center'
-   */
+  thickness?: 'thin' | 'medium' | 'thick';
+  color?: 'default' | 'light' | 'dark';
+  spacing?: 'none' | 'sm' | 'md' | 'lg';
+  label?: React.ReactNode;
   labelPosition?: 'left' | 'center' | 'right';
-  
-  /**
-   * Additional CSS class names
-   */
   className?: string;
-  
-  /**
-   * Custom spacing
-   */
-  spacing?: 'sm' | 'md' | 'lg';
 }
 
-/**
- * DynDivider - Visual separator component
- * 
- * Features:
- * - Horizontal and vertical orientations
- * - Multiple visual styles (solid, dashed, dotted)
- * - Optional label with positioning
- * - Spacing variants using design tokens
- */
-export const DynDivider = forwardRef<HTMLDivElement, DynDividerProps>((
+export const DynDivider = forwardRef<HTMLHRElement, DynDividerProps>((
   {
     orientation = 'horizontal',
-    variant = 'solid',
+    thickness = 'thin',
+    color = 'default',
+    spacing = 'md',
     label,
     labelPosition = 'center',
     className,
-    spacing = 'md',
     ...props
   },
   ref
@@ -61,43 +28,34 @@ export const DynDivider = forwardRef<HTMLDivElement, DynDividerProps>((
   const classes = clsx(
     'dyn-divider',
     `dyn-divider--${orientation}`,
-    `dyn-divider--${variant}`,
+    `dyn-divider--thickness-${thickness}`,
+    `dyn-divider--color-${color}`,
     `dyn-divider--spacing-${spacing}`,
     {
-      'dyn-divider--with-label': Boolean(label)
+      'dyn-divider--with-label': label,
+      [`dyn-divider--label-${labelPosition}`]: label
     },
     className
   );
-  
-  if (label && orientation === 'horizontal') {
+
+  if (label) {
     return (
-      <div ref={ref} className={classes} {...props}>
-        <div className="dyn-divider__line" />
-        <div 
-          className={clsx(
-            'dyn-divider__label',
-            `dyn-divider__label--${labelPosition}`
-          )}
-        >
-          {label}
-        </div>
-        <div className="dyn-divider__line" />
+      <div className={classes} role="separator" aria-orientation={orientation}>
+        <hr ref={ref} className="dyn-divider__line" {...props} />
+        <span className="dyn-divider__label">{label}</span>
+        <hr className="dyn-divider__line" />
       </div>
     );
   }
-  
+
   return (
-    <div 
-      ref={ref} 
-      className={classes} 
+    <hr
+      ref={ref}
+      className={classes}
       role="separator"
       aria-orientation={orientation}
       {...props}
-    >
-      {label && orientation === 'vertical' && (
-        <span className="dyn-divider__label">{label}</span>
-      )}
-    </div>
+    />
   );
 });
 

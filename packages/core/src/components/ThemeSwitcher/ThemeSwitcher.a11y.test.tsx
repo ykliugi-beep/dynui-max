@@ -1,9 +1,8 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { render } from '../../test/test-utils';
 import { ThemeSwitcher } from './ThemeSwitcher';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from '../../test/setup';
 
-expect.extend(toHaveNoViolations);
 
 beforeAll(() => {
   Object.defineProperty(window, 'matchMedia', {

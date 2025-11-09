@@ -16,17 +16,18 @@ export function useKeyboard(
   useEffect(() => {
     if (!enabled) return;
     
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === key) {
-        handler(event);
+    const handleKeyDown = (event: Event) => {
+      const keyEvent = event as KeyboardEvent;
+      if (keyEvent.key === key) {
+        handler(keyEvent);
       }
     };
     
     const targetElement = target === 'window' ? window : document;
-    targetElement.addEventListener('keydown', handleKeyDown);
+    targetElement.addEventListener('keydown', handleKeyDown as EventListener);
     
     return () => {
-      targetElement.removeEventListener('keydown', handleKeyDown);
+      targetElement.removeEventListener('keydown', handleKeyDown as EventListener);
     };
   }, [key, handler, enabled, target]);
 }

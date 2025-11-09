@@ -12,19 +12,25 @@
     "design-tokens",
     "accessibility"
   ],
-  "repository": { "type": "git", "url": "https://github.com/ykliugi-beep/dynui-max.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ykliugi-beep/dynui-max.git"
+  },
   "license": "MIT",
   "author": "DynUI-Max Team",
-  "workspaces": ["packages/*", "apps/*", "tools/*"],
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "tools/*"
+  ],
   "scripts": {
     "//=== Core Development =====": "",
     "build": "pnpm run -r build",
     "dev": "concurrently \"pnpm --filter=@dynui-max/core run dev\" \"pnpm --filter=@dynui-max/storybook run dev\"",
     "clean": "pnpm -r run clean && pnpm clean:artifacts",
-    "clean:artifacts": "rimraf \"packages/**/dist\" \"apps/**/dist\" \"tools/**/dist\" \"**/tsconfig.tsbuildinfo\" \"apps/**/storybook-static\"",
+    "clean:artifacts": "del-cli packages/*/dist apps/*/dist tools/*/dist apps/*/storybook-static **/tsconfig.tsbuildinfo",
     "reset": "rimraf node_modules pnpm-lock.yaml && pnpm install",
     "reset:full": "pnpm clean && pnpm build",
-
     "//=== Quality Gates =====": "",
     "test": "pnpm -r --if-present run test",
     "test:coverage": "pnpm -r --if-present run test:coverage",
@@ -35,7 +41,6 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "quality:gates": "pnpm typecheck && pnpm lint && pnpm test:coverage",
-
     "//=== Documentation & Apps =====": "",
     "storybook": "pnpm --filter=@dynui-max/storybook run dev",
     "storybook:build": "pnpm --filter=@dynui-max/storybook run build",
@@ -43,13 +48,11 @@
     "docs:build": "pnpm storybook:build && pnpm docs:api",
     "playground": "pnpm --filter=@dynui-max/playground run playground",
     "playground:build": "pnpm --filter=@dynui-max/playground run playground:build",
-
-    "//=== Publishing Pipeline =====": "", 
+    "//=== Publishing Pipeline =====": "",
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",
     "publish:packages": "pnpm build && pnpm quality:gates && pnpm changeset:publish",
-
     "//=== Maintenance =====": "",
     "deps:update": "pnpm update -r --interactive",
     "deps:audit": "pnpm audit --audit-level moderate",
@@ -57,24 +60,13 @@
     "size:analyze:detailed": "pnpm build && node scripts/bundle-analysis.js",
     "prepare": "husky"
   },
-  "dependencies": { 
-    "@dynui-max/design-tokens": "workspace:*" 
+  "dependencies": {
+    "@dynui-max/design-tokens": "workspace:*"
   },
   "devDependencies": {
+    "@axe-core/react": "catalog:testing",
     "@changesets/changelog-github": "catalog:tooling",
     "@changesets/cli": "catalog:tooling",
-    "concurrently": "^8.2.2",
-    "rimraf": "catalog:tooling",
-    
-    "@axe-core/react": "catalog:testing",
-    "@testing-library/jest-dom": "catalog:testing",
-    "@testing-library/react": "catalog:testing",
-    "@testing-library/user-event": "catalog:testing",
-    "jsdom": "catalog:testing",
-    "vitest": "catalog:testing",
-    "jest-axe": "catalog:testing",
-    "vitest-axe": "catalog:testing",
-    
     "@storybook/addon-a11y": "catalog:storybook",
     "@storybook/addon-docs": "catalog:storybook",
     "@storybook/addon-essentials": "catalog:storybook",
@@ -82,38 +74,40 @@
     "@storybook/react-vite": "catalog:storybook",
     "@storybook/test": "catalog:storybook",
     "@storybook/test-runner": "catalog:storybook",
-    "chromatic": "catalog:storybook",
-    "storybook": "catalog:storybook",
-    
-    "typescript": "catalog:typescript",
+    "@testing-library/jest-dom": "catalog:testing",
+    "@testing-library/react": "catalog:testing",
+    "@testing-library/user-event": "catalog:testing",
     "@types/node": "catalog:typescript",
     "@types/react": "catalog:core",
     "@types/react-dom": "catalog:core",
-    
-    "vite": "catalog:build",
-    "tsup": "catalog:build",
-    "@vitejs/plugin-react": "catalog:build",
-    
-    "eslint": "catalog:quality",
-    "prettier": "catalog:quality",
-    "@typescript-eslint/parser": "catalog:quality",
     "@typescript-eslint/eslint-plugin": "catalog:quality",
+    "@typescript-eslint/parser": "catalog:quality",
+    "@vitejs/plugin-react": "catalog:build",
+    "axe-core": "catalog:testing",
+    "bundlesize": "catalog:tooling",
+    "chromatic": "catalog:storybook",
+    "concurrently": "^8.2.2",
+    "del-cli": "^5.1.0",
+    "eslint": "catalog:quality",
     "eslint-config-prettier": "catalog:quality",
     "eslint-plugin-react": "catalog:quality",
     "eslint-plugin-react-hooks": "catalog:quality",
-    "@eslint/js": "catalog:quality",
-    "eslint-plugin-react-refresh": "catalog:quality",
-    "globals": "catalog:quality",
-    
+    "eslint-plugin-react-refresh": "^0.4.24",
     "husky": "catalog:tooling",
-    "bundlesize": "catalog:tooling",
-    "gzip-size": "catalog:tooling",
-    "del-cli": "catalog:tooling"
+    "jest-axe": "catalog:testing",
+    "jsdom": "catalog:testing",
+    "prettier": "catalog:quality",
+    "rimraf": "catalog:tooling",
+    "storybook": "catalog:storybook",
+    "tsup": "catalog:build",
+    "typescript": "catalog:typescript",
+    "vite": "catalog:build",
+    "vitest": "catalog:testing"
   },
   "pnpm": {
     "allowedDeprecatedVersions": {
       "glob": "*",
-      "rimraf": "*", 
+      "rimraf": "*",
       "@types/minimatch": "*",
       "abab": "*",
       "domexception": "*",
@@ -126,11 +120,11 @@
       "jest-playwright-preset": "*",
       "jest-process-manager": "*"
     },
-     "peerDependencyRules": {
+    "peerDependencyRules": {
       "allowedVersions": {
         "react": "18",
-        "react-dom": "18", 
-        "typescript": "5.6",
+        "react-dom": "18",
+        "typescript": "5.4",
         "storybook": "8"
       },
       "ignoreMissing": [
@@ -140,17 +134,25 @@
       ]
     },
     "overrides": {
-      "typescript": "catalog:typescript",
+      "typescript": "^5.4.5",
       "source-map": "^0.7.6"
     }
   },
-  "engines": { 
-    "node": ">=20.0.0", 
-    "pnpm": ">=9.0.0" 
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
   },
   "packageManager": "pnpm@9.12.3",
   "bundlesize": [
-    { "path": "./packages/core/dist/**/*.js", "maxSize": "150KB", "compression": "gzip" },
-    { "path": "./packages/design-tokens/dist/**/*.css", "maxSize": "50KB", "compression": "gzip" }
+    {
+      "path": "./packages/core/dist/**/*.js",
+      "maxSize": "150KB",
+      "compression": "gzip"
+    },
+    {
+      "path": "./packages/design-tokens/dist/**/*.css",
+      "maxSize": "50KB",
+      "compression": "gzip"
+    }
   ]
 }

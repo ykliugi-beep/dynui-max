@@ -1,18 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { render } from '@testing-library/react';
+import { axe } from 'jest-axe';
 import { DynToast } from './DynToast';
 
-expect.extend(toHaveNoViolations);
-
 describe('DynToast Accessibility', () => {
-  it('has no accessibility violations', async () => {
+  it('should not have accessibility violations', async () => {
     const { container } = render(
       <DynToast
-        status="success"
+        variant="success"
         title="Success"
-        description="Profile updated"
-        actions={<button type="button">View profile</button>}
+        message="Operation completed"
       />
     );
 

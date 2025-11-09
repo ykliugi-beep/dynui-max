@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from '../../test/setup';
 import { DynTreeNode } from './DynTreeNode';
 
-expect.extend(toHaveNoViolations);
 
 describe('DynTreeNode Accessibility', () => {
   it('has no violations for expandable node', async () => {

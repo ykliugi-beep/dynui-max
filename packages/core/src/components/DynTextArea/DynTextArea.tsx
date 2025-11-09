@@ -191,10 +191,10 @@ export const DynTextArea = forwardRef<HTMLTextAreaElement, DynTextAreaProps>((
     `dyn-textarea--variant-${variant}`
   );
   
-  const textareaStyle = {
+  const textareaStyle: React.CSSProperties = {
     ...style,
     ...(autoResize && {
-      resize: 'none',
+      resize: 'none' as const,
       overflow: 'hidden'
     })
   };

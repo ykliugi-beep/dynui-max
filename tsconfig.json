@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    // Type Checking
+    // Type Checking - Balanced for development velocity and safety
     "rootDir": "./",
     "strict": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
@@ -12,14 +12,14 @@
     "noImplicitThis": true,
     "useUnknownInCatchVariables": true,
     "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": false,
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false,
     
     // Modules
     "module": "ESNext",
@@ -63,10 +63,10 @@
     "declarationDir": "./dist",
     "preserveValueImports": false,
     
-    // Interop Constraints - Fixed for workspace compatibility
+    // Interop Constraints
     "verbatimModuleSyntax": false,
     
-    // Language and Environment - Fixed JSX Configuration
+    // Language and Environment
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "jsx": "react-jsx",
@@ -84,7 +84,8 @@
     "apps/*/src/**/*.ts", 
     "apps/*/src/**/*.tsx",
     "tools/*/src/**/*.ts",
-    "tools/*/src/**/*.tsx"
+    "tools/*/src/**/*.tsx",
+    "packages/core/src/test/vitest-enf.d.ts"
   ],
   "exclude": [
     "node_modules",

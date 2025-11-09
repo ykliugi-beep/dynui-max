@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from '../../test/setup';
 import { DynTreeView } from './DynTreeView';
 
-expect.extend(toHaveNoViolations);
 
 const TREE = [
   {

@@ -1,10 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from '../../test/setup';
 import { DynSelect } from './DynSelect';
 import userEvent from '@testing-library/user-event';
 
-expect.extend(toHaveNoViolations);
 
 const OPTIONS = [
   { value: 'one', label: 'One' },

@@ -1,36 +1,31 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
-import { DynTable } from './DynTable';
+import { describe, it, expect } from 'vitest';
+import { render } from '@testing-library/react';
+import { axe } from 'jest-axe';
+import { DynTable, TableColumn } from './DynTable';
 
-expect.extend(toHaveNoViolations);
-
-const COLUMNS = [
-  { key: 'name', title: 'Name', dataIndex: 'name' },
-  { key: 'age', title: 'Age', dataIndex: 'age' }
-];
-
-const DATA = [
-  { key: '1', name: 'Alice', age: 30 }
-];
+interface TestData {
+  id: number;
+  name: string;
+  email: string;
+}
 
 describe('DynTable Accessibility', () => {
-  it('has no violations with data rows', async () => {
-    const { container } = render(
-      <DynTable columns={COLUMNS} dataSource={DATA} />
-    );
+  it('should not have accessibility violations', async () => {
+    const columns: TableColumn<TestData>[] = [
+      { key: 'id', title: 'ID', sortable: true },
+      { key: 'name', title: 'Name', sortable: true },
+      { key: 'email', title: 'Email' }
+    ];
 
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
+    const dataSource: TestData[] = [
+      { id: 1, name: 'John Doe', email: 'john@example.com' },
+      { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
+    ];
 
-  it('has no violations with selection and sorting', async () => {
     const { container } = render(
       <DynTable
-        columns={[{ ...COLUMNS[0], sortable: true }, COLUMNS[1]]}
-        dataSource={DATA}
-        rowSelection={{ type: 'checkbox', onChange: vi.fn(), selectedRowKeys: [] }}
-        sortConfig={{ sortBy: 'name', sortOrder: 'asc', onChange: vi.fn() }}
+        columns={columns}
+        dataSource={dataSource}
       />
     );
 

@@ -10,13 +10,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "files": [
-    "src/index.ts",
-    "src/tokens/base.ts",
-    "src/tokens/semantic.ts",
-    "src/themes/index.ts"
-  ],
-  "include": [],
+  "include": ["src/**/*"],
   "exclude": [
     "dist",
     "build",

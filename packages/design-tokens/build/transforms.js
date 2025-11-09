@@ -44,10 +44,10 @@ export const fontFamilyTransform = {
 };
 
 // Register all transforms
-export function registerCustomTransforms() {
-  StyleDictionary.registerTransform(dynKebabTransform);
-  StyleDictionary.registerTransform(sizeRemTransform);
-  StyleDictionary.registerTransform(fontFamilyTransform);
+export function registerCustomTransforms(sd) {
+  sd.registerTransform(dynKebabTransform);
+  sd.registerTransform(sizeRemTransform);
+  sd.registerTransform(fontFamilyTransform);
 }
 
 // Custom transform groups
@@ -63,23 +63,12 @@ export const dynCssTransformGroup = {
   ]
 };
 
-export function registerCustomTransformGroups() {
-  StyleDictionary.registerTransformGroup(dynCssTransformGroup);
+export function registerCustomTransformGroups(sd) {
+  sd.registerTransformGroup(dynCssTransformGroup);
 }
 
 // Initialize all custom transforms and groups
-export function initializeCustomTransforms() {
-  registerCustomTransforms();
-  registerCustomTransformGroups();
+export function initializeCustomTransforms(sd) {
+  registerCustomTransforms(sd);
+  registerCustomTransformGroups(sd);
 }
-
-// Provide CommonJS exports for Node require() compatibility in build/config.js
-module.exports = {
-  dynKebabTransform,
-  sizeRemTransform,
-  fontFamilyTransform,
-  registerCustomTransforms,
-  dynCssTransformGroup,
-  registerCustomTransformGroups,
-  initializeCustomTransforms
-};

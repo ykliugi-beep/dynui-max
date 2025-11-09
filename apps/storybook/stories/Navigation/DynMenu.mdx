@@ -1,30 +1,104 @@
-import { Meta } from '@storybook/blocks';
+{/* DynMenu.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynMenu.stories';
 
-<Meta title="Navigation/DynMenu" />
+<Meta of={Stories} />
 
 # DynMenu
 
-Dropdown context menu component with keyboard navigation and submenus.
+Dropdown context menu with keyboard navigation and nested submenus.
 
-## Features
+## Overview
 
-- **Keyboard Navigation**: Arrow keys, Enter, Escape support
-- **Nested Menus**: Support for submenus and hierarchical content
-- **Accessibility**: Full WCAG 2.1 AA compliance
-- **Positioning**: Smart positioning to stay within viewport
-- **Custom Triggers**: Flexible trigger mechanisms
-- **Dividers**: Visual separation for menu sections
+DynMenu provides accessible dropdown menus for actions and navigation:
+- Keyboard navigation (arrow keys, Enter, ESC)
+- Nested submenu support
+- Icon and keyboard shortcut display
+- Dividers and section headers
+- Portal rendering for proper positioning
 
-## Usage Examples
+<Canvas of={Stories.Default} />
 
-- Context menus
-- Dropdown navigation
-- Action menus
-- Settings panels
+## Use Cases
+
+- **Context menus** - Right-click actions on items
+- **Action menus** - Dropdown buttons with multiple actions
+- **User menus** - Account settings, logout, profile links
+- **Navigation menus** - Multi-level site navigation
+
+## Variants
+
+### With Icons and Shortcuts
+
+<Canvas of={Stories.WithIconsAndShortcuts} />
+
+### Nested Submenus
+
+<Canvas of={Stories.NestedSubmenus} />
+
+### With Sections
+
+<Canvas of={Stories.WithSections} />
+
+## Accessibility
+
+### Keyboard Navigation
+
+- **ArrowDown/ArrowUp** - Navigate menu items
+- **ArrowRight** - Open submenu (if available)
+- **ArrowLeft** - Close submenu and return to parent
+- **Enter/Space** - Activate menu item
+- **ESC** - Close menu and return focus
+- **Home/End** - Jump to first/last item
+
+### Screen Reader Support
+
+- Uses `role="menu"` and `role="menuitem"`
+- Proper ARIA attributes for submenus
+- Focus management and restoration
+- Disabled items marked with `aria-disabled`
 
 ## Best Practices
 
-- Group related actions together
-- Use dividers for logical sections
-- Provide keyboard shortcuts when applicable
-- Test positioning on different screen sizes
+✅ **Do:**
+- Group related actions with dividers
+- Show keyboard shortcuts when available
+- Use icons for visual scanning
+- Limit nesting depth (max 2-3 levels)
+- Provide clear, action-oriented labels
+
+❌ **Don't:**
+- Overload menus with too many items (>10)
+- Hide critical actions in submenus
+- Use menus for primary navigation
+- Nest too deeply (>3 levels)
+
+## Props
+
+<Controls of={Stories.Default} />
+
+## Examples
+
+### Basic Action Menu
+
+```tsx
+import { DynMenu, DynButton } from '@dynui-max/core';
+import { useState } from 'react';
+
+function ActionMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const items = [
+    { label: 'Edit', onClick: () => console.log('Edit') },
+    { label: 'Duplicate', onClick: () => console.log('Duplicate') },
+    { type: 'divider' },
+    { label: 'Delete', onClick: () => console.log('Delete'), danger: true },
+  ];
+
+  return (
+    <DynMenu items={items} isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <DynButton onClick={() => setIsOpen(!isOpen)}>Actions</DynButton>
+    </DynMenu>
+  );
+}
+```

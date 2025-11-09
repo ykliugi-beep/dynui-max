@@ -1,9 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from '../../test/setup';
 import { DynFieldContainer } from './DynFieldContainer';
-
-expect.extend(toHaveNoViolations);
 
 const MockInput = ({ id, ...props }: any) => <input id={id} {...props} />;
 

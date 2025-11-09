@@ -1,30 +1,109 @@
-import { Meta } from '@storybook/blocks';
+{/* DynBreadcrumb.mdx */}
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './DynBreadcrumb.stories';
 
-<Meta title="Navigation/DynBreadcrumb" />
+<Meta of={Stories} />
 
 # DynBreadcrumb
 
-Navigation breadcrumbs component with overflow handling and accessibility features.
+Navigation breadcrumbs showing the current page location within the site hierarchy.
 
-## Features
+## Overview
 
-- **Hierarchical Navigation**: Clear path indication
-- **Overflow Handling**: Ellipsis for long breadcrumb chains
-- **Keyboard Navigation**: Full keyboard support
-- **Accessibility**: Proper ARIA labels and landmarks
-- **Responsive Design**: Adapts to different screen sizes
-- **Custom Separators**: Configurable separator icons
+DynBreadcrumb helps users understand their current location and navigate back through parent pages:
+- Hierarchical navigation trail
+- Automatic overflow handling for long paths
+- Keyboard navigation support
+- Customizable separators
+- Responsive design
 
-## Usage Examples
+<Canvas of={Stories.Default} />
 
-- File system navigation
-- E-commerce category paths
-- Multi-step processes
-- Content hierarchy display
+## Use Cases
+
+- **Multi-level navigation** - Deep content hierarchies (e.g., Settings > Account > Security)
+- **E-commerce** - Product categories (Home > Electronics > Laptops > Gaming)
+- **Documentation** - Topic navigation (Docs > Components > Navigation > Breadcrumb)
+- **File systems** - Folder navigation (Documents > Projects > 2025 > Q1)
+
+## Variants
+
+### With Icons
+
+<Canvas of={Stories.WithIcons} />
+
+### Custom Separator
+
+<Canvas of={Stories.CustomSeparator} />
+
+### Overflow Handling
+
+<Canvas of={Stories.WithOverflow} />
+
+## Accessibility
+
+### Keyboard Navigation
+
+- **Tab** - Navigate between breadcrumb links
+- **Enter/Space** - Activate selected link
+- **Arrow Keys** - Move between items (optional)
+
+### Screen Reader Support
+
+- Uses `<nav>` landmark with `aria-label="Breadcrumb"`
+- Current page marked with `aria-current="page"`
+- Separators hidden from screen readers
 
 ## Best Practices
 
-- Keep breadcrumb labels concise
-- Ensure all items except last are clickable
-- Test on mobile devices for usability
-- Use consistent separator styling
+✅ **Do:**
+- Show the full path to current location
+- Make all items except current page clickable
+- Use clear, concise labels
+- Limit to reasonable depth (typically ≤5 levels)
+
+❌ **Don't:**
+- Use breadcrumbs for single-level navigation
+- Include the current page as a link
+- Make breadcrumbs too long (use ellipsis for overflow)
+- Replace primary navigation with breadcrumbs
+
+## Props
+
+<Controls of={Stories.Default} />
+
+## Examples
+
+### Basic Breadcrumb
+
+```tsx
+import { DynBreadcrumb } from '@dynui-max/core';
+
+const items = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products' },
+  { label: 'Electronics', href: '/products/electronics' },
+  { label: 'Laptops' }, // Current page (no href)
+];
+
+<DynBreadcrumb items={items} />
+```
+
+### With Click Handlers
+
+```tsx
+import { DynBreadcrumb } from '@dynui-max/core';
+import { useNavigate } from 'react-router-dom';
+
+function NavigableBreadcrumb() {
+  const navigate = useNavigate();
+
+  const items = [
+    { label: 'Dashboard', onClick: () => navigate('/dashboard') },
+    { label: 'Settings', onClick: () => navigate('/settings') },
+    { label: 'Profile' },
+  ];
+
+  return <DynBreadcrumb items={items} />;
+}
+```

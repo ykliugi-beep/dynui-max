@@ -1,8 +1,12 @@
+// index.ts
 var tsupConfig = {
   splitting: false,
   sourcemap: true,
   clean: true,
-  format: ["esm", "cjs"],
+  format: [
+    "esm",
+    "cjs"
+  ],
   dts: true
 };
 export {
