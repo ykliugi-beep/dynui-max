@@ -6,7 +6,7 @@ import { DynBox } from './DynBox';
 describe('DynBox Accessibility', () => {
   it('has no accessibility violations for structural layout', async () => {
     const { container } = render(
-      <DynBox as="section" aria-label="Layout section">
+      <DynBox aria-label="Layout section">
         <p>Structured content</p>
       </DynBox>
     );
@@ -21,7 +21,6 @@ describe('DynBox Accessibility', () => {
         Click me
       </DynBox>
     );
-
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
