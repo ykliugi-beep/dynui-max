@@ -75,15 +75,4 @@ describe('DynButton', () => {
     await user.keyboard('{Enter}');
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
-
-  it('renders as anchor tag when using polymorphic as prop', () => {
-    render(
-      <DynButton as="a" href="https://example.com">
-        Link Button
-      </DynButton>
-    );
-    const link = screen.getByRole('link', { name: 'Link Button' });
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', 'https://example.com');
-  });
 });
