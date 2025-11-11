@@ -1,4 +1,4 @@
-import StyleDictionary from 'style-dictionary';
+const StyleDictionary = require('style-dictionary');
 
 /**
  * Custom transforms for DynUI-Max design tokens
@@ -6,7 +6,7 @@ import StyleDictionary from 'style-dictionary';
  */
 
 // Custom name transform for DynUI CSS variables
-export const dynKebabTransform = {
+const dynKebabTransform = {
   name: 'name/cti/dyn-kebab',
   type: 'name',
   transform: (token) => {
@@ -15,7 +15,7 @@ export const dynKebabTransform = {
 };
 
 // Custom size transform that preserves rem values
-export const sizeRemTransform = {
+const sizeRemTransform = {
   name: 'size/px-to-rem',
   type: 'value',
   filter: (token) => {
@@ -30,7 +30,7 @@ export const sizeRemTransform = {
 };
 
 // Custom transform for font family arrays
-export const fontFamilyTransform = {
+const fontFamilyTransform = {
   name: 'font/family/css',
   type: 'value',
   filter: (token) => {
@@ -44,14 +44,14 @@ export const fontFamilyTransform = {
 };
 
 // Register all transforms
-export function registerCustomTransforms() {
+function registerCustomTransforms() {
   StyleDictionary.registerTransform(dynKebabTransform);
   StyleDictionary.registerTransform(sizeRemTransform);
   StyleDictionary.registerTransform(fontFamilyTransform);
 }
 
 // Custom transform groups
-export const dynCssTransformGroup = {
+const dynCssTransformGroup = {
   name: 'dyn/css',
   transforms: [
     'attribute/cti',          // Built-in: adds category/type/item attributes
@@ -63,17 +63,17 @@ export const dynCssTransformGroup = {
   ]
 };
 
-export function registerCustomTransformGroups() {
+function registerCustomTransformGroups() {
   StyleDictionary.registerTransformGroup(dynCssTransformGroup);
 }
 
 // Initialize all custom transforms and groups
-export function initializeCustomTransforms() {
+function initializeCustomTransforms() {
   registerCustomTransforms();
   registerCustomTransformGroups();
 }
 
-// Provide CommonJS exports for Node require() compatibility in build/config.js
+// CommonJS exports
 module.exports = {
   dynKebabTransform,
   sizeRemTransform,
