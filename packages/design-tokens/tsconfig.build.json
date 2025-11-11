@@ -4,25 +4,16 @@
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
-    "outDir": "./dist",
-    "noEmit": false,
-    "composite": false,
-    "skipLibCheck": true,
-    "resolveJsonModule": true
+    "outDir": "./dist"
   },
-  "files": [
-    "src/index.ts",
-    "src/tokens/base.ts",
-    "src/tokens/semantic.ts",
-    "src/themes/index.ts"
+  "include": [
+    "src/**/*.ts"
   ],
-  "include": [],
   "exclude": [
     "dist",
     "build",
     "node_modules",
     "**/*.test.ts",
-    "**/*.spec.ts",
-    "**/*.stories.ts"
+    "**/*.spec.ts"
   ]
 }

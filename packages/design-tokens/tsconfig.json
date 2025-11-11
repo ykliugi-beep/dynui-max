@@ -4,30 +4,24 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "declarationDir": "./dist",
-    "composite": true,
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": false,
-    "noEmit": false,
+    "composite": true,
+    "skipLibCheck": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": false,
-    "skipLibCheck": true,
     "allowImportingTsExtensions": false
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.json"
+    "src/**/*.ts"
   ],
   "exclude": [
     "dist",
     "build",
     "node_modules",
     "**/*.test.ts",
-    "**/*.test.tsx",
     "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "**/*.stories.ts",
-    "**/*.stories.tsx"
+    "**/*.stories.ts"
   ]
 }
