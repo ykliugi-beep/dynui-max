@@ -36,6 +36,12 @@
     "format:check": "prettier --check .",
     "quality:gates": "pnpm typecheck && pnpm lint && pnpm test:coverage",
 
+    "//=== Per-Component Testing =====": "",
+    "test:component": "bash scripts/test-component.sh",
+    "validate:component": "node scripts/validate-component.js",
+    "build:component": "bash scripts/build-component.sh",
+    "certify:all": "node scripts/certify-components.js",
+
     "//=== Documentation & Apps =====": "",
     "storybook": "pnpm --filter=@dynui-max/storybook run dev",
     "storybook:build": "pnpm --filter=@dynui-max/storybook run build",
