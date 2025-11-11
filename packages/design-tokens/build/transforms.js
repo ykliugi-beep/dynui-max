@@ -1,4 +1,4 @@
-const StyleDictionary = require('style-dictionary');
+import StyleDictionary from 'style-dictionary';
 
 /**
  * Custom transforms for DynUI-Max design tokens
@@ -6,7 +6,7 @@ const StyleDictionary = require('style-dictionary');
  */
 
 // Custom name transform for DynUI CSS variables
-const dynKebabTransform = {
+export const dynKebabTransform = {
   name: 'name/cti/dyn-kebab',
   type: 'name',
   transform: (token) => {
@@ -15,7 +15,7 @@ const dynKebabTransform = {
 };
 
 // Custom size transform that preserves rem values
-const sizeRemTransform = {
+export const sizeRemTransform = {
   name: 'size/px-to-rem',
   type: 'value',
   filter: (token) => {
@@ -30,7 +30,7 @@ const sizeRemTransform = {
 };
 
 // Custom transform for font family arrays
-const fontFamilyTransform = {
+export const fontFamilyTransform = {
   name: 'font/family/css',
   type: 'value',
   filter: (token) => {
@@ -44,14 +44,14 @@ const fontFamilyTransform = {
 };
 
 // Register all transforms
-function registerCustomTransforms() {
+export function registerCustomTransforms() {
   StyleDictionary.registerTransform(dynKebabTransform);
   StyleDictionary.registerTransform(sizeRemTransform);
   StyleDictionary.registerTransform(fontFamilyTransform);
 }
 
 // Custom transform groups
-const dynCssTransformGroup = {
+export const dynCssTransformGroup = {
   name: 'dyn/css',
   transforms: [
     'attribute/cti',          // Built-in: adds category/type/item attributes
@@ -63,12 +63,12 @@ const dynCssTransformGroup = {
   ]
 };
 
-function registerCustomTransformGroups() {
+export function registerCustomTransformGroups() {
   StyleDictionary.registerTransformGroup(dynCssTransformGroup);
 }
 
 // Initialize all custom transforms and groups
-function initializeCustomTransforms() {
+export function initializeCustomTransforms() {
   registerCustomTransforms();
   registerCustomTransformGroups();
 }
