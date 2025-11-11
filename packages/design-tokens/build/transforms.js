@@ -72,14 +72,3 @@ function initializeCustomTransforms() {
   registerCustomTransforms();
   registerCustomTransformGroups();
 }
-
-// CommonJS exports
-module.exports = {
-  dynKebabTransform,
-  sizeRemTransform,
-  fontFamilyTransform,
-  registerCustomTransforms,
-  dynCssTransformGroup,
-  registerCustomTransformGroups,
-  initializeCustomTransforms
-};
