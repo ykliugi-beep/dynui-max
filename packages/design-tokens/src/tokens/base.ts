@@ -5,14 +5,14 @@ import type { BaseTokens } from '../types';
  * These should not reference other tokens and define the foundation
  */
 const baseTokens: BaseTokens = {
-  color: {
+  colors: {
     primary: {
       50: '#eff6ff',
       100: '#dbeafe',
       200: '#bfdbfe',
       300: '#93c5fd',
       400: '#60a5fa',
-      500: '#3b82f6', // Default primary
+      500: '#3b82f6',
       600: '#2563eb',
       700: '#1d4ed8',
       800: '#1e40af',
@@ -32,28 +32,37 @@ const baseTokens: BaseTokens = {
       900: '#111827',
       950: '#030712'
     },
+    success: { 500: '#10b981', 400: '#34d399' },
+    warning: { 500: '#f59e0b', 400: '#fbbf24' },
+    error: { 500: '#ef4444', 400: '#f87171' },
+    info: { 500: '#3b82f6', 400: '#60a5fa' },
     white: '#ffffff',
-    black: '#000000'
+    black: '#000000',
+    transparent: 'transparent'
   },
   spacing: {
-    '2xs': '0.125rem', // 2px
-    xs: '0.25rem',   // 4px
-    sm: '0.5rem',    // 8px
-    md: '1rem',      // 16px
-    lg: '1.5rem',    // 24px
-    xl: '2rem',      // 32px
-    '2xl': '3rem',   // 48px
-    '3xl': '4rem'    // 64px
+    '2xs': '0.125rem',
+    xs: '0.25rem',
+    sm: '0.5rem',
+    md: '1rem',
+    lg: '1.5rem',
+    xl: '2rem',
+    '2xl': '3rem',
+    '3xl': '4rem',
+    '4xl': '6rem',
+    '5xl': '8rem',
+    '6xl': '10rem'
   },
   typography: {
     fontSize: {
-      xs: '0.75rem',   // 12px
-      sm: '0.875rem',  // 14px
-      md: '1rem',      // 16px
-      lg: '1.125rem',  // 18px
-      xl: '1.25rem',   // 20px
-      '2xl': '1.5rem', // 24px
-      '3xl': '2rem'    // 32px
+      xs: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '2rem',
+      '4xl': '3rem'
     },
     fontWeight: {
       normal: 400,
@@ -89,19 +98,22 @@ const baseTokens: BaseTokens = {
   },
   radius: {
     none: '0',
-    sm: '0.25rem',   // 4px
-    md: '0.375rem',  // 6px
-    lg: '0.5rem',    // 8px
+    sm: '0.25rem',
+    md: '0.375rem',
+    lg: '0.5rem',
+    xl: '0.75rem',
+    '2xl': '1rem',
     full: '9999px'
   },
-  shadow: {
-    xs: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+  shadows: {
     sm: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
     md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
     lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)'
+    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+    inner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.06)',
+    none: 'none'
   },
-  breakpoint: {
+  breakpoints: {
     sm: '640px',
     md: '768px',
     lg: '1024px',
@@ -110,7 +122,7 @@ const baseTokens: BaseTokens = {
   },
   zIndex: {
     hide: -1,
-    auto: 0,
+    auto: 'auto',
     base: 0,
     docked: 10,
     dropdown: 1000,
@@ -119,7 +131,9 @@ const baseTokens: BaseTokens = {
     overlay: 1300,
     modal: 1400,
     popover: 1500,
-    tooltip: 1600
+    skipLink: 1600,
+    toast: 1700,
+    tooltip: 1800
   }
 };
 
