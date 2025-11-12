@@ -6,19 +6,15 @@ import { DynAvatar } from './DynAvatar';
 describe('DynAvatar Accessibility', () => {
   it('has no accessibility violations with name fallback', async () => {
     const { container } = render(<DynAvatar name="Accessible User" />);
-    // Use the asynchronous matcher directly on the Promise returned by axe().
-    await expect(axe(container)).toHaveNoViolations();
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
 
   it('has no accessibility violations when an image is provided', async () => {
     const { container } = render(
-      <DynAvatar
-        src="https://example.com/avatar.png"
-        alt="User avatar"
-        name="Fallback User"
-      />
+      <DynAvatar src="https://example.com/avatar.png" alt="User avatar" name="Fallback User" />
     );
-    // Use the asynchronous matcher directly on the Promise returned by axe().
-    await expect(axe(container)).toHaveNoViolations();
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
 });
