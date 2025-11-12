@@ -1,0 +1,92 @@
+*** Begin Patch
+*** Update File: package.json
+@@ "devDependencies": {
+-    "jest-axe": "catalog:testing",
++    // Removed `jest-axe` because we use `vitest-axe` for accessibility testing.
+@@
+ }
+
+*** Update File: packages/core/package.json
+@@ "devDependencies": {
+-    "happy-dom": "catalog:testing"
++    // Removed `happy-dom` because `vitest-axe` is incompatible with the happy-dom environment.
+ }
+
+*** Update File: packages/core/vitest.a11y.config.ts
+@@
+-    test: {
+-        globals: true,
+-        environment: 'happy-dom',
+-        setupFiles: ['./src/test/setup.ts'],
+-        include: ['**/*.a11y.test.{ts,tsx}'],
+-        testTimeout: 10000
+-    }
++    test: {
++        globals: true,
++        // Use jsdom environment for vitest-axe accessibility tests.
++        environment: 'jsdom',
++        setupFiles: ['./src/test/setup.ts'],
++        include: ['**/*.a11y.test.{ts,tsx}'],
++        testTimeout: 10000
++    }
+
+*** Update File: packages/core/src/test/setup.ts
+@@
+-import { toHaveNoViolations } from 'vitest-axe';
+-import { expect } from 'vitest';
+-
+-// Extend expect with vitest-axe custom matchers
+-expect.extend(toHaveNoViolations);
++// Import the vitest-axe matcher extension. This automatically extends
++// Vitest's `expect` with `.toHaveNoViolations()` so you don't need to call
++// `expect.extend()` manually.
++import 'vitest-axe/extend-expect';
++
++// Bring `expect` into scope so TypeScript can augment it later.
++import { expect } from 'vitest';
+@@
+-// Cleanup after each test
+-afterEach(() => {
+-  cleanup();
+-});
++// Cleanup after each test
++afterEach(() => {
++  cleanup();
++});
+@@
+-// Mock window.matchMedia
+-beforeAll(() => {
++// Mock window.matchMedia and localStorage
++beforeAll(() => {
+@@
+-});
++});
++
++// ---------------------------------------------------------------------------
++// Vitest Axe type augmentation
++//
++// Extend Vitest's assertion types to include the custom matchers provided by
++// vitest-axe so TypeScript recognizes `.toHaveNoViolations()` calls.
++import 'vitest';
++import type { AxeMatchers } from 'vitest-axe/matchers';
++
++declare module 'vitest' {
++  interface Assertion<T = any> extends AxeMatchers {}
++  interface AsymmetricMatchersContaining extends AxeMatchers {}
++}
+
+*** Update File: packages/core/src/components/DynAvatar/DynAvatar.a11y.test.tsx
+@@
+-    // Use the asynchronous matcher directly on the Promise returned by axe().
+-    await expect(axe(container)).toHaveNoViolations();
++    // Await the axe result before asserting; this avoids type errors.
++    const results = await axe(container);
++    expect(results).toHaveNoViolations();
+@@
+-        // Use the asynchronous matcher directly on the Promise returned by axe().
+-        await expect(axe(container)).toHaveNoViolations();
++        // Await the axe result before asserting; this avoids type errors.
++        const imgResults = await axe(container);
++        expect(imgResults).toHaveNoViolations();
+
+*** End Patch

@@ -70,9 +70,7 @@
     "@storybook/react-vite": "catalog:storybook",
     "@storybook/test": "catalog:storybook",
     
-    "eslint": "catalog:quality",
-    
-    "happy-dom": "catalog:testing"
+    "eslint": "catalog:quality"
   },
   "keywords": [
     "react",

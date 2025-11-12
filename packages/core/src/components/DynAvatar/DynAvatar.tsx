@@ -81,9 +81,12 @@ export const DynAvatar = forwardRef<HTMLDivElement, DynAvatarProps>((
     
     const words = name.trim().split(/\s+/);
     if (words.length === 1) {
-      return words[0].charAt(0).toUpperCase();
+      const w = words[0] ?? '';
+      return w.charAt(0).toUpperCase();
     }
-    return (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
+    const firstChar = (words[0] ?? '').charAt(0);
+    const lastChar = (words[words.length - 1] ?? '').charAt(0);
+    return (firstChar + lastChar).toUpperCase();
   };
   
   const handleImageError = () => {
