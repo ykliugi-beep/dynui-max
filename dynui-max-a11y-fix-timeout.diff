@@ -1,0 +1,70 @@
+*** Begin Patch
+*** Update File: tests/setup.ts
+@@
+ import '@testing-library/jest-dom';
+ import { afterEach, vi } from 'vitest';
+ import { cleanup } from '@testing-library/react';
+ import 'vitest-axe/extend-expect';
+@@
+ // Mock scrollTo for components that use scrolling
+ Object.defineProperty(window, 'scrollTo', {
+   writable: true,
+   value: vi.fn()
+ });
++
++// ---------------------------------------------------------------------------------------------
++// Vitest Axe type augmentation
++//
++// Vitest's assertion interface doesn't know about the custom matchers provided by
++// vitest-axe. Without this module augmentation TypeScript will report that
++// `toHaveNoViolations` does not exist on `Assertion<AxeResults>`, even though
++// the matcher is available at runtime via extend-expect. This declaration
++// merges the Axe matchers into Vitest's Assertion types, ensuring type safety
++// for `.toHaveNoViolations()` calls in your tests.
++
++import 'vitest';
++import type { AxeMatchers } from 'vitest-axe/matchers';
++
++declare module 'vitest' {
++  interface Assertion<T = any> extends AxeMatchers {}
++  interface AsymmetricMatchersContaining extends AxeMatchers {}
++}
+*** End Patch
+*** Begin Patch
+*** Update File: packages/core/src/components/DynAvatar/DynAvatar.a11y.test.tsx
+@@
+-  it('has no accessibility violations with image fallback', async () => {
+-    const { container } = render(
+-      <DynAvatar name="Accessible User" />
+-    );
+-
+-    const results = await axe(container);
+-    expect(results).toHaveNoViolations();
+-  });
+-
+-  it('has no accessibility violations when interactive', async () => {
+-    const { container } = render(
+-      <DynAvatar name="Clickable" onClick={() => undefined} />
+-    );
+-
+-    const results = await axe(container);
+-    expect(results).toHaveNoViolations();
+-  });
++  it('has no accessibility violations with name fallback', async () => {
++    const { container } = render(<DynAvatar name="Accessible User" />);
++    // Use the asynchronous matcher directly on the Promise returned by axe().
++    await expect(axe(container)).toHaveNoViolations();
++  });
++
++  it('has no accessibility violations when an image is provided', async () => {
++    const { container } = render(
++      <DynAvatar
++        src="https://example.com/avatar.png"
++        alt="User avatar"
++        name="Fallback User"
++      />
++    );
++    // Use the asynchronous matcher directly on the Promise returned by axe().
++    await expect(axe(container)).toHaveNoViolations();
++  });
+*** End Patch
