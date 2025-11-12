@@ -3,16 +3,15 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm', 'cjs'],
-  dts: true,  // Enable TypeScript declaration generation
+  dts: false,  // ← ISKLJUČI DTS u tsup-u!
   sourcemap: true,
   clean: true,
-  external: ['react', 'react-dom'],
   splitting: false,
   treeshake: true,
-  tsconfig: './tsconfig.json',
-  esbuildOptions: (options) => {
-    options.banner = {
-      js: '"use client"',
-    };
+  minify: false,
+  target: 'es2022',
+  outDir: 'dist',
+  banner: {
+    js: "'use client';",
   },
 });

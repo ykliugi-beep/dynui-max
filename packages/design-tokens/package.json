@@ -1,11 +1,29 @@
 {
   "name": "@dynui-max/design-tokens",
   "version": "0.2.1",
+  "description": "Design token primitives for the DynUI-Max design system with Style Dictionary build system",
+  "type": "module",
   "private": true,
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./css": "./dist/tokens.css",
+    "./themes/*": "./dist/themes/*"
+  },
+  "files": [
+    "dist",
+    "build",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "clean": "del-cli dist build/tokens.json tsconfig.tsbuildinfo",
     "build": "pnpm clean && pnpm build:tokens && pnpm build:js && pnpm build:types",
