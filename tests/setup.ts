@@ -67,3 +67,21 @@ Object.defineProperty(window, 'scrollTo', {
   writable: true,
   value: vi.fn()
 });
+
+// ---------------------------------------------------------------------------------------------
+// Vitest Axe type augmentation
+//
+// Vitest's assertion interface doesn't know about the custom matchers provided by
+// vitest-axe. Without this module augmentation TypeScript will report that
+// `toHaveNoViolations` does not exist on `Assertion<AxeResults>`, even though
+// the matcher is available at runtime via extend-expect. This declaration
+// merges the Axe matchers into Vitest's Assertion types, ensuring type safety
+// for `.toHaveNoViolations()` calls in your tests.
+
+import 'vitest';
+import type { AxeMatchers } from 'vitest-axe/matchers';
+
+declare module 'vitest' {
+  interface Assertion<T = any> extends AxeMatchers {}
+  interface AsymmetricMatchersContaining extends AxeMatchers {}
+}
