@@ -1,10 +1,11 @@
 import '@testing-library/jest-dom';
-import { expect } from 'vitest';
-import { toHaveNoViolations } from 'jest-axe';
+import { afterEach, vi } from 'vitest';
+import { cleanup } from '@testing-library/react';
+import 'vitest-axe/extend-expect';
 
-// Extend Vitest's expect with jest-dom matchers
-expect.extend({
-  toHaveNoViolations
+// Register cleanup to reset the DOM after each test
+afterEach(() => {
+  cleanup();
 });
 
 // Mock matchMedia for components that use media queries
@@ -42,7 +43,7 @@ Object.defineProperty(window, 'ResizeObserver', {
 
 // Mock IntersectionObserver
 class IntersectionObserverMock {
-  constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+  constructor(callback, options) {
     // Mock implementation
   }
   observe() {
