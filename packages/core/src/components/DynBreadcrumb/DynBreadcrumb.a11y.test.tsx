@@ -1,9 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from 'vitest-axe';
 import { DynBreadcrumb } from './DynBreadcrumb';
-
-expect.extend(toHaveNoViolations);
 
 describe('DynBreadcrumb Accessibility', () => {
   it('has no violations with basic links', async () => {
