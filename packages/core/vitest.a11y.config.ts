@@ -9,7 +9,7 @@ export default defineConfig({
     environment: 'jsdom',     // već promenjeno pre
     //threads: false,           // <-- dodaj ovo da isključiš worker threads
     testTimeout: 20000,       // <-- opcionalno: povećaj timeout za a11y testove
-    setupFiles: ['./packages/core/src/test/setup.ts'],
+    setupFiles: ['./src/test/setup.ts'],
     include: ['**/*.a11y.test.{ts,tsx}']
   }
 });
