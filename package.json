@@ -35,7 +35,7 @@
     "test": "pnpm -r --if-present run test",
     "test:coverage": "pnpm -r --if-present run test:coverage",
     "test:a11y": "pnpm run --filter @dynui-max/core test:a11y",
-    "typecheck": "pnpm -r --if-present run typecheck",
+    "typecheck": "pnpm --filter @dynui-max/design-tokens build && pnpm -r --if-present run typecheck",
     "lint": "pnpm -r --if-present run lint",
     "lint:fix": "pnpm run -r --if-present lint -- --fix",
     "format": "prettier --write .",
