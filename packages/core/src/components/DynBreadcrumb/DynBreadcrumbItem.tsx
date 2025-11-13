@@ -1,55 +1,44 @@
 import React, { forwardRef } from 'react';
 import clsx from 'clsx';
+import type { PolymorphicComponentProps } from '../../types/polymorphic';
 import './DynBreadcrumbItem.css';
 
-export interface DynBreadcrumbItemProps {
+type DynBreadcrumbItemOwnProps = {
   /**
    * Item content
    */
   children: React.ReactNode;
-  
+
   /**
    * Link href
    */
   href?: string;
-  
+
   /**
    * Click handler (for button-like items)
    */
-  onClick?: () => void;
-  
+  onClick?: React.MouseEventHandler;
+
   /**
    * Current/active item
    */
   current?: boolean;
-  
+
   /**
    * Disabled state
    */
   disabled?: boolean;
-  
+
   /**
    * Additional CSS class names
    */
   className?: string;
-  
-  /**
-   * HTML element to render as
-   * @default determined by props
-   */
-  as?: React.ElementType;
-}
+};
 
-/**
- * DynBreadcrumbItem - Individual breadcrumb item
- * 
- * Features:
- * - Automatic element selection (a, button, span)
- * - Current page indication
- * - Disabled state support
- * - Polymorphic rendering
- */
-export const DynBreadcrumbItem = forwardRef<HTMLElement, DynBreadcrumbItemProps>((
+export type DynBreadcrumbItemProps<C extends React.ElementType = 'span'> =
+  PolymorphicComponentProps<C, DynBreadcrumbItemOwnProps>;
+
+const DynBreadcrumbItemComponent = <C extends React.ElementType = 'span'>(
   {
     children,
     href,
@@ -59,12 +48,13 @@ export const DynBreadcrumbItem = forwardRef<HTMLElement, DynBreadcrumbItemProps>
     className,
     as,
     ...props
-  },
-  ref
+  }: DynBreadcrumbItemProps<C>,
+  ref: React.ComponentPropsWithRef<C>['ref']
 ) => {
-  // Determine component type
-  const Component = as || (href ? 'a' : onClick ? 'button' : 'span');
-  
+  const Component = (as || (href ? 'a' : onClick ? 'button' : 'span')) as React.ElementType;
+  const isLink = Component === 'a';
+  const isButton = Component === 'button';
+
   const classes = clsx(
     'dyn-breadcrumb-item',
     {
@@ -76,47 +66,58 @@ export const DynBreadcrumbItem = forwardRef<HTMLElement, DynBreadcrumbItemProps>
     },
     className
   );
-  
+
   const commonProps = {
     ref,
     className: classes,
     'aria-current': current ? 'page' : undefined,
-    'aria-disabled': disabled,
+    'aria-disabled': disabled || undefined,
     ...props
   };
-  
-  if (Component === 'a') {
+
+  if (isLink) {
     return (
       <a
         {...commonProps}
         href={disabled ? undefined : href}
         tabIndex={disabled ? -1 : undefined}
-        onClick={disabled ? (e) => e.preventDefault() : undefined}
+        onClick={
+          disabled
+            ? (event) => {
+                event.preventDefault();
+              }
+            : onClick
+        }
       >
         {children}
       </a>
     );
   }
-  
-  if (Component === 'button') {
+
+  if (isButton) {
     return (
       <button
         {...commonProps}
         type="button"
-        onClick={onClick}
+        onClick={disabled ? undefined : onClick}
         disabled={disabled}
       >
         {children}
       </button>
     );
   }
-  
-  // Default: span
+
   return (
-    <span {...commonProps}>
+    <Component {...commonProps}>
       {children}
-    </span>
+    </Component>
   );
-});
+};
+
+export const DynBreadcrumbItem = forwardRef(DynBreadcrumbItemComponent) as <
+  C extends React.ElementType = 'span'
+>(
+  props: DynBreadcrumbItemProps<C>
+) => React.ReactElement | null;
 
 DynBreadcrumbItem.displayName = 'DynBreadcrumbItem';
