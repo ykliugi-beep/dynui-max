@@ -1,13 +1,11 @@
-import {
-  forwardRef,
-  type ComponentPropsWithRef,
-  type ElementType,
-  type ReactElement,
-  type ReactNode
-} from 'react';
+import { type ElementType, type ReactNode } from 'react';
 import clsx from 'clsx';
 import type { ComponentVariant, ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
-import type { PolymorphicComponentProps } from '../../types/polymorphic';
+import {
+  forwardRefWithAs,
+  type PolymorphicComponentProps,
+  type PolymorphicRef
+} from '../../types/polymorphic';
 import { DynIcon } from '../DynIcon';
 import './DynButton.css';
 
@@ -73,7 +71,7 @@ const DynButtonComponent = <C extends ElementType = 'button'>(
     children,
     ...props
   }: DynButtonProps<C>,
-  ref: ComponentPropsWithRef<C>['ref']
+  ref: PolymorphicRef<C>
 ) => {
   const Component = (as || 'button') as ElementType;
   const isDisabled = disabled || loading;
@@ -132,10 +130,5 @@ const DynButtonComponent = <C extends ElementType = 'button'>(
   );
 };
 
-export const DynButton = forwardRef(DynButtonComponent) as <
-  C extends ElementType = 'button'
->(
-  props: DynButtonProps<C>
-) => ReactElement | null;
-
+export const DynButton = forwardRefWithAs(DynButtonComponent);
 DynButton.displayName = 'DynButton';
