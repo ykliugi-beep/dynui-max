@@ -8,11 +8,11 @@ interface UseFocusTrapOptions {
 /**
  * Hook for trapping focus within a container element
  */
-export function useFocusTrap({
+export function useFocusTrap<T extends HTMLElement = HTMLElement>({
   enabled,
   returnFocus = true
-}: UseFocusTrapOptions): MutableRefObject<HTMLElement | null> {
-  const containerRef = useRef<HTMLElement | null>(null);
+}: UseFocusTrapOptions): MutableRefObject<T | null> {
+  const containerRef = useRef<T | null>(null);
   const previousActiveElement = useRef<Element | null>(null);
   
   useEffect(() => {
@@ -49,6 +49,10 @@ export function useFocusTrap({
       
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (!firstElement || !lastElement) {
+        return;
+      }
       
       if (event.shiftKey) {
         // Shift + Tab: moving backward
