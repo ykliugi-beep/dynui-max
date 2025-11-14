@@ -108,6 +108,34 @@ describe('ThemeSwitcher', () => {
     });
   });
 
+  it('does not toggle when disabled via keyboard activation', async () => {
+    const user = userEvent.setup();
+    render(
+      <ThemeProvider defaultTheme="light">
+        <ThemeSwitcher disabled />
+      </ThemeProvider>
+    );
+
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    });
+
+    const toggleButton = screen.getByRole('button', { name: /switch to dark theme/i });
+    toggleButton.focus();
+
+    await user.keyboard('{Space}');
+
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    });
+
+    await user.keyboard('{Enter}');
+
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    });
+  });
+
   it('cycles through system mode when enabled', async () => {
     const user = userEvent.setup();
     render(
