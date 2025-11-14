@@ -3,6 +3,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ButtonHTMLAttributes,
   type KeyboardEvent as ReactKeyboardEvent
@@ -118,6 +119,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
       ['aria-labelledby']: ariaLabelledBy,
       ['aria-describedby']: ariaDescribedBy,
       onClick,
+      onKeyDown,
       ...buttonProps
     } = rest;
 
@@ -269,6 +271,18 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
     );
 
     if (variant === 'dropdown') {
+      const rotateDropdownMode = (direction: 1 | -1) => {
+        if (dropdownModes.length === 0) {
+          return;
+        }
+
+        const currentIndex = dropdownModes.indexOf(currentMode);
+        const safeIndex = currentIndex >= 0 ? currentIndex : 0;
+        const nextIndex = (safeIndex + direction + dropdownModes.length) % dropdownModes.length;
+        const nextMode = dropdownModes[nextIndex];
+        changeMode(nextMode);
+      };
+
       const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
         if (disabled) {
           return;
@@ -276,12 +290,12 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
 
         if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
           event.preventDefault();
-          cycleMode(1);
+          rotateDropdownMode(1);
         }
 
         if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
           event.preventDefault();
-          cycleMode(-1);
+          rotateDropdownMode(-1);
         }
       };
 
@@ -370,12 +384,28 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
       );
     }
 
+    const keyboardClickPreventedRef = useRef(false);
+
+    const activateNextMode = useCallback(() => {
+      if (disabled) {
+        return;
+      }
+
+      changeMode(nextMode);
+    }, [changeMode, disabled, nextMode]);
+
     return (
       <button
         ref={ref}
         type="button"
         className={classes}
         onClick={event => {
+          if (keyboardClickPreventedRef.current) {
+            keyboardClickPreventedRef.current = false;
+            event.preventDefault();
+            return;
+          }
+
           if (disabled) {
             event.preventDefault();
             return;
@@ -386,7 +416,24 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
             return;
           }
 
-          changeMode(nextMode);
+          activateNextMode();
+        }}
+        onKeyDown={event => {
+          onKeyDown?.(event);
+          if (event.defaultPrevented) {
+            return;
+          }
+
+          if (event.key === ' ' || event.key === 'Space' || event.key === 'Spacebar' || event.key === 'Enter') {
+            event.preventDefault();
+
+            if (disabled) {
+              return;
+            }
+
+            keyboardClickPreventedRef.current = true;
+            activateNextMode();
+          }
         }}
         aria-label={ariaLabel ?? nextModeDescription}
         aria-labelledby={ariaLabelledBy}

@@ -30,6 +30,7 @@ describe('ThemeSwitcher Accessibility', () => {
     const { container } = render(<ThemeSwitcher />);
 
     const results = await axe(container);
+
     expect(results).toHaveNoViolations();
   });
 
@@ -39,6 +40,7 @@ describe('ThemeSwitcher Accessibility', () => {
     );
 
     const results = await axe(container);
+
     expect(results).toHaveNoViolations();
   });
 
@@ -48,6 +50,7 @@ describe('ThemeSwitcher Accessibility', () => {
     );
 
     const results = await axe(container);
+
     expect(results).toHaveNoViolations();
   });
 });

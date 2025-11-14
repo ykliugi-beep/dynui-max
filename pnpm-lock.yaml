@@ -133,6 +133,9 @@ catalogs:
     bundlesize:
       specifier: ^0.18.2
       version: 0.18.2
+    concurrently:
+      specifier: ^8.2.2
+      version: 8.2.2
     del-cli:
       specifier: ^6.0.0
       version: 6.0.0
@@ -232,7 +235,7 @@ importers:
         specifier: catalog:storybook
         version: 11.29.0
       concurrently:
-        specifier: ^8.2.2
+        specifier: catalog:tooling
         version: 8.2.2
       del-cli:
         specifier: catalog:tooling
@@ -11333,7 +11336,7 @@ snapshots:
 
   wide-align@1.1.5:
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
 
   word-wrap@1.2.5: {}
 
