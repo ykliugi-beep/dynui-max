@@ -1,7 +1,11 @@
-import React, { forwardRef } from 'react';
+import { type ElementType, type PropsWithoutRef, type ReactNode } from 'react';
 import clsx from 'clsx';
 import type { ComponentVariant, ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
-import type { PolymorphicComponentProps } from '../../types/polymorphic';
+import {
+  forwardRefWithAs,
+  type PolymorphicComponentProps,
+  type PolymorphicRef
+} from '../../types/polymorphic';
 import { DynIcon } from '../DynIcon';
 import './DynButton.css';
 
@@ -32,17 +36,17 @@ type DynButtonOwnProps = {
   /**
    * Icon at the start of the button
    */
-  startIcon?: React.ReactNode;
+  startIcon?: ReactNode;
 
   /**
    * Icon at the end of the button
    */
-  endIcon?: React.ReactNode;
+  endIcon?: ReactNode;
 
   /**
    * Button content
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
 
   /**
    * Disabled state - supported when rendering as button
@@ -50,10 +54,10 @@ type DynButtonOwnProps = {
   disabled?: boolean;
 };
 
-export type DynButtonProps<C extends React.ElementType = 'button'> =
+export type DynButtonProps<C extends ElementType = 'button'> =
   PolymorphicComponentProps<C, DynButtonOwnProps>;
 
-const DynButtonComponent = <C extends React.ElementType = 'button'>(
+const DynButtonComponent = <C extends ElementType = 'button'>(
   {
     variant = 'solid',
     size = 'md',
@@ -66,10 +70,10 @@ const DynButtonComponent = <C extends React.ElementType = 'button'>(
     className,
     children,
     ...props
-  }: DynButtonProps<C>,
-  ref: React.ComponentPropsWithRef<C>['ref']
+  }: PropsWithoutRef<DynButtonProps<C>>,
+  ref: PolymorphicRef<C>
 ) => {
-  const Component = (as || 'button') as React.ElementType;
+  const Component = (as || 'button') as ElementType;
   const isDisabled = disabled || loading;
   const isButtonElement = Component === 'button';
 
@@ -126,10 +130,5 @@ const DynButtonComponent = <C extends React.ElementType = 'button'>(
   );
 };
 
-export const DynButton = forwardRef(DynButtonComponent) as <
-  C extends React.ElementType = 'button'
->(
-  props: DynButtonProps<C>
-) => React.ReactElement | null;
-
+export const DynButton = forwardRefWithAs(DynButtonComponent);
 DynButton.displayName = 'DynButton';

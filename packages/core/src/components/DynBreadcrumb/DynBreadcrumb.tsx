@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { DynIcon } from '../DynIcon';
 import './DynBreadcrumb.css';
@@ -20,7 +20,7 @@ export interface DynBreadcrumbProps {
    * Separator icon/text
    * @default chevron-right icon
    */
-  separator?: React.ReactNode;
+  separator?: ReactNode;
   
   /**
    * Maximum visible items (others will be collapsed)
@@ -101,23 +101,49 @@ export const DynBreadcrumb = forwardRef<HTMLElement, DynBreadcrumbProps>((
       return safeItems;
     }
 
+    const overflowItem: BreadcrumbItem = {
+      label: '...',
+      disabled: true
+    };
+
     if (normalizedMaxItems === 1) {
-      return [safeItems[safeItems.length - 1]];
+      const lastItem = safeItems[safeItems.length - 1];
+
+      if (!lastItem) {
+        return [];
+      }
+
+      return [lastItem];
     }
 
     if (normalizedMaxItems === 2) {
-      return [
-        safeItems[0],
-        { label: '...', disabled: true },
-        safeItems[safeItems.length - 1]
-      ];
+      const firstItem = safeItems[0];
+
+      if (!firstItem) {
+        return [];
+      }
+
+      const lastItem = safeItems[safeItems.length - 1];
+
+      if (!lastItem) {
+        return [firstItem];
+      }
+
+      return [firstItem, overflowItem, lastItem];
     }
 
-    const start = safeItems.slice(0, 1);
-    const end = safeItems.slice(-(normalizedMaxItems - 2));
-    const overflow = { label: '...', disabled: true };
+    const firstItem = safeItems[0];
 
-    return [...start, overflow, ...end];
+    if (!firstItem) {
+      return [];
+    }
+
+    const start: BreadcrumbItem[] = [firstItem];
+    const end = safeItems
+      .slice(-(normalizedMaxItems - 2))
+      .filter((item): item is BreadcrumbItem => Boolean(item));
+
+    return [...start, overflowItem, ...end];
   }, [normalizedMaxItems, safeItems]);
   
   return (

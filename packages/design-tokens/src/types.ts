@@ -17,6 +17,11 @@ export interface ColorScale {
   950: string;
 }
 
+export type FeedbackScale = Pick<
+  ColorScale,
+  50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+>;
+
 export interface SpacingTokens {
   '2xs': string;  // Fixed: This was missing from the original implementation
   xs: string;
@@ -108,10 +113,10 @@ export interface BaseTokens {
   colors: {  // Fixed: Changed from 'color' to 'colors' for consistency
     primary: ColorScale;
     gray: ColorScale;
-    success: Partial<ColorScale>;  // Added: Semantic color scales
-    warning: Partial<ColorScale>;
-    error: Partial<ColorScale>;
-    info: Partial<ColorScale>;
+    success: FeedbackScale;  // Added: Semantic color scales
+    warning: FeedbackScale;
+    danger: FeedbackScale;
+    info: FeedbackScale;
     white: string;
     black: string;
     transparent: string;  // Added: Transparent color
@@ -146,7 +151,7 @@ export interface SemanticTokens {
     primary: string;
     secondary: string;
     focus: string;      // Added: Focus state
-    error: string;      // Added: Error state
+    danger: string;     // Added: Danger state
     success: string;    // Added: Success state
     warning: string;    // Added: Warning state
   };
@@ -177,13 +182,7 @@ export interface SemanticTokens {
       text: string;
       icon: string;
     };
-    error: {
-      bg: string;
-      border: string;
-      text: string;
-      icon: string;
-    };
-    info: {
+    danger: {
       bg: string;
       border: string;
       text: string;
@@ -212,7 +211,7 @@ export interface Theme {
 // Component variant types
 export type ComponentVariant = 'solid' | 'outline' | 'ghost' | 'link';
 export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';  // Enhanced sizes
-export type ComponentColor = 'primary' | 'success' | 'warning' | 'error' | 'info' | 'neutral';
+export type ComponentColor = 'primary' | 'success' | 'warning' | 'danger' | 'neutral';
 
 // Export the base tokens type for Style Dictionary
 export type { BaseTokens as Tokens };

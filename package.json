@@ -91,7 +91,7 @@
     "@vitejs/plugin-react": "catalog:build",
     "bundlesize": "catalog:tooling",
     "chromatic": "catalog:storybook",
-    "concurrently": "^8.2.2",
+    "concurrently": "catalog:tooling",
     "del-cli": "catalog:tooling",
     "eslint": "catalog:quality",
     "eslint-config-prettier": "catalog:quality",
@@ -106,7 +106,7 @@
     "rimraf": "catalog:tooling",
     "storybook": "catalog:storybook",
     "tsup": "catalog:build",
-    "typescript": "^5.9.3",
+    "typescript": "catalog:typescript",
     "vite": "catalog:build",
     "vitest": "catalog:testing",
     "vitest-axe": "catalog:testing"

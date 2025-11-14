@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
+import { useState } from 'react';
 import { render } from '../test/test-utils';
 import { useKeyboard } from './useKeyboard';
-import React, { useState } from 'react';
 
 const TestComponent = ({
   enabled = true,

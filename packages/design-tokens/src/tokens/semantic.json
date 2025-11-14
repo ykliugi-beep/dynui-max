@@ -59,28 +59,43 @@
         "$type": "color",
         "$value": "{color.gray.100}",
         "$description": "Muted border color"
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "{color.primary.500}",
+        "$description": "Focus border color"
+      },
+      "success": {
+        "$type": "color",
+        "$value": "{color.success.500}",
+        "$description": "Success border color"
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{color.warning.500}",
+        "$description": "Warning border color"
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "{color.danger.500}",
+        "$description": "Danger border color"
       }
     },
     "feedback": {
       "success": {
         "$type": "color",
-        "$value": "#10b981",
+        "$value": "{color.success.500}",
         "$description": "Success feedback color"
       },
       "warning": {
         "$type": "color",
-        "$value": "#f59e0b",
+        "$value": "{color.warning.500}",
         "$description": "Warning feedback color"
       },
       "danger": {
         "$type": "color",
-        "$value": "#ef4444",
+        "$value": "{color.danger.500}",
         "$description": "Danger feedback color"
-      },
-      "info": {
-        "$type": "color",
-        "$value": "{color.primary.500}",
-        "$description": "Info feedback color"
       }
     },
     "interactive": {
