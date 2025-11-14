@@ -1,11 +1,11 @@
-import React, { forwardRef } from 'react';
+import { forwardRef, type SVGProps } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import { logger } from '../../utils/logger';
 import { iconRegistry } from './iconRegistry';
 import './DynIcon.css';
 
-export interface DynIconProps extends React.SVGProps<SVGSVGElement> {
+export interface DynIconProps extends SVGProps<SVGSVGElement> {
   /**
    * Icon name from the registry
    */

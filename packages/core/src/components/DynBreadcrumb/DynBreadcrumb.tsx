@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { DynIcon } from '../DynIcon';
 import './DynBreadcrumb.css';
@@ -20,7 +20,7 @@ export interface DynBreadcrumbProps {
    * Separator icon/text
    * @default chevron-right icon
    */
-  separator?: React.ReactNode;
+  separator?: ReactNode;
   
   /**
    * Maximum visible items (others will be collapsed)

@@ -1,19 +1,19 @@
-import React from 'react';
+import { type FC, type HTMLAttributes, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { DynIcon } from '../DynIcon';
 import styles from './DynToast.module.css';
 
 type ToastStatus = 'info' | 'success' | 'warning' | 'danger';
 
-export interface DynToastProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface DynToastProps extends HTMLAttributes<HTMLDivElement> {
   /** Visual status that maps to semantic tokens */
   status?: ToastStatus;
   /** Heading text displayed at the top of the toast */
-  title?: React.ReactNode;
+  title?: ReactNode;
   /** Additional descriptive text */
-  description?: React.ReactNode;
+  description?: ReactNode;
   /** Optional action buttons or links */
-  actions?: React.ReactNode;
+  actions?: ReactNode;
   /** Callback invoked when the dismiss button is clicked */
   onDismiss?: () => void;
   /** Accessible label for the dismiss button */
@@ -29,7 +29,7 @@ const statusToRole: Record<ToastStatus, 'status' | 'alert'> = {
   danger: 'alert'
 };
 
-export const DynToast: React.FC<DynToastProps> = ({
+export const DynToast: FC<DynToastProps> = ({
   status = 'info',
   title,
   description,

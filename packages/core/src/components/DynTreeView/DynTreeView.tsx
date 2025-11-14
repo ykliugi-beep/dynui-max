@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useCallback } from 'react';
+import { forwardRef, useState, useCallback, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { DynIcon } from '../DynIcon';
 import './DynTreeView.css';
@@ -8,7 +8,7 @@ export interface TreeNode {
   title: string;
   children?: TreeNode[];
   disabled?: boolean;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   isLeaf?: boolean;
   data?: any;
 }
@@ -158,7 +158,7 @@ export const DynTreeView = forwardRef<HTMLDivElement, DynTreeViewProps>((
     onSelect?.(newSelectedKeys, selectedNodes);
   }, [currentSelectedKeys, selectionMode, selectedKeys, treeData, onSelect]);
   
-  const renderTreeNode = (node: TreeNode, level: number = 0): React.ReactNode => {
+  const renderTreeNode = (node: TreeNode, level: number = 0): ReactNode => {
     const isExpanded = currentExpandedKeys.includes(node.key);
     const isSelected = currentSelectedKeys.includes(node.key);
     const hasChildren = Boolean(node.children?.length);

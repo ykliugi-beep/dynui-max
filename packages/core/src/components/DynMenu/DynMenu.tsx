@@ -1,4 +1,14 @@
-import React, { forwardRef, useState, useRef, useCallback, useEffect } from 'react';
+import {
+  forwardRef,
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+  type Ref
+} from 'react';
 import clsx from 'clsx';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import './DynMenu.css';
@@ -6,14 +16,14 @@ import './DynMenu.css';
 export interface MenuItem {
   value: string;
   label: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   disabled?: boolean;
   divider?: boolean;
   description?: string;
 }
 
-export interface DynMenuTriggerRenderProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  ref: React.Ref<HTMLButtonElement>;
+export interface DynMenuTriggerRenderProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  ref: Ref<HTMLButtonElement>;
   /**
    * Indicates whether the menu is currently open
    */
@@ -21,8 +31,8 @@ export interface DynMenuTriggerRenderProps extends React.ButtonHTMLAttributes<HT
 }
 
 export type DynMenuTrigger =
-  | React.ReactNode
-  | ((props: DynMenuTriggerRenderProps) => React.ReactNode);
+  | ReactNode
+  | ((props: DynMenuTriggerRenderProps) => ReactNode);
 
 export interface DynMenuProps {
   /**
@@ -190,7 +200,7 @@ export const DynMenu = forwardRef<DynMenuRef, DynMenuProps>((
   }, [isOpen]);
   
   // Expose ref methods
-  React.useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     open: () => handleOpenChange(true),
     close: () => handleOpenChange(false),
     toggle: () => handleOpenChange(!isOpen)

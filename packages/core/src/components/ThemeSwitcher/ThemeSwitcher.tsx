@@ -1,4 +1,12 @@
-import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ButtonHTMLAttributes,
+  type KeyboardEvent as ReactKeyboardEvent
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentSize, ThemeName } from '@dynui-max/design-tokens';
 import { useTheme } from '../../theme';
@@ -8,7 +16,7 @@ import './ThemeSwitcher.css';
 export type ThemeMode = 'light' | 'dark' | 'system';
 
 export interface ThemeSwitcherProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> {
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> {
   /**
    * Switcher size
    * @default 'md'
@@ -261,7 +269,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
     );
 
     if (variant === 'dropdown') {
-      const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+      const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
         if (disabled) {
           return;
         }

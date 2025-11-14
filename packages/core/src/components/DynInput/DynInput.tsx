@@ -1,4 +1,12 @@
-import React, { forwardRef, useState, useCallback } from 'react';
+import {
+  forwardRef,
+  useState,
+  useCallback,
+  type ChangeEvent,
+  type FocusEvent,
+  type InputHTMLAttributes,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import { DynIcon } from '../DynIcon';
@@ -6,7 +14,7 @@ import './DynInput.css';
 
 export type InputVariant = 'outline' | 'filled' | 'ghost';
 
-export interface DynInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'> {
+export interface DynInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'> {
   /**
    * Input size using design tokens
    * @default 'md'
@@ -42,12 +50,12 @@ export interface DynInputProps extends Omit<React.InputHTMLAttributes<HTMLInputE
   /**
    * Icon at the start of the input
    */
-  startIcon?: React.ReactNode;
+  startIcon?: ReactNode;
   
   /**
    * Icon at the end of the input
    */
-  endIcon?: React.ReactNode;
+  endIcon?: ReactNode;
   
   /**
    * Show clear button when input has value
@@ -104,7 +112,7 @@ export const DynInput = forwardRef<HTMLInputElement, DynInputProps>((
   const currentValue = value !== undefined ? value : internalValue;
   const showClearButton = clearable && currentValue && !disabled && !loading;
   
-  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     
     if (value === undefined) {
@@ -125,12 +133,12 @@ export const DynInput = forwardRef<HTMLInputElement, DynInputProps>((
     onClear?.();
   }, [onChange, onClear, value]);
   
-  const handleFocus = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
+  const handleFocus = useCallback((event: FocusEvent<HTMLInputElement>) => {
     setIsFocused(true);
     onFocus?.(event);
   }, [onFocus]);
   
-  const handleBlur = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = useCallback((event: FocusEvent<HTMLInputElement>) => {
     setIsFocused(false);
     onBlur?.(event);
   }, [onBlur]);

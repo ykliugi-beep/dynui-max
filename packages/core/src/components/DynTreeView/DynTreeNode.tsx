@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import { forwardRef, useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { DynIcon } from '../DynIcon';
 import './DynTreeNode.css';
@@ -17,7 +17,7 @@ export interface DynTreeNodeProps {
   /**
    * Child nodes
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
   
   /**
    * Expanded state (controlled)
@@ -42,7 +42,7 @@ export interface DynTreeNodeProps {
   /**
    * Node icon
    */
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   
   /**
    * Is leaf node (no expand/collapse)
@@ -129,7 +129,7 @@ export const DynTreeNode = forwardRef<HTMLDivElement, DynTreeNodeProps>((
     }
   };
   
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  const handleKeyDown = (event: ReactKeyboardEvent) => {
     switch (event.key) {
       case 'Enter':
       case ' ':

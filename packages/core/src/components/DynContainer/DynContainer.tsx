@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef, type ElementType, type ReactNode } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import './DynContainer.css';
@@ -24,7 +24,7 @@ export interface DynContainerProps {
   /**
    * Container content
    */
-  children: React.ReactNode;
+  children: ReactNode;
   
   /**
    * Additional CSS class names
@@ -35,7 +35,7 @@ export interface DynContainerProps {
    * HTML element to render as
    * @default 'div'
    */
-  as?: React.ElementType;
+  as?: ElementType;
 }
 
 /**

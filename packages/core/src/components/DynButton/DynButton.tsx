@@ -1,4 +1,10 @@
-import React, { forwardRef } from 'react';
+import {
+  forwardRef,
+  type ComponentPropsWithRef,
+  type ElementType,
+  type ReactElement,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentVariant, ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import type { PolymorphicComponentProps } from '../../types/polymorphic';
@@ -32,17 +38,17 @@ type DynButtonOwnProps = {
   /**
    * Icon at the start of the button
    */
-  startIcon?: React.ReactNode;
+  startIcon?: ReactNode;
 
   /**
    * Icon at the end of the button
    */
-  endIcon?: React.ReactNode;
+  endIcon?: ReactNode;
 
   /**
    * Button content
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
 
   /**
    * Disabled state - supported when rendering as button
@@ -50,10 +56,10 @@ type DynButtonOwnProps = {
   disabled?: boolean;
 };
 
-export type DynButtonProps<C extends React.ElementType = 'button'> =
+export type DynButtonProps<C extends ElementType = 'button'> =
   PolymorphicComponentProps<C, DynButtonOwnProps>;
 
-const DynButtonComponent = <C extends React.ElementType = 'button'>(
+const DynButtonComponent = <C extends ElementType = 'button'>(
   {
     variant = 'solid',
     size = 'md',
@@ -67,9 +73,9 @@ const DynButtonComponent = <C extends React.ElementType = 'button'>(
     children,
     ...props
   }: DynButtonProps<C>,
-  ref: React.ComponentPropsWithRef<C>['ref']
+  ref: ComponentPropsWithRef<C>['ref']
 ) => {
-  const Component = (as || 'button') as React.ElementType;
+  const Component = (as || 'button') as ElementType;
   const isDisabled = disabled || loading;
   const isButtonElement = Component === 'button';
 
@@ -127,9 +133,9 @@ const DynButtonComponent = <C extends React.ElementType = 'button'>(
 };
 
 export const DynButton = forwardRef(DynButtonComponent) as <
-  C extends React.ElementType = 'button'
+  C extends ElementType = 'button'
 >(
   props: DynButtonProps<C>
-) => React.ReactElement | null;
+) => ReactElement | null;
 
 DynButton.displayName = 'DynButton';
