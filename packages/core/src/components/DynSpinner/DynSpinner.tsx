@@ -26,6 +26,7 @@ export const DynSpinner: React.FC<DynSpinnerProps> = ({
 }) => {
   const hasLabel = typeof label === 'string' && label.trim().length > 0;
   const mergedLabel = hasLabel ? label : 'Loading';
+  const inlineClass = styles['dyn-spinner--inline'];
 
   return (
     <div
@@ -33,9 +34,7 @@ export const DynSpinner: React.FC<DynSpinnerProps> = ({
         styles['dyn-spinner'],
         styles[`dyn-spinner--size-${size}`],
         styles[`dyn-spinner--color-${color}`],
-        {
-          [styles['dyn-spinner--inline']]: inline
-        },
+        inline && inlineClass,
         className
       )}
       role={role}
