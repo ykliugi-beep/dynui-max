@@ -21,27 +21,27 @@ type DynBreadcrumbItemOwnProps = {
   /**
    * Link href
    */
-  href?: string;
+  href?: string | undefined;
 
   /**
    * Click handler (for button-like items)
    */
-  onClick?: MouseEventHandler;
+  onClick?: MouseEventHandler | undefined;
 
   /**
    * Current/active item
    */
-  current?: boolean;
+  current?: boolean | undefined;
 
   /**
    * Disabled state
    */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 
   /**
    * Additional CSS class names
    */
-  className?: string;
+  className?: string | undefined;
 };
 
 export type DynBreadcrumbItemProps<C extends ElementType = 'span'> =
