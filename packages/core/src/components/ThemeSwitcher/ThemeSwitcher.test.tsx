@@ -1,4 +1,4 @@
-import { afterEach, beforeAll, describe, expect, fail, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../theme';
@@ -130,11 +130,20 @@ describe('ThemeSwitcher', () => {
     const options = within(group).getAllByRole('radio');
     expect(options).toHaveLength(3);
 
-    const [first, second, third] = options;
-    expect(first).toBeInstanceOf(HTMLButtonElement);
-    expect(second).toBeInstanceOf(HTMLButtonElement);
-    if (!third) {
-      fail('Expected dropdown ThemeSwitcher to render three options');
+    const first = options[0];
+    const second = options[1];
+    const third = options[2];
+
+    if (!(first instanceof HTMLButtonElement)) {
+      throw new Error('Expected first radio option to be an HTMLButtonElement');
+    }
+
+    if (!(second instanceof HTMLButtonElement)) {
+      throw new Error('Expected second radio option to be an HTMLButtonElement');
+    }
+
+    if (!(third instanceof HTMLButtonElement)) {
+      throw new Error('Expected dropdown ThemeSwitcher to render three options');
     }
 
     await user.click(third);
@@ -155,9 +164,16 @@ describe('ThemeSwitcher', () => {
     const group = screen.getByRole('radiogroup', { name: /theme mode/i });
     const options = within(group).getAllByRole('radio');
 
-    const [first, second, third] = options;
-    if (!second || !third) {
-      fail('Expected dropdown ThemeSwitcher to render three options');
+    const first = options[0];
+    const second = options[1];
+    const third = options[2];
+
+    if (!(first instanceof HTMLButtonElement)) {
+      throw new Error('Expected first radio option to be an HTMLButtonElement');
+    }
+
+    if (!(second instanceof HTMLButtonElement) || !(third instanceof HTMLButtonElement)) {
+      throw new Error('Expected dropdown ThemeSwitcher to render three options');
     }
 
     first.focus();
