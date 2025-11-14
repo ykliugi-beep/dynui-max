@@ -110,7 +110,7 @@ export interface BaseTokens {
     gray: ColorScale;
     success: Partial<ColorScale>;  // Added: Semantic color scales
     warning: Partial<ColorScale>;
-    error: Partial<ColorScale>;
+    danger: Partial<ColorScale>;
     info: Partial<ColorScale>;
     white: string;
     black: string;
@@ -146,7 +146,7 @@ export interface SemanticTokens {
     primary: string;
     secondary: string;
     focus: string;      // Added: Focus state
-    error: string;      // Added: Error state
+    danger: string;     // Added: Danger state
     success: string;    // Added: Success state
     warning: string;    // Added: Warning state
   };
@@ -177,13 +177,7 @@ export interface SemanticTokens {
       text: string;
       icon: string;
     };
-    error: {
-      bg: string;
-      border: string;
-      text: string;
-      icon: string;
-    };
-    info: {
+    danger: {
       bg: string;
       border: string;
       text: string;
@@ -212,7 +206,7 @@ export interface Theme {
 // Component variant types
 export type ComponentVariant = 'solid' | 'outline' | 'ghost' | 'link';
 export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';  // Enhanced sizes
-export type ComponentColor = 'primary' | 'success' | 'warning' | 'error' | 'info' | 'neutral';
+export type ComponentColor = 'primary' | 'success' | 'warning' | 'danger' | 'neutral';
 
 // Export the base tokens type for Style Dictionary
 export type { BaseTokens as Tokens };

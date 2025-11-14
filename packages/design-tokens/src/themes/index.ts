@@ -53,9 +53,9 @@ export const darkTheme: Theme = {
     primary: baseTokens.colors.gray[700],
     secondary: baseTokens.colors.gray[600],
     focus: baseTokens.colors.primary[400],
-    error: '#f87171',    // Direct value instead of baseTokens.colors.error[400]
-    success: '#34d399',  // Direct value instead of baseTokens.colors.success[400]
-    warning: '#fbbf24'   // Direct value instead of baseTokens.colors.warning[400]
+    danger: baseTokens.colors.danger[400],
+    success: baseTokens.colors.success[400],
+    warning: baseTokens.colors.warning[400]
   },
   interactive: {
     primary: {
@@ -73,28 +73,22 @@ export const darkTheme: Theme = {
   },
   feedback: {
     success: {
-      bg: '#064e3b',
-      border: '#34d399',  // Direct value
-      text: '#d1fae5',
-      icon: '#34d399'     // Direct value
+      bg: baseTokens.colors.success[900],
+      border: baseTokens.colors.success[400],
+      text: baseTokens.colors.success[200],
+      icon: baseTokens.colors.success[400]
     },
     warning: {
-      bg: '#78350f',
-      border: '#fbbf24',  // Direct value
-      text: '#fef3c7',
-      icon: '#fbbf24'     // Direct value
+      bg: baseTokens.colors.warning[900],
+      border: baseTokens.colors.warning[400],
+      text: baseTokens.colors.warning[100],
+      icon: baseTokens.colors.warning[400]
     },
-    error: {
-      bg: '#7f1d1d',
-      border: '#f87171',  // Direct value
-      text: '#fecaca',
-      icon: '#f87171'     // Direct value
-    },
-    info: {
-      bg: '#1e3a8a',
-      border: '#60a5fa',  // Direct value
-      text: '#dbeafe',
-      icon: '#60a5fa'     // Direct value
+    danger: {
+      bg: baseTokens.colors.danger[900],
+      border: baseTokens.colors.danger[400],
+      text: baseTokens.colors.danger[200],
+      icon: baseTokens.colors.danger[400]
     }
   }
 };
