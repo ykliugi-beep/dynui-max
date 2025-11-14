@@ -6,7 +6,7 @@ export interface DynMenuItemProps {
   /**
    * Item content
    */
-  children: React.ReactNode;
+  children?: React.ReactNode;
   
   /**
    * Item value/identifier
@@ -69,7 +69,7 @@ export interface DynMenuItemProps {
  * - Divider variant
  * - Disabled state
  */
-export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMenuItemProps>((
+export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMenuItemProps>(
   {
     children,
     value,
@@ -90,7 +90,6 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
   if (divider) {
     return (
       <div
-        ref={ref as React.Ref<HTMLDivElement>}
         className={clsx('dyn-menu-item-divider', className)}
         role="separator"
         data-testid={dataTestId}
@@ -98,7 +97,10 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
       />
     );
   }
-  
+
+  const hasContent = React.Children.count(children) > 0;
+  const shouldRenderContent = hasContent || Boolean(description);
+
   const handleClick = () => {
     if (!disabled && onClick) {
       onClick(value);
@@ -145,17 +147,21 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
       )}
       
       {/* Content */}
-      <div className="dyn-menu-item__content">
-        <div className="dyn-menu-item__label">
-          {children}
+      {shouldRenderContent && (
+        <div className="dyn-menu-item__content">
+          {hasContent && (
+            <div className="dyn-menu-item__label">
+              {children}
+            </div>
+          )}
+
+          {description && (
+            <div className="dyn-menu-item__description">
+              {description}
+            </div>
+          )}
         </div>
-        
-        {description && (
-          <div className="dyn-menu-item__description">
-            {description}
-          </div>
-        )}
-      </div>
+      )}
       
       {/* Shortcut */}
       {shortcut && (
