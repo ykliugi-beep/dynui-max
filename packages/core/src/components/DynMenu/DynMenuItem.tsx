@@ -75,8 +75,8 @@ export interface DynMenuItemProps {
  * - Divider variant
  * - Disabled state
  */
-export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMenuItemProps>(
-  {
+export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMenuItemProps>((props, ref) => {
+  const {
     children,
     value,
     onClick,
@@ -88,10 +88,9 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
     divider = false,
     className,
     'data-testid': dataTestId,
-    ...props
-  },
-  ref
-) => {
+    ...rest
+  } = props;
+
   // Divider variant
   if (divider) {
     return (
@@ -99,7 +98,7 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
         className={clsx('dyn-menu-item-divider', className)}
         role="separator"
         data-testid={dataTestId}
-        {...props}
+        {...rest}
       />
     );
   }
@@ -143,7 +142,7 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
       data-testid={dataTestId}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      {...props}
+      {...rest}
     >
       {/* Icon */}
       {icon && (
