@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback } from 'react';
+import { forwardRef, useCallback, type ReactNode } from 'react';
 import clsx from 'clsx';
 import './DynListView.css';
 
@@ -6,8 +6,8 @@ export interface ListItem {
   key: string;
   title: string;
   description?: string;
-  avatar?: React.ReactNode;
-  actions?: React.ReactNode;
+  avatar?: ReactNode;
+  actions?: ReactNode;
   disabled?: boolean;
   data?: any;
 }
@@ -47,7 +47,7 @@ export interface DynListViewProps {
   /**
    * Empty state content
    */
-  emptyText?: React.ReactNode;
+  emptyText?: ReactNode;
   
   /**
    * Additional CSS class names

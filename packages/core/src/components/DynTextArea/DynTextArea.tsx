@@ -1,10 +1,20 @@
-import React, { forwardRef, useState, useCallback, useRef, useEffect } from 'react';
+import {
+  forwardRef,
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  type ChangeEvent,
+  type CSSProperties,
+  type FocusEvent,
+  type TextareaHTMLAttributes
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import type { InputVariant } from '../DynInput';
 import './DynTextArea.css';
 
-export interface DynTextAreaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size' | 'onChange'> {
+export interface DynTextAreaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'size' | 'onChange'> {
   /**
    * Textarea size using design tokens
    * @default 'md'
@@ -139,7 +149,7 @@ export const DynTextArea = forwardRef<HTMLTextAreaElement, DynTextAreaProps>((
     textarea.style.overflowY = scrollHeight > maxHeight ? 'auto' : 'hidden';
   }, [autoResize, minRows, maxRows]);
   
-  const handleChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
     
     // Enforce maxLength if specified
@@ -157,12 +167,12 @@ export const DynTextArea = forwardRef<HTMLTextAreaElement, DynTextAreaProps>((
     setTimeout(adjustHeight, 0);
   }, [onChange, value, maxLength, adjustHeight]);
   
-  const handleFocus = useCallback((event: React.FocusEvent<HTMLTextAreaElement>) => {
+  const handleFocus = useCallback((event: FocusEvent<HTMLTextAreaElement>) => {
     setIsFocused(true);
     onFocus?.(event);
   }, [onFocus]);
   
-  const handleBlur = useCallback((event: React.FocusEvent<HTMLTextAreaElement>) => {
+  const handleBlur = useCallback((event: FocusEvent<HTMLTextAreaElement>) => {
     setIsFocused(false);
     onBlur?.(event);
   }, [onBlur]);
@@ -191,11 +201,11 @@ export const DynTextArea = forwardRef<HTMLTextAreaElement, DynTextAreaProps>((
     `dyn-textarea--variant-${variant}`
   );
   
-  const textareaStyle = {
+  const textareaStyle: CSSProperties = {
     ...style,
     ...(autoResize && {
-      resize: 'none',
-      overflow: 'hidden'
+      resize: 'none' as const,
+      overflow: 'hidden' as const
     })
   };
 

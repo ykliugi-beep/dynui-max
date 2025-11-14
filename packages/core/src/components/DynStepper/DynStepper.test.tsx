@@ -1,3 +1,4 @@
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '../../test/test-utils';
 import userEvent from '@testing-library/user-event';
@@ -150,36 +151,36 @@ describe('DynStepper', () => {
   describe('Ref Methods', () => {
     it('exposes ref methods for programmatic navigation', () => {
       const handleChange = vi.fn();
-      let stepperRef: DynStepperRef | null = null;
-      
+      const ref = React.createRef<DynStepperRef>();
+
       const TestComponent = () => {
         return (
           <DynStepper
-            ref={(ref) => { stepperRef = ref; }}
+            ref={ref}
             current={1}
             steps={sampleSteps}
             onChange={handleChange}
           />
         );
       };
-      
+
       render(<TestComponent />);
-      
-      expect(stepperRef).toBeDefined();
-      expect(typeof stepperRef?.goToStep).toBe('function');
-      expect(typeof stepperRef?.nextStep).toBe('function');
-      expect(typeof stepperRef?.previousStep).toBe('function');
-      
+
+      expect(ref.current).toBeDefined();
+      expect(typeof ref.current?.goToStep).toBe('function');
+      expect(typeof ref.current?.nextStep).toBe('function');
+      expect(typeof ref.current?.previousStep).toBe('function');
+
       // Test goToStep method
-      stepperRef?.goToStep(0);
+      ref.current?.goToStep(0);
       expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
-      
+
       // Test nextStep method
-      stepperRef?.nextStep();
+      ref.current?.nextStep();
       expect(handleChange).toHaveBeenCalledWith(2, sampleSteps[2]);
-      
+
       // Test previousStep method
-      stepperRef?.previousStep();
+      ref.current?.previousStep();
       expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
     });
   });
@@ -196,16 +197,20 @@ describe('DynStepper', () => {
       expect(stepper).toHaveAttribute('aria-valuemin', '0');
       expect(stepper).toHaveAttribute('aria-valuemax', (sampleSteps.length - 1).toString());
       expect(stepper).toHaveAttribute('aria-valuenow', '1');
-      expect(stepper).toHaveAttribute('aria-valuetext', sampleSteps[1].title);
+
+      const stepOne = sampleSteps[1];
+      expect(stepOne).toBeDefined();
+
+      const stepOneTitle = stepOne?.title ?? '';
+      expect(stepper).toHaveAttribute('aria-valuetext', stepOneTitle);
     });
     
     it('has no accessibility violations', async () => {
       const { container } = render(
         <DynStepper current={1} steps={sampleSteps} />
       );
-      
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
+
+      await expect(axe(container)).toHaveNoViolations();
     });
   });
 });

@@ -26,9 +26,9 @@ const semanticTokens: SemanticTokens = {
     primary: baseTokens.colors.gray[200],
     secondary: baseTokens.colors.gray[300],
     focus: baseTokens.colors.primary[500],
-    error: '#ef4444',    // Direct value instead of baseTokens.colors.error[500]
-    success: '#10b981',  // Direct value instead of baseTokens.colors.success[500]
-    warning: '#f59e0b'   // Direct value instead of baseTokens.colors.warning[500]
+    danger: baseTokens.colors.danger[500],
+    success: baseTokens.colors.success[500],
+    warning: baseTokens.colors.warning[500]
   },
   interactive: {
     primary: {
@@ -46,28 +46,22 @@ const semanticTokens: SemanticTokens = {
   },
   feedback: {
     success: {
-      bg: '#dcfce7',
-      border: '#10b981',  // Direct value
-      text: '#166534',
-      icon: '#10b981'     // Direct value
+      bg: baseTokens.colors.success[100],
+      border: baseTokens.colors.success[500],
+      text: baseTokens.colors.success[800],
+      icon: baseTokens.colors.success[500]
     },
     warning: {
-      bg: '#fef3c7',
-      border: '#f59e0b',  // Direct value
-      text: '#92400e',
-      icon: '#f59e0b'     // Direct value
+      bg: baseTokens.colors.warning[100],
+      border: baseTokens.colors.warning[500],
+      text: baseTokens.colors.warning[800],
+      icon: baseTokens.colors.warning[500]
     },
-    error: {
-      bg: '#fee2e2',
-      border: '#ef4444',  // Direct value
-      text: '#991b1b',
-      icon: '#ef4444'     // Direct value
-    },
-    info: {
-      bg: '#dbeafe',
-      border: '#3b82f6',  // Direct value
-      text: '#1e40af',
-      icon: '#3b82f6'     // Direct value
+    danger: {
+      bg: baseTokens.colors.danger[100],
+      border: baseTokens.colors.danger[500],
+      text: baseTokens.colors.danger[800],
+      icon: baseTokens.colors.danger[500]
     }
   }
 };

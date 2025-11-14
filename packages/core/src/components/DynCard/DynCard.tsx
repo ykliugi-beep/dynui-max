@@ -1,4 +1,9 @@
-import React from 'react';
+import {
+  forwardRef,
+  type ElementType,
+  type HTMLAttributes,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import styles from './DynCard.module.css';
@@ -8,7 +13,7 @@ type CardVariant = 'elevated' | 'outlined' | 'subtle';
 type CornerRadius = ComponentSize | 'none' | 'full' | 'xl' | '2xl';
 
 export interface DynCardProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
+  extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
   /** Visual treatment of the card surface */
   variant?: CardVariant;
   /** Padding scale that maps to spacing tokens */
@@ -16,25 +21,26 @@ export interface DynCardProps
   /** Corner radius scale */
   radius?: CornerRadius;
   /** Optional media section rendered above the header */
-  media?: React.ReactNode;
+  media?: ReactNode;
   /** Optional header area, rendered above the content */
-  header?: React.ReactNode;
+  header?: ReactNode;
   /** Primary title text. Rendered inside the header when provided */
-  title?: React.ReactNode;
+  title?: ReactNode;
   /** Subtitle text rendered below the title */
-  subtitle?: React.ReactNode;
+  subtitle?: ReactNode;
   /** Action area placed on the right side of the header */
-  actions?: React.ReactNode;
+  actions?: ReactNode;
   /** Footer content rendered below the main body */
-  footer?: React.ReactNode;
+  footer?: ReactNode;
   /** Allow keyboard interactivity when rendered as a non-interactive element */
   interactive?: boolean;
   /** Change the underlying element type */
-  as?: React.ElementType;
+  as?: ElementType;
 }
 
 const radiusToClass: Record<CornerRadius, string> = {
   none: 'dyn-card--radius-none',
+  xs: 'dyn-card--radius-xs',
   sm: 'dyn-card--radius-sm',
   md: 'dyn-card--radius-md',
   lg: 'dyn-card--radius-lg',
@@ -43,7 +49,7 @@ const radiusToClass: Record<CornerRadius, string> = {
   full: 'dyn-card--radius-full'
 };
 
-export const DynCard = React.forwardRef<HTMLElement, DynCardProps>(
+export const DynCard = forwardRef<HTMLElement, DynCardProps>(
   (
     {
       variant = 'elevated',
@@ -65,14 +71,18 @@ export const DynCard = React.forwardRef<HTMLElement, DynCardProps>(
   ) => {
     const radiusClass = radiusToClass[radius] ?? radiusToClass.lg;
 
+    const baseClass = styles['dyn-card'];
+    const variantClass = styles[`dyn-card--variant-${variant}`];
+    const paddingClass = styles[`dyn-card--padding-${padding}`];
+    const radiusClassName = styles[radiusClass];
+    const interactiveClass = styles['dyn-card--interactive'];
+
     const classNames = clsx(
-      styles['dyn-card'],
-      styles[`dyn-card--variant-${variant}`],
-      styles[`dyn-card--padding-${padding}`],
-      styles[radiusClass],
-      {
-        [styles['dyn-card--interactive']]: interactive
-      },
+      baseClass,
+      variantClass,
+      paddingClass,
+      radiusClassName,
+      interactiveClass && interactive && interactiveClass,
       className
     );
 
@@ -86,7 +96,7 @@ export const DynCard = React.forwardRef<HTMLElement, DynCardProps>(
       </div>
     ) : null);
 
-    const baseProps: React.HTMLAttributes<HTMLElement> = {
+    const baseProps: HTMLAttributes<HTMLElement> = {
       role: interactive ? 'group' : undefined,
       tabIndex: interactive ? 0 : undefined,
     };

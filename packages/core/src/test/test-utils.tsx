@@ -1,11 +1,11 @@
-import React from 'react';
+import { type ReactElement, type ReactNode } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import { ThemeProvider } from '../theme';
 
 /**
  * Custom render function with ThemeProvider wrapper
  */
-const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
+const AllTheProviders = ({ children }: { children: ReactNode }) => {
   return (
     <ThemeProvider defaultTheme="light">
       {children}
@@ -13,7 +13,7 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const customRender = (ui: React.ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
+const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
   render(ui, { wrapper: AllTheProviders, ...options });
 
 export * from '@testing-library/react';

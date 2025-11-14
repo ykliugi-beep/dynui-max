@@ -22,17 +22,15 @@ export function useKeyboard(
       }
     };
 
-    const eventListener: EventListener = (event) => {
-      if (event instanceof KeyboardEvent) {
-        handleKeyDown(event);
-      }
+    const listener = (event: KeyboardEvent) => {
+      handleKeyDown(event);
     };
 
     const targetElement = target === 'window' ? window : document;
-    targetElement.addEventListener('keydown', eventListener);
+    targetElement.addEventListener('keydown', listener as EventListener);
 
     return () => {
-      targetElement.removeEventListener('keydown', eventListener);
+      targetElement.removeEventListener('keydown', listener as EventListener);
     };
   }, [key, handler, enabled, target]);
 }

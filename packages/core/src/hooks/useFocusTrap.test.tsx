@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
+import { useState } from 'react';
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '../test/test-utils';
 import { useFocusTrap } from './useFocusTrap';
-import React, { useState } from 'react';
-import userEvent from '@testing-library/user-event';
 
 interface ExampleProps {
   initiallyOpen?: boolean;

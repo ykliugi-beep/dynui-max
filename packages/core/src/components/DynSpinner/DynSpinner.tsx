@@ -1,9 +1,9 @@
-import React from 'react';
+import { type FC, type HTMLAttributes } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import styles from './DynSpinner.module.css';
 
-export interface DynSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface DynSpinnerProps extends HTMLAttributes<HTMLDivElement> {
   /** Size of the spinner based on component size tokens */
   size?: ComponentSize;
   /** Color variant from semantic tokens */
@@ -14,7 +14,7 @@ export interface DynSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   inline?: boolean;
 }
 
-export const DynSpinner: React.FC<DynSpinnerProps> = ({
+export const DynSpinner: FC<DynSpinnerProps> = ({
   size = 'md',
   color = 'primary',
   label,

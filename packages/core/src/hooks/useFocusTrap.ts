@@ -40,20 +40,28 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>({
       ) as HTMLElement[];
     };
     
+    const getFocusBounds = () => {
+      const focusableElements = getFocusableElements();
+      if (focusableElements.length === 0) return null;
+
+      const firstElement = focusableElements[0];
+      if (!firstElement) return null;
+
+      const lastElement = focusableElements[focusableElements.length - 1];
+      if (!lastElement) return null;
+
+      return { focusableElements, firstElement, lastElement };
+    };
+
     // Handle keydown events
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Tab') return;
-      
-      const focusableElements = getFocusableElements();
-      if (focusableElements.length === 0) return;
-      
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
 
-      if (!firstElement || !lastElement) {
-        return;
-      }
-      
+      const focusBounds = getFocusBounds();
+      if (!focusBounds) return;
+
+      const { firstElement, lastElement } = focusBounds;
+
       if (event.shiftKey) {
         // Shift + Tab: moving backward
         if (document.activeElement === firstElement) {
@@ -70,17 +78,21 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>({
     };
     
     // Focus the first focusable element
-    const focusableElements = getFocusableElements();
-    if (focusableElements.length > 0) {
-      focusableElements[0].focus();
+    const focusBounds = getFocusBounds();
+    if (focusBounds) {
+      focusBounds.firstElement.focus();
     }
     
     // Add event listener
-    container.addEventListener('keydown', handleKeyDown);
-    
+    const listener = (event: KeyboardEvent) => {
+      handleKeyDown(event);
+    };
+
+    container.addEventListener('keydown', listener as EventListener);
+
     return () => {
-      container.removeEventListener('keydown', handleKeyDown);
-      
+      container.removeEventListener('keydown', listener as EventListener);
+
       // Return focus to the previously active element
       if (returnFocus && previousActiveElement.current instanceof HTMLElement) {
         previousActiveElement.current.focus();

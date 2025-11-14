@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import { useMemo, type FC, type HTMLAttributes } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import styles from './DynProgress.module.css';
 
-export interface DynProgressProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface DynProgressProps extends HTMLAttributes<HTMLDivElement> {
   /** Current progress value */
   value?: number;
   /** Minimum progress value */
@@ -26,7 +26,7 @@ const clamp = (value: number, min: number, max: number) => {
   return Math.min(Math.max(value, min), max);
 };
 
-export const DynProgress: React.FC<DynProgressProps> = ({
+export const DynProgress: FC<DynProgressProps> = ({
   value = 0,
   min = 0,
   max = 100,
@@ -60,13 +60,16 @@ export const DynProgress: React.FC<DynProgressProps> = ({
     };
   }, [isIndeterminate, max, min, value, label]);
 
+  const baseClass = styles['dyn-progress'];
+  const sizeClass = styles[`dyn-progress--size-${size}`];
+  const colorClass = styles[`dyn-progress--color-${color}`];
+  const indeterminateClass = styles['dyn-progress--indeterminate'];
+
   const containerClassName = clsx(
-    styles['dyn-progress'],
-    styles[`dyn-progress--size-${size}`],
-    styles[`dyn-progress--color-${color}`],
-    {
-      [styles['dyn-progress--indeterminate']]: isIndeterminate
-    },
+    baseClass,
+    sizeClass,
+    colorClass,
+    isIndeterminate && indeterminateClass,
     className
   );
 

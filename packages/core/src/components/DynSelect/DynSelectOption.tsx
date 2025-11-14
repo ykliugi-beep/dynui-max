@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import clsx from 'clsx';
 import type { SelectOption } from './DynSelect';
 import './DynSelectOption.css';
