@@ -7,7 +7,8 @@ type CardVariant = 'elevated' | 'outlined' | 'subtle';
 
 type CornerRadius = ComponentSize | 'none' | 'full' | 'xl' | '2xl';
 
-export interface DynCardProps extends React.HTMLAttributes<HTMLElement> {
+export interface DynCardProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
   /** Visual treatment of the card surface */
   variant?: CardVariant;
   /** Padding scale that maps to spacing tokens */
@@ -62,11 +63,13 @@ export const DynCard = React.forwardRef<HTMLElement, DynCardProps>(
     },
     ref
   ) => {
+    const radiusClass = radiusToClass[radius] ?? radiusToClass.lg;
+
     const classNames = clsx(
       styles['dyn-card'],
       styles[`dyn-card--variant-${variant}`],
       styles[`dyn-card--padding-${padding}`],
-      styles[radiusToClass[radius] ?? radiusToClass.lg],
+      styles[radiusClass],
       {
         [styles['dyn-card--interactive']]: interactive
       },
@@ -86,7 +89,6 @@ export const DynCard = React.forwardRef<HTMLElement, DynCardProps>(
     const baseProps: React.HTMLAttributes<HTMLElement> = {
       role: interactive ? 'group' : undefined,
       tabIndex: interactive ? 0 : undefined,
-      'data-interactive': interactive ? 'true' : undefined
     };
 
     return (
@@ -94,6 +96,7 @@ export const DynCard = React.forwardRef<HTMLElement, DynCardProps>(
         ref={ref}
         className={classNames}
         {...baseProps}
+        {...(interactive ? { 'data-interactive': 'true' } : {})}
         {...props}
       >
         {media && <div className={styles['dyn-card__media']}>{media}</div>}

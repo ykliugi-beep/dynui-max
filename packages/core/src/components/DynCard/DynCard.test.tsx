@@ -38,6 +38,6 @@ describe('DynCard', () => {
 
     const card = container.firstElementChild as HTMLElement;
     expect(card).toHaveAttribute('tabindex', '0');
-    expect(card.dataset.interactive).toBe('true');
+    expect(card.dataset['interactive']).toBe('true');
   });
 });
