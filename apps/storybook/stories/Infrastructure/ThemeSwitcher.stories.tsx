@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { ThemeSwitcher, ThemeProvider, DynBox, DynButton } from '@dynui-max/core';
 import type { ThemeMode } from '@dynui-max/core';
 
+export type ThemeMode = 'light' | 'dark' | 'system';
+
 const meta = {
   title: 'Infrastructure/ThemeSwitcher',
   component: ThemeSwitcher,
