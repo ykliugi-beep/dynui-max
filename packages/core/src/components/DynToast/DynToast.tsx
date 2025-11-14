@@ -5,7 +5,7 @@ import styles from './DynToast.module.css';
 
 type ToastStatus = 'info' | 'success' | 'warning' | 'danger';
 
-export interface DynToastProps extends HTMLAttributes<HTMLDivElement> {
+export interface DynToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /** Visual status that maps to semantic tokens */
   status?: ToastStatus;
   /** Heading text displayed at the top of the toast */
