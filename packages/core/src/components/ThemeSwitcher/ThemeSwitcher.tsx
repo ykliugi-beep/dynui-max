@@ -426,13 +426,8 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
 
           if (event.key === ' ' || event.key === 'Space' || event.key === 'Spacebar' || event.key === 'Enter') {
             event.preventDefault();
-
-            if (disabled) {
-              return;
-            }
-
-            keyboardClickPreventedRef.current = true;
-            activateNextMode();
+            keyboardClickPreventedRef.current = false;
+            changeMode(nextMode);
           }
         }}
         aria-label={ariaLabel ?? nextModeDescription}
