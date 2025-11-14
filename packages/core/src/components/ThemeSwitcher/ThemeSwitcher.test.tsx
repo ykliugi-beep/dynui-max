@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../theme';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
-const assertIsHTMLButtonElement: (
+function assertIsHTMLButtonElement(
   element: Element | undefined,
   description: string
-) => asserts element is HTMLButtonElement = (element, description) => {
+): asserts element is HTMLButtonElement {
   if (!element) {
     throw new TypeError(`Expected ${description} to be present`);
   }
@@ -15,7 +15,7 @@ const assertIsHTMLButtonElement: (
   if (!(element instanceof HTMLButtonElement)) {
     throw new TypeError(`Expected ${description} to be an HTMLButtonElement`);
   }
-};
+}
 
 const renderWithTheme = (defaultTheme: 'light' | 'dark' = 'light') => {
   return render(
