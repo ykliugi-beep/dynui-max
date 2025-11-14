@@ -27,7 +27,10 @@ describe('DynTreeView', () => {
     expect(screen.getByText('Child 1')).toBeInTheDocument();
 
     await user.click(screen.getByRole('treeitem', { name: 'Child 1' }));
-    expect(handleSelect).toHaveBeenCalledWith(['child-1'], [TREE[0].children![0]]);
+
+    const selectedChild = TREE[0]?.children?.[0];
+    expect(selectedChild).toBeDefined();
+    expect(handleSelect).toHaveBeenCalledWith(['child-1'], [selectedChild]);
   });
 
   it('supports multiple selection and collapses nodes', async () => {
