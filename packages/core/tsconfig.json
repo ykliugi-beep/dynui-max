@@ -9,9 +9,10 @@
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "package.json"
   ],
- "references": [ // ← Ovo zahteva da design-tokens ima composite: true
+  "references": [ // ← Ovo zahteva da design-tokens ima composite: true
     {
       "path": "../design-tokens"
     }
