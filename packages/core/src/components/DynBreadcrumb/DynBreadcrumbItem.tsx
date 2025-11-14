@@ -1,13 +1,14 @@
 import {
-  forwardRef,
-  type ComponentPropsWithRef,
   type ElementType,
   type MouseEventHandler,
-  type ReactElement,
   type ReactNode
 } from 'react';
 import clsx from 'clsx';
-import type { PolymorphicComponentProps } from '../../types/polymorphic';
+import {
+  forwardRefWithAs,
+  type PolymorphicComponentProps,
+  type PolymorphicRef
+} from '../../types/polymorphic';
 import './DynBreadcrumbItem.css';
 
 type DynBreadcrumbItemOwnProps = {
@@ -56,7 +57,7 @@ const DynBreadcrumbItemComponent = <C extends ElementType = 'span'>(
     as,
     ...props
   }: DynBreadcrumbItemProps<C>,
-  ref: ComponentPropsWithRef<C>['ref']
+  ref: PolymorphicRef<C>
 ) => {
   const Component = (as || (href ? 'a' : onClick ? 'button' : 'span')) as ElementType;
   const isLink = Component === 'a';
@@ -77,8 +78,8 @@ const DynBreadcrumbItemComponent = <C extends ElementType = 'span'>(
   const commonProps = {
     ref,
     className: classes,
-    'aria-current': current ? 'page' : undefined,
-    'aria-disabled': disabled || undefined,
+    'aria-current': current ? ('page' as const) : undefined,
+    'aria-disabled': disabled ? true : undefined,
     ...props
   };
 
@@ -121,10 +122,5 @@ const DynBreadcrumbItemComponent = <C extends ElementType = 'span'>(
   );
 };
 
-export const DynBreadcrumbItem = forwardRef(DynBreadcrumbItemComponent) as <
-  C extends ElementType = 'span'
->(
-  props: DynBreadcrumbItemProps<C>
-) => ReactElement | null;
-
+export const DynBreadcrumbItem = forwardRefWithAs(DynBreadcrumbItemComponent);
 DynBreadcrumbItem.displayName = 'DynBreadcrumbItem';

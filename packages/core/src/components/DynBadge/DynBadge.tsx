@@ -1,13 +1,11 @@
-import {
-  forwardRef,
-  type ComponentPropsWithRef,
-  type ElementType,
-  type ReactElement,
-  type ReactNode
-} from 'react';
+import { type ElementType, type ReactNode } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
-import type { PolymorphicComponentProps } from '../../types/polymorphic';
+import {
+  forwardRefWithAs,
+  type PolymorphicComponentProps,
+  type PolymorphicRef
+} from '../../types/polymorphic';
 import './DynBadge.css';
 
 type DynBadgeOwnProps = {
@@ -53,7 +51,7 @@ const DynBadgeComponent = <C extends ElementType = 'span'>(
     as,
     ...props
   }: DynBadgeProps<C>,
-  ref: ComponentPropsWithRef<C>['ref']
+  ref: PolymorphicRef<C>
 ) => {
   const Component = (as || 'span') as ElementType;
 
@@ -72,10 +70,5 @@ const DynBadgeComponent = <C extends ElementType = 'span'>(
   );
 };
 
-export const DynBadge = forwardRef(DynBadgeComponent) as <
-  C extends ElementType = 'span'
->(
-  props: DynBadgeProps<C>
-) => ReactElement | null;
-
+export const DynBadge = forwardRefWithAs(DynBadgeComponent);
 DynBadge.displayName = 'DynBadge';
