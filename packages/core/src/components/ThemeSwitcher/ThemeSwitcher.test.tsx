@@ -1,8 +1,17 @@
-import { afterEach, beforeAll, describe, expect, fail, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../theme';
 import { ThemeSwitcher } from './ThemeSwitcher';
+
+const assertIsHTMLButtonElement = (
+  element: Element,
+  description: string
+): asserts element is HTMLButtonElement => {
+  if (!(element instanceof HTMLButtonElement)) {
+    throw new TypeError(`Expected ${description} to be an HTMLButtonElement`);
+  }
+};
 
 const renderWithTheme = (defaultTheme: 'light' | 'dark' = 'light') => {
   return render(
@@ -130,12 +139,13 @@ describe('ThemeSwitcher', () => {
     const options = within(group).getAllByRole('radio');
     expect(options).toHaveLength(3);
 
-    const [first, second, third] = options;
-    expect(first).toBeInstanceOf(HTMLButtonElement);
-    expect(second).toBeInstanceOf(HTMLButtonElement);
-    if (!third) {
-      fail('Expected dropdown ThemeSwitcher to render three options');
-    }
+    const first = options[0];
+    const second = options[1];
+    const third = options[2];
+
+    assertIsHTMLButtonElement(first, 'first radio option');
+    assertIsHTMLButtonElement(second, 'second radio option');
+    assertIsHTMLButtonElement(third, 'third radio option');
 
     await user.click(third);
 
@@ -155,10 +165,13 @@ describe('ThemeSwitcher', () => {
     const group = screen.getByRole('radiogroup', { name: /theme mode/i });
     const options = within(group).getAllByRole('radio');
 
-    const [first, second, third] = options;
-    if (!second || !third) {
-      fail('Expected dropdown ThemeSwitcher to render three options');
-    }
+    const first = options[0];
+    const second = options[1];
+    const third = options[2];
+
+    assertIsHTMLButtonElement(first, 'first radio option');
+    assertIsHTMLButtonElement(second, 'second radio option');
+    assertIsHTMLButtonElement(third, 'third radio option');
 
     first.focus();
     await user.keyboard('{ArrowRight}');
