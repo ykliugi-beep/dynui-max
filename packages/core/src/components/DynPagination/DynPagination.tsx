@@ -143,14 +143,37 @@ export const DynPagination: FC<DynPaginationProps> = ({
     onPageChange(page);
   };
 
-  const navClassName = clsx(
-    styles['dyn-pagination'],
-    styles[`dyn-pagination--size-${size}`],
-    {
-      [styles['dyn-pagination--disabled']]: disabled
-    },
-    className
-  );
+  const paginationClass = styles['dyn-pagination'];
+  const sizeClass = styles[`dyn-pagination--size-${size}`];
+  const disabledClass = styles['dyn-pagination--disabled'];
+  const listClass = styles['dyn-pagination__list'];
+  const itemClass = styles['dyn-pagination__item'];
+  const ellipsisItemClass = styles['dyn-pagination__item--ellipsis'];
+  const ellipsisClass = styles['dyn-pagination__ellipsis'];
+  const buttonClass = styles['dyn-pagination__button'];
+  const buttonActiveClass = styles['dyn-pagination__button--active'];
+  const controlButtonClass = styles['dyn-pagination__button--control'];
+  const controlButtonDisabledClass = styles['dyn-pagination__button--disabled'];
+
+  if (
+    !paginationClass ||
+    !listClass ||
+    !itemClass ||
+    !ellipsisItemClass ||
+    !ellipsisClass ||
+    !buttonClass ||
+    !buttonActiveClass ||
+    !controlButtonClass ||
+    !controlButtonDisabledClass
+  ) {
+    return null;
+  }
+
+  if (disabled && !disabledClass) {
+    return null;
+  }
+
+  const navClassName = clsx(paginationClass, sizeClass, disabled && disabledClass, className);
 
   const listItems: ReactNode[] = [];
 
@@ -162,15 +185,13 @@ export const DynPagination: FC<DynPaginationProps> = ({
     icon: ReactNode
   ) => {
     listItems.push(
-      <li key={key} className={styles['dyn-pagination__item']}>
+      <li key={key} className={itemClass}>
         <button
           type="button"
           className={clsx(
-            styles['dyn-pagination__button'],
-            styles['dyn-pagination__button--control'],
-            {
-              [styles['dyn-pagination__button--disabled']]: isDisabled
-            }
+            buttonClass,
+            controlButtonClass,
+            isDisabled && controlButtonDisabledClass
           )}
           onClick={() => handlePageChange(targetPage)}
           disabled={isDisabled}
@@ -199,11 +220,8 @@ export const DynPagination: FC<DynPaginationProps> = ({
   paginationRange.forEach((item, index) => {
     if (item === 'ellipsis') {
       listItems.push(
-        <li
-          key={`ellipsis-${index}`}
-          className={clsx(styles['dyn-pagination__item'], styles['dyn-pagination__item--ellipsis'])}
-        >
-          <span className={styles['dyn-pagination__ellipsis']} aria-hidden="true">
+        <li key={`ellipsis-${index}`} className={clsx(itemClass, ellipsisItemClass)}>
+          <span className={ellipsisClass} aria-hidden="true">
             …
           </span>
         </li>
@@ -214,15 +232,10 @@ export const DynPagination: FC<DynPaginationProps> = ({
     const isActive = item === safeCurrent;
 
     listItems.push(
-      <li key={item} className={styles['dyn-pagination__item']}>
+      <li key={item} className={itemClass}>
         <button
           type="button"
-          className={clsx(
-            styles['dyn-pagination__button'],
-            {
-              [styles['dyn-pagination__button--active']]: isActive
-            }
-          )}
+          className={clsx(buttonClass, isActive && buttonActiveClass)}
           onClick={() => handlePageChange(item)}
           aria-current={isActive ? 'page' : undefined}
           aria-label={mergedLabels.page(item)}
@@ -260,7 +273,7 @@ export const DynPagination: FC<DynPaginationProps> = ({
       className={navClassName}
       {...props}
     >
-      <ul className={styles['dyn-pagination__list']}>
+      <ul className={listClass}>
         {listItems}
       </ul>
     </nav>
