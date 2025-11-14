@@ -70,8 +70,9 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>({
     
     // Focus the first focusable element
     const focusableElements = getFocusableElements();
-    if (focusableElements.length > 0) {
-      focusableElements[0].focus();
+    const firstElement = focusableElements[0];
+    if (firstElement) {
+      firstElement.focus();
     }
     
     // Add event listener
