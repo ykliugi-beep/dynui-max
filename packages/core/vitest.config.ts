@@ -1,7 +1,11 @@
 /// <reference types="vitest" />
 
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitest/config'
+import { resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
+
+const designTokensSrc = resolve(fileURLToPath(new URL('.', import.meta.url)), '../design-tokens/src')
 
 export default defineConfig({
   plugins: [react()],
@@ -34,7 +38,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@dynui-max/design-tokens': '../design-tokens/src'
+      '@dynui-max/design-tokens': designTokensSrc
     }
   }
 })

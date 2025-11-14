@@ -1,4 +1,4 @@
-import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, fail, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../theme';
@@ -139,27 +139,12 @@ describe('ThemeSwitcher', () => {
     const options = within(group).getAllByRole('radio');
     expect(options).toHaveLength(3);
 
-    const first = options[0];
-    expect(first).toBeDefined();
-    if (!first) {
-      throw new Error('Expected first radio option to be defined');
-    }
-
-    const second = options[1];
-    expect(second).toBeDefined();
-    if (!second) {
-      throw new Error('Expected second radio option to be defined');
-    }
-
-    const third = options[2];
-    expect(third).toBeDefined();
+    const [first, second, third] = options;
+    expect(first).toBeInstanceOf(HTMLButtonElement);
+    expect(second).toBeInstanceOf(HTMLButtonElement);
     if (!third) {
-      throw new Error('Expected third radio option to be defined');
+      fail('Expected dropdown ThemeSwitcher to render three options');
     }
-
-    assertIsHTMLButtonElement(first, 'first radio option');
-    assertIsHTMLButtonElement(second, 'second radio option');
-    assertIsHTMLButtonElement(third, 'third radio option');
 
     await user.click(third);
 
@@ -179,27 +164,10 @@ describe('ThemeSwitcher', () => {
     const group = screen.getByRole('radiogroup', { name: /theme mode/i });
     const options = within(group).getAllByRole('radio');
 
-    const first = options[0];
-    expect(first).toBeDefined();
-    if (!first) {
-      throw new Error('Expected first radio option to be defined');
+    const [first, second, third] = options;
+    if (!second || !third) {
+      fail('Expected dropdown ThemeSwitcher to render three options');
     }
-
-    const second = options[1];
-    expect(second).toBeDefined();
-    if (!second) {
-      throw new Error('Expected second radio option to be defined');
-    }
-
-    const third = options[2];
-    expect(third).toBeDefined();
-    if (!third) {
-      throw new Error('Expected third radio option to be defined');
-    }
-
-    assertIsHTMLButtonElement(first, 'first radio option');
-    assertIsHTMLButtonElement(second, 'second radio option');
-    assertIsHTMLButtonElement(third, 'third radio option');
 
     first.focus();
     await user.keyboard('{ArrowRight}');
