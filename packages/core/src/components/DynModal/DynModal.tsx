@@ -100,7 +100,7 @@ export const DynModal = forwardRef<HTMLDivElement, DynModalProps>((
   },
   ref
 ) => {
-  const modalRef = useFocusTrap({
+  const modalRef = useFocusTrap<HTMLDivElement>({
     enabled: isOpen,
     returnFocus: true
   });
