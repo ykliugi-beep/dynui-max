@@ -17,6 +17,11 @@ export interface ColorScale {
   950: string;
 }
 
+export type FeedbackScale = Pick<
+  ColorScale,
+  50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+>;
+
 export interface SpacingTokens {
   '2xs': string;  // Fixed: This was missing from the original implementation
   xs: string;
@@ -108,10 +113,10 @@ export interface BaseTokens {
   colors: {  // Fixed: Changed from 'color' to 'colors' for consistency
     primary: ColorScale;
     gray: ColorScale;
-    success: Partial<ColorScale>;  // Added: Semantic color scales
-    warning: Partial<ColorScale>;
-    danger: Partial<ColorScale>;
-    info: Partial<ColorScale>;
+    success: FeedbackScale;  // Added: Semantic color scales
+    warning: FeedbackScale;
+    danger: FeedbackScale;
+    info: FeedbackScale;
     white: string;
     black: string;
     transparent: string;  // Added: Transparent color
