@@ -197,7 +197,12 @@ describe('DynStepper', () => {
       expect(stepper).toHaveAttribute('aria-valuemin', '0');
       expect(stepper).toHaveAttribute('aria-valuemax', (sampleSteps.length - 1).toString());
       expect(stepper).toHaveAttribute('aria-valuenow', '1');
-      expect(stepper).toHaveAttribute('aria-valuetext', sampleSteps[1].title);
+
+      const stepOne = sampleSteps[1];
+      expect(stepOne).toBeDefined();
+
+      const stepOneTitle = stepOne?.title ?? '';
+      expect(stepper).toHaveAttribute('aria-valuetext', stepOneTitle);
     });
     
     it('has no accessibility violations', async () => {

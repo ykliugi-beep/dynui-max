@@ -271,21 +271,19 @@ export const DynStepper = forwardRef<DynStepperRef, DynStepperProps>((
   }, [clickable, current, onChange]);
   
   const goToStep = useCallback((stepIndex: number) => {
-    if (stepIndex >= 0 && stepIndex < steps.length && !steps[stepIndex].disabled) {
-      onChange?.(stepIndex, steps[stepIndex]);
-    }
+    const targetStep = steps[stepIndex];
+
+    if (!targetStep || targetStep.disabled) return;
+
+    onChange?.(stepIndex, targetStep);
   }, [steps, onChange]);
-  
+
   const nextStep = useCallback(() => {
-    if (current < steps.length - 1) {
-      goToStep(current + 1);
-    }
-  }, [current, steps.length, goToStep]);
-  
+    goToStep(current + 1);
+  }, [current, goToStep]);
+
   const previousStep = useCallback(() => {
-    if (current > 0) {
-      goToStep(current - 1);
-    }
+    goToStep(current - 1);
   }, [current, goToStep]);
   
   // Expose ref methods
