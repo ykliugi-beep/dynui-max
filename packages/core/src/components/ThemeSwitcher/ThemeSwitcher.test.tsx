@@ -4,6 +4,15 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../theme';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
+const assertIsHTMLButtonElement = (
+  element: Element,
+  description: string
+): asserts element is HTMLButtonElement => {
+  if (!(element instanceof HTMLButtonElement)) {
+    throw new TypeError(`Expected ${description} to be an HTMLButtonElement`);
+  }
+};
+
 const renderWithTheme = (defaultTheme: 'light' | 'dark' = 'light') => {
   return render(
     <ThemeProvider defaultTheme={defaultTheme}>
@@ -134,17 +143,9 @@ describe('ThemeSwitcher', () => {
     const second = options[1];
     const third = options[2];
 
-    if (!(first instanceof HTMLButtonElement)) {
-      throw new Error('Expected first radio option to be an HTMLButtonElement');
-    }
-
-    if (!(second instanceof HTMLButtonElement)) {
-      throw new Error('Expected second radio option to be an HTMLButtonElement');
-    }
-
-    if (!(third instanceof HTMLButtonElement)) {
-      throw new Error('Expected dropdown ThemeSwitcher to render three options');
-    }
+    assertIsHTMLButtonElement(first, 'first radio option');
+    assertIsHTMLButtonElement(second, 'second radio option');
+    assertIsHTMLButtonElement(third, 'third radio option');
 
     await user.click(third);
 
@@ -168,13 +169,9 @@ describe('ThemeSwitcher', () => {
     const second = options[1];
     const third = options[2];
 
-    if (!(first instanceof HTMLButtonElement)) {
-      throw new Error('Expected first radio option to be an HTMLButtonElement');
-    }
-
-    if (!(second instanceof HTMLButtonElement) || !(third instanceof HTMLButtonElement)) {
-      throw new Error('Expected dropdown ThemeSwitcher to render three options');
-    }
+    assertIsHTMLButtonElement(first, 'first radio option');
+    assertIsHTMLButtonElement(second, 'second radio option');
+    assertIsHTMLButtonElement(third, 'third radio option');
 
     first.focus();
     await user.keyboard('{ArrowRight}');
