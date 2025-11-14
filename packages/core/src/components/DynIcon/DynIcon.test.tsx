@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen } from '../../test/test-utils';
 import { DynIcon } from './DynIcon';
 import { iconRegistry, defaultIcons } from './iconRegistry';
+import { logger } from '../../utils/logger';
 
 // Test icon component
 const TestIcon = (props: SVGProps<SVGSVGElement>) => (
@@ -53,11 +54,11 @@ describe('DynIcon', () => {
     expect(icon).not.toHaveRole('img');
   });
 
-  it('warns for unregistered icons', () => {
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  it('logs warning for unregistered icons', () => {
+    const warnSpy = vi.spyOn(logger, 'warn').mockImplementation(() => {});
     render(<DynIcon name="nonexistent" />);
-    expect(consoleSpy).toHaveBeenCalledWith('DynIcon: Icon "nonexistent" not found in registry');
-    consoleSpy.mockRestore();
+    expect(warnSpy).toHaveBeenCalledWith('DynIcon: Icon "nonexistent" not found in registry');
+    warnSpy.mockRestore();
   });
 
   it('returns null for unregistered icons', () => {
