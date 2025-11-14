@@ -14,44 +14,44 @@ type DynButtonOwnProps = {
    * Visual style variant
    * @default 'solid'
    */
-  variant?: ComponentVariant | undefined;
+  variant?: (ComponentVariant | undefined);
 
   /**
    * Button size using design tokens
    * @default 'md'
    */
-  size?: ComponentSize | undefined;
+  size?: (ComponentSize | undefined);
 
   /**
    * Color theme variant
    * @default 'primary'
    */
-  color?: ComponentColor | undefined;
+  color?: (ComponentColor | undefined);
 
   /**
    * Loading state - shows spinner and disables button
    */
-  loading?: boolean | undefined;
+  loading?: (boolean | undefined);
 
   /**
    * Icon at the start of the button
    */
-  startIcon?: ReactNode | undefined;
+  startIcon?: (ReactNode | undefined);
 
   /**
    * Icon at the end of the button
    */
-  endIcon?: ReactNode | undefined;
+  endIcon?: (ReactNode | undefined);
 
   /**
    * Button content
    */
-  children?: ReactNode | undefined;
+  children?: (ReactNode | undefined);
 
   /**
    * Disabled state - supported when rendering as button
    */
-  disabled?: boolean | undefined;
+  disabled?: (boolean | undefined);
 };
 
 export type DynButtonProps<C extends ElementType = 'button'> =

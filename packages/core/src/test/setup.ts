@@ -1,9 +1,9 @@
-import '@testing-library/jest-dom';
-import { beforeAll, afterEach, vi } from 'vitest';
-import { cleanup } from '@testing-library/react';
-
-// vitest-axe automatski doda matchere (toHaveNoViolations) na expect
 import 'vitest-axe/extend-expect';
+import '@testing-library/jest-dom';
+import { beforeAll, afterEach, expect, vi } from 'vitest';
+import { cleanup } from '@testing-library/react';
+import 'vitest';
+import type { AxeMatchers } from 'vitest-axe/matchers';
 
 // Cleanup DOM after each test
 afterEach(() => {
@@ -13,13 +13,8 @@ afterEach(() => {
 // -------------------- TypeScript augmentation --------------------
 // Make TypeScript aware of vitest-axe matcher (toHaveNoViolations)
 declare module 'vitest' {
-  interface Assertion<T = any> {
-    toHaveNoViolations(): Promise<T>;
-  }
-
-  interface AsymmetricMatchersContaining {
-    toHaveNoViolations(): void;
-  }
+  interface Assertion<T = any> extends AxeMatchers {}
+  interface AsymmetricMatchersContaining extends AxeMatchers {}
 }
 
 // Register environment mocks once before tests run

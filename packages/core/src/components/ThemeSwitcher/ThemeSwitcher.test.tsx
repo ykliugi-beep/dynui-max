@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../theme';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
-const assertIsHTMLButtonElement: (
+function assertIsHTMLButtonElement(
   element: Element | undefined,
   description: string
-) => asserts element is HTMLButtonElement = (element, description) => {
+): asserts element is HTMLButtonElement {
   if (!element) {
     throw new TypeError(`Expected ${description} to be present`);
   }
@@ -15,7 +15,7 @@ const assertIsHTMLButtonElement: (
   if (!(element instanceof HTMLButtonElement)) {
     throw new TypeError(`Expected ${description} to be an HTMLButtonElement`);
   }
-};
+}
 
 const renderWithTheme = (defaultTheme: 'light' | 'dark' = 'light') => {
   return render(
@@ -108,6 +108,34 @@ describe('ThemeSwitcher', () => {
     });
   });
 
+  it('does not toggle when disabled via keyboard activation', async () => {
+    const user = userEvent.setup();
+    render(
+      <ThemeProvider defaultTheme="light">
+        <ThemeSwitcher disabled />
+      </ThemeProvider>
+    );
+
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    });
+
+    const toggleButton = screen.getByRole('button', { name: /switch to dark theme/i });
+    toggleButton.focus();
+
+    await user.keyboard('{Space}');
+
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    });
+
+    await user.keyboard('{Enter}');
+
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    });
+  });
+
   it('cycles through system mode when enabled', async () => {
     const user = userEvent.setup();
     render(
@@ -144,9 +172,12 @@ describe('ThemeSwitcher', () => {
     expect(options).toHaveLength(3);
 
     const [first, second, third] = options;
-    assertIsHTMLButtonElement(first, 'first option');
-    assertIsHTMLButtonElement(second, 'second option');
-    assertIsHTMLButtonElement(third, 'third option');
+    assertIsHTMLButtonElement(first, 'first dropdown option');
+    assertIsHTMLButtonElement(second, 'second dropdown option');
+    if (!third) {
+      fail('Expected dropdown ThemeSwitcher to render three options');
+    }
+    assertIsHTMLButtonElement(third, 'third dropdown option');
 
     await user.click(third);
 

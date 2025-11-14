@@ -386,6 +386,14 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
 
     const keyboardClickPreventedRef = useRef(false);
 
+    const activateNextMode = useCallback(() => {
+      if (disabled) {
+        return;
+      }
+
+      changeMode(nextMode);
+    }, [changeMode, disabled, nextMode]);
+
     return (
       <button
         ref={ref}
@@ -408,15 +416,11 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
             return;
           }
 
-          changeMode(nextMode);
+          activateNextMode();
         }}
         onKeyDown={event => {
           onKeyDown?.(event);
           if (event.defaultPrevented) {
-            return;
-          }
-
-          if (disabled) {
             return;
           }
 
