@@ -1,4 +1,4 @@
-import { type ElementType, type ReactNode } from 'react';
+import { type ElementType, type PropsWithoutRef, type ReactNode } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import {
@@ -50,7 +50,7 @@ const DynBadgeComponent = <C extends ElementType = 'span'>(
     className,
     as,
     ...props
-  }: DynBadgeProps<C>,
+  }: PropsWithoutRef<DynBadgeProps<C>>,
   ref: PolymorphicRef<C>
 ) => {
   const Component = (as || 'span') as ElementType;

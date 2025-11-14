@@ -8,28 +8,29 @@ export type PolymorphicComponentProps<
   C extends React.ElementType,
   OwnProps = object
 > = OwnProps &
-  Omit<React.ComponentPropsWithRef<C>, keyof OwnProps | 'as'> & {
+  Omit<React.ComponentPropsWithoutRef<C>, keyof OwnProps | 'as'> & {
     as?: C;
-  };
+  } &
+  React.RefAttributes<React.ElementRef<C>>;
 
 export type ForwardRefWithAsRenderFunction<
   DefaultAs extends React.ElementType,
   OwnProps
 > = <As extends React.ElementType = DefaultAs>(
-  props: PolymorphicComponentProps<As, OwnProps>,
-  ref: PolymorphicRef<As>
+  props: React.PropsWithoutRef<PolymorphicComponentProps<As, OwnProps>>,
+  ref: React.ForwardedRef<React.ElementRef<As>>
 ) => React.ReactElement | null;
 
 export type PolymorphicForwardRefComponent<
   DefaultAs extends React.ElementType,
   OwnProps
 > = React.ForwardRefExoticComponent<
-  PolymorphicComponentProps<DefaultAs, OwnProps>
+  React.PropsWithoutRef<PolymorphicComponentProps<DefaultAs, OwnProps>> &
+    React.RefAttributes<React.ElementRef<DefaultAs>>
 > & {
   <As extends React.ElementType = DefaultAs>(
-    props: PolymorphicComponentProps<As, OwnProps> & {
-      ref?: PolymorphicRef<As>;
-    }
+    props: React.PropsWithoutRef<PolymorphicComponentProps<As, OwnProps>> &
+      React.RefAttributes<React.ElementRef<As>>
   ): React.ReactElement | null;
 };
 
@@ -39,7 +40,10 @@ export const forwardRefWithAs = <
 >(
   component: ForwardRefWithAsRenderFunction<DefaultAs, OwnProps>
 ): PolymorphicForwardRefComponent<DefaultAs, OwnProps> =>
-  forwardRef(component as unknown as React.ForwardRefRenderFunction<
-    PolymorphicRef<DefaultAs>,
-    PolymorphicComponentProps<DefaultAs, OwnProps>
-  >) as unknown as PolymorphicForwardRefComponent<DefaultAs, OwnProps>;
+  forwardRef<
+    React.ElementRef<DefaultAs>,
+    React.PropsWithoutRef<PolymorphicComponentProps<DefaultAs, OwnProps>>
+  >((props, forwardedRef) => component(props, forwardedRef)) as unknown as PolymorphicForwardRefComponent<
+    DefaultAs,
+    OwnProps
+  >;

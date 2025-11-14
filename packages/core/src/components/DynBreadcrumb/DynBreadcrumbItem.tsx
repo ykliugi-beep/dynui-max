@@ -1,6 +1,7 @@
 import {
   type ElementType,
   type MouseEventHandler,
+  type PropsWithoutRef,
   type ReactNode
 } from 'react';
 import clsx from 'clsx';
@@ -56,7 +57,7 @@ const DynBreadcrumbItemComponent = <C extends ElementType = 'span'>(
     className,
     as,
     ...props
-  }: DynBreadcrumbItemProps<C>,
+  }: PropsWithoutRef<DynBreadcrumbItemProps<C>>,
   ref: PolymorphicRef<C>
 ) => {
   const Component = (as || (href ? 'a' : onClick ? 'button' : 'span')) as ElementType;
