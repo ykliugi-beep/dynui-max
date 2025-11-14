@@ -21,8 +21,7 @@ describe('DynStepper Accessibility', () => {
       />
     );
     
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 
   it('has no accessibility violations in vertical layout', async () => {
@@ -36,8 +35,7 @@ describe('DynStepper Accessibility', () => {
       />
     );
     
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 
   it('has no accessibility violations with error state', async () => {
@@ -56,8 +54,7 @@ describe('DynStepper Accessibility', () => {
       />
     );
     
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 
   it('has no accessibility violations with disabled steps', async () => {
@@ -71,8 +68,7 @@ describe('DynStepper Accessibility', () => {
       />
     );
     
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
   
   it('has no accessibility violations with custom icons', async () => {
@@ -95,7 +91,6 @@ describe('DynStepper Accessibility', () => {
       />
     );
     
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 });

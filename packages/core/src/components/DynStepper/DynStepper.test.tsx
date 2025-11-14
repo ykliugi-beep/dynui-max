@@ -1,3 +1,4 @@
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '../../test/test-utils';
 import userEvent from '@testing-library/user-event';
@@ -150,12 +151,12 @@ describe('DynStepper', () => {
   describe('Ref Methods', () => {
     it('exposes ref methods for programmatic navigation', () => {
       const handleChange = vi.fn();
-      let stepperRef: DynStepperRef | null = null;
+      const stepperRef = React.createRef<DynStepperRef>();
       
       const TestComponent = () => {
         return (
           <DynStepper
-            ref={(ref) => { stepperRef = ref; }}
+            ref={stepperRef}
             current={1}
             steps={sampleSteps}
             onChange={handleChange}
@@ -165,21 +166,21 @@ describe('DynStepper', () => {
       
       render(<TestComponent />);
       
-      expect(stepperRef).toBeDefined();
-      expect(typeof stepperRef?.goToStep).toBe('function');
-      expect(typeof stepperRef?.nextStep).toBe('function');
-      expect(typeof stepperRef?.previousStep).toBe('function');
+      expect(stepperRef.current).toBeDefined();
+      expect(typeof stepperRef.current?.goToStep).toBe('function');
+      expect(typeof stepperRef.current?.nextStep).toBe('function');
+      expect(typeof stepperRef.current?.previousStep).toBe('function');
       
       // Test goToStep method
-      stepperRef?.goToStep(0);
+      stepperRef.current?.goToStep(0);
       expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
       
       // Test nextStep method
-      stepperRef?.nextStep();
+      stepperRef.current?.nextStep();
       expect(handleChange).toHaveBeenCalledWith(2, sampleSteps[2]);
       
       // Test previousStep method
-      stepperRef?.previousStep();
+      stepperRef.current?.previousStep();
       expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
     });
   });
@@ -204,8 +205,7 @@ describe('DynStepper', () => {
         <DynStepper current={1} steps={sampleSteps} />
       );
       
-      const results = await axe(container);
-      expect(results).toHaveNoViolations();
+      await expect(axe(container)).toHaveNoViolations();
     });
   });
 });
