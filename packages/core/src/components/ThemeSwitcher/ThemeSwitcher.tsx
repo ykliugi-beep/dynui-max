@@ -57,6 +57,8 @@ export interface ThemeSwitcherProps
    * Disable interactions
    */
   disabled?: boolean;
+
+  'data-testid'?: string;
 }
 
 const formatModeLabel = (mode: ThemeMode, systemTheme: ThemeName) => {
@@ -168,8 +170,21 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
       [showSystem]
     );
 
-    const rawMode = isControlled ? mode! : uncontrolledMode;
-    const currentMode = availableModes.includes(rawMode) ? rawMode : availableModes[0];
+    const fallbackMode = availableModes[0] ?? 'light';
+
+    const ensureMode = useCallback(
+      (modeValue?: ThemeMode): ThemeMode => {
+        if (modeValue && availableModes.includes(modeValue)) {
+          return modeValue;
+        }
+
+        return fallbackMode;
+      },
+      [availableModes, fallbackMode]
+    );
+
+    const rawMode = isControlled && mode !== undefined ? mode : uncontrolledMode;
+    const currentMode = ensureMode(rawMode);
 
     useEffect(() => {
       if (!isControlled && currentMode !== uncontrolledMode) {
@@ -197,6 +212,14 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
       [isControlled, onChange, onModeChange]
     );
 
+    const changeMode = useCallback(
+      (modeValue?: ThemeMode) => {
+        const safeNextMode = ensureMode(modeValue);
+        emitChange(safeNextMode);
+      },
+      [emitChange, ensureMode]
+    );
+
     const cycleMode = useCallback(
       (direction: 1 | -1 = 1) => {
         if (disabled) {
@@ -207,9 +230,9 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
         const safeIndex = currentIndex >= 0 ? currentIndex : 0;
         const nextIndex = (safeIndex + direction + availableModes.length) % availableModes.length;
         const nextMode = availableModes[nextIndex];
-        emitChange(nextMode);
+        changeMode(nextMode);
       },
-      [availableModes, currentMode, disabled, emitChange]
+      [availableModes, changeMode, currentMode, disabled]
     );
 
     const dropdownModes = useMemo<ThemeMode[]>(
@@ -221,8 +244,8 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
       const currentIndex = availableModes.indexOf(currentMode);
       const safeIndex = currentIndex >= 0 ? currentIndex : 0;
       const nextIndex = (safeIndex + 1) % availableModes.length;
-      return availableModes[nextIndex];
-    }, [availableModes, currentMode]);
+      return ensureMode(availableModes[nextIndex]);
+    }, [availableModes, currentMode, ensureMode]);
 
     const nextModeDescription = `Switch to ${accessibleModeLabel(nextMode, systemTheme)}`;
 
@@ -238,6 +261,18 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
     );
 
     if (variant === 'dropdown') {
+      const rotateDropdownMode = (direction: 1 | -1) => {
+        if (dropdownModes.length === 0) {
+          return;
+        }
+
+        const currentIndex = dropdownModes.indexOf(currentMode);
+        const safeIndex = currentIndex >= 0 ? currentIndex : 0;
+        const nextIndex = (safeIndex + direction + dropdownModes.length) % dropdownModes.length;
+        const nextMode = dropdownModes[nextIndex];
+        changeMode(nextMode);
+      };
+
       const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (disabled) {
           return;
@@ -245,12 +280,12 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
 
         if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
           event.preventDefault();
-          cycleMode(1);
+          rotateDropdownMode(1);
         }
 
         if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
           event.preventDefault();
-          cycleMode(-1);
+          rotateDropdownMode(-1);
         }
       };
 
@@ -287,7 +322,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
                     if (disabled || isActive) {
                       return;
                     }
-                    emitChange(modeValue);
+                    changeMode(modeValue);
                   }}
                   disabled={disabled}
                   aria-label={showLabels ? undefined : optionAccessibleLabel}
@@ -355,7 +390,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
             return;
           }
 
-          cycleMode(1);
+          changeMode(nextMode);
         }}
         aria-label={ariaLabel ?? nextModeDescription}
         aria-labelledby={ariaLabelledBy}
