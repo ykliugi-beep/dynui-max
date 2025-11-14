@@ -4,6 +4,7 @@ const shouldLog = () =>
 export const logger = {
   warn: (...args: Parameters<typeof console.warn>) => {
     if (shouldLog()) {
+      // eslint-disable-next-line no-console
       console.warn(...args);
     }
   },
