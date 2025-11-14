@@ -75,11 +75,15 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>({
     }
     
     // Add event listener
-    container.addEventListener('keydown', handleKeyDown);
-    
+    const listener = (event: KeyboardEvent) => {
+      handleKeyDown(event);
+    };
+
+    container.addEventListener('keydown', listener as EventListener);
+
     return () => {
-      container.removeEventListener('keydown', handleKeyDown);
-      
+      container.removeEventListener('keydown', listener as EventListener);
+
       // Return focus to the previously active element
       if (returnFocus && previousActiveElement.current instanceof HTMLElement) {
         previousActiveElement.current.focus();
