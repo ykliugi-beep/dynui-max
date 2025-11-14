@@ -75,21 +75,22 @@ export interface DynMenuItemProps {
  * - Divider variant
  * - Disabled state
  */
-export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMenuItemProps>((props, ref) => {
-  const {
-    children,
-    value,
-    onClick,
-    disabled = false,
-    selected = false,
-    icon,
-    description,
-    shortcut,
-    divider = false,
-    className,
-    'data-testid': dataTestId,
-    ...rest
-  } = props;
+export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMenuItemProps>(
+  (props, ref) => {
+    const {
+      children,
+      value,
+      onClick,
+      disabled = false,
+      selected = false,
+      icon,
+      description,
+      shortcut,
+      divider = false,
+      className,
+      'data-testid': dataTestId,
+      ...rest
+    } = props;
 
   // Divider variant
   if (divider) {
