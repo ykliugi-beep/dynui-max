@@ -40,6 +40,7 @@ export interface DynCardProps
 
 const radiusToClass: Record<CornerRadius, string> = {
   none: 'dyn-card--radius-none',
+  xs: 'dyn-card--radius-xs',
   sm: 'dyn-card--radius-sm',
   md: 'dyn-card--radius-md',
   lg: 'dyn-card--radius-lg',
@@ -70,14 +71,18 @@ export const DynCard = forwardRef<HTMLElement, DynCardProps>(
   ) => {
     const radiusClass = radiusToClass[radius] ?? radiusToClass.lg;
 
+    const baseClass = styles['dyn-card'];
+    const variantClass = styles[`dyn-card--variant-${variant}`];
+    const paddingClass = styles[`dyn-card--padding-${padding}`];
+    const radiusClassName = styles[radiusClass];
+    const interactiveClass = styles['dyn-card--interactive'];
+
     const classNames = clsx(
-      styles['dyn-card'],
-      styles[`dyn-card--variant-${variant}`],
-      styles[`dyn-card--padding-${padding}`],
-      styles[radiusClass],
-      {
-        [styles['dyn-card--interactive']]: interactive
-      },
+      baseClass,
+      variantClass,
+      paddingClass,
+      radiusClassName,
+      interactiveClass && interactive && interactiveClass,
       className
     );
 
