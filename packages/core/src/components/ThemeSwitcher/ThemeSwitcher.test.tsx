@@ -1,13 +1,17 @@
-import { afterEach, beforeAll, describe, expect, fail, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../theme';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
 const assertIsHTMLButtonElement: (
-  element: Element,
+  element: Element | undefined,
   description: string
 ) => asserts element is HTMLButtonElement = (element, description) => {
+  if (!element) {
+    throw new TypeError(`Expected ${description} to be present`);
+  }
+
   if (!(element instanceof HTMLButtonElement)) {
     throw new TypeError(`Expected ${description} to be an HTMLButtonElement`);
   }
@@ -140,11 +144,9 @@ describe('ThemeSwitcher', () => {
     expect(options).toHaveLength(3);
 
     const [first, second, third] = options;
-    expect(first).toBeInstanceOf(HTMLButtonElement);
-    expect(second).toBeInstanceOf(HTMLButtonElement);
-    if (!third) {
-      fail('Expected dropdown ThemeSwitcher to render three options');
-    }
+    assertIsHTMLButtonElement(first, 'first option');
+    assertIsHTMLButtonElement(second, 'second option');
+    assertIsHTMLButtonElement(third, 'third option');
 
     await user.click(third);
 
@@ -165,9 +167,9 @@ describe('ThemeSwitcher', () => {
     const options = within(group).getAllByRole('radio');
 
     const [first, second, third] = options;
-    if (!second || !third) {
-      fail('Expected dropdown ThemeSwitcher to render three options');
-    }
+    assertIsHTMLButtonElement(first, 'first option');
+    assertIsHTMLButtonElement(second, 'second option');
+    assertIsHTMLButtonElement(third, 'third option');
 
     first.focus();
     await user.keyboard('{ArrowRight}');
