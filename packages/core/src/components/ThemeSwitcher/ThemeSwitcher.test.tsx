@@ -140,11 +140,12 @@ describe('ThemeSwitcher', () => {
     expect(options).toHaveLength(3);
 
     const [first, second, third] = options;
-    expect(first).toBeInstanceOf(HTMLButtonElement);
-    expect(second).toBeInstanceOf(HTMLButtonElement);
+    assertIsHTMLButtonElement(first, 'first dropdown option');
+    assertIsHTMLButtonElement(second, 'second dropdown option');
     if (!third) {
       fail('Expected dropdown ThemeSwitcher to render three options');
     }
+    assertIsHTMLButtonElement(third, 'third dropdown option');
 
     await user.click(third);
 
