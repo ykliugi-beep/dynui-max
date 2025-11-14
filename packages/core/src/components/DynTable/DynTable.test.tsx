@@ -8,6 +8,12 @@ const COLUMNS = [
   { key: 'age', title: 'Age', dataIndex: 'age' }
 ];
 
+const [nameColumn, ageColumn] = COLUMNS;
+
+if (!nameColumn || !ageColumn) {
+  throw new Error('DynTable tests require both name and age columns.');
+}
+
 const DATA = [
   { key: '1', name: 'Alice', age: 30 },
   { key: '2', name: 'Bob', age: 25 }
@@ -20,7 +26,7 @@ describe('DynTable', () => {
 
     render(
       <DynTable
-        columns={COLUMNS}
+        columns={[nameColumn, ageColumn]}
         dataSource={DATA}
         rowSelection={{ onChange: handleSelection, selectedRowKeys: [] }}
       />
@@ -38,7 +44,7 @@ describe('DynTable', () => {
 
     render(
       <DynTable
-        columns={COLUMNS}
+        columns={[nameColumn, ageColumn]}
         dataSource={DATA}
         sortConfig={{ sortBy: 'name', sortOrder: 'asc', onChange: handleSort }}
       />
@@ -52,13 +58,13 @@ describe('DynTable', () => {
 
   it('renders loading and empty states', () => {
     const { rerender } = render(
-      <DynTable columns={COLUMNS} dataSource={[]} loading />
+      <DynTable columns={[nameColumn, ageColumn]} dataSource={[]} loading />
     );
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
 
     rerender(
-      <DynTable columns={COLUMNS} dataSource={[]} loading={false} emptyText="No records" />
+      <DynTable columns={[nameColumn, ageColumn]} dataSource={[]} loading={false} emptyText="No records" />
     );
 
     expect(screen.getByText('No records')).toBeInTheDocument();
