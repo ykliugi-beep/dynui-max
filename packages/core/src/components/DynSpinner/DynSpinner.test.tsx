@@ -17,7 +17,19 @@ describe('DynSpinner', () => {
 
     expect(screen.getByText('Fetching data')).toBeInTheDocument();
     const spinner = screen.getByRole('status');
-    expect(spinner).toHaveClass(styles['dyn-spinner--inline']);
-    expect(spinner).toHaveClass(styles['dyn-spinner--size-lg']);
+    const inlineClass = styles['dyn-spinner--inline'];
+    expect(inlineClass).toBeDefined();
+    if (!inlineClass) {
+      throw new Error('Inline class should be defined');
+    }
+
+    const largeSizeClass = styles['dyn-spinner--size-lg'];
+    expect(largeSizeClass).toBeDefined();
+    if (!largeSizeClass) {
+      throw new Error('Large size class should be defined');
+    }
+
+    expect(spinner).toHaveClass(inlineClass);
+    expect(spinner).toHaveClass(largeSizeClass);
   });
 });
