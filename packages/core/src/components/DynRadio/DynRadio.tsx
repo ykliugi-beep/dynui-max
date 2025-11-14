@@ -267,8 +267,8 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
   },
   ref
 ) => {
-  const [internalValue, setInternalValue] = useState(defaultValue || '');
-  
+  const [internalValue, setInternalValue] = useState<string | undefined>(defaultValue);
+
   const currentValue = value !== undefined ? value : internalValue;
   
   const handleChange = useCallback((newValue: string) => {
@@ -313,13 +313,17 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
     }
   }, [handleChange]);
   
-  const contextValue: RadioGroupContextValue = {
-    value: currentValue,
+  const baseContextValue = {
     onChange: handleChange,
-    ...(name !== undefined ? { name } : {}),
+    ...(currentValue !== undefined ? { value: currentValue } : {}),
     ...(sizeProp !== undefined ? { size: sizeProp } : {}),
     ...(disabledProp !== undefined ? { disabled: disabledProp } : {}),
     ...(errorProp !== undefined ? { error: errorProp } : {})
+  } satisfies RadioGroupContextValue;
+
+  const contextValue: RadioGroupContextValue = {
+    ...baseContextValue,
+    ...(name ? { name } : {})
   };
   
   const groupDisabled = disabledProp ?? false;
@@ -355,7 +359,7 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
           <input
             type="hidden"
             name={name}
-            value={currentValue}
+            value={currentValue ?? ''}
             required={required}
             disabled={groupDisabled}
           />
