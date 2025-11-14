@@ -123,7 +123,7 @@ interface RadioGroupContextValue {
 
 const RadioGroupContext = createContext<RadioGroupContextValue | undefined>(undefined);
 
-const useRadioGroup = () => {
+export const useRadioGroupContext = () => {
   const context = useContext(RadioGroupContext);
   return context || {};
 };
@@ -148,7 +148,7 @@ export const DynRadio = forwardRef<HTMLInputElement, DynRadioProps>((
   ref
 ) => {
   const [isFocused, setIsFocused] = useState(false);
-  const groupContext = useRadioGroup();
+  const groupContext = useRadioGroupContext();
   
   // Use context values if available, otherwise use props
   const finalSize = size || groupContext.size || 'md';
@@ -253,9 +253,9 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
     defaultValue,
     onChange,
     name,
-    size = 'md',
-    disabled = false,
-    error = false,
+    size: sizeProp,
+    disabled: disabledProp,
+    error: errorProp,
     required = false,
     orientation = 'vertical',
     children,
@@ -316,18 +316,21 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
   const contextValue: RadioGroupContextValue = {
     value: currentValue,
     onChange: handleChange,
-    name,
-    size,
-    disabled,
-    error
+    ...(name !== undefined ? { name } : {}),
+    ...(sizeProp !== undefined ? { size: sizeProp } : {}),
+    ...(disabledProp !== undefined ? { disabled: disabledProp } : {}),
+    ...(errorProp !== undefined ? { error: errorProp } : {})
   };
   
+  const groupDisabled = disabledProp ?? false;
+  const groupError = errorProp ?? false;
+
   const containerClasses = clsx(
     'dyn-radio-group',
     `dyn-radio-group--${orientation}`,
     {
-      'dyn-radio-group--error': error,
-      'dyn-radio-group--disabled': disabled
+      'dyn-radio-group--error': groupError,
+      'dyn-radio-group--disabled': groupDisabled
     },
     className
   );
@@ -354,6 +357,7 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
             name={name}
             value={currentValue}
             required={required}
+            disabled={groupDisabled}
           />
         )}
       </div>
