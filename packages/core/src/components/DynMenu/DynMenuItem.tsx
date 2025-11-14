@@ -76,22 +76,22 @@ export interface DynMenuItemProps {
  * - Disabled state
  */
 export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMenuItemProps>(
-  {
-    children,
-    value,
-    onClick,
-    disabled = false,
-    selected = false,
-    icon,
-    description,
-    shortcut,
-    divider = false,
-    className,
-    'data-testid': dataTestId,
-    ...props
-  },
-  ref
-) => {
+  (props, ref) => {
+    const {
+      children,
+      value,
+      onClick,
+      disabled = false,
+      selected = false,
+      icon,
+      description,
+      shortcut,
+      divider = false,
+      className,
+      'data-testid': dataTestId,
+      ...rest
+    } = props;
+
   // Divider variant
   if (divider) {
     return (
@@ -99,7 +99,7 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
         className={clsx('dyn-menu-item-divider', className)}
         role="separator"
         data-testid={dataTestId}
-        {...props}
+        {...rest}
       />
     );
   }
@@ -143,7 +143,7 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
       data-testid={dataTestId}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      {...props}
+      {...rest}
     >
       {/* Icon */}
       {icon && (
