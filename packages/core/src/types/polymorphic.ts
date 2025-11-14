@@ -43,15 +43,11 @@ export const forwardRefWithAs = <
   forwardRef<
     React.ElementRef<DefaultAs>,
     PolymorphicComponentProps<DefaultAs, OwnProps>
-  >(
-    (props, forwardedRef) =>
-      component(
-        props as React.PropsWithoutRef<
-          PolymorphicComponentProps<DefaultAs, OwnProps>
-        >,
-        forwardedRef
-      )
-  ) as unknown as PolymorphicForwardRefComponent<
-    DefaultAs,
-    OwnProps
-  >;
+  >((props, forwardedRef) =>
+    component(
+      props as React.PropsWithoutRef<
+        PolymorphicComponentProps<DefaultAs, OwnProps>
+      >,
+      forwardedRef
+    )
+  ) as unknown as PolymorphicForwardRefComponent<DefaultAs, OwnProps>;
