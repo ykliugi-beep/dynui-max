@@ -125,12 +125,15 @@ export interface SemanticTokens {
       primary: string;
       secondary: string;
       muted: string;
+      focus: string;
+      success: string;
+      warning: string;
+      danger: string;
     };
     feedback: {
       success: string;
       warning: string;
       danger: string;
-      info: string;
     };
     interactive: {
       primary: string;
