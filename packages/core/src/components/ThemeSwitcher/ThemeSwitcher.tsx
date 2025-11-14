@@ -3,6 +3,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ButtonHTMLAttributes,
   type KeyboardEvent as ReactKeyboardEvent
@@ -118,6 +119,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
       ['aria-labelledby']: ariaLabelledBy,
       ['aria-describedby']: ariaDescribedBy,
       onClick,
+      onKeyDown,
       ...buttonProps
     } = rest;
 
@@ -281,7 +283,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
         changeMode(nextMode);
       };
 
-      const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+      const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
         if (disabled) {
           return;
         }
@@ -382,12 +384,20 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
       );
     }
 
+    const keyboardClickPreventedRef = useRef(false);
+
     return (
       <button
         ref={ref}
         type="button"
         className={classes}
         onClick={event => {
+          if (keyboardClickPreventedRef.current) {
+            keyboardClickPreventedRef.current = false;
+            event.preventDefault();
+            return;
+          }
+
           if (disabled) {
             event.preventDefault();
             return;
@@ -399,6 +409,22 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
           }
 
           changeMode(nextMode);
+        }}
+        onKeyDown={event => {
+          onKeyDown?.(event);
+          if (event.defaultPrevented) {
+            return;
+          }
+
+          if (disabled) {
+            return;
+          }
+
+          if (event.key === ' ' || event.key === 'Space' || event.key === 'Spacebar' || event.key === 'Enter') {
+            event.preventDefault();
+            keyboardClickPreventedRef.current = true;
+            changeMode(nextMode);
+          }
         }}
         aria-label={ariaLabel ?? nextModeDescription}
         aria-labelledby={ariaLabelledBy}
