@@ -1,5 +1,4 @@
-import { createRef } from 'react';
-import type { SVGProps } from 'react';
+import { createRef, type SVGProps } from 'react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen } from '../../test/test-utils';
 import { DynIcon } from './DynIcon';

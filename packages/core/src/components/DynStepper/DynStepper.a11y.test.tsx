@@ -1,8 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '../../test/test-utils';
 import { axe } from 'vitest-axe';
-import { DynStepper } from './DynStepper';
-import type { StepData } from './DynStepper';
+import { DynStepper, type StepData } from './DynStepper';
 
 const mockSteps: StepData[] = [
   { key: 'step1', title: 'Personal Info', description: 'Enter your details' },
