@@ -269,19 +269,31 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
     );
 
     if (variant === 'dropdown') {
-      const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+      const rotateDropdownMode = (direction: 1 | -1) => {
+        if (dropdownModes.length === 0) {
+          return;
+        }
+
+        const currentIndex = dropdownModes.indexOf(currentMode);
+        const safeIndex = currentIndex >= 0 ? currentIndex : 0;
+        const nextIndex = (safeIndex + direction + dropdownModes.length) % dropdownModes.length;
+        const nextMode = dropdownModes[nextIndex];
+        changeMode(nextMode);
+      };
+
+      const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (disabled) {
           return;
         }
 
         if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
           event.preventDefault();
-          cycleMode(1);
+          rotateDropdownMode(1);
         }
 
         if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
           event.preventDefault();
-          cycleMode(-1);
+          rotateDropdownMode(-1);
         }
       };
 

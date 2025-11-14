@@ -29,8 +29,7 @@ describe('ThemeSwitcher Accessibility', () => {
   it('has no violations in button variant', async () => {
     const { container } = render(<ThemeSwitcher />);
 
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 
   it('has no violations in toggle variant with labels', async () => {
@@ -38,8 +37,7 @@ describe('ThemeSwitcher Accessibility', () => {
       <ThemeSwitcher variant="toggle" showLabels />
     );
 
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 
   it('has no violations in dropdown variant with system option', async () => {
@@ -47,7 +45,6 @@ describe('ThemeSwitcher Accessibility', () => {
       <ThemeSwitcher variant="dropdown" showSystem showLabels />
     );
 
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 });
