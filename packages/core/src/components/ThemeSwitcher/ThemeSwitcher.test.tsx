@@ -1,4 +1,4 @@
-import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, fail, it, vi } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../theme';
@@ -130,7 +130,14 @@ describe('ThemeSwitcher', () => {
     const options = within(group).getAllByRole('radio');
     expect(options).toHaveLength(3);
 
-    await user.click(options[2]);
+    const [first, second, third] = options;
+    expect(first).toBeInstanceOf(HTMLButtonElement);
+    expect(second).toBeInstanceOf(HTMLButtonElement);
+    if (!third) {
+      fail('Expected dropdown ThemeSwitcher to render three options');
+    }
+
+    await user.click(third);
 
     await waitFor(() => {
       expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
@@ -148,13 +155,18 @@ describe('ThemeSwitcher', () => {
     const group = screen.getByRole('radiogroup', { name: /theme mode/i });
     const options = within(group).getAllByRole('radio');
 
-    options[0].focus();
+    const [first, second, third] = options;
+    if (!second || !third) {
+      fail('Expected dropdown ThemeSwitcher to render three options');
+    }
+
+    first.focus();
     await user.keyboard('{ArrowRight}');
 
-    expect(options[1]).toHaveAttribute('aria-checked', 'true');
+    expect(second).toHaveAttribute('aria-checked', 'true');
 
     await user.keyboard('{ArrowLeft}');
 
-    expect(options[0]).toHaveAttribute('aria-checked', 'true');
+    expect(first).toHaveAttribute('aria-checked', 'true');
   });
 });
