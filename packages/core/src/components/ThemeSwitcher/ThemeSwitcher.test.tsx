@@ -140,8 +140,22 @@ describe('ThemeSwitcher', () => {
     expect(options).toHaveLength(3);
 
     const first = options[0];
+    expect(first).toBeDefined();
+    if (!first) {
+      throw new Error('Expected first radio option to be defined');
+    }
+
     const second = options[1];
+    expect(second).toBeDefined();
+    if (!second) {
+      throw new Error('Expected second radio option to be defined');
+    }
+
     const third = options[2];
+    expect(third).toBeDefined();
+    if (!third) {
+      throw new Error('Expected third radio option to be defined');
+    }
 
     assertIsHTMLButtonElement(first, 'first radio option');
     assertIsHTMLButtonElement(second, 'second radio option');
@@ -166,8 +180,22 @@ describe('ThemeSwitcher', () => {
     const options = within(group).getAllByRole('radio');
 
     const first = options[0];
+    expect(first).toBeDefined();
+    if (!first) {
+      throw new Error('Expected first radio option to be defined');
+    }
+
     const second = options[1];
+    expect(second).toBeDefined();
+    if (!second) {
+      throw new Error('Expected second radio option to be defined');
+    }
+
     const third = options[2];
+    expect(third).toBeDefined();
+    if (!third) {
+      throw new Error('Expected third radio option to be defined');
+    }
 
     assertIsHTMLButtonElement(first, 'first radio option');
     assertIsHTMLButtonElement(second, 'second radio option');
