@@ -43,17 +43,16 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>({
     // Handle keydown events
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Tab') return;
-      
+
       const focusableElements = getFocusableElements();
       if (focusableElements.length === 0) return;
-      
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
 
-      if (!firstElement || !lastElement) {
-        return;
-      }
-      
+      const firstElement = focusableElements[0];
+      if (!firstElement) return;
+
+      const lastElement = focusableElements[focusableElements.length - 1];
+      if (!lastElement) return;
+
       if (event.shiftKey) {
         // Shift + Tab: moving backward
         if (document.activeElement === firstElement) {
