@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../theme';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
-const assertIsHTMLButtonElement = (
+const assertIsHTMLButtonElement: (
   element: Element,
   description: string
-): asserts element is HTMLButtonElement => {
+) => asserts element is HTMLButtonElement = (element, description) => {
   if (!(element instanceof HTMLButtonElement)) {
     throw new TypeError(`Expected ${description} to be an HTMLButtonElement`);
   }
