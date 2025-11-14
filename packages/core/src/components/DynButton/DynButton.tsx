@@ -1,4 +1,4 @@
-import { type ElementType, type ReactNode } from 'react';
+import { type ElementType, type PropsWithoutRef, type ReactNode } from 'react';
 import clsx from 'clsx';
 import type { ComponentVariant, ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import {
@@ -70,7 +70,7 @@ const DynButtonComponent = <C extends ElementType = 'button'>(
     className,
     children,
     ...props
-  }: DynButtonProps<C>,
+  }: PropsWithoutRef<DynButtonProps<C>>,
   ref: PolymorphicRef<C>
 ) => {
   const Component = (as || 'button') as ElementType;
