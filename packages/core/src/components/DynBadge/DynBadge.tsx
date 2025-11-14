@@ -13,19 +13,19 @@ type DynBadgeOwnProps = {
    * Badge size using design tokens
    * @default 'md'
    */
-  size?: ComponentSize;
+  size?: ComponentSize | undefined;
 
   /**
    * Color variant
    * @default 'neutral'
    */
-  color?: ComponentColor;
+  color?: ComponentColor | undefined;
 
   /**
    * Visual variant
    * @default 'solid'
    */
-  variant?: 'solid' | 'outline' | 'soft';
+  variant?: 'solid' | 'outline' | 'soft' | undefined;
 
   /**
    * Badge content
@@ -35,7 +35,7 @@ type DynBadgeOwnProps = {
   /**
    * Additional CSS class names
    */
-  className?: string;
+  className?: string | undefined;
 };
 
 export type DynBadgeProps<C extends ElementType = 'span'> =
