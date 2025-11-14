@@ -4,7 +4,11 @@ import { logger } from './logger';
 const ORIGINAL_NODE_ENV = process.env?.['NODE_ENV'];
 
 afterEach(() => {
-  process.env['NODE_ENV'] = ORIGINAL_NODE_ENV;
+  if (typeof ORIGINAL_NODE_ENV === 'undefined') {
+    delete process.env['NODE_ENV'];
+  } else {
+    process.env['NODE_ENV'] = ORIGINAL_NODE_ENV;
+  }
   vi.restoreAllMocks();
 });
 
