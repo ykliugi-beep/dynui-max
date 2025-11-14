@@ -4,6 +4,7 @@ import type { ComponentSize } from '@dynui-max/design-tokens';
 import type { InputVariant } from '../DynInput';
 import { DynIcon } from '../DynIcon';
 import { useClickOutside } from '../../hooks/useClickOutside';
+import { useKeyboard } from '../../hooks/useKeyboard';
 import './DynSelect.css';
 
 export interface SelectOption {
@@ -11,6 +12,7 @@ export interface SelectOption {
   label: string;
   description?: string;
   disabled?: boolean;
+  icon?: React.ReactNode;
 }
 
 export interface DynSelectProps {
@@ -159,8 +161,20 @@ export const DynSelect = forwardRef<DynSelectRef, DynSelectProps>((
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
-  
+
   const currentValue = value !== undefined ? value : internalValue;
+
+  const handleEscapeKey = useCallback((event: KeyboardEvent) => {
+    if (!isOpen) {
+      return;
+    }
+
+    event.preventDefault();
+    setIsOpen(false);
+    triggerRef.current?.focus();
+  }, [isOpen]);
+
+  useKeyboard('Escape', handleEscapeKey, { enabled: isOpen });
   
   // Filter options based on search query
   const filteredOptions = useMemo(() => {
