@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
-import { beforeAll, afterEach, vi } from 'vitest';
+import { beforeAll, afterEach, expect, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
+import { toHaveNoViolations } from 'vitest-axe/matchers';
 
-// vitest-axe automatski doda matchere (toHaveNoViolations) na expect
-import 'vitest-axe/extend-expect';
+expect.extend({ toHaveNoViolations });
 
 // Cleanup DOM after each test
 afterEach(() => {
