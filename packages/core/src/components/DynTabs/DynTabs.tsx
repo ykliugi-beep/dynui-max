@@ -1,6 +1,5 @@
 import React, { forwardRef, useState, useCallback, useRef, useMemo } from 'react';
 import clsx from 'clsx';
-import { useKeyboard } from '../../hooks/useKeyboard';
 import './DynTabs.css';
 
 export interface TabItem {

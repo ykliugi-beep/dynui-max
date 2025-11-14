@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '../../test/test-utils';
-import userEvent from '@testing-library/user-event';
+import { createRef } from 'react';
 import { DynFieldContainer } from './DynFieldContainer';
 
 // Mock input component
@@ -137,7 +137,7 @@ describe('DynFieldContainer', () => {
   });
 
   it('forwards ref correctly', () => {
-    const ref = React.createRef<HTMLDivElement>();
+    const ref = createRef<HTMLDivElement>();
     render(
       <DynFieldContainer label="Email" htmlFor="email" ref={ref}>
         <MockInput id="email" />

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
 import { axe } from 'vitest-axe';
 import { DynBreadcrumb } from './DynBreadcrumb';

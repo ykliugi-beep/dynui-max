@@ -11,13 +11,15 @@ afterEach(() => {
 });
 
 // -------------------- TypeScript augmentation --------------------
-// Make TypeScript aware of vitest-axe matchers (toHaveNoViolations)
-import 'vitest';
-import type { AxeMatchers } from 'vitest-axe/matchers';
-
+// Make TypeScript aware of vitest-axe matcher (toHaveNoViolations)
 declare module 'vitest' {
-  interface Assertion<T = any> extends AxeMatchers {}
-  interface AsymmetricMatchersContaining extends AxeMatchers {}
+  interface Assertion<T = any> {
+    toHaveNoViolations(): Promise<T>;
+  }
+
+  interface AsymmetricMatchersContaining {
+    toHaveNoViolations(): void;
+  }
 }
 
 // Register environment mocks once before tests run

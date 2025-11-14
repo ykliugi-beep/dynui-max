@@ -125,7 +125,7 @@ export const DynTreeView = forwardRef<HTMLDivElement, DynTreeViewProps>((
     onExpand?.(newExpandedKeys);
   }, [currentExpandedKeys, expandedKeys, onExpand]);
   
-  const handleNodeSelect = useCallback((nodeKey: string, node: TreeNode) => {
+  const handleNodeSelect = useCallback((nodeKey: string) => {
     let newSelectedKeys: string[];
     
     if (selectionMode === 'single') {
@@ -198,7 +198,7 @@ export const DynTreeView = forwardRef<HTMLDivElement, DynTreeViewProps>((
           {/* Node content */}
           <div
             className="dyn-tree__node-title"
-            onClick={() => !node.disabled && handleNodeSelect(node.key, node)}
+            onClick={() => !node.disabled && handleNodeSelect(node.key)}
             role="treeitem"
             aria-selected={isSelected}
             aria-expanded={hasChildren ? isExpanded : undefined}

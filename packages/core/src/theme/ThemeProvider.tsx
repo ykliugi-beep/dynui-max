@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import type { Theme, ThemeName } from '@dynui-max/design-tokens';
-import { lightTheme, darkTheme, themes } from '@dynui-max/design-tokens';
+import { themes, type Theme, type ThemeName } from '@dynui-max/design-tokens';
 
 interface ThemeContextValue {
   theme: Theme;
