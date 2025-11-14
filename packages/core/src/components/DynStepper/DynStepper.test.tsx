@@ -1,10 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '../../test/test-utils';
 import userEvent from '@testing-library/user-event';
-import { DynStepper, DynStep } from './DynStepper';
-import type { StepData, DynStepperRef } from './DynStepper';
+import { DynStepper, DynStep, type StepData, type DynStepperRef } from './DynStepper';
 import { axe } from 'vitest-axe';
-import React from 'react';
 
 const sampleSteps: StepData[] = [
   { key: 'step1', title: 'Personal Info', description: 'Enter your personal details' },

@@ -81,6 +81,11 @@ export default [
   },
   {
     files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.stories.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.vitest
+      }
+    },
     rules: {
       // Relax rules for test files
       '@typescript-eslint/no-explicit-any': 'off',

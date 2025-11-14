@@ -1,11 +1,12 @@
-import React from 'react';
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { createRef } from 'react';
+import type { SVGProps } from 'react';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen } from '../../test/test-utils';
 import { DynIcon } from './DynIcon';
 import { iconRegistry, defaultIcons } from './iconRegistry';
 
 // Test icon component
-const TestIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const TestIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg data-testid="test-icon" {...props}>
     <circle cx="10" cy="10" r="5" />
   </svg>
@@ -66,7 +67,7 @@ describe('DynIcon', () => {
   });
 
   it('forwards ref correctly', () => {
-    const ref = React.createRef<SVGSVGElement>();
+    const ref = createRef<SVGSVGElement>();
     render(<DynIcon name="test" ref={ref} />);
     expect(ref.current).toBeInstanceOf(SVGSVGElement);
   });

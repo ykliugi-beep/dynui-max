@@ -1,6 +1,5 @@
 import React, { forwardRef, useState, useRef, useCallback, useEffect } from 'react';
 import clsx from 'clsx';
-import { DynIcon } from '../DynIcon';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import './DynMenu.css';
 

@@ -38,6 +38,16 @@ export interface DynBreadcrumbProps {
   'data-testid'?: string;
 }
 
+const isLinkItem = (
+  item: BreadcrumbItem
+): item is BreadcrumbItem & { href: string } =>
+  typeof item.href === 'string' && item.href.length > 0;
+
+const isButtonItem = (
+  item: BreadcrumbItem
+): item is BreadcrumbItem & { onClick: () => void } =>
+  typeof item.onClick === 'function';
+
 /**
  * DynBreadcrumb - Navigation breadcrumb component
  * 
@@ -47,7 +57,7 @@ export interface DynBreadcrumbProps {
  * - Link and button support
  * - ARIA navigation pattern
  */
-export const DynBreadcrumb = forwardRef<HTMLNavElement, DynBreadcrumbProps>((
+export const DynBreadcrumb = forwardRef<HTMLElement, DynBreadcrumbProps>((
   {
     items,
     separator = <DynIcon name="chevron-right" size="sm" />,
@@ -58,30 +68,57 @@ export const DynBreadcrumb = forwardRef<HTMLNavElement, DynBreadcrumbProps>((
   },
   ref
 ) => {
+  const safeItems = useMemo(
+    () =>
+      items.filter(
+        (item): item is BreadcrumbItem =>
+          Boolean(item && typeof item.label === 'string')
+      ),
+    [items]
+  );
+
+  const normalizedMaxItems = useMemo(() => {
+    if (typeof maxItems !== 'number' || Number.isNaN(maxItems)) {
+      return undefined;
+    }
+
+    const floored = Math.floor(maxItems);
+
+    if (floored <= 0) {
+      return 1;
+    }
+
+    return floored;
+  }, [maxItems]);
+
   // Handle overflow when maxItems is specified
-  const displayItems = useMemo(() => {
-    if (!maxItems || items.length <= maxItems) {
-      return items;
+  const displayItems = useMemo<BreadcrumbItem[]>(() => {
+    if (safeItems.length === 0) {
+      return [];
     }
-    
-    if (maxItems === 1) {
-      return [items[items.length - 1]];
+
+    if (!normalizedMaxItems || safeItems.length <= normalizedMaxItems) {
+      return safeItems;
     }
-    
-    if (maxItems === 2) {
+
+    if (normalizedMaxItems === 1) {
+      return [safeItems[safeItems.length - 1]];
+    }
+
+    if (normalizedMaxItems === 2) {
       return [
-        items[0],
+        safeItems[0],
         { label: '...', disabled: true },
-        items[items.length - 1]
+        safeItems[safeItems.length - 1]
       ];
     }
-    
-    const start = items.slice(0, 1);
-    const end = items.slice(-(maxItems - 2));
+
+    const start = safeItems.slice(0, 1);
+    const end = safeItems.slice(-(normalizedMaxItems - 2));
     const overflow = { label: '...', disabled: true };
-    
+
     return [...start, overflow, ...end];
-  }, [items, maxItems]);
+  }, [normalizedMaxItems, safeItems]);
   
   return (
     <nav
@@ -92,68 +129,67 @@ export const DynBreadcrumb = forwardRef<HTMLNavElement, DynBreadcrumbProps>((
       {...props}
     >
       <ol className="dyn-breadcrumb__list">
-        {displayItems.map((item, index) => {
-          const isLast = index === displayItems.length - 1;
-          const isOverflow = item.label === '...';
-          
-          return (
-            <li key={index} className="dyn-breadcrumb__item">
-              {isOverflow ? (
-                <span className="dyn-breadcrumb__overflow">
-                  {item.label}
-                </span>
-              ) : item.href ? (
-                <a
-                  href={item.href}
-                  className={clsx(
-                    'dyn-breadcrumb__link',
-                    {
+        {displayItems.length === 0 ? (
+          <li className="dyn-breadcrumb__item">
+            <span className="dyn-breadcrumb__text">No breadcrumb items</span>
+          </li>
+        ) : (
+          displayItems.map((item, index) => {
+            const isLast = index === displayItems.length - 1;
+            const isOverflow = item.label === '...';
+            const linkItem = isLinkItem(item);
+            const buttonItem = !linkItem && isButtonItem(item);
+
+            return (
+              <li key={index} className="dyn-breadcrumb__item">
+                {isOverflow ? (
+                  <span className="dyn-breadcrumb__overflow">{item.label}</span>
+                ) : linkItem ? (
+                  <a
+                    href={item.href}
+                    className={clsx('dyn-breadcrumb__link', {
                       'dyn-breadcrumb__link--current': isLast,
                       'dyn-breadcrumb__link--disabled': item.disabled
-                    }
-                  )}
-                  aria-current={isLast ? 'page' : undefined}
-                  tabIndex={item.disabled ? -1 : undefined}
-                >
-                  {item.label}
-                </a>
-              ) : item.onClick ? (
-                <button
-                  type="button"
-                  className={clsx(
-                    'dyn-breadcrumb__button',
-                    {
+                    })}
+                    aria-current={isLast ? 'page' : undefined}
+                    tabIndex={item.disabled ? -1 : undefined}
+                  >
+                    {item.label}
+                  </a>
+                ) : buttonItem ? (
+                  <button
+                    type="button"
+                    className={clsx('dyn-breadcrumb__button', {
                       'dyn-breadcrumb__button--current': isLast,
                       'dyn-breadcrumb__button--disabled': item.disabled
-                    }
-                  )}
-                  onClick={item.onClick}
-                  disabled={item.disabled}
-                  aria-current={isLast ? 'page' : undefined}
-                >
-                  {item.label}
-                </button>
-              ) : (
-                <span
-                  className={clsx(
-                    'dyn-breadcrumb__text',
-                    { 'dyn-breadcrumb__text--current': isLast }
-                  )}
-                  aria-current={isLast ? 'page' : undefined}
-                >
-                  {item.label}
-                </span>
-              )}
-              
-              {/* Separator */}
-              {!isLast && (
-                <span className="dyn-breadcrumb__separator" aria-hidden="true">
-                  {separator}
-                </span>
-              )}
-            </li>
-          );
-        })}
+                    })}
+                    onClick={item.onClick}
+                    disabled={item.disabled}
+                    aria-current={isLast ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <span
+                    className={clsx('dyn-breadcrumb__text', {
+                      'dyn-breadcrumb__text--current': isLast
+                    })}
+                    aria-current={isLast ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </span>
+                )}
+
+                {/* Separator */}
+                {!isLast && (
+                  <span className="dyn-breadcrumb__separator" aria-hidden="true">
+                    {separator}
+                  </span>
+                )}
+              </li>
+            );
+          })
+        )}
       </ol>
     </nav>
   );

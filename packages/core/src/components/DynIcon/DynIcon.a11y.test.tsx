@@ -1,11 +1,12 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render } from '../../test/test-utils';
 import { axe } from 'vitest-axe';
 import { DynIcon } from './DynIcon';
 import { iconRegistry } from './iconRegistry';
+import type { SVGProps } from 'react';
 
 // Test icon
-const TestIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const TestIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg {...props}>
     <circle cx="10" cy="10" r="5" />
   </svg>
