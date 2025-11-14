@@ -60,13 +60,16 @@ export const DynProgress: FC<DynProgressProps> = ({
     };
   }, [isIndeterminate, max, min, value, label]);
 
+  const baseClass = styles['dyn-progress'];
+  const sizeClass = styles[`dyn-progress--size-${size}`];
+  const colorClass = styles[`dyn-progress--color-${color}`];
+  const indeterminateClass = styles['dyn-progress--indeterminate'];
+
   const containerClassName = clsx(
-    styles['dyn-progress'],
-    styles[`dyn-progress--size-${size}`],
-    styles[`dyn-progress--color-${color}`],
-    {
-      [styles['dyn-progress--indeterminate']]: isIndeterminate
-    },
+    baseClass,
+    sizeClass,
+    colorClass,
+    isIndeterminate && indeterminateClass,
     className
   );
 
