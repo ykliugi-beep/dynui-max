@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo, type FC, type HTMLAttributes, type ReactNode } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import styles from './DynPagination.module.css';
@@ -18,7 +18,7 @@ export interface DynPaginationLabels {
   page?: (page: number) => string;
 }
 
-export interface DynPaginationProps extends React.HTMLAttributes<HTMLElement> {
+export interface DynPaginationProps extends HTMLAttributes<HTMLElement> {
   /** Total number of pages */
   totalPages: number;
   /** Currently selected page (1-based index) */
@@ -109,7 +109,7 @@ const defaultLabels: Required<DynPaginationLabels> = {
   page: (page: number) => `Go to page ${page}`
 };
 
-export const DynPagination: React.FC<DynPaginationProps> = ({
+export const DynPagination: FC<DynPaginationProps> = ({
   totalPages,
   currentPage,
   onPageChange,
@@ -152,14 +152,14 @@ export const DynPagination: React.FC<DynPaginationProps> = ({
     className
   );
 
-  const listItems: React.ReactNode[] = [];
+  const listItems: ReactNode[] = [];
 
   const addControlButton = (
     key: string,
     label: string,
     targetPage: number,
     isDisabled: boolean,
-    icon: React.ReactNode
+    icon: ReactNode
   ) => {
     listItems.push(
       <li key={key} className={styles['dyn-pagination__item']}>

@@ -1,4 +1,12 @@
-import React, { forwardRef, useCallback } from 'react';
+import {
+  Fragment,
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  type FC,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import { DynIcon } from '../DynIcon';
@@ -12,7 +20,7 @@ export interface StepData {
   description?: string;
   status?: StepStatus;
   disabled?: boolean;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 }
 
 export interface DynStepProps {
@@ -39,7 +47,7 @@ export interface DynStepProps {
   /**
    * Custom icon for step
    */
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   
   /**
    * Step index
@@ -145,7 +153,7 @@ export interface DynStepperRef {
  * - Keyboard navigation
  * - Accessibility support
  */
-export const DynStep: React.FC<DynStepProps> = ({
+export const DynStep: FC<DynStepProps> = ({
   title,
   description,
   status = 'pending',
@@ -164,7 +172,7 @@ export const DynStep: React.FC<DynStepProps> = ({
     }
   }, [clickable, disabled, onClick, index]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: ReactKeyboardEvent) => {
     if ((e.key === 'Enter' || e.key === ' ') && clickable && !disabled) {
       e.preventDefault();
       handleClick();
@@ -281,7 +289,7 @@ export const DynStepper = forwardRef<DynStepperRef, DynStepperProps>((
   }, [current, goToStep]);
   
   // Expose ref methods
-  React.useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     goToStep,
     nextStep,
     previousStep
@@ -322,7 +330,7 @@ export const DynStepper = forwardRef<DynStepperRef, DynStepperProps>((
           const isClickable = clickable && !step.disabled && index <= current;
           
           return (
-            <React.Fragment key={step.key}>
+            <Fragment key={step.key}>
               <div
                 className={clsx(
                   'dyn-stepper__step',
@@ -382,7 +390,7 @@ export const DynStepper = forwardRef<DynStepperRef, DynStepperProps>((
                   )}
                 />
               )}
-            </React.Fragment>
+            </Fragment>
           );
         })}
       </div>

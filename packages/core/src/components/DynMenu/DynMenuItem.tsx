@@ -1,4 +1,10 @@
-import React, { forwardRef } from 'react';
+import {
+  Children,
+  forwardRef,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode,
+  type Ref
+} from 'react';
 import clsx from 'clsx';
 import './DynMenuItem.css';
 
@@ -6,7 +12,7 @@ export interface DynMenuItemProps {
   /**
    * Item content
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
   
   /**
    * Item value/identifier
@@ -31,7 +37,7 @@ export interface DynMenuItemProps {
   /**
    * Item icon
    */
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   
   /**
    * Item description
@@ -98,7 +104,7 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
     );
   }
 
-  const hasContent = React.Children.count(children) > 0;
+  const hasContent = Children.count(children) > 0;
   const shouldRenderContent = hasContent || Boolean(description);
 
   const handleClick = () => {
@@ -107,7 +113,7 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
     }
   };
   
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  const handleKeyDown = (event: ReactKeyboardEvent) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       handleClick();
@@ -127,7 +133,7 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
   
   return (
     <button
-      ref={ref as React.Ref<HTMLButtonElement>}
+      ref={ref as Ref<HTMLButtonElement>}
       type="button"
       className={classes}
       role="menuitem"

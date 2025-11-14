@@ -1,4 +1,11 @@
-import React, { forwardRef } from 'react';
+import {
+  forwardRef,
+  type ComponentPropsWithRef,
+  type ElementType,
+  type MouseEventHandler,
+  type ReactElement,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { PolymorphicComponentProps } from '../../types/polymorphic';
 import './DynBreadcrumbItem.css';
@@ -7,7 +14,7 @@ type DynBreadcrumbItemOwnProps = {
   /**
    * Item content
    */
-  children: React.ReactNode;
+  children: ReactNode;
 
   /**
    * Link href
@@ -17,7 +24,7 @@ type DynBreadcrumbItemOwnProps = {
   /**
    * Click handler (for button-like items)
    */
-  onClick?: React.MouseEventHandler;
+  onClick?: MouseEventHandler;
 
   /**
    * Current/active item
@@ -35,10 +42,10 @@ type DynBreadcrumbItemOwnProps = {
   className?: string;
 };
 
-export type DynBreadcrumbItemProps<C extends React.ElementType = 'span'> =
+export type DynBreadcrumbItemProps<C extends ElementType = 'span'> =
   PolymorphicComponentProps<C, DynBreadcrumbItemOwnProps>;
 
-const DynBreadcrumbItemComponent = <C extends React.ElementType = 'span'>(
+const DynBreadcrumbItemComponent = <C extends ElementType = 'span'>(
   {
     children,
     href,
@@ -49,9 +56,9 @@ const DynBreadcrumbItemComponent = <C extends React.ElementType = 'span'>(
     as,
     ...props
   }: DynBreadcrumbItemProps<C>,
-  ref: React.ComponentPropsWithRef<C>['ref']
+  ref: ComponentPropsWithRef<C>['ref']
 ) => {
-  const Component = (as || (href ? 'a' : onClick ? 'button' : 'span')) as React.ElementType;
+  const Component = (as || (href ? 'a' : onClick ? 'button' : 'span')) as ElementType;
   const isLink = Component === 'a';
   const isButton = Component === 'button';
 
@@ -115,9 +122,9 @@ const DynBreadcrumbItemComponent = <C extends React.ElementType = 'span'>(
 };
 
 export const DynBreadcrumbItem = forwardRef(DynBreadcrumbItemComponent) as <
-  C extends React.ElementType = 'span'
+  C extends ElementType = 'span'
 >(
   props: DynBreadcrumbItemProps<C>
-) => React.ReactElement | null;
+) => ReactElement | null;
 
 DynBreadcrumbItem.displayName = 'DynBreadcrumbItem';

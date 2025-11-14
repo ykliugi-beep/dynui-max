@@ -1,4 +1,10 @@
-import React, { forwardRef } from 'react';
+import {
+  forwardRef,
+  type ComponentPropsWithRef,
+  type ElementType,
+  type ReactElement,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import type { PolymorphicComponentProps } from '../../types/polymorphic';
@@ -26,7 +32,7 @@ type DynBadgeOwnProps = {
   /**
    * Badge content
    */
-  children: React.ReactNode;
+  children: ReactNode;
 
   /**
    * Additional CSS class names
@@ -34,10 +40,10 @@ type DynBadgeOwnProps = {
   className?: string;
 };
 
-export type DynBadgeProps<C extends React.ElementType = 'span'> =
+export type DynBadgeProps<C extends ElementType = 'span'> =
   PolymorphicComponentProps<C, DynBadgeOwnProps>;
 
-const DynBadgeComponent = <C extends React.ElementType = 'span'>(
+const DynBadgeComponent = <C extends ElementType = 'span'>(
   {
     size = 'md',
     color = 'neutral',
@@ -47,9 +53,9 @@ const DynBadgeComponent = <C extends React.ElementType = 'span'>(
     as,
     ...props
   }: DynBadgeProps<C>,
-  ref: React.ComponentPropsWithRef<C>['ref']
+  ref: ComponentPropsWithRef<C>['ref']
 ) => {
-  const Component = (as || 'span') as React.ElementType;
+  const Component = (as || 'span') as ElementType;
 
   const classes = clsx(
     'dyn-badge',
@@ -67,9 +73,9 @@ const DynBadgeComponent = <C extends React.ElementType = 'span'>(
 };
 
 export const DynBadge = forwardRef(DynBadgeComponent) as <
-  C extends React.ElementType = 'span'
+  C extends ElementType = 'span'
 >(
   props: DynBadgeProps<C>
-) => React.ReactElement | null;
+) => ReactElement | null;
 
 DynBadge.displayName = 'DynBadge';
