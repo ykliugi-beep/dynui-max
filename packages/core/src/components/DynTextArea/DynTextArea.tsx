@@ -5,6 +5,7 @@ import {
   useRef,
   useEffect,
   type ChangeEvent,
+  type CSSProperties,
   type FocusEvent,
   type TextareaHTMLAttributes
 } from 'react';
@@ -200,11 +201,11 @@ export const DynTextArea = forwardRef<HTMLTextAreaElement, DynTextAreaProps>((
     `dyn-textarea--variant-${variant}`
   );
   
-  const textareaStyle = {
+  const textareaStyle: CSSProperties = {
     ...style,
     ...(autoResize && {
-      resize: 'none',
-      overflow: 'hidden'
+      resize: 'none' as const,
+      overflow: 'hidden' as const
     })
   };
 
