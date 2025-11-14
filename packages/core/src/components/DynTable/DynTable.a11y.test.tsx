@@ -8,6 +8,12 @@ const COLUMNS = [
   { key: 'age', title: 'Age', dataIndex: 'age' }
 ];
 
+const [nameColumn, ageColumn] = COLUMNS;
+
+if (!nameColumn || !ageColumn) {
+  throw new Error('DynTable accessibility tests require both name and age columns.');
+}
+
 const DATA = [
   { key: '1', name: 'Alice', age: 30 }
 ];
@@ -15,7 +21,7 @@ const DATA = [
 describe('DynTable Accessibility', () => {
   it('has no violations with data rows', async () => {
     const { container } = render(
-      <DynTable columns={COLUMNS} dataSource={DATA} />
+      <DynTable columns={[nameColumn, ageColumn]} dataSource={DATA} />
     );
 
     const results = await axe(container);
@@ -25,7 +31,7 @@ describe('DynTable Accessibility', () => {
   it('has no violations with selection and sorting', async () => {
     const { container } = render(
       <DynTable
-        columns={[{ ...COLUMNS[0], sortable: true }, COLUMNS[1]]}
+        columns={[{ ...nameColumn, sortable: true }, ageColumn]}
         dataSource={DATA}
         rowSelection={{ type: 'checkbox', onChange: vi.fn(), selectedRowKeys: [] }}
         sortConfig={{ sortBy: 'name', sortOrder: 'asc', onChange: vi.fn() }}

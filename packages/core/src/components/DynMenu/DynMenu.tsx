@@ -175,10 +175,14 @@ export const DynMenu = forwardRef<DynMenuRef, DynMenuProps>((
       return;
     }
 
-    document.addEventListener('keydown', handleKeyDown);
+    const listener = (event: KeyboardEvent) => {
+      handleKeyDown(event);
+    };
+
+    document.addEventListener('keydown', listener as EventListener);
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', listener as EventListener);
     };
   }, [isOpen, handleKeyDown]);
   

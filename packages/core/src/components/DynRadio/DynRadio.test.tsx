@@ -58,17 +58,38 @@ describe('DynRadio', () => {
     };
 
     render(
-      <DynRadioGroup defaultValue="a">
+      <DynRadioGroup>
         <ContextProbe />
         <DynRadio value="a" label="Option A" />
       </DynRadioGroup>
     );
 
     expect(capturedContext).toBeDefined();
+    expect(capturedContext).not.toHaveProperty('value');
     expect(capturedContext).not.toHaveProperty('name');
     expect(capturedContext).not.toHaveProperty('size');
     expect(capturedContext).not.toHaveProperty('disabled');
     expect(capturedContext).not.toHaveProperty('error');
+    expect(capturedContext).toMatchObject({
+      onChange: expect.any(Function)
+    });
+  });
+
+  it('includes current value in the context when available', () => {
+    let capturedContext: ReturnType<typeof useRadioGroupContext> | undefined;
+
+    const ContextProbe = () => {
+      capturedContext = useRadioGroupContext();
+      return null;
+    };
+
+    render(
+      <DynRadioGroup defaultValue="a">
+        <ContextProbe />
+        <DynRadio value="a" label="Option A" />
+      </DynRadioGroup>
+    );
+
     expect(capturedContext).toMatchObject({
       value: 'a',
       onChange: expect.any(Function)
@@ -103,5 +124,15 @@ describe('DynRadio', () => {
       disabled: true,
       error: true
     });
+  });
+
+  it('propagates the group name to radios via context', () => {
+    render(
+      <DynRadioGroup name="preferences">
+        <DynRadio value="a" label="Option A" />
+      </DynRadioGroup>
+    );
+
+    expect(screen.getByRole('radio', { name: 'Option A' })).toHaveAttribute('name', 'preferences');
   });
 });
