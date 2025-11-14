@@ -386,6 +386,14 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
 
     const keyboardClickPreventedRef = useRef(false);
 
+    const activateNextMode = useCallback(() => {
+      if (disabled) {
+        return;
+      }
+
+      changeMode(nextMode);
+    }, [changeMode, disabled, nextMode]);
+
     return (
       <button
         ref={ref}
@@ -408,7 +416,7 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
             return;
           }
 
-          changeMode(nextMode);
+          activateNextMode();
         }}
         onKeyDown={event => {
           onKeyDown?.(event);
@@ -416,14 +424,15 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
             return;
           }
 
-          if (disabled) {
-            return;
-          }
-
           if (event.key === ' ' || event.key === 'Space' || event.key === 'Spacebar' || event.key === 'Enter') {
             event.preventDefault();
+
+            if (disabled) {
+              return;
+            }
+
             keyboardClickPreventedRef.current = true;
-            changeMode(nextMode);
+            activateNextMode();
           }
         }}
         aria-label={ariaLabel ?? nextModeDescription}
