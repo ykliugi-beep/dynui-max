@@ -1,5 +1,5 @@
 const shouldLog = () =>
-  typeof process === 'undefined' || process.env?.NODE_ENV !== 'production';
+  typeof process === 'undefined' || process.env?.['NODE_ENV'] !== 'production';
 
 export const logger = {
   warn: (...args: Parameters<typeof console.warn>) => {
