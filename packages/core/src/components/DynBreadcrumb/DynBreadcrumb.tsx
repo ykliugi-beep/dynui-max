@@ -103,9 +103,7 @@ export const DynBreadcrumb = forwardRef<HTMLElement, DynBreadcrumbProps>((
 
     const overflowItem: BreadcrumbItem = {
       label: '...',
-      disabled: true,
-      href: undefined,
-      onClick: undefined
+      disabled: true
     };
 
     if (normalizedMaxItems === 1) {
