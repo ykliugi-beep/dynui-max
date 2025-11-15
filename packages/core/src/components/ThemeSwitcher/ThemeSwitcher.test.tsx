@@ -175,7 +175,7 @@ describe('ThemeSwitcher', () => {
     assertIsHTMLButtonElement(first, 'first dropdown option');
     assertIsHTMLButtonElement(second, 'second dropdown option');
     if (!third) {
-      fail('Expected dropdown ThemeSwitcher to render three options');
+      throw new Error('Expected dropdown ThemeSwitcher to render three options');
     }
     assertIsHTMLButtonElement(third, 'third dropdown option');
 
