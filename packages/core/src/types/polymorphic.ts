@@ -10,14 +10,22 @@ export type PolymorphicComponentProps<
 > = OwnProps &
   Omit<React.ComponentPropsWithoutRef<C>, keyof OwnProps | 'as'> & {
     as?: C;
-  } &
+  };
+
+export type PolymorphicComponentPropsWithRef<
+  C extends React.ElementType,
+  OwnProps = object
+> = PolymorphicComponentProps<C, OwnProps> &
   React.RefAttributes<React.ElementRef<C>>;
 
 export type ForwardRefWithAsRenderFunction<
   DefaultAs extends React.ElementType,
   OwnProps
-> = <As extends React.ElementType = DefaultAs>(
-  props: React.PropsWithoutRef<PolymorphicComponentProps<As, OwnProps>>,
+> = <
+  As extends React.ElementType = DefaultAs,
+  Props extends PolymorphicComponentPropsWithRef<As, OwnProps> = PolymorphicComponentPropsWithRef<As, OwnProps>
+>(
+  props: React.PropsWithoutRef<Props>,
   ref: React.ForwardedRef<React.ElementRef<As>>
 ) => React.ReactElement | null;
 
@@ -25,12 +33,15 @@ export type PolymorphicForwardRefComponent<
   DefaultAs extends React.ElementType,
   OwnProps
 > = React.ForwardRefExoticComponent<
-  React.PropsWithoutRef<PolymorphicComponentProps<DefaultAs, OwnProps>> &
+  React.PropsWithoutRef<
+    PolymorphicComponentPropsWithRef<DefaultAs, OwnProps>
+  > &
     React.RefAttributes<React.ElementRef<DefaultAs>>
 > & {
   <As extends React.ElementType = DefaultAs>(
-    props: React.PropsWithoutRef<PolymorphicComponentProps<As, OwnProps>> &
-      React.RefAttributes<React.ElementRef<As>>
+    props: React.PropsWithoutRef<
+      PolymorphicComponentPropsWithRef<As, OwnProps>
+    > & React.RefAttributes<React.ElementRef<As>>
   ): React.ReactElement | null;
 };
 
