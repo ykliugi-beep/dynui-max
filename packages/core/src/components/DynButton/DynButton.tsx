@@ -1,4 +1,10 @@
-import { type ElementType, type PropsWithoutRef, type ReactNode } from 'react';
+import {
+  type ElementType,
+  type KeyboardEvent,
+  type KeyboardEventHandler,
+  type PropsWithoutRef,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentVariant, ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import {
@@ -69,6 +75,7 @@ const DynButtonComponent = <C extends ElementType = 'button'>(
     as,
     className,
     children,
+    onKeyDown,
     ...props
   }: PropsWithoutRef<DynButtonProps<C>>,
   ref: PolymorphicRef<C>
@@ -76,6 +83,22 @@ const DynButtonComponent = <C extends ElementType = 'button'>(
   const Component = (as || 'button') as ElementType;
   const isDisabled = disabled || loading;
   const isButtonElement = Component === 'button';
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    (onKeyDown as KeyboardEventHandler<HTMLElement> | undefined)?.(event);
+
+    if (
+      event.defaultPrevented ||
+      isButtonElement ||
+      isDisabled ||
+      (event.key !== 'Enter' && event.key !== ' ')
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    event.currentTarget.click();
+  };
 
   const classes = clsx(
     'dyn-button',
@@ -99,6 +122,7 @@ const DynButtonComponent = <C extends ElementType = 'button'>(
       disabled={isButtonElement ? isDisabled : undefined}
       aria-busy={loading}
       aria-disabled={!isButtonElement && isDisabled ? true : undefined}
+      onKeyDown={handleKeyDown}
       {...props}
     >
       {/* Loading spinner */}

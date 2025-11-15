@@ -44,14 +44,31 @@ describe('DynButton', () => {
   it('supports keyboard navigation', async () => {
     const handleClick = vi.fn();
     render(<DynButton onClick={handleClick}>Keyboard</DynButton>);
-    
+
     const button = screen.getByRole('button');
     button.focus();
-    
+
     await fireEvent.keyDown(button, { key: 'Enter' });
     expect(handleClick).toHaveBeenCalledTimes(1);
-    
+
     await fireEvent.keyDown(button, { key: ' ' });
+    expect(handleClick).toHaveBeenCalledTimes(2);
+  });
+
+  it('triggers click on keyboard activation when rendered as a non-button element', async () => {
+    const handleClick = vi.fn();
+    render(
+      <DynButton as="div" role="button" tabIndex={0} onClick={handleClick}>
+        Non-button
+      </DynButton>
+    );
+
+    const element = screen.getByRole('button', { name: 'Non-button' });
+
+    await fireEvent.keyDown(element, { key: 'Enter' });
+    expect(handleClick).toHaveBeenCalledTimes(1);
+
+    await fireEvent.keyDown(element, { key: ' ' });
     expect(handleClick).toHaveBeenCalledTimes(2);
   });
 
