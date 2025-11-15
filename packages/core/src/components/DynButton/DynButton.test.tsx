@@ -48,10 +48,10 @@ describe('DynButton', () => {
 
     const button = screen.getByRole('button');
     button.focus();
-    
+
     await fireEvent.keyDown(button, { key: 'Enter' });
     expect(handleClick).toHaveBeenCalledTimes(1);
-    
+
     await fireEvent.keyDown(button, { key: ' ' });
     expect(handleClick).toHaveBeenCalledTimes(2);
   });

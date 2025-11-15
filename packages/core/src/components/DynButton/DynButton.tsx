@@ -100,7 +100,9 @@ const DynButtonComponent = <C extends ElementType = 'button'>(
   const classes = clsx(
     'dyn-button',
     `dyn-button--variant-${variant}`,
+    `dyn-button--${variant}`,
     `dyn-button--size-${size}`,
+    `dyn-button--${size}`,
     `dyn-button--color-${color}`,
     {
       'dyn-button--loading': loading,
