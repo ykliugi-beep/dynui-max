@@ -17,17 +17,16 @@ export type PolymorphicComponentPropsWithoutRef<
   OwnProps = object
 > = PolymorphicComponentBaseProps<C, OwnProps>;
 
-export type PolymorphicComponentPropsWithRef<
-  C extends React.ElementType,
-  OwnProps = object
-> = PolymorphicComponentPropsWithoutRef<C, OwnProps> &
-  React.RefAttributes<React.ElementRef<C>>;
-
 export type PolymorphicComponentProps<
   C extends React.ElementType,
   OwnProps = object
 > = PolymorphicComponentPropsWithoutRef<C, OwnProps> &
   React.RefAttributes<React.ElementRef<C>>;
+
+export type PolymorphicComponentPropsWithRef<
+  C extends React.ElementType,
+  OwnProps = object
+> = PolymorphicComponentProps<C, OwnProps>;
 
 export type ForwardRefWithAsRenderFunction<
   DefaultAs extends React.ElementType,
