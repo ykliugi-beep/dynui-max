@@ -28,7 +28,7 @@
     "build": "pnpm --filter @dynui-max/design-tokens build && pnpm -r build",
     "dev": "concurrently \"pnpm --filter=@dynui-max/core run dev\" \"pnpm --filter=@dynui-max/storybook run dev\"",
     "clean": "pnpm -r run clean && pnpm clean:artifacts",
-    "clean:artifacts": "rimraf \"packages/**/dist\" \"apps/**/dist\" \"tools/**/dist\" \"**/tsconfig.tsbuildinfo\" \"apps/**/storybook-static\"",
+    "clean:artifacts": "rimraf --glob \"packages/**/dist\" \"apps/**/dist\" \"tools/**/dist\" \"**/tsconfig.tsbuildinfo\" \"apps/**/storybook-static\"",
     "reset": "rimraf node_modules pnpm-lock.yaml && pnpm install",
     "reset:full": "pnpm clean && pnpm build",
     "//=== Quality Gates =====": "",
