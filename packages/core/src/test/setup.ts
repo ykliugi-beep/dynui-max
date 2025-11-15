@@ -1,6 +1,6 @@
 import 'vitest-axe/extend-expect';
 import '@testing-library/jest-dom';
-import { beforeAll, afterEach, expect, vi } from 'vitest';
+import { beforeAll, afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import 'vitest';
 import type { AxeMatchers } from 'vitest-axe/matchers';

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import {
   forwardRefWithAs,
-  type PolymorphicComponentProps,
+  type PolymorphicComponentPropsWithRef,
   type PolymorphicRef
 } from '../../types/polymorphic';
 import './DynBadge.css';
@@ -39,7 +39,7 @@ type DynBadgeOwnProps = {
 };
 
 export type DynBadgeProps<C extends ElementType = 'span'> =
-  PolymorphicComponentProps<C, DynBadgeOwnProps>;
+  PolymorphicComponentPropsWithRef<C, DynBadgeOwnProps>;
 
 const DynBadgeComponent = <C extends ElementType = 'span'>(
   {
@@ -70,5 +70,6 @@ const DynBadgeComponent = <C extends ElementType = 'span'>(
   );
 };
 
-export const DynBadge = forwardRefWithAs(DynBadgeComponent);
+export const DynBadge =
+  forwardRefWithAs<'span', DynBadgeOwnProps>(DynBadgeComponent);
 DynBadge.displayName = 'DynBadge';

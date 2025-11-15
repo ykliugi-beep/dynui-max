@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import type { ComponentVariant, ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import {
   forwardRefWithAs,
-  type PolymorphicComponentProps,
+  type PolymorphicComponentPropsWithRef,
   type PolymorphicRef
 } from '../../types/polymorphic';
 import { DynIcon } from '../DynIcon';
@@ -55,7 +55,7 @@ type DynButtonOwnProps = {
 };
 
 export type DynButtonProps<C extends ElementType = 'button'> =
-  PolymorphicComponentProps<C, DynButtonOwnProps>;
+  PolymorphicComponentPropsWithRef<C, DynButtonOwnProps>;
 
 const DynButtonComponent = <C extends ElementType = 'button'>(
   {
@@ -130,5 +130,6 @@ const DynButtonComponent = <C extends ElementType = 'button'>(
   );
 };
 
-export const DynButton = forwardRefWithAs(DynButtonComponent);
+export const DynButton =
+  forwardRefWithAs<'button', DynButtonOwnProps>(DynButtonComponent);
 DynButton.displayName = 'DynButton';

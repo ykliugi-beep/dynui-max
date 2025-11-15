@@ -7,7 +7,7 @@ import {
 import clsx from 'clsx';
 import {
   forwardRefWithAs,
-  type PolymorphicComponentProps,
+  type PolymorphicComponentPropsWithRef,
   type PolymorphicRef
 } from '../../types/polymorphic';
 import './DynBreadcrumbItem.css';
@@ -45,7 +45,7 @@ type DynBreadcrumbItemOwnProps = {
 };
 
 export type DynBreadcrumbItemProps<C extends ElementType = 'span'> =
-  PolymorphicComponentProps<C, DynBreadcrumbItemOwnProps>;
+  PolymorphicComponentPropsWithRef<C, DynBreadcrumbItemOwnProps>;
 
 const DynBreadcrumbItemComponent = <C extends ElementType = 'span'>(
   {
@@ -123,5 +123,8 @@ const DynBreadcrumbItemComponent = <C extends ElementType = 'span'>(
   );
 };
 
-export const DynBreadcrumbItem = forwardRefWithAs(DynBreadcrumbItemComponent);
+export const DynBreadcrumbItem =
+  forwardRefWithAs<'span', DynBreadcrumbItemOwnProps>(
+    DynBreadcrumbItemComponent
+  );
 DynBreadcrumbItem.displayName = 'DynBreadcrumbItem';
