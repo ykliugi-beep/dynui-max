@@ -17,20 +17,16 @@ export type PolymorphicComponentPropsWithoutRef<
   OwnProps = object
 > = PolymorphicComponentBaseProps<C, OwnProps>;
 
-export type PolymorphicComponentPropsWithRef<
+export type PolymorphicComponentProps<
   C extends React.ElementType,
   OwnProps = object
 > = PolymorphicComponentPropsWithoutRef<C, OwnProps> &
   React.RefAttributes<React.ElementRef<C>>;
 
-/**
- * @deprecated Use {@link PolymorphicComponentPropsWithRef}. This alias is
- * retained for backwards compatibility and continues to include ref support.
- */
-export type PolymorphicComponentProps<
+export type PolymorphicComponentPropsWithRef<
   C extends React.ElementType,
   OwnProps = object
-> = PolymorphicComponentPropsWithRef<C, OwnProps>;
+> = PolymorphicComponentProps<C, OwnProps>;
 
 export type ForwardRefWithAsRenderFunction<
   DefaultAs extends React.ElementType,
