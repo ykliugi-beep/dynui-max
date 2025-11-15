@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import type { KeyboardEvent } from 'react';
 import { axe } from 'vitest-axe';
 import { DynButton } from './DynButton';
 
@@ -55,21 +56,46 @@ describe('DynButton', () => {
     expect(handleClick).toHaveBeenCalledTimes(2);
   });
 
-  it('triggers click on keyboard activation when rendered as a non-button element', async () => {
+  it('activates on keyboard interaction when rendered as non-button element', async () => {
     const handleClick = vi.fn();
     render(
       <DynButton as="div" role="button" tabIndex={0} onClick={handleClick}>
-        Non-button
+        Div Button
       </DynButton>
     );
 
-    const element = screen.getByRole('button', { name: 'Non-button' });
+    const button = screen.getByRole('button', { name: 'Div Button' });
 
-    await fireEvent.keyDown(element, { key: 'Enter' });
+    await fireEvent.keyDown(button, { key: 'Enter' });
     expect(handleClick).toHaveBeenCalledTimes(1);
 
-    await fireEvent.keyDown(element, { key: ' ' });
+    await fireEvent.keyDown(button, { key: ' ' });
     expect(handleClick).toHaveBeenCalledTimes(2);
+  });
+
+  it('allows custom keydown handlers to prevent manual activation', async () => {
+    const handleClick = vi.fn();
+    const handleKeyDown = vi.fn((event: KeyboardEvent) => {
+      event.preventDefault();
+    });
+
+    render(
+      <DynButton
+        as="div"
+        role="button"
+        tabIndex={0}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+      >
+        Prevented Button
+      </DynButton>
+    );
+
+    const button = screen.getByRole('button', { name: 'Prevented Button' });
+
+    await fireEvent.keyDown(button, { key: 'Enter' });
+    expect(handleKeyDown).toHaveBeenCalledTimes(1);
+    expect(handleClick).not.toHaveBeenCalled();
   });
 
   it('has no accessibility violations', async () => {

@@ -1,6 +1,5 @@
 import {
   type ElementType,
-  type KeyboardEvent,
   type KeyboardEventHandler,
   type PropsWithoutRef,
   type ReactNode
@@ -75,7 +74,7 @@ const DynButtonComponent = <C extends ElementType = 'button'>(
     as,
     className,
     children,
-    onKeyDown,
+    onKeyDown: userOnKeyDown,
     ...props
   }: PropsWithoutRef<DynButtonProps<C>>,
   ref: PolymorphicRef<C>
@@ -84,20 +83,18 @@ const DynButtonComponent = <C extends ElementType = 'button'>(
   const isDisabled = disabled || loading;
   const isButtonElement = Component === 'button';
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    (onKeyDown as KeyboardEventHandler<HTMLElement> | undefined)?.(event);
+  const handleKeyDown: KeyboardEventHandler<Element> = (event) => {
+    (userOnKeyDown as KeyboardEventHandler<Element> | undefined)?.(event);
 
-    if (
-      event.defaultPrevented ||
-      isButtonElement ||
-      isDisabled ||
-      (event.key !== 'Enter' && event.key !== ' ')
-    ) {
+    if (event.defaultPrevented || isButtonElement || isDisabled) {
       return;
     }
 
-    event.preventDefault();
-    event.currentTarget.click();
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar' || event.key === 'Space') {
+      event.preventDefault();
+      const target = event.currentTarget as HTMLElement | null;
+      target?.click();
+    }
   };
 
   const classes = clsx(
