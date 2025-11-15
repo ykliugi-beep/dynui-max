@@ -26,7 +26,8 @@ export type PolymorphicComponentPropsWithRef<
 export type PolymorphicComponentProps<
   C extends React.ElementType,
   OwnProps = object
-> = PolymorphicComponentPropsWithRef<C, OwnProps>;
+> = PolymorphicComponentPropsWithoutRef<C, OwnProps> &
+  React.RefAttributes<React.ElementRef<C>>;
 
 export type ForwardRefWithAsRenderFunction<
   DefaultAs extends React.ElementType,
