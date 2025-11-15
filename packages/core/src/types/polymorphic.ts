@@ -1,5 +1,4 @@
-import { forwardRef } from 'react';
-import type React from 'react';
+import React from 'react';
 
 export type PolymorphicRef<C extends React.ElementType> =
   React.ComponentPropsWithRef<C>['ref'];
@@ -65,7 +64,7 @@ export const forwardRefWithAs = <
 >(
   component: ForwardRefWithAsRenderFunction<DefaultAs, OwnProps>
 ): PolymorphicForwardRefComponent<DefaultAs, OwnProps> =>
-  forwardRef<
+  React.forwardRef<
     React.ElementRef<DefaultAs>,
     PolymorphicComponentPropsWithoutRef<DefaultAs, OwnProps>
   >((props, forwardedRef) =>
