@@ -1,55 +1,53 @@
-import React, { forwardRef } from 'react';
+import {
+  type ElementType,
+  type MouseEventHandler,
+  type PropsWithoutRef,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
+import {
+  forwardRefWithAs,
+  type PolymorphicComponentPropsWithRef,
+  type PolymorphicRef
+} from '../../types/polymorphic';
 import './DynBreadcrumbItem.css';
 
-export interface DynBreadcrumbItemProps {
+type DynBreadcrumbItemOwnProps = {
   /**
    * Item content
    */
-  children: React.ReactNode;
-  
+  children: ReactNode;
+
   /**
    * Link href
    */
-  href?: string;
-  
+  href?: string | undefined;
+
   /**
    * Click handler (for button-like items)
    */
-  onClick?: () => void;
-  
+  onClick?: MouseEventHandler | undefined;
+
   /**
    * Current/active item
    */
-  current?: boolean;
-  
+  current?: boolean | undefined;
+
   /**
    * Disabled state
    */
-  disabled?: boolean;
-  
+  disabled?: boolean | undefined;
+
   /**
    * Additional CSS class names
    */
-  className?: string;
-  
-  /**
-   * HTML element to render as
-   * @default determined by props
-   */
-  as?: React.ElementType;
-}
+  className?: string | undefined;
+};
 
-/**
- * DynBreadcrumbItem - Individual breadcrumb item
- * 
- * Features:
- * - Automatic element selection (a, button, span)
- * - Current page indication
- * - Disabled state support
- * - Polymorphic rendering
- */
-export const DynBreadcrumbItem = forwardRef<HTMLElement, DynBreadcrumbItemProps>((
+export type DynBreadcrumbItemProps<C extends ElementType = 'span'> =
+  PolymorphicComponentPropsWithRef<C, DynBreadcrumbItemOwnProps>;
+
+const DynBreadcrumbItemComponent = <C extends ElementType = 'span'>(
   {
     children,
     href,
@@ -59,12 +57,13 @@ export const DynBreadcrumbItem = forwardRef<HTMLElement, DynBreadcrumbItemProps>
     className,
     as,
     ...props
-  },
-  ref
+  }: PropsWithoutRef<DynBreadcrumbItemProps<C>>,
+  ref: PolymorphicRef<C>
 ) => {
-  // Determine component type
-  const Component = as || (href ? 'a' : onClick ? 'button' : 'span');
-  
+  const Component = (as || (href ? 'a' : onClick ? 'button' : 'span')) as ElementType;
+  const isLink = Component === 'a';
+  const isButton = Component === 'button';
+
   const classes = clsx(
     'dyn-breadcrumb-item',
     {
@@ -76,47 +75,56 @@ export const DynBreadcrumbItem = forwardRef<HTMLElement, DynBreadcrumbItemProps>
     },
     className
   );
-  
+
   const commonProps = {
     ref,
     className: classes,
-    'aria-current': current ? 'page' : undefined,
-    'aria-disabled': disabled,
+    'aria-current': current ? ('page' as const) : undefined,
+    'aria-disabled': disabled ? true : undefined,
     ...props
   };
-  
-  if (Component === 'a') {
+
+  if (isLink) {
     return (
       <a
         {...commonProps}
         href={disabled ? undefined : href}
         tabIndex={disabled ? -1 : undefined}
-        onClick={disabled ? (e) => e.preventDefault() : undefined}
+        onClick={
+          disabled
+            ? (event) => {
+                event.preventDefault();
+              }
+            : onClick
+        }
       >
         {children}
       </a>
     );
   }
-  
-  if (Component === 'button') {
+
+  if (isButton) {
     return (
       <button
         {...commonProps}
         type="button"
-        onClick={onClick}
+        onClick={disabled ? undefined : onClick}
         disabled={disabled}
       >
         {children}
       </button>
     );
   }
-  
-  // Default: span
-  return (
-    <span {...commonProps}>
-      {children}
-    </span>
-  );
-});
 
+  return (
+    <Component {...commonProps}>
+      {children}
+    </Component>
+  );
+};
+
+export const DynBreadcrumbItem =
+  forwardRefWithAs<'span', DynBreadcrumbItemOwnProps>(
+    DynBreadcrumbItemComponent
+  );
 DynBreadcrumbItem.displayName = 'DynBreadcrumbItem';

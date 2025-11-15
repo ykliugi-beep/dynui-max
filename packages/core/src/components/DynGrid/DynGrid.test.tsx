@@ -28,7 +28,7 @@ describe('DynGrid', () => {
 
 describe('DynGridItem', () => {
   it('renders with span and offset classes', () => {
-    const { container } = render(
+    render(
       <DynGrid>
         <DynGridItem span={3} offset={1}>
           Grid item
@@ -41,7 +41,7 @@ describe('DynGridItem', () => {
   });
 
   it('applies responsive style variables', () => {
-    const { container } = render(
+    render(
       <DynGrid>
         <DynGridItem responsive={{ sm: 2, lg: 6 }}>
           Responsive item

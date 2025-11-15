@@ -34,7 +34,13 @@ describe('DynToast', () => {
     );
 
     const toast = container.firstElementChild as HTMLElement;
-    expect(toast).toHaveClass(styles['dyn-toast--warning']);
+    const warningClass = styles['dyn-toast--warning'];
+    expect(warningClass).toBeDefined();
+    if (!warningClass) {
+      throw new Error('Warning class should be defined');
+    }
+
+    expect(toast).toHaveClass(warningClass);
     expect(toast).toHaveAttribute('role', 'alert');
   });
 });

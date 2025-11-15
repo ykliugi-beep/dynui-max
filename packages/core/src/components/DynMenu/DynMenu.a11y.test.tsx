@@ -1,10 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from 'vitest-axe';
 import { DynMenu } from './DynMenu';
 import { DynIcon } from '../DynIcon';
-
-expect.extend(toHaveNoViolations);
 
 const ITEMS = [
   { value: 'view', label: 'View', icon: <DynIcon name="eye" /> },

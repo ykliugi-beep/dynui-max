@@ -1,11 +1,12 @@
-import React from 'react';
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { createRef, type SVGProps } from 'react';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen } from '../../test/test-utils';
 import { DynIcon } from './DynIcon';
 import { iconRegistry, defaultIcons } from './iconRegistry';
+import { logger } from '../../utils/logger';
 
 // Test icon component
-const TestIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const TestIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg data-testid="test-icon" {...props}>
     <circle cx="10" cy="10" r="5" />
   </svg>
@@ -53,11 +54,11 @@ describe('DynIcon', () => {
     expect(icon).not.toHaveRole('img');
   });
 
-  it('warns for unregistered icons', () => {
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  it('logs warning for unregistered icons', () => {
+    const warnSpy = vi.spyOn(logger, 'warn').mockImplementation(() => {});
     render(<DynIcon name="nonexistent" />);
-    expect(consoleSpy).toHaveBeenCalledWith('DynIcon: Icon "nonexistent" not found in registry');
-    consoleSpy.mockRestore();
+    expect(warnSpy).toHaveBeenCalledWith('DynIcon: Icon "nonexistent" not found in registry');
+    warnSpy.mockRestore();
   });
 
   it('returns null for unregistered icons', () => {
@@ -66,7 +67,7 @@ describe('DynIcon', () => {
   });
 
   it('forwards ref correctly', () => {
-    const ref = React.createRef<SVGSVGElement>();
+    const ref = createRef<SVGSVGElement>();
     render(<DynIcon name="test" ref={ref} />);
     expect(ref.current).toBeInstanceOf(SVGSVGElement);
   });

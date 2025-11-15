@@ -1,9 +1,7 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { render } from '../../test/test-utils';
 import { ThemeSwitcher } from './ThemeSwitcher';
-import { axe, toHaveNoViolations } from 'vitest-axe';
-
-expect.extend(toHaveNoViolations);
+import { axe } from 'vitest-axe';
 
 beforeAll(() => {
   Object.defineProperty(window, 'matchMedia', {
@@ -32,6 +30,7 @@ describe('ThemeSwitcher Accessibility', () => {
     const { container } = render(<ThemeSwitcher />);
 
     const results = await axe(container);
+
     expect(results).toHaveNoViolations();
   });
 
@@ -41,6 +40,7 @@ describe('ThemeSwitcher Accessibility', () => {
     );
 
     const results = await axe(container);
+
     expect(results).toHaveNoViolations();
   });
 
@@ -50,6 +50,7 @@ describe('ThemeSwitcher Accessibility', () => {
     );
 
     const results = await axe(container);
+
     expect(results).toHaveNoViolations();
   });
 });

@@ -29,13 +29,21 @@ pnpm build:component DynButton
 
 ### Open Storybook for Component
 
+Storybook stories live in the central catalog at `apps/storybook/stories/`. Each
+component has a folder (usually grouped by category such as
+`Form/DynCheckbox.stories.tsx`). Use the folder path when opening stories:
+
 ```bash
-# Open DynButton story in browser
+# Open DynButton story in browser (looks up stories under apps/storybook/stories)
 pnpm story:open DynButton
 
-# Example: DynButton/Primary variant
+# Example: DynButton/Primary variant (matching the exported story name)
 pnpm story:open DynButton/Primary
 ```
+
+If you are unsure of a component's story path, list the contents of
+`apps/storybook/stories` or use `rg "export const" apps/storybook/stories -g"*DynButton*"`
+to find the story file that exports the component's stories.
 
 ### Interactive Playground
 
@@ -66,13 +74,20 @@ All scripts are defined in `package.json` and call corresponding scripts in `scr
 Each component should have:
 
 ```
-DynButton/
+packages/core/src/components/DynButton/
   ├── DynButton.tsx           # Component implementation
   ├── DynButton.test.tsx      # Unit tests
   ├── DynButton.a11y.test.tsx # Accessibility tests
-  ├── DynButton.stories.tsx   # Storybook stories
   └── index.ts                # Public exports
+
+apps/storybook/stories/<Category>/DynButton.stories.tsx
+apps/storybook/stories/<Category>/DynButton.mdx (optional docs page)
 ```
+
+> **Note:** Storybook stories are centralized in `apps/storybook/stories/`. Each
+> component's stories sit alongside any `.mdx` docs files in the category folder
+> (e.g. `apps/storybook/stories/Form/DynButton.stories.tsx`). Update or add new
+> stories there so Storybook and the per-component tooling can resolve them.
 
 ## Accessibility Testing
 

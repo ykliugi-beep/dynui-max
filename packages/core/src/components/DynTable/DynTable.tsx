@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useMemo } from 'react';
+import { forwardRef, useState, useMemo, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { DynIcon } from '../DynIcon';
 import './DynTable.css';
@@ -7,7 +7,7 @@ export interface TableColumn<T = any> {
   key: string;
   title: string;
   dataIndex?: string;
-  render?: (value: any, record: T, index: number) => React.ReactNode;
+  render?: (value: any, record: T, index: number) => ReactNode;
   sortable?: boolean;
   width?: number | string;
   align?: 'left' | 'center' | 'right';
@@ -39,7 +39,7 @@ export interface DynTableProps<T = any> {
   /**
    * Empty state content
    */
-  emptyText?: React.ReactNode;
+  emptyText?: ReactNode;
   
   /**
    * Row selection configuration

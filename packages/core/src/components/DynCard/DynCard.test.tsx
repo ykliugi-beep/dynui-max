@@ -25,8 +25,20 @@ describe('DynCard', () => {
     );
 
     const card = container.firstElementChild as HTMLElement;
-    expect(card).toHaveClass(styles['dyn-card--variant-outlined']);
-    expect(card).toHaveClass(styles['dyn-card--padding-lg']);
+    const outlinedVariantClass = styles['dyn-card--variant-outlined'];
+    expect(outlinedVariantClass).toBeDefined();
+    if (!outlinedVariantClass) {
+      throw new Error('Outlined variant class should be defined');
+    }
+
+    const largePaddingClass = styles['dyn-card--padding-lg'];
+    expect(largePaddingClass).toBeDefined();
+    if (!largePaddingClass) {
+      throw new Error('Large padding class should be defined');
+    }
+
+    expect(card).toHaveClass(outlinedVariantClass);
+    expect(card).toHaveClass(largePaddingClass);
   });
 
   it('supports interactive mode with keyboard focus', () => {
@@ -38,6 +50,6 @@ describe('DynCard', () => {
 
     const card = container.firstElementChild as HTMLElement;
     expect(card).toHaveAttribute('tabindex', '0');
-    expect(card.dataset.interactive).toBe('true');
+    expect(card.dataset['interactive']).toBe('true');
   });
 });

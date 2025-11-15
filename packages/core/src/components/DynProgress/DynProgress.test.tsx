@@ -9,7 +9,15 @@ describe('DynProgress', () => {
       <DynProgress value={40} max={80} label="Uploading" />
     );
 
-    const indicator = container.querySelector(`.${styles['dyn-progress__indicator']}`) as HTMLElement;
+    const indicatorClass = styles['dyn-progress__indicator'];
+    expect(indicatorClass).toBeDefined();
+    if (!indicatorClass) {
+      throw new Error('Indicator class should be defined');
+    }
+
+    const indicatorElement = container.querySelector(`.${indicatorClass}`);
+    expect(indicatorElement).not.toBeNull();
+    const indicator = indicatorElement as HTMLElement;
     expect(indicator.style.width).toBe('50%');
     const progressbar = screen.getByRole('progressbar');
     expect(progressbar).toHaveAttribute('aria-valuenow', '40');
@@ -22,8 +30,23 @@ describe('DynProgress', () => {
     );
 
     const progressbar = screen.getByRole('progressbar');
-    expect(progressbar).toHaveClass(styles['dyn-progress--indeterminate']);
-    const indicator = container.querySelector(`.${styles['dyn-progress__indicator']}`) as HTMLElement;
+    const indeterminateClass = styles['dyn-progress--indeterminate'];
+    expect(indeterminateClass).toBeDefined();
+    if (!indeterminateClass) {
+      throw new Error('Indeterminate class should be defined');
+    }
+
+    expect(progressbar).toHaveClass(indeterminateClass);
+
+    const indicatorClass = styles['dyn-progress__indicator'];
+    expect(indicatorClass).toBeDefined();
+    if (!indicatorClass) {
+      throw new Error('Indicator class should be defined');
+    }
+
+    const indicatorElement = container.querySelector(`.${indicatorClass}`);
+    expect(indicatorElement).not.toBeNull();
+    const indicator = indicatorElement as HTMLElement;
     expect(indicator.style.width).toBe('');
   });
 });

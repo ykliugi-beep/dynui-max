@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef, type CSSProperties, type ElementType, type ReactNode } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import './DynGrid.css';
@@ -39,7 +39,7 @@ export interface DynGridProps {
   /**
    * Grid content
    */
-  children: React.ReactNode;
+  children: ReactNode;
   
   /**
    * Additional CSS class names
@@ -50,7 +50,7 @@ export interface DynGridProps {
    * HTML element to render as
    * @default 'div'
    */
-  as?: React.ElementType;
+  as?: ElementType;
 }
 
 export interface DynGridItemProps {
@@ -78,7 +78,7 @@ export interface DynGridItemProps {
   /**
    * Grid item content
    */
-  children: React.ReactNode;
+  children: ReactNode;
   
   /**
    * Additional CSS class names
@@ -89,7 +89,7 @@ export interface DynGridItemProps {
    * HTML element to render as
    * @default 'div'
    */
-  as?: React.ElementType;
+  as?: ElementType;
 }
 
 /**
@@ -127,7 +127,7 @@ export const DynGrid = forwardRef<HTMLElement, DynGridProps>((
     className
   );
   
-  const style: React.CSSProperties = {
+  const style: CSSProperties = {
     ...(responsive && {
       '--grid-columns': columns,
       '--grid-columns-sm': responsive.sm,
@@ -176,7 +176,7 @@ export const DynGridItem = forwardRef<HTMLElement, DynGridItemProps>((
     className
   );
   
-  const style: React.CSSProperties = {
+  const style: CSSProperties = {
     ...(responsive && {
       '--grid-span': span,
       '--grid-span-sm': responsive.sm,

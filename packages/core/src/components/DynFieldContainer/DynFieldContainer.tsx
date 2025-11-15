@@ -1,4 +1,11 @@
-import React, { forwardRef } from 'react';
+import {
+  Children,
+  cloneElement,
+  forwardRef,
+  isValidElement,
+  type ReactElement,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import { DynIcon } from '../DynIcon';
 import './DynFieldContainer.css';
@@ -43,7 +50,7 @@ export interface DynFieldContainerProps {
   /**
    * Field content (form controls)
    */
-  children: React.ReactNode;
+  children: ReactNode;
   
   /**
    * Additional CSS class names
@@ -125,9 +132,9 @@ export const DynFieldContainer = forwardRef<HTMLDivElement, DynFieldContainerPro
       {/* Form Control */}
       <div className="dyn-field-container__control">
         {/* Clone children to add aria-describedby */}
-        {React.Children.map(children, (child) => {
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child as React.ReactElement<any>, {
+        {Children.map(children, (child) => {
+          if (isValidElement(child)) {
+            return cloneElement(child as ReactElement<any>, {
               'aria-describedby': describedBy,
               'aria-invalid': hasError || undefined
             });

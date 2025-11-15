@@ -1,68 +1,68 @@
-import React, { forwardRef } from 'react';
+import {
+  type ElementType,
+  type KeyboardEventHandler,
+  type PropsWithoutRef,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentVariant, ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
+import {
+  forwardRefWithAs,
+  type PolymorphicComponentPropsWithRef,
+  type PolymorphicRef
+} from '../../types/polymorphic';
 import { DynIcon } from '../DynIcon';
 import './DynButton.css';
 
-export interface DynButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type DynButtonOwnProps = {
   /**
    * Visual style variant
    * @default 'solid'
    */
-  variant?: ComponentVariant;
-  
+  variant?: (ComponentVariant | undefined);
+
   /**
    * Button size using design tokens
    * @default 'md'
    */
-  size?: ComponentSize;
-  
+  size?: (ComponentSize | undefined);
+
   /**
    * Color theme variant
    * @default 'primary'
    */
-  color?: ComponentColor;
-  
+  color?: (ComponentColor | undefined);
+
   /**
    * Loading state - shows spinner and disables button
    */
-  loading?: boolean;
-  
+  loading?: (boolean | undefined);
+
   /**
    * Icon at the start of the button
    */
-  startIcon?: React.ReactNode;
-  
+  startIcon?: (ReactNode | undefined);
+
   /**
    * Icon at the end of the button
    */
-  endIcon?: React.ReactNode;
-  
-  /**
-   * Polymorphic component - render as different element
-   * @default 'button'
-   */
-  as?: React.ElementType;
-  
+  endIcon?: (ReactNode | undefined);
+
   /**
    * Button content
    */
-  children?: React.ReactNode;
-}
+  children?: (ReactNode | undefined);
 
-/**
- * DynButton - Versatile button component with tokens integration
- * 
- * Features:
- * - Multiple visual variants (solid, outline, ghost, link)
- * - Size variants using spacing tokens
- * - Color variants using semantic tokens
- * - Loading state with spinner
- * - Start/end icon support
- * - Polymorphic rendering (button, a, etc.)
- * - Full accessibility support
- */
-export const DynButton = forwardRef<HTMLButtonElement, DynButtonProps>((
+  /**
+   * Disabled state - supported when rendering as button
+   */
+  disabled?: (boolean | undefined);
+};
+
+export type DynButtonProps<C extends ElementType = 'button'> =
+  PolymorphicComponentPropsWithRef<C, DynButtonOwnProps>;
+
+const DynButtonComponent = <C extends ElementType = 'button'>(
   {
     variant = 'solid',
     size = 'md',
@@ -71,19 +71,38 @@ export const DynButton = forwardRef<HTMLButtonElement, DynButtonProps>((
     disabled = false,
     startIcon,
     endIcon,
-    as: Component = 'button',
+    as,
     className,
     children,
+    onKeyDown: userOnKeyDown,
     ...props
-  },
-  ref
+  }: PropsWithoutRef<DynButtonProps<C>>,
+  ref: PolymorphicRef<C>
 ) => {
+  const Component = (as || 'button') as ElementType;
   const isDisabled = disabled || loading;
-  
+  const isButtonElement = Component === 'button';
+
+  const handleKeyDown: KeyboardEventHandler<Element> = (event) => {
+    (userOnKeyDown as KeyboardEventHandler<Element> | undefined)?.(event);
+
+    if (event.defaultPrevented || isButtonElement || isDisabled) {
+      return;
+    }
+
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar' || event.key === 'Space') {
+      event.preventDefault();
+      const target = event.currentTarget as HTMLElement | null;
+      target?.click();
+    }
+  };
+
   const classes = clsx(
     'dyn-button',
     `dyn-button--variant-${variant}`,
+    `dyn-button--${variant}`,
     `dyn-button--size-${size}`,
+    `dyn-button--${size}`,
     `dyn-button--color-${color}`,
     {
       'dyn-button--loading': loading,
@@ -97,8 +116,10 @@ export const DynButton = forwardRef<HTMLButtonElement, DynButtonProps>((
     <Component
       ref={ref}
       className={classes}
-      disabled={isDisabled}
+      disabled={isButtonElement ? isDisabled : undefined}
       aria-busy={loading}
+      aria-disabled={!isButtonElement && isDisabled ? true : undefined}
+      onKeyDown={handleKeyDown}
       {...props}
     >
       {/* Loading spinner */}
@@ -107,21 +128,21 @@ export const DynButton = forwardRef<HTMLButtonElement, DynButtonProps>((
           <DynIcon name="spinner" size={size} />
         </span>
       )}
-      
+
       {/* Start icon */}
       {startIcon && !loading && (
         <span className="dyn-button__start-icon" aria-hidden="true">
           {startIcon}
         </span>
       )}
-      
+
       {/* Content */}
       {children && (
         <span className="dyn-button__content">
           {children}
         </span>
       )}
-      
+
       {/* End icon */}
       {endIcon && !loading && (
         <span className="dyn-button__end-icon" aria-hidden="true">
@@ -130,6 +151,8 @@ export const DynButton = forwardRef<HTMLButtonElement, DynButtonProps>((
       )}
     </Component>
   );
-});
+};
 
+export const DynButton =
+  forwardRefWithAs<'button', DynButtonOwnProps>(DynButtonComponent);
 DynButton.displayName = 'DynButton';

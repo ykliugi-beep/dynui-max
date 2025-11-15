@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
+import { useState } from 'react';
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '../test/test-utils';
 import { useFocusTrap } from './useFocusTrap';
-import React, { useState } from 'react';
-import userEvent from '@testing-library/user-event';
 
 interface ExampleProps {
   initiallyOpen?: boolean;
@@ -11,7 +11,7 @@ interface ExampleProps {
 
 const FocusTrapExample = ({ initiallyOpen = false, returnFocus = true }: ExampleProps) => {
   const [open, setOpen] = useState(initiallyOpen);
-  const trapRef = useFocusTrap({ enabled: open, returnFocus });
+  const trapRef = useFocusTrap<HTMLDivElement>({ enabled: open, returnFocus });
 
   return (
     <div>
@@ -36,7 +36,7 @@ const FocusTrapExample = ({ initiallyOpen = false, returnFocus = true }: Example
 
 const EmptyTrapExample = () => {
   const [open, setOpen] = useState(false);
-  const trapRef = useFocusTrap({ enabled: open });
+  const trapRef = useFocusTrap<HTMLDivElement>({ enabled: open });
 
   return (
     <div>

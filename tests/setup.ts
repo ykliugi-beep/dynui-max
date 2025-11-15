@@ -51,6 +51,14 @@ beforeAll(() => {
     value: localStorageMock
   });
 
+  if (typeof HTMLCanvasElement !== 'undefined') {
+    Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+      configurable: true,
+      writable: true,
+      value: vi.fn()
+    });
+  }
+
   // Mock ResizeObserver
   class ResizeObserverMock {
     observe() {

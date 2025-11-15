@@ -1,65 +1,60 @@
-import React, { forwardRef } from 'react';
+import { type ElementType, type PropsWithoutRef, type ReactNode } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
+import {
+  forwardRefWithAs,
+  type PolymorphicComponentPropsWithRef,
+  type PolymorphicRef
+} from '../../types/polymorphic';
 import './DynBadge.css';
 
-export interface DynBadgeProps {
+type DynBadgeOwnProps = {
   /**
    * Badge size using design tokens
    * @default 'md'
    */
-  size?: ComponentSize;
-  
+  size?: (ComponentSize | undefined);
+
   /**
    * Color variant
    * @default 'neutral'
    */
-  color?: ComponentColor;
-  
+  color?: (ComponentColor | undefined);
+
   /**
    * Visual variant
    * @default 'solid'
    */
-  variant?: 'solid' | 'outline' | 'soft';
-  
+  variant?: ('solid' | 'outline' | 'soft' | undefined);
+
   /**
    * Badge content
    */
-  children: React.ReactNode;
-  
+  children: ReactNode;
+
   /**
    * Additional CSS class names
    */
-  className?: string;
-  
-  /**
-   * HTML element to render as
-   * @default 'span'
-   */
-  as?: React.ElementType;
-}
+  className?: (string | undefined);
+};
 
-/**
- * DynBadge - Small status and labeling component
- * 
- * Features:
- * - Size variants using spacing tokens
- * - Color variants using semantic tokens
- * - Multiple visual styles (solid, outline, soft)
- * - Polymorphic rendering
- */
-export const DynBadge = forwardRef<HTMLElement, DynBadgeProps>((
+export type DynBadgeProps<C extends ElementType = 'span'> =
+  PolymorphicComponentPropsWithRef<C, DynBadgeOwnProps>;
+
+const DynBadgeComponent = <C extends ElementType = 'span'>(
   {
     size = 'md',
     color = 'neutral',
     variant = 'solid',
     children,
     className,
-    as: Component = 'span',
+    as,
     ...props
-  },
-  ref
+  }: PropsWithoutRef<DynBadgeProps<C>>,
+  ref: PolymorphicRef<C>
 ) => {
+  const Component = (as || 'span') as ElementType;
+
   const classes = clsx(
     'dyn-badge',
     `dyn-badge--size-${size}`,
@@ -67,16 +62,14 @@ export const DynBadge = forwardRef<HTMLElement, DynBadgeProps>((
     `dyn-badge--variant-${variant}`,
     className
   );
-  
+
   return (
-    <Component
-      ref={ref}
-      className={classes}
-      {...props}
-    >
+    <Component ref={ref} className={classes} {...props}>
       {children}
     </Component>
   );
-});
+};
 
+export const DynBadge =
+  forwardRefWithAs<'span', DynBadgeOwnProps>(DynBadgeComponent);
 DynBadge.displayName = 'DynBadge';

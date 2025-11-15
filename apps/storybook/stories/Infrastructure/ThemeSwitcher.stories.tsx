@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeSwitcher, ThemeProvider, DynBox, DynButton } from '@dynui-max/core';
 import type { ThemeMode } from '@dynui-max/core';
+
+export type ThemeMode = 'light' | 'dark' | 'system';
 
 const meta = {
   title: 'Infrastructure/ThemeSwitcher',
@@ -154,7 +156,8 @@ export const ControlledModes: Story = {
 
 export const SystemAwareness: Story = {
   render: () => {
-    const [mode, setMode] = useState<ThemeMode>('system');
+    const [theme, setTheme] = useState<ThemeMode>('system');
+    const [userPreference, setUserPreference] = useState<ThemeMode>('system');
     const [systemPreference, setSystemPreference] = useState<'light' | 'dark'>(() => {
       if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
         return 'light';
@@ -170,20 +173,29 @@ export const SystemAwareness: Story = {
 
       const media = window.matchMedia('(prefers-color-scheme: dark)');
 
-      const listener = (event: MediaQueryListEvent | MediaQueryList) => {
-        const matches = 'matches' in event ? event.matches : (event as MediaQueryList).matches;
-        setSystemPreference(matches ? 'dark' : 'light');
+      const handleChange = (event: MediaQueryListEvent) => {
+        setSystemPreference(event.matches ? 'dark' : 'light');
       };
-      
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
+
+      if (typeof media.addEventListener === 'function') {
+        media.addEventListener('change', handleChange);
+        return () => media.removeEventListener('change', handleChange);
+      }
+
+      media.addListener(handleChange);
+      return () => media.removeListener(handleChange);
     }, []);
-    
-    const getEffectiveTheme = () => {
-      if (theme === 'system') return systemPreference;
-      return theme;
+
+    const effectiveTheme = theme === 'system' ? systemPreference : theme;
+
+    const handleThemeChange = (newTheme: ThemeMode) => {
+      setTheme(newTheme);
+      setUserPreference(newTheme);
+
+      // Simulate API call or localStorage save
+      console.log('Saving theme preference:', newTheme);
     };
-    
+
     return (
       <div>
         <div style={{ marginBottom: '2rem' }}>
@@ -193,7 +205,7 @@ export const SystemAwareness: Story = {
               <strong>Selected:</strong> {theme}
             </div>
             <div>
-              <strong>Effective:</strong> {getEffectiveTheme()}
+              <strong>Effective:</strong> {effectiveTheme}
             </div>
             <div>
               <strong>System Preference:</strong> {systemPreference}
@@ -202,7 +214,7 @@ export const SystemAwareness: Story = {
           <ThemeSwitcher
             variant="dropdown"
             mode={theme}
-            onChange={setTheme}
+            onChange={handleThemeChange}
             showSystem
             showLabels
             size="md"
@@ -238,6 +250,82 @@ export const SystemAwareness: Story = {
             <li><strong>System:</strong> Automatically detects and follows your operating system's theme preference</li>
           </ul>
         </div>
+
+        <div style={{ marginTop: '2rem' }}>
+          <h3 style={{ margin: '0 0 1rem 0', color: 'var(--color-text-primary)' }}>Controlled Theme Switcher</h3>
+          <p style={{ margin: '0 0 1.5rem 0', color: 'var(--color-text-secondary)' }}>
+            This theme switcher is controlled by external state and can persist user preferences.
+          </p>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginBottom: '2rem', padding: '1rem', background: 'var(--color-background-secondary)', borderRadius: '8px' }}>
+            <div>
+              <strong style={{ color: 'var(--color-text-primary)' }}>Theme Control:</strong>
+              <ThemeSwitcher mode={theme} onChange={handleThemeChange} showSystem size="md" />
+            </div>
+
+            <div style={{ color: 'var(--color-text-secondary)' }}>
+              <div>
+                <strong>Current Theme:</strong> {effectiveTheme}
+              </div>
+              <div>
+                <strong>User Preference:</strong> {userPreference}
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+            <button
+              onClick={() => handleThemeChange('light')}
+              style={{
+                padding: '0.5rem 1rem',
+                border: '1px solid var(--color-border-primary)',
+                borderRadius: '4px',
+                background: theme === 'light' ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                color: theme === 'light' ? 'white' : 'var(--color-text-primary)',
+                cursor: 'pointer'
+              }}
+            >
+              Set Light
+            </button>
+            <button
+              onClick={() => handleThemeChange('dark')}
+              style={{
+                padding: '0.5rem 1rem',
+                border: '1px solid var(--color-border-primary)',
+                borderRadius: '4px',
+                background: theme === 'dark' ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                color: theme === 'dark' ? 'white' : 'var(--color-text-primary)',
+                cursor: 'pointer'
+              }}
+            >
+              Set Dark
+            </button>
+            <button
+              onClick={() => handleThemeChange('system')}
+              style={{
+                padding: '0.5rem 1rem',
+                border: '1px solid var(--color-border-primary)',
+                borderRadius: '4px',
+                background: theme === 'system' ? 'var(--color-primary)' : 'var(--color-background-primary)',
+                color: theme === 'system' ? 'white' : 'var(--color-text-primary)',
+                cursor: 'pointer'
+              }}
+            >
+              Set System
+            </button>
+          </div>
+
+          <DynBox p="lg" bg="primary" radius="md">
+            <h4 style={{ margin: '0 0 1rem 0', color: 'var(--color-text-inverse)' }}>Controlled Component Benefits</h4>
+            <ul style={{ margin: 0, paddingLeft: '1.5rem', color: 'var(--color-text-inverse)' }}>
+              <li>External state management and persistence</li>
+              <li>Integration with global application state</li>
+              <li>API synchronization for user preferences</li>
+              <li>Advanced validation and business logic</li>
+              <li>Multi-component theme coordination</li>
+            </ul>
+          </DynBox>
+        </div>
       </div>
     );
   },
@@ -252,102 +340,9 @@ export const SystemAwareness: Story = {
       description: {
         story: 'Complete theme switcher with light, dark, and system options. System mode automatically detects and follows OS preferences.'
       }
-
-      media.addListener(listener);
-      return () => media.removeListener(listener);
-    }, []);
-
-    // Simulate saving preference to localStorage or API
-    const handleThemeChange = (newTheme: ThemeMode) => {
-      setGlobalTheme(newTheme);
-      setUserPreference(newTheme);
-      
-      // Simulate API call or localStorage save
-      console.log('Saving theme preference:', newTheme);
-      
-      // In a real app, you might do:
-      // localStorage.setItem('theme-preference', newTheme);
-      // or make an API call to save user preferences
-    };
-    
-    return (
-      <div>
-        <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ margin: '0 0 1rem 0', color: 'var(--color-text-primary)' }}>Controlled Theme Switcher</h3>
-          <p style={{ margin: '0 0 1rem 0', color: 'var(--color-text-secondary)' }}>This theme switcher is controlled by external state and can persist user preferences.</p>
-        </div>
-        
-        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginBottom: '2rem', padding: '1rem', background: 'var(--color-background-secondary)', borderRadius: '8px' }}>
-          <div>
-            <strong style={{ color: 'var(--color-text-primary)' }}>Theme Control:</strong>
-            <ThemeSwitcher
-              mode={globalTheme}
-              onChange={handleThemeChange}
-              showSystem
-              size="md"
-            />
-          </div>
-          
-          <div style={{ color: 'var(--color-text-secondary)' }}>
-            <div><strong>Current Theme:</strong> {globalTheme}</div>
-            <div><strong>User Preference:</strong> {userPreference}</div>
-          </div>
-        </div>
-        
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-          <button
-            onClick={() => handleThemeChange('light')}
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid var(--color-border-primary)',
-              borderRadius: '4px',
-              background: globalTheme === 'light' ? 'var(--color-primary)' : 'var(--color-background-primary)',
-              color: globalTheme === 'light' ? 'white' : 'var(--color-text-primary)',
-              cursor: 'pointer'
-            }}
-          >
-            Set Light
-          </button>
-          <button
-            onClick={() => handleThemeChange('dark')}
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid var(--color-border-primary)',
-              borderRadius: '4px',
-              background: globalTheme === 'dark' ? 'var(--color-primary)' : 'var(--color-background-primary)',
-              color: globalTheme === 'dark' ? 'white' : 'var(--color-text-primary)',
-              cursor: 'pointer'
-            }}
-          >
-            Set Dark
-          </button>
-          <button
-            onClick={() => handleThemeChange('system')}
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid var(--color-border-primary)',
-              borderRadius: '4px',
-              background: globalTheme === 'system' ? 'var(--color-primary)' : 'var(--color-background-primary)',
-              color: globalTheme === 'system' ? 'white' : 'var(--color-text-primary)',
-              cursor: 'pointer'
-            }}
-          >
-            Set System
-          </button>
-        </div>
-        
-        <DynBox p="lg" bg="primary" radius="md">
-          <h4 style={{ margin: '0 0 1rem 0', color: 'var(--color-text-inverse)' }}>Controlled Component Benefits</h4>
-          <ul style={{ margin: 0, paddingLeft: '1.5rem', color: 'var(--color-text-inverse)' }}>
-            <li>External state management and persistence</li>
-            <li>Integration with global application state</li>
-            <li>API synchronization for user preferences</li>
-            <li>Advanced validation and business logic</li>
-            <li>Multi-component theme coordination</li>
-          </ul>
-        </DynBox>
-      </div>
-    );
+    }
+  }
+};
 
 // Size Variants - Different switcher sizes
 export const SizeVariants: Story = {

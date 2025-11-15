@@ -52,6 +52,10 @@
   border-radius: 0;
 }
 
+.dyn-card--radius-xs {
+  border-radius: var(--dyn-radius-xs, 0.125rem);
+}
+
 .dyn-card--radius-sm {
   border-radius: var(--dyn-radius-sm, 0.25rem);
 }

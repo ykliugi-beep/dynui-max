@@ -1,4 +1,10 @@
-import React, { forwardRef } from 'react';
+import {
+  forwardRef,
+  type CSSProperties,
+  type ElementType,
+  type MouseEventHandler,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import './DynBox.css';
@@ -14,7 +20,7 @@ export interface DynBoxProps {
    * HTML element to render as
    * @default 'div'
    */
-  as?: React.ElementType;
+  as?: ElementType;
   
   /**
    * Display type
@@ -155,7 +161,7 @@ export interface DynBoxProps {
   /**
    * Box content
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
   
   /**
    * Additional CSS class names
@@ -165,12 +171,12 @@ export interface DynBoxProps {
   /**
    * Custom CSS properties
    */
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   
   /**
    * Click handler (for interactive boxes)
    */
-  onClick?: React.MouseEventHandler;
+  onClick?: MouseEventHandler;
 }
 
 /**
@@ -252,7 +258,7 @@ export const DynBox = forwardRef<HTMLElement, DynBoxProps>((
     className
   );
   
-  const inlineStyles: React.CSSProperties = {
+  const inlineStyles: CSSProperties = {
     ...(width && { width: typeof width === 'number' ? `${width}px` : width }),
     ...(height && { height: typeof height === 'number' ? `${height}px` : height }),
     ...style

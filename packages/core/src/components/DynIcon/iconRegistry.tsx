@@ -1,23 +1,23 @@
-import React from 'react';
+import { type ComponentType, type SVGProps } from 'react';
 
 /**
  * Icon registry for managing SVG icon components
  * Allows dynamic registration and retrieval of icons
  */
 class IconRegistry {
-  private icons = new Map<string, React.ComponentType<React.SVGProps<SVGSVGElement>>>();
+  private icons = new Map<string, ComponentType<SVGProps<SVGSVGElement>>>();
 
   /**
    * Register an icon component
    */
-  register(name: string, component: React.ComponentType<React.SVGProps<SVGSVGElement>>) {
+  register(name: string, component: ComponentType<SVGProps<SVGSVGElement>>) {
     this.icons.set(name, component);
   }
 
   /**
    * Register multiple icons at once
    */
-  registerMany(icons: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>>) {
+  registerMany(icons: Record<string, ComponentType<SVGProps<SVGSVGElement>>>) {
     Object.entries(icons).forEach(([name, component]) => {
       this.register(name, component);
     });
@@ -62,45 +62,45 @@ class IconRegistry {
 // Export singleton instance
 export const iconRegistry = new IconRegistry();
 
-const ArrowRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const ArrowRightIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M5 12h14" />
     <path d="m13 6 6 6-6 6" />
   </svg>
 );
 
-const CheckIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const CheckIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="m20 6-11 11-4-4" />
   </svg>
 );
 
-const ChevronDownIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const ChevronDownIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="m6 9 6 6 6-6" />
   </svg>
 );
 
-const ChevronRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const ChevronRightIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="m9 6 6 6-6 6" />
   </svg>
 );
 
-const ChevronUpIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const ChevronUpIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="m18 15-6-6-6 6" />
   </svg>
 );
 
-const ChevronsUpDownIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const ChevronsUpDownIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="m7 15 5 5 5-5" />
     <path d="m7 9 5-5 5 5" />
   </svg>
 );
 
-const CodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const CodeIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="m18 16 4-4-4-4" />
     <path d="m6 8-4 4 4 4" />
@@ -108,27 +108,27 @@ const CodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const EditIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const EditIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M12 20h9" />
     <path d="m16.5 3.5 4 4-11 11-4 1 1-4 11-11z" />
   </svg>
 );
 
-const FileIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const FileIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
     <path d="M14 2v6h6" />
   </svg>
 );
 
-const FolderIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const FolderIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M3 7h5l2 3h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z" />
   </svg>
 );
 
-const ImageIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const ImageIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <rect x={3} y={5} width={18} height={14} rx={2} ry={2} />
     <circle cx={8.5} cy={9.5} r={1.5} />
@@ -137,7 +137,7 @@ const ImageIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const LayoutIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const LayoutIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <rect x={3} y={4} width={18} height={16} rx={2} ry={2} />
     <path d="M9 4v16" />
@@ -145,7 +145,7 @@ const LayoutIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const MenuIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const MenuIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M4 6h16" />
     <path d="M4 12h16" />
@@ -153,13 +153,13 @@ const MenuIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const MoonIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const MoonIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
   </svg>
 );
 
-const PaletteIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const PaletteIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M12 3a9 9 0 1 0 0 18h2a2 2 0 0 0 0-4h-1a4 4 0 1 1 0-8h1a2 2 0 0 0 0-4Z" />
     <circle cx={7.5} cy={10.5} r={1} />
@@ -169,21 +169,21 @@ const PaletteIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const PlusIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const PlusIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M12 5v14" />
     <path d="M5 12h14" />
   </svg>
 );
 
-const SearchIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const SearchIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <circle cx={11} cy={11} r={7} />
     <path d="m20 20-3-3" />
   </svg>
 );
 
-const SettingsIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const SettingsIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <circle cx={12} cy={12} r={3} />
     <line x1={12} y1={3} x2={12} y2={5} />
@@ -197,7 +197,7 @@ const SettingsIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const SpinnerIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const SpinnerIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" {...props}>
     <circle cx={12} cy={12} r={10} stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeDasharray="60" strokeDashoffset="60">
       <animate attributeName="stroke-dasharray" dur="1.5s" values="0 60;30 30;0 60;0 60" repeatCount="indefinite" />
@@ -206,7 +206,7 @@ const SpinnerIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const SunIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const SunIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <circle cx={12} cy={12} r={4} />
     <line x1={12} y1={2} x2={12} y2={4} />
@@ -220,7 +220,7 @@ const SunIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const UploadIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const UploadIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2" />
     <path d="m7 10 5-5 5 5" />
@@ -228,7 +228,7 @@ const UploadIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const UsersIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const UsersIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" />
     <circle cx={9} cy={7} r={3} />
@@ -237,14 +237,14 @@ const UsersIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const XIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="m18 6-12 12" />
     <path d="m6 6 12 12" />
   </svg>
 );
 
-export const defaultIcons: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+export const defaultIcons: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   'arrow-right': ArrowRightIcon,
   check: CheckIcon,
   'chevron-down': ChevronDownIcon,

@@ -1,4 +1,10 @@
-import React, { forwardRef } from 'react';
+import {
+  Children,
+  forwardRef,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode,
+  type Ref
+} from 'react';
 import clsx from 'clsx';
 import './DynMenuItem.css';
 
@@ -6,7 +12,7 @@ export interface DynMenuItemProps {
   /**
    * Item content
    */
-  children: React.ReactNode;
+  children?: ReactNode;
   
   /**
    * Item value/identifier
@@ -31,7 +37,7 @@ export interface DynMenuItemProps {
   /**
    * Item icon
    */
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   
   /**
    * Item description
@@ -69,43 +75,45 @@ export interface DynMenuItemProps {
  * - Divider variant
  * - Disabled state
  */
-export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMenuItemProps>((
-  {
-    children,
-    value,
-    onClick,
-    disabled = false,
-    selected = false,
-    icon,
-    description,
-    shortcut,
-    divider = false,
-    className,
-    'data-testid': dataTestId,
-    ...props
-  },
-  ref
-) => {
+export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMenuItemProps>(
+  (props, ref) => {
+    const {
+      children,
+      value,
+      onClick,
+      disabled = false,
+      selected = false,
+      icon,
+      description,
+      shortcut,
+      divider = false,
+      className,
+      'data-testid': dataTestId,
+      ...rest
+    } = props;
+
   // Divider variant
   if (divider) {
     return (
       <div
-        ref={ref as React.Ref<HTMLDivElement>}
         className={clsx('dyn-menu-item-divider', className)}
         role="separator"
         data-testid={dataTestId}
-        {...props}
+        {...rest}
       />
     );
   }
-  
+
+  const hasContent = Children.count(children) > 0;
+  const shouldRenderContent = hasContent || Boolean(description);
+
   const handleClick = () => {
     if (!disabled && onClick) {
       onClick(value);
     }
   };
   
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  const handleKeyDown = (event: ReactKeyboardEvent) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       handleClick();
@@ -125,7 +133,7 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
   
   return (
     <button
-      ref={ref as React.Ref<HTMLButtonElement>}
+      ref={ref as Ref<HTMLButtonElement>}
       type="button"
       className={classes}
       role="menuitem"
@@ -135,7 +143,7 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
       data-testid={dataTestId}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      {...props}
+      {...rest}
     >
       {/* Icon */}
       {icon && (
@@ -145,17 +153,21 @@ export const DynMenuItem = forwardRef<HTMLButtonElement | HTMLDivElement, DynMen
       )}
       
       {/* Content */}
-      <div className="dyn-menu-item__content">
-        <div className="dyn-menu-item__label">
-          {children}
+      {shouldRenderContent && (
+        <div className="dyn-menu-item__content">
+          {hasContent && (
+            <div className="dyn-menu-item__label">
+              {children}
+            </div>
+          )}
+
+          {description && (
+            <div className="dyn-menu-item__description">
+              {description}
+            </div>
+          )}
         </div>
-        
-        {description && (
-          <div className="dyn-menu-item__description">
-            {description}
-          </div>
-        )}
-      </div>
+      )}
       
       {/* Shortcut */}
       {shortcut && (

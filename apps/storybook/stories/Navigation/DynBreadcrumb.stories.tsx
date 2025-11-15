@@ -557,7 +557,7 @@ export const CustomSeparators: Story = {
               <strong style={{ color: 'var(--color-text-primary)' }}>Text-based:</strong>
               <ul style={{ margin: '0.5rem 0 0 0', paddingLeft: '1.5rem', color: 'var(--color-text-secondary)', fontSize: '0.9em' }}>
                 <li>Forward slash (/) - Classic, familiar</li>
-                <li>Greater than (>) - Command-line style</li>
+                <li>Greater than ({'>'}) - Command-line style</li>
                 <li>Pipe (|) - Clean, minimal</li>
               </ul>
             </div>
@@ -829,7 +829,9 @@ export const AccessibilityDemo: Story = {
             <li>"Breadcrumb navigation" - Navigation landmark identification</li>
             <li>"Home, link, 1 of 4" - Link with position context</li>
             <li>"Breadcrumbs, current page" - Final item with current page status</li>
-            <li>"You are here: Home > Accessibility > Navigation > Breadcrumbs" - Full path context</li>
+            <li>
+              "You are here: Home {'>'} Accessibility {'>'} Navigation {'>'} Breadcrumbs" - Full path context
+            </li>
           </ul>
         </div>
         

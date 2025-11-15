@@ -1,9 +1,9 @@
+import 'vitest-axe/extend-expect';
 import '@testing-library/jest-dom';
 import { beforeAll, afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
-
-// vitest-axe automatski doda matchere (toHaveNoViolations) na expect
-import 'vitest-axe/extend-expect';
+import 'vitest';
+import type { AxeMatchers } from 'vitest-axe/matchers';
 
 // Cleanup DOM after each test
 afterEach(() => {
@@ -11,10 +11,7 @@ afterEach(() => {
 });
 
 // -------------------- TypeScript augmentation --------------------
-// Make TypeScript aware of vitest-axe matchers (toHaveNoViolations)
-import 'vitest';
-import type { AxeMatchers } from 'vitest-axe/matchers';
-
+// Make TypeScript aware of vitest-axe matcher (toHaveNoViolations)
 declare module 'vitest' {
   interface Assertion<T = any> extends AxeMatchers {}
   interface AsymmetricMatchersContaining extends AxeMatchers {}
@@ -51,6 +48,14 @@ beforeAll(() => {
     writable: true,
     value: localStorageMock
   });
+
+  if (typeof HTMLCanvasElement !== 'undefined') {
+    Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+      configurable: true,
+      writable: true,
+      value: vi.fn()
+    });
+  }
 
   // Mock ResizeObserver
   class ResizeObserverMock {
