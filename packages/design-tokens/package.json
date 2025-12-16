@@ -14,6 +14,9 @@
       "require": "./dist/index.cjs"
     },
     "./css": "./dist/tokens.css",
+    "./dist/tokens.css": "./dist/tokens.css",
+    "./dist/tokens-dark.css": "./dist/tokens-dark.css",
+    "./dist/variables.css": "./dist/variables.css",
     "./themes/*": "./dist/themes/*"
   },
   "files": [
