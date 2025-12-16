@@ -1,0 +1,48 @@
+# DynTable
+
+Advanced data table with sorting, filtering, and selection capabilities.
+
+## Usage
+
+```tsx
+import { DynTable } from '@dynui-max/core';
+
+const columns = [
+  { id: 'name', header: 'Name', accessorKey: 'name' },
+  { id: 'email', header: 'Email', accessorKey: 'email' },
+];
+
+<DynTable
+  columns={columns}
+  data={data}
+  onSort={handleSort}
+  onSelect={handleSelect}
+/>
+```
+
+## Features
+
+- **Sorting**: Click headers to sort
+- **Selection**: Single or multi-select rows
+- **Filtering**: Built-in filter UI
+- **Pagination**: Client or server-side
+- **Responsive**: Horizontal scroll on mobile
+- **Custom Rendering**: Custom cell formatters
+- **Accessibility**: Table semantics and ARIA
+
+## Props
+
+- `columns`: ColumnDef[] - Column definitions
+- `data`: any[] - Table data
+- `onSort`: (column, direction) => void - Sort handler
+- `onSelect`: (selectedRows) => void - Selection handler
+- `pageSize`: number - Rows per page
+- `sortable`: boolean - Enable sorting
+- `selectable`: boolean - Enable selection
+
+## Accessibility
+
+- Table role and semantics
+- Sortable column headers
+- Row selection checkboxes
+- Proper keyboard navigation

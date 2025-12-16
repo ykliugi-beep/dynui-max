@@ -1,0 +1,38 @@
+# DynBadge
+
+Small status indicator component for highlighting statuses, tags, and counts.
+
+## Usage
+
+```tsx
+import { DynBadge } from '@dynui-max/core';
+
+<DynBadge variant="success" size="md">Active</DynBadge>
+<DynBadge variant="error" count={5}>Notifications</DynBadge>
+```
+
+## Features
+
+- **Variants**: success, error, warning, info
+- **Sizes**: sm, md, lg
+- **Count**: Show numeric count
+- **Removable**: Optional close button
+- **Rounded**: Pill-shaped badges
+- **Icons**: Optional icon prefix
+- **Colors**: Customizable via design tokens
+
+## Props
+
+- `variant`: 'success' | 'error' | 'warning' | 'info' - Visual variant
+- `size`: 'sm' | 'md' | 'lg' - Badge size
+- `count`: number - Display as count badge
+- `removable`: boolean - Show remove button
+- `icon`: ReactNode - Icon element
+- `children`: ReactNode - Badge content
+
+## Accessibility
+
+- Semantic HTML
+- Color not only indicator
+- Status announcements (ARIA)
+- Removable keyboard support

@@ -1,0 +1,47 @@
+# DynTabs
+
+Tabbed navigation component for organizing content across multiple sections.
+
+## Usage
+
+```tsx
+import { DynTabs, DynTab } from '@dynui-max/core';
+
+<DynTabs defaultValue="tab1">
+  <DynTab value="tab1" label="Tab 1">
+    Content 1
+  </DynTab>
+  <DynTab value="tab2" label="Tab 2">
+    Content 2
+  </DynTab>
+</DynTabs>
+```
+
+## Features
+
+- **Keyboard Navigation**: Arrow keys, Home, End
+- **Accessibility**: ARIA labels and roles
+- **Variants**: Pills, underline, contained
+- **Controlled/Uncontrolled**: Both modes supported
+- **Responsive**: Adapts to screen size
+
+## Props
+
+DynTabs:
+- `defaultValue`: string - Default active tab
+- `value`: string - Controlled value
+- `onChange`: (value: string) => void - Change handler
+- `variant`: 'pills' | 'underline' | 'contained' - Visual style
+
+DynTab:
+- `value`: string - Tab identifier
+- `label`: string - Tab label text
+- `disabled`: boolean - Disable tab
+- `children`: ReactNode - Tab content
+
+## Accessibility
+
+- Tab list has proper role
+- Arrow key navigation
+- Selected tab indicator
+- Focus visible state
