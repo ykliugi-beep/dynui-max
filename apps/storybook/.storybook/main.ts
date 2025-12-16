@@ -39,18 +39,11 @@ const config: StorybookConfig = {
       propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
     },
   },
-  viteFinal: async (config) => {
-    // Ensure design tokens CSS is available
-    if (config.resolve) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        '@dynui-max/core': resolveFromWorkspaceRoot('../../../packages/core/src'),
-        '@dynui-max/design-tokens': resolveFromWorkspaceRoot('../../../packages/design-tokens/dist'),
-        '@dynui-max/design-tokens/css': resolveFromWorkspaceRoot('../../../packages/design-tokens/dist/tokens.css'),
-      };
-    }
-    return config;
-  },
+  previewHead: (head) => `
+    ${head}
+    <link rel="stylesheet" href="../../../packages/design-tokens/dist/tokens.css" />
+    <link rel="stylesheet" href="../../../packages/design-tokens/dist/tokens-dark.css" />
+  `,
 };
 
 export default config;
