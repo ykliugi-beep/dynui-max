@@ -18,7 +18,6 @@
   "dependencies": {
     "@dynui-max/core": "workspace:*",
     "@dynui-max/design-tokens": "workspace:*",
-    "@storybook/react": "catalog:storybook",
     "react": "catalog:core",
     "react-dom": "catalog:core"
   },
