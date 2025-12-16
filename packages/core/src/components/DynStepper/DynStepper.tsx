@@ -323,12 +323,8 @@ export const DynStepper = forwardRef<DynStepperRef, DynStepperProps>((
     <div
       className={containerClasses}
       data-testid={dataTestId}
-      role="progressbar"
+      role="group"
       aria-label={stepperAriaLabel}
-      aria-valuemin={0}
-      aria-valuemax={steps.length - 1}
-      aria-valuenow={current}
-      aria-valuetext={steps[current]?.title}
       {...props}
     >
       <div className="dyn-stepper__track">
