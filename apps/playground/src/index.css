@@ -1,4 +1,10 @@
 /**
+ * Import design tokens CSS first
+ * This ensures all CSS variables are available for the app
+ */
+@import '@dynui-max/design-tokens/dist/tokens.css';
+
+/**
  * DynUI-Max Playground Global Styles
  */
 
