@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { DynStepper, DynBox, DynButton, ThemeProvider } from '@dynui-max/core';
 import type { StepData } from '@dynui-max/core';
 
