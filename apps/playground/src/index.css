@@ -1,9 +1,8 @@
 /**
  * Import design tokens CSS first
- * This ensures all CSS variables are available for the app
- * Using the ./css export from package.json
+ * Using relative path resolution for CSS preprocessor
  */
-@import '@dynui-max/design-tokens/css';
+@import '../../node_modules/@dynui-max/design-tokens/dist/tokens.css';
 
 /**
  * DynUI-Max Playground Global Styles
