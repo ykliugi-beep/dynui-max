@@ -173,6 +173,10 @@ export const DynTreeNode = forwardRef<HTMLDivElement, DynTreeNodeProps>((
     <div
       ref={ref}
       className={nodeClasses}
+      role="treeitem"
+      aria-expanded={canExpand ? isExpanded : undefined}
+      aria-selected={selected}
+      aria-disabled={disabled}
       data-testid={dataTestId}
       {...props}
     >
@@ -203,13 +207,9 @@ export const DynTreeNode = forwardRef<HTMLDivElement, DynTreeNodeProps>((
         {/* Node title */}
         <div
           className="dyn-tree-node__title"
-          role="treeitem"
-          aria-expanded={canExpand ? isExpanded : undefined}
-          aria-selected={selected}
-          aria-disabled={disabled}
-          tabIndex={disabled ? -1 : 0}
           onClick={handleSelect}
           onKeyDown={handleKeyDown}
+          tabIndex={disabled ? -1 : 0}
         >
           {icon && (
             <span className="dyn-tree-node__icon" aria-hidden="true">
@@ -225,7 +225,10 @@ export const DynTreeNode = forwardRef<HTMLDivElement, DynTreeNodeProps>((
       
       {/* Children */}
       {canExpand && isExpanded && (
-        <div className="dyn-tree-node__children">
+        <div 
+          className="dyn-tree-node__children"
+          role="group"
+        >
           {children}
         </div>
       )}
