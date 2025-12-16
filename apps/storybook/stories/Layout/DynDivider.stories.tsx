@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { DynDivider } from '@dynui-max/core';
 
 const meta = {
@@ -13,9 +14,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Horizontal: Story = {
+export const Default: Story = {
   render: () => (
-    <div style={{ width: '300px' }}>
+    <div>
       <p>Content above</p>
       <DynDivider />
       <p>Content below</p>
@@ -23,12 +24,22 @@ export const Horizontal: Story = {
   ),
 };
 
+export const WithLabel: Story = {
+  render: () => (
+    <div>
+      <p>Content above</p>
+      <DynDivider label="or" />
+      <p>Content below</p>
+    </div>
+  ),
+};
+
 export const Vertical: Story = {
   render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', height: '100px' }}>
-      <span>Left content</span>
+    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+      <p>Left content</p>
       <DynDivider orientation="vertical" />
-      <span>Right content</span>
+      <p>Right content</p>
     </div>
   ),
 };

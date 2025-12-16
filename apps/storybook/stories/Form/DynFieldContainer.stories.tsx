@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DynFieldContainer, DynInput, DynLabel } from '@dynui-max/core';
+import React from 'react';
+import { DynFieldContainer, DynInput } from '@dynui-max/core';
 
 const meta = {
   title: 'Form/DynFieldContainer',
@@ -13,29 +14,35 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const WithInput: Story = {
-  render: () => (
-    <DynFieldContainer>
-      <DynLabel htmlFor="email">Email Address</DynLabel>
-      <DynInput id="email" type="email" placeholder="you@example.com" />
-    </DynFieldContainer>
-  ),
+export const Default: Story = {
+  args: {
+    label: 'Field Label',
+    children: <DynInput placeholder="Enter value..." />,
+  },
 };
 
 export const WithError: Story = {
-  render: () => (
-    <DynFieldContainer error="This field is required">
-      <DynLabel htmlFor="username">Username</DynLabel>
-      <DynInput id="username" error />
-    </DynFieldContainer>
-  ),
+  args: {
+    label: 'Field Label',
+    error: true,
+    helperText: 'This field has an error',
+    children: <DynInput placeholder="Enter value..." />,
+  },
 };
 
-export const WithHelperText: Story = {
-  render: () => (
-    <DynFieldContainer helperText="Choose a unique username">
-      <DynLabel htmlFor="username2">Username</DynLabel>
-      <DynInput id="username2" placeholder="johndoe" />
-    </DynFieldContainer>
-  ),
+export const WithSuccess: Story = {
+  args: {
+    label: 'Field Label',
+    success: true,
+    helperText: 'This field is valid',
+    children: <DynInput placeholder="Enter value..." />,
+  },
+};
+
+export const Required: Story = {
+  args: {
+    label: 'Field Label',
+    required: true,
+    children: <DynInput placeholder="Enter value..." />,
+  },
 };

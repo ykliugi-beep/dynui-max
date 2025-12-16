@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { DynContainer } from '@dynui-max/core';
 
 const meta = {
@@ -15,23 +16,23 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: (
-      <div style={{ padding: '2rem', background: '#f5f5f5' }}>
-        <h2>Container Content</h2>
-        <p>This container has max-width constraints and centers content.</p>
-      </div>
-    ),
+    children: 'Container content',
+    style: { background: '#f5f5f5', padding: '2rem', minHeight: '200px' },
   },
 };
 
-export const Fluid: Story = {
+export const Small: Story = {
   args: {
-    fluid: true,
-    children: (
-      <div style={{ padding: '2rem', background: '#e0f2fe' }}>
-        <h2>Fluid Container</h2>
-        <p>This container takes full width.</p>
-      </div>
-    ),
+    size: 'sm',
+    children: 'Small container',
+    style: { background: '#f5f5f5', padding: '2rem', minHeight: '200px' },
+  },
+};
+
+export const Large: Story = {
+  args: {
+    size: 'lg',
+    children: 'Large container',
+    style: { background: '#f5f5f5', padding: '2rem', minHeight: '200px' },
   },
 };

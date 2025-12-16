@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { DynCard } from '@dynui-max/core';
 
 const meta = {
@@ -15,23 +16,21 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: (
-      <div style={{ padding: '1rem' }}>
-        <h3>Card Title</h3>
-        <p>This is card content.</p>
-      </div>
-    ),
+    children: 'This is a card',
   },
 };
 
-export const WithElevation: Story = {
+export const WithHeader: Story = {
   args: {
-    elevation: 'high',
-    children: (
-      <div style={{ padding: '1rem' }}>
-        <h3>Elevated Card</h3>
-        <p>Card with high elevation shadow.</p>
-      </div>
-    ),
+    header: 'Card Header',
+    children: 'Card content goes here',
+  },
+};
+
+export const WithFooter: Story = {
+  args: {
+    header: 'Card Header',
+    children: 'Card content goes here',
+    footer: 'Card Footer',
   },
 };
