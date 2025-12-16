@@ -2,7 +2,30 @@
 
 ## 🚀 Quick Start
 
-### From Root Folder (Recommended)
+### IF IT'S BROKEN (Current Situation)
+
+Run this **FIRST** to completely reset everything:
+
+```bash
+# Full reset and rebuild
+pnpm clean
+rm -rf node_modules
+pnpm install
+pnpm --filter @dynui-max/design-tokens build
+pnpm --filter @dynui-max/core build
+pnpm storybook
+```
+
+**This will:**
+1. ✅ Delete all build artifacts
+2. ✅ Reinstall all dependencies
+3. ✅ Rebuild design tokens (critical!)
+4. ✅ Rebuild core components
+5. ✅ Start Storybook with clean cache
+
+---
+
+### From Root Folder (Recommended - Normal Case)
 
 ```bash
 # Start Storybook with optimized build order
@@ -17,7 +40,7 @@ pnpm dev:storybook
 2. ✅ Storybook starts on `http://localhost:6006`
 3. ✅ All components are properly imported and styled
 
-### From Storybook Folder (Legacy)
+### From Storybook Folder (Legacy - NOT RECOMMENDED)
 
 ```bash
 cd apps/storybook
@@ -36,12 +59,16 @@ This error occurs when:
 1. ❌ `design-tokens` package hasn't been built
 2. ❌ Story files are missing `React` import
 3. ❌ Build order is incorrect
+4. ❌ Storybook cache is stale
 
 ### Solution: Proper Build Sequence
 
 ```bash
 # ✅ CORRECT - Does everything automatically
 pnpm storybook
+
+# ✅ Also correct - Explicit full reset
+pnpm clean && pnpm install && pnpm storybook
 
 # ❌ WRONG - Skips design-tokens build
 cd apps/storybook && pnpm dev
@@ -105,24 +132,24 @@ export const Simple: Story = {
 
 ---
 
-## 📂 Workspace Structure
+## 📁 Workspace Structure
 
 ```
 dynui-max/
-├── packages/
-│   ├── design-tokens/          # ⚙️ Must build first!
-│   │   ├── src/
-│   │   ├── dist/              # Generated tokens, CSS, JS
-│   │   └── build/
-│   └── core/                  # React components
-│       ├── src/
-│       └── dist/
-├── apps/
-│   └── storybook/             # 📚 Storybook app
-│       ├── stories/           # Story files (need React imports)
-│       ├── .storybook/        # Storybook config
-│       └── package.json
-└── package.json               # Root config (has dev:storybook script)
+├─ packages/
+│  ├─ design-tokens/          # ⚙️ Must build first!
+│  │  ├─ src/
+│  │  ├─ dist/               # Generated tokens, CSS, JS
+│  │  └─ build/
+│  └─ core/                  # React components
+│     ├─ src/
+│     └─ dist/
+├─ apps/
+│  └─ storybook/             # 📚 Storybook app
+│     ├─ stories/            # Story files (need React imports)
+│     ├─ .storybook/         # Storybook config
+│     └─ package.json
+└─ package.json               # Root config (has dev:storybook script)
 ```
 
 ---
@@ -207,53 +234,93 @@ pnpm reset:full            # Full clean build
 
 **Cause:** Story file missing `React` import or design-tokens not built
 
-**Fix:**
+**Fix #1 - Check Story File:**
 ```typescript
 // Add this to the top of story file
 import React from 'react';
 ```
 
-Then restart:
+**Fix #2 - Reset Everything:**
 ```bash
+pnpm clean
+pnpm install
+pnpm storybook
+```
+
+**Fix #3 - Full Nuclear Option:**
+```bash
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
+pnpm --filter @dynui-max/design-tokens build
 pnpm storybook
 ```
 
 ### "Cannot find module '@dynui-max/core'"
 
-**Cause:** Dependencies not installed
+**Cause:** Dependencies not installed or build failed
 
 **Fix:**
 ```bash
 pnpm install
+pnpm --filter @dynui-max/design-tokens build
+pnpm --filter @dynui-max/core build
 pnpm storybook
 ```
 
 ### Storybook Takes Forever to Load
 
-**Cause:** Design tokens not pre-built
+**Cause:** Design tokens not pre-built, Vite cache issues
 
 **Fix:**
 ```bash
-# Use the optimized script
+# Option 1: Use the optimized script
 pnpm dev:storybook
 
-# NOT this:
-cd apps/storybook && pnpm dev
+# Option 2: Manual rebuild
+pnpm clean
+pnpm --filter @dynui-max/design-tokens build
+pnpm storybook
 ```
 
 ### Changes Not Reflecting
 
-**Cause:** Need to rebuild design tokens
+**Cause:** Need to rebuild design tokens or Storybook cache is stale
 
 **Fix:**
 ```bash
-pnpm clean
+# Option 1: Restart Storybook (Ctrl+C, then run again)
+pnpm storybook
+
+# Option 2: If design tokens changed
+pnpm --filter @dynui-max/design-tokens build
+pnpm storybook
+
+# Option 3: Full reset
+pnpm clean:artifacts
+pnpm install
 pnpm storybook
 ```
 
+### Components Still Don't Render
+
+**Cause:** Multiple potential issues
+
+**Fix - Complete Reset:**
+```bash
+# Nuclear option - clean everything
+pnpm clean
+rm -rf node_modules .pnpm-store
+pnpm install
+pnpm --filter @dynui-max/design-tokens build
+pnpm --filter @dynui-max/core build
+pnpm storybook
+```
+
+Then open `http://localhost:6006` and clear browser cache (Ctrl+Shift+Delete)
+
 ---
 
-## 📊 Performance Tips
+## 📈 Performance Tips
 
 1. **Always start from root folder:**
    ```bash
@@ -278,13 +345,45 @@ pnpm storybook
    cd apps/storybook && npm start
    ```
 
+4. **Clear cache if stuck:**
+   ```bash
+   rm -rf apps/storybook/.storybook-cache
+   pnpm storybook
+   ```
+
 ---
 
 ## 🎯 Next Steps
 
-- ✅ Start Storybook: `pnpm storybook`
-- ✅ Open: `http://localhost:6006`
-- ✅ All components should render properly
-- ✅ No more "React is not defined" errors
+### If Components Still Don't Load:
+
+1. **Run complete reset:**
+   ```bash
+   pnpm clean
+   pnpm install  
+   pnpm --filter @dynui-max/design-tokens build
+   pnpm --filter @dynui-max/core build
+   pnpm storybook
+   ```
+
+2. **Wait for Storybook to fully start** (watch the console)
+
+3. **Open browser:** `http://localhost:6006`
+
+4. **Clear browser cache:** `Ctrl+Shift+Delete` → Clear all
+
+5. **Reload page:** `Ctrl+F5`
+
+6. **Check Stories tab** - all components should load without errors
+
+---
+
+## ✨ Success Indicators
+
+✅ Storybook console shows NO errors
+✅ Browser console shows NO "React is not defined" errors  
+✅ Components appear in the Stories sidebar
+✅ Clicking a component shows it renders properly
+✅ No error messages in the main panel
 
 **Happy coding! 🚀**
