@@ -1,6 +1,13 @@
-import React, { forwardRef, useState, useCallback, useRef, useMemo } from 'react';
+import {
+  forwardRef,
+  useState,
+  useCallback,
+  useRef,
+  useMemo,
+  useImperativeHandle,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
-import { useKeyboard } from '../../hooks/useKeyboard';
 import './DynTabs.css';
 
 export interface TabItem {
@@ -8,7 +15,7 @@ export interface TabItem {
   label: string;
   disabled?: boolean;
   className?: string;
-  panel?: React.ReactNode;
+  panel?: ReactNode;
 }
 
 export interface DynTabsProps {
@@ -165,7 +172,7 @@ export const DynTabs = forwardRef<DynTabsRef, DynTabsProps>((
   }, [enabledItems, currentValue, focusTab]);
   
   // Expose ref methods
-  React.useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     focusTab: focusTabByValue,
     focusFirstTab,
     focusLastTab,

@@ -1,10 +1,16 @@
-import React, { forwardRef, useState, useCallback } from 'react';
+import {
+  forwardRef,
+  useState,
+  useCallback,
+  type ChangeEvent,
+  type InputHTMLAttributes
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import { DynIcon } from '../DynIcon';
 import './DynCheckbox.css';
 
-export interface DynCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'> {
+export interface DynCheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'> {
   /**
    * Checkbox size using design tokens
    * @default 'md'
@@ -85,7 +91,7 @@ export const DynCheckbox = forwardRef<HTMLInputElement, DynCheckboxProps>((
   
   const currentChecked = checked !== undefined ? checked : internalChecked;
   
-  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const newChecked = event.target.checked;
     
     if (checked === undefined) {

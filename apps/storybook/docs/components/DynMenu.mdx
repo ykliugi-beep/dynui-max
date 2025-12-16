@@ -1,0 +1,45 @@
+# DynMenu
+
+Dropdown menu component with keyboard navigation and accessibility.
+
+## Usage
+
+```tsx
+import { DynMenu, DynMenuItem } from '@dynui-max/core';
+
+<DynMenu>
+  <DynMenuItem onClick={handleEdit}>Edit</DynMenuItem>
+  <DynMenuItem onClick={handleDelete}>Delete</DynMenuItem>
+  <DynMenuItem disabled>Archive</DynMenuItem>
+</DynMenu>
+```
+
+## Features
+
+- **Keyboard Navigation**: Arrow keys, Enter, Escape
+- **Click Outside**: Auto-closes on external click
+- **Position**: Auto-adjusts to viewport
+- **Accessibility**: Menu and menuitem roles
+- **Icons**: Optional icons with text
+- **Separators**: Visual dividers between items
+
+## Props
+
+DynMenu:
+- `trigger`: ReactNode - Button or element that opens menu
+- `children`: ReactNode - Menu items
+- `placement`: 'top' | 'bottom' | 'left' | 'right' - Menu position
+- `onClose`: () => void - Close callback
+
+DynMenuItem:
+- `onClick`: () => void - Click handler
+- `disabled`: boolean - Disable item
+- `icon`: ReactNode - Icon element
+- `children`: ReactNode - Item label
+
+## Accessibility
+
+- Menu role
+- Menuitem roles
+- Focus management
+- Keyboard shortcuts

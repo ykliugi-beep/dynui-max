@@ -1,4 +1,10 @@
-import React, { forwardRef, useEffect, useCallback } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useCallback,
+  type MouseEvent,
+  type ReactNode
+} from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
@@ -26,7 +32,7 @@ export interface DynModalProps {
   /**
    * Modal content
    */
-  children: React.ReactNode;
+  children: ReactNode;
   
   /**
    * Close on backdrop click
@@ -100,7 +106,7 @@ export const DynModal = forwardRef<HTMLDivElement, DynModalProps>((
   },
   ref
 ) => {
-  const modalRef = useFocusTrap({
+  const modalRef = useFocusTrap<HTMLDivElement>({
     enabled: isOpen,
     returnFocus: true
   });
@@ -113,14 +119,14 @@ export const DynModal = forwardRef<HTMLDivElement, DynModalProps>((
   }, [closeOnEscape, onClose]);
   
   // Handle backdrop click
-  const handleBackdropClick = useCallback((event: React.MouseEvent) => {
+  const handleBackdropClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget && closeOnBackdropClick) {
       onClose();
     }
   }, [closeOnBackdropClick, onClose]);
   
   // Prevent content click from bubbling
-  const handleContentClick = useCallback((event: React.MouseEvent) => {
+  const handleContentClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
   }, []);
   
@@ -140,10 +146,14 @@ export const DynModal = forwardRef<HTMLDivElement, DynModalProps>((
   useEffect(() => {
     if (!isOpen) return;
     
-    document.addEventListener('keydown', handleKeyDown);
-    
+    const listener = (event: KeyboardEvent) => {
+      handleKeyDown(event);
+    };
+
+    document.addEventListener('keydown', listener as EventListener);
+
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', listener as EventListener);
     };
   }, [isOpen, handleKeyDown]);
   

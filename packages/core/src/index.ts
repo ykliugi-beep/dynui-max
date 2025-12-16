@@ -117,6 +117,14 @@ export type { DynProgressProps } from './components/DynProgress';
 export { ThemeSwitcher } from './components/ThemeSwitcher';
 export type { ThemeSwitcherProps, ThemeMode } from './components/ThemeSwitcher';
 
+// Shared component types
+export type {
+  PolymorphicComponentProps,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicComponentPropsWithoutRef,
+  PolymorphicRef,
+} from './types/polymorphic';
+
 // Hooks
 export { useClickOutside } from './hooks/useClickOutside';
 export { useKeyboard } from './hooks/useKeyboard';

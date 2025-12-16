@@ -1,4 +1,56 @@
-import type { BaseTokens } from '../types';
+import type { BaseTokens, FeedbackScale } from '../types';
+
+const successPalette: FeedbackScale = {
+  50: '#f0fdf4',
+  100: '#dcfce7',
+  200: '#d1fae5',
+  300: '#a7f3d0',
+  400: '#34d399',
+  500: '#10b981',
+  600: '#059669',
+  700: '#047857',
+  800: '#166534',
+  900: '#064e3b'
+};
+
+const warningPalette: FeedbackScale = {
+  50: '#fffbeb',
+  100: '#fef3c7',
+  200: '#fde68a',
+  300: '#fcd34d',
+  400: '#fbbf24',
+  500: '#f59e0b',
+  600: '#d97706',
+  700: '#b45309',
+  800: '#92400e',
+  900: '#78350f'
+};
+
+const dangerPalette: FeedbackScale = {
+  50: '#fef2f2',
+  100: '#fee2e2',
+  200: '#fecaca',
+  300: '#fca5a5',
+  400: '#f87171',
+  500: '#ef4444',
+  600: '#dc2626',
+  700: '#b91c1c',
+  800: '#991b1b',
+  900: '#7f1d1d'
+};
+
+const infoPalette: FeedbackScale = {
+  50: '#eff6ff',
+  100: '#dbeafe',
+  200: '#bfdbfe',
+  300: '#93c5fd',
+  400: '#60a5fa',
+  500: '#3b82f6',
+  600: '#2563eb',
+  700: '#1d4ed8',
+  800: '#1e40af',
+  900: '#1e3a8a'
+};
 
 /**
  * Base design tokens - primitive values
@@ -32,10 +84,10 @@ const baseTokens: BaseTokens = {
       900: '#111827',
       950: '#030712'
     },
-    success: { 500: '#10b981', 400: '#34d399' },
-    warning: { 500: '#f59e0b', 400: '#fbbf24' },
-    error: { 500: '#ef4444', 400: '#f87171' },
-    info: { 500: '#3b82f6', 400: '#60a5fa' },
+    success: successPalette,
+    warning: warningPalette,
+    danger: dangerPalette,
+    info: infoPalette,
     white: '#ffffff',
     black: '#000000',
     transparent: 'transparent'

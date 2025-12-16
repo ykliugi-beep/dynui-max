@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef, type ReactNode } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import './DynLabel.css';
@@ -13,7 +13,7 @@ export interface DynLabelProps {
   /**
    * Label text
    */
-  children: React.ReactNode;
+  children: ReactNode;
   
   /**
    * Associated form control ID

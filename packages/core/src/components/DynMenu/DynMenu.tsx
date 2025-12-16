@@ -1,20 +1,29 @@
-import React, { forwardRef, useState, useRef, useCallback, useEffect } from 'react';
+import {
+  forwardRef,
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+  type Ref
+} from 'react';
 import clsx from 'clsx';
-import { DynIcon } from '../DynIcon';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import './DynMenu.css';
 
 export interface MenuItem {
   value: string;
   label: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   disabled?: boolean;
   divider?: boolean;
   description?: string;
 }
 
-export interface DynMenuTriggerRenderProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  ref: React.Ref<HTMLButtonElement>;
+export interface DynMenuTriggerRenderProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  ref: Ref<HTMLButtonElement>;
   /**
    * Indicates whether the menu is currently open
    */
@@ -22,8 +31,8 @@ export interface DynMenuTriggerRenderProps extends React.ButtonHTMLAttributes<HT
 }
 
 export type DynMenuTrigger =
-  | React.ReactNode
-  | ((props: DynMenuTriggerRenderProps) => React.ReactNode);
+  | ReactNode
+  | ((props: DynMenuTriggerRenderProps) => ReactNode);
 
 export interface DynMenuProps {
   /**
@@ -132,13 +141,15 @@ export const DynMenu = forwardRef<DynMenuRef, DynMenuProps>((
   });
   
   // Keyboard navigation
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (!isOpen) return;
-    
+  const handleKeyDown = useCallback((event: KeyboardEvent): void => {
+    if (!isOpen) {
+      return;
+    }
+
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
-        setFocusedIndex(prev => 
+        setFocusedIndex(prev =>
           prev < enabledItems.length - 1 ? prev + 1 : 0
         );
         break;
@@ -154,10 +165,14 @@ export const DynMenu = forwardRef<DynMenuRef, DynMenuProps>((
       case ' ':
         event.preventDefault();
         if (focusedIndex >= 0 && focusedIndex < enabledItems.length) {
-          handleItemSelect(enabledItems[focusedIndex].value);
+          const focusedItem = enabledItems[focusedIndex];
+
+          if (focusedItem) {
+            handleItemSelect(focusedItem.value);
+          }
         }
         break;
-        
+
       case 'Escape':
         handleOpenChange(false);
         triggerRef.current?.focus();
@@ -166,10 +181,19 @@ export const DynMenu = forwardRef<DynMenuRef, DynMenuProps>((
   }, [isOpen, enabledItems, focusedIndex, handleItemSelect, handleOpenChange]);
   
   useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+    if (!isOpen) {
+      return;
     }
+
+    const listener = (event: KeyboardEvent) => {
+      handleKeyDown(event);
+    };
+
+    document.addEventListener('keydown', listener as EventListener);
+
+    return () => {
+      document.removeEventListener('keydown', listener as EventListener);
+    };
   }, [isOpen, handleKeyDown]);
   
   // Reset focused index when menu closes
@@ -180,7 +204,7 @@ export const DynMenu = forwardRef<DynMenuRef, DynMenuProps>((
   }, [isOpen]);
   
   // Expose ref methods
-  React.useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     open: () => handleOpenChange(true),
     close: () => handleOpenChange(false),
     toggle: () => handleOpenChange(!isOpen)

@@ -1,4 +1,14 @@
-import React, { forwardRef, useState, useRef, useCallback, useMemo } from 'react';
+import {
+  forwardRef,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useEffect,
+  useImperativeHandle,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import type { InputVariant } from '../DynInput';
@@ -12,6 +22,7 @@ export interface SelectOption {
   label: string;
   description?: string;
   disabled?: boolean;
+  icon?: ReactNode;
 }
 
 export interface DynSelectProps {
@@ -160,8 +171,20 @@ export const DynSelect = forwardRef<DynSelectRef, DynSelectProps>((
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
-  
+
   const currentValue = value !== undefined ? value : internalValue;
+
+  const handleEscapeKey = useCallback((event: KeyboardEvent) => {
+    if (!isOpen) {
+      return;
+    }
+
+    event.preventDefault();
+    setIsOpen(false);
+    triggerRef.current?.focus();
+  }, [isOpen]);
+
+  useKeyboard('Escape', handleEscapeKey, { enabled: isOpen });
   
   // Filter options based on search query
   const filteredOptions = useMemo(() => {
@@ -221,7 +244,7 @@ export const DynSelect = forwardRef<DynSelectRef, DynSelectProps>((
   }, [disabled, isOpen, searchable]);
   
   // Handle keyboard navigation
-  const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
+  const handleKeyDown = useCallback((event: ReactKeyboardEvent) => {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
@@ -273,12 +296,12 @@ export const DynSelect = forwardRef<DynSelectRef, DynSelectProps>((
   });
   
   // Reset focused index when options change
-  React.useEffect(() => {
+  useEffect(() => {
     setFocusedIndex(-1);
   }, [filteredOptions.length]);
   
   // Expose ref methods
-  React.useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     focus: () => triggerRef.current?.focus(),
     blur: () => triggerRef.current?.blur(),
     open: () => setIsOpen(true),

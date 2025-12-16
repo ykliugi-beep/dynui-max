@@ -1,0 +1,43 @@
+# DynBreadcrumb
+
+Breadcrumb navigation showing the current page location in a hierarchical structure.
+
+## Usage
+
+```tsx
+import { DynBreadcrumb, DynBreadcrumbItem } from '@dynui-max/core';
+
+<DynBreadcrumb>
+  <DynBreadcrumbItem href="/">Home</DynBreadcrumbItem>
+  <DynBreadcrumbItem href="/products">Products</DynBreadcrumbItem>
+  <DynBreadcrumbItem current>Current Page</DynBreadcrumbItem>
+</DynBreadcrumb>
+```
+
+## Features
+
+- **Current Page**: Visually marked as current
+- **Links**: Navigate to parent pages
+- **Separators**: Customizable separators
+- **Accessibility**: nav landmark and aria-current
+- **Mobile**: Collapses on small screens
+- **Icons**: Optional icons in items
+
+## Props
+
+DynBreadcrumb:
+- `separator`: ReactNode - Custom separator
+- `children`: ReactNode - Breadcrumb items
+
+DynBreadcrumbItem:
+- `href`: string - Link destination
+- `current`: boolean - Is current page
+- `disabled`: boolean - Disable navigation
+- `children`: ReactNode - Item label
+
+## Accessibility
+
+- Nav landmark
+- aria-current="page"
+- Proper link semantics
+- Keyboard navigation

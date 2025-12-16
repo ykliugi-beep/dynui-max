@@ -1,10 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import { DynStepper } from './DynStepper';
-import type { StepData } from './DynStepper';
-
-expect.extend(toHaveNoViolations);
+import { axe } from 'vitest-axe';
+import { DynStepper, type StepData } from './DynStepper';
 
 const mockSteps: StepData[] = [
   { key: 'step1', title: 'Personal Info', description: 'Enter your details' },
@@ -24,8 +21,7 @@ describe('DynStepper Accessibility', () => {
       />
     );
     
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 
   it('has no accessibility violations in vertical layout', async () => {
@@ -39,8 +35,7 @@ describe('DynStepper Accessibility', () => {
       />
     );
     
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 
   it('has no accessibility violations with error state', async () => {
@@ -59,8 +54,7 @@ describe('DynStepper Accessibility', () => {
       />
     );
     
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 
   it('has no accessibility violations with disabled steps', async () => {
@@ -74,8 +68,7 @@ describe('DynStepper Accessibility', () => {
       />
     );
     
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
   
   it('has no accessibility violations with custom icons', async () => {
@@ -98,7 +91,6 @@ describe('DynStepper Accessibility', () => {
       />
     );
     
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
+    await expect(axe(container)).toHaveNoViolations();
   });
 });

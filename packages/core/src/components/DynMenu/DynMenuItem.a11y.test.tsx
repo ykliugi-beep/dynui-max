@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '../../test/test-utils';
-import { axe, toHaveNoViolations } from 'vitest-axe';
+import { axe } from 'vitest-axe';
 import { DynMenuItem } from './DynMenuItem';
-
-expect.extend(toHaveNoViolations);
 
 describe('DynMenuItem Accessibility', () => {
   it('has no violations for standard item', async () => {
     const { container } = render(
-      <DynMenuItem>Item</DynMenuItem>
+      <div role="menu">
+        <DynMenuItem>Item</DynMenuItem>
+      </div>
     );
 
     const results = await axe(container);
@@ -17,7 +17,9 @@ describe('DynMenuItem Accessibility', () => {
 
   it('has no violations for divider item', async () => {
     const { container } = render(
-      <DynMenuItem divider />
+      <div role="menu">
+        <DynMenuItem divider />
+      </div>
     );
 
     const results = await axe(container);

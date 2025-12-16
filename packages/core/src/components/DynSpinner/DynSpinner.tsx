@@ -1,9 +1,9 @@
-import React from 'react';
+import { type FC, type HTMLAttributes } from 'react';
 import clsx from 'clsx';
 import type { ComponentSize, ComponentColor } from '@dynui-max/design-tokens';
 import styles from './DynSpinner.module.css';
 
-export interface DynSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface DynSpinnerProps extends HTMLAttributes<HTMLDivElement> {
   /** Size of the spinner based on component size tokens */
   size?: ComponentSize;
   /** Color variant from semantic tokens */
@@ -14,7 +14,7 @@ export interface DynSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   inline?: boolean;
 }
 
-export const DynSpinner: React.FC<DynSpinnerProps> = ({
+export const DynSpinner: FC<DynSpinnerProps> = ({
   size = 'md',
   color = 'primary',
   label,
@@ -26,6 +26,7 @@ export const DynSpinner: React.FC<DynSpinnerProps> = ({
 }) => {
   const hasLabel = typeof label === 'string' && label.trim().length > 0;
   const mergedLabel = hasLabel ? label : 'Loading';
+  const inlineClass = styles['dyn-spinner--inline'];
 
   return (
     <div
@@ -33,9 +34,7 @@ export const DynSpinner: React.FC<DynSpinnerProps> = ({
         styles['dyn-spinner'],
         styles[`dyn-spinner--size-${size}`],
         styles[`dyn-spinner--color-${color}`],
-        {
-          [styles['dyn-spinner--inline']]: inline
-        },
+        inline && inlineClass,
         className
       )}
       role={role}

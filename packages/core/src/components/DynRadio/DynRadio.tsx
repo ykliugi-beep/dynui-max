@@ -1,9 +1,19 @@
-import React, { forwardRef, useState, useCallback, createContext, useContext } from 'react';
+import {
+  forwardRef,
+  useState,
+  useCallback,
+  createContext,
+  useContext,
+  type ChangeEvent,
+  type InputHTMLAttributes,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode
+} from 'react';
 import clsx from 'clsx';
 import type { ComponentSize } from '@dynui-max/design-tokens';
 import './DynRadio.css';
 
-export interface DynRadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'> {
+export interface DynRadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'> {
   /**
    * Radio size using design tokens
    * @default 'md'
@@ -97,7 +107,7 @@ export interface DynRadioGroupProps {
   /**
    * Children (DynRadio components)
    */
-  children: React.ReactNode;
+  children: ReactNode;
   
   /**
    * Additional CSS class names
@@ -123,7 +133,7 @@ interface RadioGroupContextValue {
 
 const RadioGroupContext = createContext<RadioGroupContextValue | undefined>(undefined);
 
-const useRadioGroup = () => {
+export const useRadioGroupContext = () => {
   const context = useContext(RadioGroupContext);
   return context || {};
 };
@@ -148,7 +158,7 @@ export const DynRadio = forwardRef<HTMLInputElement, DynRadioProps>((
   ref
 ) => {
   const [isFocused, setIsFocused] = useState(false);
-  const groupContext = useRadioGroup();
+  const groupContext = useRadioGroupContext();
   
   // Use context values if available, otherwise use props
   const finalSize = size || groupContext.size || 'md';
@@ -157,7 +167,7 @@ export const DynRadio = forwardRef<HTMLInputElement, DynRadioProps>((
   const finalName = groupContext.name;
   const finalChecked = checked !== undefined ? checked : groupContext.value === value;
   
-  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       onChange?.(value);
       groupContext.onChange?.(value);
@@ -253,9 +263,9 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
     defaultValue,
     onChange,
     name,
-    size = 'md',
-    disabled = false,
-    error = false,
+    size: sizeProp,
+    disabled: disabledProp,
+    error: errorProp,
     required = false,
     orientation = 'vertical',
     children,
@@ -267,8 +277,8 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
   },
   ref
 ) => {
-  const [internalValue, setInternalValue] = useState(defaultValue || '');
-  
+  const [internalValue, setInternalValue] = useState<string | undefined>(defaultValue);
+
   const currentValue = value !== undefined ? value : internalValue;
   
   const handleChange = useCallback((newValue: string) => {
@@ -278,7 +288,7 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
     onChange?.(newValue);
   }, [value, onChange]);
   
-  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = useCallback((event: ReactKeyboardEvent<HTMLDivElement>) => {
     const radios = Array.from(
       event.currentTarget.querySelectorAll('input[type="radio"]:not(:disabled)')
     ) as HTMLInputElement[];
@@ -313,21 +323,28 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
     }
   }, [handleChange]);
   
-  const contextValue: RadioGroupContextValue = {
-    value: currentValue,
+  const baseContextValue = {
     onChange: handleChange,
-    name,
-    size,
-    disabled,
-    error
+    ...(currentValue !== undefined ? { value: currentValue } : {}),
+    ...(sizeProp !== undefined ? { size: sizeProp } : {}),
+    ...(disabledProp !== undefined ? { disabled: disabledProp } : {}),
+    ...(errorProp !== undefined ? { error: errorProp } : {})
+  } satisfies RadioGroupContextValue;
+
+  const contextValue: RadioGroupContextValue = {
+    ...baseContextValue,
+    ...(name ? { name } : {})
   };
   
+  const groupDisabled = disabledProp ?? false;
+  const groupError = errorProp ?? false;
+
   const containerClasses = clsx(
     'dyn-radio-group',
     `dyn-radio-group--${orientation}`,
     {
-      'dyn-radio-group--error': error,
-      'dyn-radio-group--disabled': disabled
+      'dyn-radio-group--error': groupError,
+      'dyn-radio-group--disabled': groupDisabled
     },
     className
   );
@@ -352,8 +369,9 @@ export const DynRadioGroup = forwardRef<HTMLDivElement, DynRadioGroupProps>((
           <input
             type="hidden"
             name={name}
-            value={currentValue}
+            value={currentValue ?? ''}
             required={required}
+            disabled={groupDisabled}
           />
         )}
       </div>

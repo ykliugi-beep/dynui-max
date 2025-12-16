@@ -1,0 +1,38 @@
+# DynModal
+
+Accessible modal dialog component with focus trap and backdrop.
+
+## Usage
+
+```tsx
+import { DynModal } from '@dynui-max/core';
+
+<DynModal isOpen={isOpen} onClose={handleClose}>
+  <h2>Modal Title</h2>
+  <p>Modal content goes here</p>
+</DynModal>
+```
+
+## Features
+
+- **Focus Management**: Traps focus within modal while open
+- **Backdrop**: Click outside to close (optional)
+- **Keyboard Support**: Press Escape to close
+- **Accessible**: WCAG 2.1 AA compliant
+- **Portal**: Renders at document root level
+- **Size Variants**: sm, md, lg sizes
+
+## Props
+
+- `isOpen`: boolean - Controls modal visibility
+- `onClose`: () => void - Close callback
+- `size`: 'sm' | 'md' | 'lg' - Modal size
+- `title`: string - Modal title
+- `children`: ReactNode - Modal content
+
+## Accessibility
+
+- Automatically manages focus
+- Prevents scroll when open
+- Dialog role applied
+- Keyboard navigation supported
