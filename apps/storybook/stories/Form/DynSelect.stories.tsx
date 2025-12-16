@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { DynSelect } from '@dynui-max/core';
 
 const meta = {
@@ -13,34 +14,30 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const options = [
+  { value: '1', label: 'Option 1' },
+  { value: '2', label: 'Option 2' },
+  { value: '3', label: 'Option 3' },
+];
+
 export const Default: Story = {
   args: {
-    options: [
-      { value: '1', label: 'Option 1' },
-      { value: '2', label: 'Option 2' },
-      { value: '3', label: 'Option 3' },
-    ],
+    options: options,
     placeholder: 'Select an option...',
   },
 };
 
 export const WithValue: Story = {
   args: {
-    options: [
-      { value: 'red', label: 'Red' },
-      { value: 'green', label: 'Green' },
-      { value: 'blue', label: 'Blue' },
-    ],
-    value: 'green',
+    options: options,
+    value: '1',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    options: [
-      { value: '1', label: 'Option 1' },
-      { value: '2', label: 'Option 2' },
-    ],
+    options: options,
     disabled: true,
+    placeholder: 'Disabled select',
   },
 };
