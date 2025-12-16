@@ -1,0 +1,47 @@
+# DynIcon
+
+Icon component providing a unified interface for SVG icons with sizing and color support.
+
+## Usage
+
+```tsx
+import { DynIcon } from '@dynui-max/core';
+
+<DynIcon name="check" size="md" />
+<DynIcon name="warning" size="lg" color="warning" />
+<DynIcon name="custom-icon" />
+```
+
+## Features
+
+- **SVG Icons**: Clean vector graphics
+- **Sizes**: xs, sm, md, lg, xl
+- **Colors**: Primary, success, warning, error, info
+- **Custom Icons**: Register custom icons
+- **Icon Registry**: 20+ built-in icons
+- **Accessible**: ARIA labels support
+- **Responsive**: Scales with design tokens
+
+## Props
+
+- `name`: string - Icon name
+- `size`: 'xs' | 'sm' | 'md' | 'lg' | 'xl' - Icon size
+- `color`: string - Icon color
+- `title`: string - Tooltip or ARIA label
+- `className`: string - Custom CSS class
+- `strokeWidth`: number - SVG stroke width
+
+## Accessibility
+
+- ARIA labels for decorative icons
+- Proper title attributes
+- High contrast colors
+- Semantic meaning via name
+
+## Built-in Icons
+
+- check, x, plus, minus
+- arrow-up, arrow-down, arrow-left, arrow-right
+- menu, settings, user, bell
+- search, share, download, upload
+- And more...

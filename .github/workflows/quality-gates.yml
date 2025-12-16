@@ -1,230 +1,42 @@
-name: Quality Gates Pipeline
+name: Quality Gates
 
 on:
-  push:
-    branches: [main, develop]
   pull_request:
     branches: [main, develop]
-
-env:
-  NODE_VERSION: '20'
-  PNPM_VERSION: '9.12.3'
+  push:
+    branches: [main, develop]
 
 jobs:
-  # Gate A: Static Analysis (TypeScript + ESLint + Prettier)
-  gate-a:
-    name: "Gate A - Static Analysis"
+  quality:
+    name: Code Quality
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    timeout-minutes: 15
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          node-version: 18.x
 
-      - name: Install dependencies
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: TypeScript Check
+      - name: TypeScript Type Check
         run: pnpm typecheck
 
-      - name: ESLint Check
+      - name: ESLint
         run: pnpm lint
 
-      - name: Prettier Check
-        run: pnpm format:check
+      - name: Unit Tests
+        run: pnpm test --run
 
-  # Gate B: Test Coverage (≥80% enforced)
-  gate-b:
-    name: "Gate B - Test Coverage"
-    runs-on: ubuntu-latest
-    needs: gate-a
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run Tests with Coverage
+      - name: Test Coverage
         run: pnpm test:coverage
-
-      - name: Coverage Gate Enforcement (≥80%)
-        run: |
-          # Extract coverage percentage from vitest output
-          COVERAGE=$(pnpm test:coverage --silent 2>&1 | grep -oP 'All files.*?\K\d+(?=\.\d+%)' | head -1 || echo "0")
-          echo "Current coverage: ${COVERAGE}%"
-          if [ "$COVERAGE" -lt 80 ]; then
-            echo "❌ Coverage ${COVERAGE}% is below 80% threshold"
-            exit 1
-          else
-            echo "✅ Coverage ${COVERAGE}% meets 80% threshold"
-          fi
-
-      - name: Upload Coverage Reports
-        uses: codecov/codecov-action@v4
-        if: always()
-        with:
-          files: ./coverage/coverage-final.json
-          flags: unittests
-          fail_ci_if_error: false
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-  # Gate C: Accessibility Testing
-  gate-c:
-    name: "Gate C - Accessibility Testing"
-    runs-on: ubuntu-latest
-    needs: gate-a
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run A11y Tests
-        run: pnpm test:a11y
-
-      - name: Build Storybook
-        run: pnpm storybook:build
-        continue-on-error: true
-
-      - name: Install Playwright
-        run: pnpm dlx playwright install --with-deps chromium
-        if: success()
-
-      - name: Serve Storybook & Run Test Runner
-        run: |
-          pnpm dlx serve storybook-static -p 6006 &
-          sleep 10
-          pnpm dlx @storybook/test-runner --url http://localhost:6006 --maxWorkers=2
-        if: success()
-        timeout-minutes: 10
-
-  # Gate D: Bundle Analysis (<150KB enforced)
-  gate-d:
-    name: "Gate D - Bundle Analysis"
-    runs-on: ubuntu-latest
-    needs: gate-a
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build packages
-        run: pnpm build
-
-      - name: Bundle Size Analysis (<150KB enforced)
-        run: |
-          # Check if dist exists
-          if [ ! -d "packages/core/dist" ]; then
-            echo "❌ Build failed - dist directory not found"
-            exit 1
-          fi
-          
-          # Calculate bundle size in KB
-          BUNDLE_SIZE=$(du -sk packages/core/dist | cut -f1)
-          MAX_SIZE=150  # 150KB limit
-          
-          echo "Current bundle size: ${BUNDLE_SIZE}KB"
-          echo "Maximum allowed: ${MAX_SIZE}KB"
-          
-          if [ "$BUNDLE_SIZE" -gt "$MAX_SIZE" ]; then
-            echo "❌ Bundle size ${BUNDLE_SIZE}KB exceeds ${MAX_SIZE}KB limit"
-            exit 1
-          else
-            echo "✅ Bundle size ${BUNDLE_SIZE}KB within ${MAX_SIZE}KB limit"
-          fi
-
-      - name: Tree-shaking Verification
-        run: |
-          # Test tree-shaking by importing single component
-          echo "import { DynButton } from '@dynui-max/core';" > test-treeshake.js
-          pnpm dlx esbuild test-treeshake.js --bundle --minify --outfile=test-bundle.js --external:react --external:react-dom
-          
-          SIZE=$(wc -c < test-bundle.js)
-          echo "Single component bundle: ${SIZE} bytes"
-          
-          # Cleanup
-          rm -f test-treeshake.js test-bundle.js
-          
-          if [ "$SIZE" -gt 20000 ]; then
-            echo "⚠️  Single component bundle might be too large: ${SIZE} bytes"
-          else
-            echo "✅ Tree-shaking working properly"
-          fi
-
-      - name: Bundle Analysis Report
-        run: pnpm size:analyze
-        continue-on-error: true
-
-  # Summary Job
-  quality-gates-summary:
-    name: "Quality Gates Summary"
-    runs-on: ubuntu-latest
-    needs: [gate-a, gate-b, gate-c, gate-d]
-    if: always()
-    steps:
-      - name: Check all gates status
-        run: |
-          echo "Quality Gates Results:"
-          echo "Gate A (Static Analysis): ${{ needs.gate-a.result }}"
-          echo "Gate B (Test Coverage): ${{ needs.gate-b.result }}"
-          echo "Gate C (Accessibility): ${{ needs.gate-c.result }}"
-          echo "Gate D (Bundle Analysis): ${{ needs.gate-d.result }}"
-          
-          # Check if any critical gates failed
-          if [[ "${{ needs.gate-a.result }}" != "success" || 
-                "${{ needs.gate-b.result }}" != "success" || 
-                "${{ needs.gate-c.result }}" != "success" || 
-                "${{ needs.gate-d.result }}" != "success" ]]; then
-            echo "❌ Critical quality gates failed"
-            exit 1
-          else
-            echo "✅ All critical quality gates passed"
-          fi

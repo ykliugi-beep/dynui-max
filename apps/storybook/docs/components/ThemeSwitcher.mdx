@@ -1,0 +1,57 @@
+# ThemeSwitcher
+
+Component for switching between light and dark themes with persistent user preference.
+
+## Usage
+
+```tsx
+import { ThemeSwitcher } from '@dynui-max/core';
+
+<ThemeSwitcher />
+
+// Or as toggle
+<ThemeSwitcher variant="toggle" />
+```
+
+## Features
+
+- **Light/Dark Modes**: Switch between themes
+- **Persistence**: Save to localStorage
+- **System Preference**: Detect system theme
+- **Auto Mode**: Follow system changes
+- **Variants**: Button, toggle, dropdown
+- **Icons**: Visual indicators
+- **Accessibility**: ARIA labels
+
+## Props
+
+- `variant`: 'button' | 'toggle' | 'dropdown' - Style variant
+- `defaultTheme`: 'light' | 'dark' | 'auto' - Default theme
+- `onThemeChange`: (theme) => void - Change callback
+- `showLabel`: boolean - Show text label
+- `position`: 'fixed' | 'relative' - Positioning
+
+## Examples
+
+### Button Style
+```tsx
+<ThemeSwitcher variant="button" />
+```
+
+### Toggle Style
+```tsx
+<ThemeSwitcher variant="toggle" defaultTheme="light" />
+```
+
+### Dropdown Style
+```tsx
+<ThemeSwitcher variant="dropdown" />
+```
+
+## Accessibility
+
+- Proper button/toggle roles
+- ARIA labels
+- Keyboard accessible
+- Focus visible states
+- Color contrast compliant
