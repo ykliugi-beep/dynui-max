@@ -126,6 +126,8 @@ export const DynListView = forwardRef<HTMLDivElement, DynListViewProps>((
     );
   }
   
+  const hasSelectionMode = selectionMode !== 'none';
+  
   return (
     <div
       ref={ref}
@@ -133,7 +135,11 @@ export const DynListView = forwardRef<HTMLDivElement, DynListViewProps>((
       data-testid={dataTestId}
       {...props}
     >
-      <div className="dyn-listview__container">
+      <div 
+        className="dyn-listview__container"
+        role={hasSelectionMode ? 'listbox' : undefined}
+        aria-multiselectable={selectionMode === 'multiple' ? true : undefined}
+      >
         {items.map((item, index) => {
           const isSelected = selectedKeys.includes(item.key);
           
@@ -145,12 +151,12 @@ export const DynListView = forwardRef<HTMLDivElement, DynListViewProps>((
                 {
                   'dyn-listview__item--selected': isSelected,
                   'dyn-listview__item--disabled': item.disabled,
-                  'dyn-listview__item--clickable': Boolean(onItemClick) || selectionMode !== 'none'
+                  'dyn-listview__item--clickable': Boolean(onItemClick) || hasSelectionMode
                 }
               )}
               onClick={!item.disabled ? () => handleItemClick(item, index) : undefined}
-              role={selectionMode !== 'none' ? 'option' : undefined}
-              aria-selected={selectionMode !== 'none' ? isSelected : undefined}
+              role={hasSelectionMode ? 'option' : undefined}
+              aria-selected={hasSelectionMode ? isSelected : undefined}
               aria-disabled={item.disabled}
               tabIndex={item.disabled ? -1 : 0}
             >
