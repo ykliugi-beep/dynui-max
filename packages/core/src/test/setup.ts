@@ -5,7 +5,7 @@ import { beforeAll, afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
 // Extend Vitest expect with axe matchers
-expect.extend(toHaveNoViolations);
+expect.extend({ toHaveNoViolations });
 
 // Cleanup DOM after each test
 afterEach(() => {
