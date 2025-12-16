@@ -9,12 +9,9 @@ function getAbsolutePath(value: string): any {
   return dirname(require.resolve(join(value, 'package.json')));
 }
 
-const resolveFromWorkspaceRoot = (relativePath: string) =>
-  join(__dirname, relativePath);
-
 const config: StorybookConfig = {
   stories: [
-    '../stories/**/*.mdx',
+    '../stories/Introduction.mdx',
     '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'
   ],
   addons: [
