@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { DynModal, DynButton } from '@dynui-max/core';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const meta = {
   title: 'Layout/DynModal',
