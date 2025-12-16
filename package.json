@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "//=== Core Development =====\n    INFO: Use 'pnpm dev' or 'pnpm storybook' from root for best experience": "",
-    "build": "pnpm --filter @dynui-max/design-tokens build && pnpm -r build",
+    "build": "pnpm --filter @dynui-max/design-tokens build && pnpm --filter !@dynui-max/design-tokens -r build",
     "dev": "concurrently \"pnpm --filter=@dynui-max/core run dev\" \"pnpm --filter=@dynui-max/storybook run dev\"",
     "dev:storybook": "pnpm --filter @dynui-max/design-tokens build && pnpm --filter=@dynui-max/storybook run dev",
     "clean": "pnpm -r run clean && pnpm clean:artifacts",
