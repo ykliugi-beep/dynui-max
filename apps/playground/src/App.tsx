@@ -300,7 +300,9 @@ function PlaygroundContent() {
     }
   ];
 
-  const themeLabel = theme === 'light' ? 'Light' : theme === 'dark' ? 'Dark' : 'System';
+  // Convert theme to string for display
+  const themeStr = String(theme);
+  const themeLabel = themeStr === 'light' ? 'Light' : themeStr === 'dark' ? 'Dark' : 'System';
 
   return (
     <DynContainer size="xl">
