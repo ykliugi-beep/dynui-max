@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { DynTreeView } from '@dynui-max/core';
 
 const meta = {
   title: 'Data/DynTreeView',
   component: DynTreeView,
   parameters: {
-    layout: 'centered',
+    layout: 'padded',
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof DynTreeView>;
@@ -16,20 +17,16 @@ type Story = StoryObj<typeof meta>;
 const treeData = [
   {
     id: '1',
-    label: 'Root 1',
+    label: 'Root',
     children: [
-      { id: '1-1', label: 'Child 1-1' },
-      { id: '1-2', label: 'Child 1-2', children: [
-        { id: '1-2-1', label: 'Grandchild 1-2-1' },
-      ]},
-    ],
-  },
-  {
-    id: '2',
-    label: 'Root 2',
-    children: [
-      { id: '2-1', label: 'Child 2-1' },
-      { id: '2-2', label: 'Child 2-2' },
+      { id: '1-1', label: 'Child 1.1' },
+      {
+        id: '1-2',
+        label: 'Child 1.2',
+        children: [
+          { id: '1-2-1', label: 'Grandchild 1.2.1' },
+        ],
+      },
     ],
   },
 ];
@@ -40,9 +37,11 @@ export const Default: Story = {
   },
 };
 
-export const ExpandedByDefault: Story = {
-  args: {
-    data: treeData,
-    defaultExpanded: ['1', '2'],
-  },
+export const Expanded: Story = {
+  render: () => (
+    <DynTreeView
+      data={treeData}
+      defaultExpandedIds={['1', '1-2']}
+    />
+  ),
 };
