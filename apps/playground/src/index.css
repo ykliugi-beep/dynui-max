@@ -1,8 +1,8 @@
 /**
  * Import design tokens CSS first
- * Using relative path resolution for CSS preprocessor
+ * Using workspace-relative path for pnpm monorepo
  */
-@import '../../node_modules/@dynui-max/design-tokens/dist/tokens.css';
+@import '../../../packages/design-tokens/dist/tokens.css';
 
 /**
  * DynUI-Max Playground Global Styles
