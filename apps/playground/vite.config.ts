@@ -6,8 +6,10 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // Only alias core src, design-tokens should resolve from dist
+      // Alias core src for development
       '@dynui-max/core': path.resolve(__dirname, '../../packages/core/src'),
+      // Alias design-tokens CSS export to actual file
+      '@dynui-max/design-tokens/css': path.resolve(__dirname, '../../packages/design-tokens/dist/tokens.css'),
     },
   },
   css: {
