@@ -6,9 +6,12 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      // Only alias core src, design-tokens should resolve from dist
       '@dynui-max/core': path.resolve(__dirname, '../../packages/core/src'),
-      '@dynui-max/design-tokens': path.resolve(__dirname, '../../packages/design-tokens/src'),
     },
+  },
+  optimizeDeps: {
+    include: ['@dynui-max/core', '@dynui-max/design-tokens'],
   },
   server: {
     port: 5173,
