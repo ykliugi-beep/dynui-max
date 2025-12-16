@@ -2,7 +2,6 @@ import 'vitest-axe/extend-expect';
 import '@testing-library/jest-dom';
 import { beforeAll, afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
-import 'vitest';
 import type { AxeMatchers } from 'vitest-axe/matchers';
 
 // Cleanup DOM after each test
@@ -13,6 +12,7 @@ afterEach(() => {
 // -------------------- TypeScript augmentation --------------------
 // Make TypeScript aware of vitest-axe matcher (toHaveNoViolations)
 declare module 'vitest' {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interface Assertion<T = any> extends AxeMatchers {}
   interface AsymmetricMatchersContaining extends AxeMatchers {}
 }
