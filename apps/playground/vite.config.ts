@@ -1,28 +1,17 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@dynui-max/core': resolve(__dirname, '../../packages/core/src'),
-      '@dynui-max/design-tokens': resolve(
-        __dirname,
-        '../../packages/design-tokens/src'
-      ),
-      '@dynui-max/design-tokens/css': resolve(
-        __dirname,
-        '../../packages/design-tokens/dist/tokens.css'
-      ),
+      '@dynui-max/core': path.resolve(__dirname, '../../packages/core/src'),
+      '@dynui-max/design-tokens': path.resolve(__dirname, '../../packages/design-tokens/src'),
     },
   },
   server: {
-    port: 3000,
+    port: 5173,
     open: true,
-  },
-  build: {
-    outDir: 'dist',
-    sourcemap: true,
   },
 });
