@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { DynIcon } from '@dynui-max/core';
 
 const meta = {
   title: 'Infrastructure/DynIcon',
   component: DynIcon,
   parameters: {
-    layout: 'centered',
+    layout: 'padded',
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof DynIcon>;
@@ -19,29 +20,21 @@ export const Default: Story = {
   },
 };
 
-export const Sizes: Story = {
+export const AllIcons: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-      <DynIcon name="check" size="xs" />
-      <DynIcon name="check" size="sm" />
-      <DynIcon name="check" size="md" />
-      <DynIcon name="check" size="lg" />
-      <DynIcon name="check" size="xl" />
-    </div>
-  ),
-};
-
-export const CommonIcons: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-      <DynIcon name="check" />
-      <DynIcon name="close" />
-      <DynIcon name="arrow-right" />
-      <DynIcon name="arrow-left" />
-      <DynIcon name="search" />
-      <DynIcon name="settings" />
-      <DynIcon name="user" />
-      <DynIcon name="spinner" />
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))', gap: '1rem' }}>
+      <div style={{ textAlign: 'center' }}>
+        <DynIcon name="check" />
+        <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.85em' }}>check</p>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <DynIcon name="arrow-right" />
+        <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.85em' }}>arrow-right</p>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <DynIcon name="close" />
+        <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.85em' }}>close</p>
+      </div>
     </div>
   ),
 };

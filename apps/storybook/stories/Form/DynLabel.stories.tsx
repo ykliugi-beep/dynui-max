@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { DynLabel } from '@dynui-max/core';
 
 const meta = {
@@ -15,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: 'Form Label',
+    children: 'Label',
   },
 };
 
@@ -26,9 +27,10 @@ export const Required: Story = {
   },
 };
 
-export const WithHtmlFor: Story = {
-  args: {
-    children: 'Email Address',
-    htmlFor: 'email-input',
-  },
+export const WithIcon: Story = {
+  render: () => (
+    <DynLabel>
+      <span>Label with icon</span>
+    </DynLabel>
+  ),
 };
