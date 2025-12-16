@@ -122,8 +122,8 @@ function PlaygroundContent() {
   const totalPages = Math.ceil(sampleUsers.length / pageSize);
   const paginatedUsers = sampleUsers.slice((tablePage - 1) * pageSize, tablePage * pageSize);
 
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
   };
 
   const handleFrameworkChange = (value: string | string[]) => {
@@ -182,9 +182,9 @@ function PlaygroundContent() {
 
           <DynCard variant="outlined" title="Try the controls" subtitle="Search, filter, and launch workflows">
             <DynBox display="flex" gap="md" direction="column">
-              <DynFieldContainer label="Search Components" helpText="Try searching for components or features">
+              <DynFieldContainer label="Search Components">
                 <DynInput
-                  variant="search"
+                  variant="outlined"
                   value={searchQuery}
                   onChange={handleSearchChange}
                   placeholder="Search components..."
@@ -322,7 +322,7 @@ function PlaygroundContent() {
         
         <DynBox display="flex" align="center" gap="md">
           <DynBadge color="success">v0.3.0</DynBadge>
-          <DynBadge color="primary">{theme} theme</DynBadge>
+          <DynBadge color="primary">{theme === 'light' ? 'Light' : 'Dark'} theme</DynBadge>
           <ThemeSwitcher variant="button" showLabels />
         </DynBox>
       </DynBox>
