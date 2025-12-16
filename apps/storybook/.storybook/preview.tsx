@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react';
-import '@dynui-max/design-tokens/dist/tokens.css';
-import '@dynui-max/design-tokens/dist/tokens-dark.css';
+import '@dynui-max/design-tokens/css';
+import '@dynui-max/design-tokens/css-dark';
 
 const preview: Preview = {
   parameters: {
