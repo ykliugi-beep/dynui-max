@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react';
 import { themes } from '@storybook/theming';
-import '@dynui-max/design-tokens/dist/tokens.css';
+import '@dynui-max/design-tokens/css';
 import './storybook.css';
 
 const preview: Preview = {
