@@ -184,7 +184,7 @@ function PlaygroundContent() {
             <DynBox display="flex" gap="md" direction="column">
               <DynFieldContainer label="Search Components">
                 <DynInput
-                  variant="outlined"
+                  variant="outline"
                   value={searchQuery}
                   onChange={handleSearchChange}
                   placeholder="Search components..."
@@ -300,6 +300,8 @@ function PlaygroundContent() {
     }
   ];
 
+  const themeLabel = theme === 'light' ? 'Light' : theme === 'dark' ? 'Dark' : 'System';
+
   return (
     <DynContainer size="xl">
       {showToast && (
@@ -322,7 +324,7 @@ function PlaygroundContent() {
         
         <DynBox display="flex" align="center" gap="md">
           <DynBadge color="success">v0.3.0</DynBadge>
-          <DynBadge color="primary">{theme === 'light' ? 'Light' : 'Dark'} theme</DynBadge>
+          <DynBadge color="primary">{themeLabel} theme</DynBadge>
           <ThemeSwitcher variant="button" showLabels />
         </DynBox>
       </DynBox>
