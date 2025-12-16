@@ -9,6 +9,20 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['solid', 'outline', 'ghost'],
+    },
+    color: {
+      control: 'select',
+      options: ['primary', 'success', 'warning', 'danger', 'info'],
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+    },
+  },
 } satisfies Meta<typeof DynBadge>;
 
 export default meta;
@@ -20,42 +34,27 @@ export const Default: Story = {
   },
 };
 
-export const Primary: Story = {
+export const Outline: Story = {
   args: {
-    children: 'Primary',
-    color: 'primary',
+    children: 'Outline',
+    variant: 'outline',
   },
 };
 
-export const Success: Story = {
+export const Ghost: Story = {
   args: {
-    children: 'Success',
-    color: 'success',
+    children: 'Ghost',
+    variant: 'ghost',
   },
 };
 
-export const Warning: Story = {
-  args: {
-    children: 'Warning',
-    color: 'warning',
-  },
-};
-
-export const Danger: Story = {
-  args: {
-    children: 'Danger',
-    color: 'danger',
-  },
-};
-
-export const AllColors: Story = {
+export const Colors: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
       <DynBadge color="primary">Primary</DynBadge>
-      <DynBadge color="secondary">Secondary</DynBadge>
       <DynBadge color="success">Success</DynBadge>
-      <DynBadge color="danger">Danger</DynBadge>
       <DynBadge color="warning">Warning</DynBadge>
+      <DynBadge color="danger">Danger</DynBadge>
       <DynBadge color="info">Info</DynBadge>
     </div>
   ),

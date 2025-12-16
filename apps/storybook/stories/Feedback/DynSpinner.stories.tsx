@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { DynSpinner } from '@dynui-max/core';
 
 const meta = {
@@ -8,6 +9,12 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  argTypes: {
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+    },
+  },
 } satisfies Meta<typeof DynSpinner>;
 
 export default meta;
@@ -27,14 +34,4 @@ export const Large: Story = {
   args: {
     size: 'lg',
   },
-};
-
-export const Sizes: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-      <DynSpinner size="sm" />
-      <DynSpinner size="md" />
-      <DynSpinner size="lg" />
-    </div>
-  ),
 };

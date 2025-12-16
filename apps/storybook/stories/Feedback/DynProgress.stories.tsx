@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { DynProgress } from '@dynui-max/core';
 
 const meta = {
@@ -8,6 +9,15 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  argTypes: {
+    value: {
+      control: { type: 'range', min: 0, max: 100 },
+    },
+    color: {
+      control: 'select',
+      options: ['primary', 'success', 'warning', 'danger'],
+    },
+  },
 } satisfies Meta<typeof DynProgress>;
 
 export default meta;
@@ -15,36 +25,27 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    value: 50,
+    value: 65,
   },
 };
 
-export const Zero: Story = {
-  args: {
-    value: 0,
-  },
-};
-
-export const Complete: Story = {
+export const Success: Story = {
   args: {
     value: 100,
+    color: 'success',
   },
 };
 
-export const WithLabel: Story = {
+export const Warning: Story = {
   args: {
     value: 75,
-    showLabel: true,
+    color: 'warning',
   },
 };
 
-export const DifferentColors: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '300px' }}>
-      <DynProgress value={30} color="primary" />
-      <DynProgress value={50} color="success" />
-      <DynProgress value={70} color="warning" />
-      <DynProgress value={90} color="danger" />
-    </div>
-  ),
+export const Danger: Story = {
+  args: {
+    value: 30,
+    color: 'danger',
+  },
 };
