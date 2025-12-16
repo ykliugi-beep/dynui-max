@@ -45,7 +45,7 @@ const config: StorybookConfig = {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@dynui-max/core': resolveFromWorkspaceRoot('../../../packages/core/src'),
-        '@dynui-max/design-tokens': resolveFromWorkspaceRoot('../../../packages/design-tokens/src'),
+        '@dynui-max/design-tokens': resolveFromWorkspaceRoot('../../../packages/design-tokens/dist'),
         '@dynui-max/design-tokens/css': resolveFromWorkspaceRoot('../../../packages/design-tokens/dist/tokens.css'),
       };
     }
