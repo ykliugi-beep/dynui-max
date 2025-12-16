@@ -50,6 +50,11 @@ export interface DynListViewProps {
   emptyText?: ReactNode;
   
   /**
+   * Accessible label for the list
+   */
+  ariaLabel?: string;
+  
+  /**
    * Additional CSS class names
    */
   className?: string;
@@ -79,6 +84,7 @@ export const DynListView = forwardRef<HTMLDivElement, DynListViewProps>((
     selectionMode = 'none',
     loading = false,
     emptyText = 'No items',
+    ariaLabel = 'List view',
     className,
     'data-testid': dataTestId,
     ...props
@@ -138,6 +144,7 @@ export const DynListView = forwardRef<HTMLDivElement, DynListViewProps>((
       <div 
         className="dyn-listview__container"
         role={hasSelectionMode ? 'listbox' : undefined}
+        aria-label={hasSelectionMode ? ariaLabel : undefined}
         aria-multiselectable={selectionMode === 'multiple' ? true : undefined}
       >
         {items.map((item, index) => {
