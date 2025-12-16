@@ -127,6 +127,11 @@ export interface DynStepperProps {
   clickable?: boolean;
   
   /**
+   * Accessible label for the stepper
+   */
+  ariaLabel?: string;
+  
+  /**
    * Additional CSS class names
    */
   className?: string;
@@ -255,6 +260,7 @@ export const DynStepper = forwardRef<DynStepperRef, DynStepperProps>((
     showNumbers = true,
     showConnectors = true,
     clickable = true,
+    ariaLabel,
     className,
     'data-testid': dataTestId,
     ...props
@@ -311,11 +317,14 @@ export const DynStepper = forwardRef<DynStepperRef, DynStepperProps>((
     className
   );
   
+  const stepperAriaLabel = ariaLabel || `${orientation} stepper with ${steps.length} steps`;
+  
   return (
     <div
       className={containerClasses}
       data-testid={dataTestId}
       role="progressbar"
+      aria-label={stepperAriaLabel}
       aria-valuemin={0}
       aria-valuemax={steps.length - 1}
       aria-valuenow={current}
