@@ -259,6 +259,17 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
 
     const nextModeDescription = `Switch to ${accessibleModeLabel(nextMode, systemTheme)}`;
 
+    // Initialize hooks for button variant (must be before any conditional returns)
+    const keyboardClickPreventedRef = useRef(false);
+
+    const activateNextMode = useCallback(() => {
+      if (disabled) {
+        return;
+      }
+
+      changeMode(nextMode);
+    }, [changeMode, disabled, nextMode]);
+
     const classes = clsx(
       'dyn-theme-switcher',
       `dyn-theme-switcher--${variant}`,
@@ -383,16 +394,6 @@ export const ThemeSwitcher = forwardRef<HTMLButtonElement, ThemeSwitcherProps>(
         </label>
       );
     }
-
-    const keyboardClickPreventedRef = useRef(false);
-
-    const activateNextMode = useCallback(() => {
-      if (disabled) {
-        return;
-      }
-
-      changeMode(nextMode);
-    }, [changeMode, disabled, nextMode]);
 
     return (
       <button
