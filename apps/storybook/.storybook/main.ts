@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite';
-import { join, dirname } from 'path';
+import { join, dirname, resolve } from 'path';
+import type { InlineConfig } from 'vite';
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -34,6 +35,17 @@ const config: StorybookConfig = {
       shouldRemoveUndefinedFromOptional: true,
       propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
     },
+  },
+  async viteFinal(config: InlineConfig) {
+    // Add aliases for design-tokens CSS exports
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@dynui-max/design-tokens/css': resolve(__dirname, '../../../packages/design-tokens/dist/tokens.css'),
+      '@dynui-max/design-tokens/css-dark': resolve(__dirname, '../../../packages/design-tokens/dist/tokens-dark.css'),
+      '@dynui-max/design-tokens/css-variables': resolve(__dirname, '../../../packages/design-tokens/dist/variables.css'),
+    };
+    return config;
   },
 };
 
