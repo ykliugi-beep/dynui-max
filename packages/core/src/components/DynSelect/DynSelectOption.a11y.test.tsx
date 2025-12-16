@@ -8,7 +8,9 @@ const OPTION = { value: 'value', label: 'Label', description: 'Description' };
 describe('DynSelectOption Accessibility', () => {
   it('has no violations for standard option', async () => {
     const { container } = render(
-      <DynSelectOption option={OPTION} />
+      <div role="listbox">
+        <DynSelectOption option={OPTION} />
+      </div>
     );
 
     const results = await axe(container);
@@ -17,7 +19,9 @@ describe('DynSelectOption Accessibility', () => {
 
   it('has no violations for multiple selection mode', async () => {
     const { container } = render(
-      <DynSelectOption option={OPTION} selectionMode="multiple" selected />
+      <div role="listbox" aria-multiselectable>
+        <DynSelectOption option={OPTION} selectionMode="multiple" selected />
+      </div>
     );
 
     const results = await axe(container);
