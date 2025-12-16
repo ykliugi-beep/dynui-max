@@ -1,11 +1,8 @@
 /**
- * Import design tokens CSS first
- * Using workspace-relative path for pnpm monorepo
- */
-@import '../../../packages/design-tokens/dist/tokens.css';
-
-/**
  * DynUI-Max Playground Global Styles
+ * 
+ * Design tokens CSS is imported via TypeScript in main.tsx
+ * This ensures proper package resolution through Vite's module system
  */
 
 /* Reset and base styles */
