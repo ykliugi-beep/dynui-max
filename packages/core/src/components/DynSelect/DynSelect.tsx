@@ -370,6 +370,7 @@ export const DynSelect = forwardRef<DynSelectRef, DynSelectProps>((
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label="Search options"
               />
             </div>
           )}
