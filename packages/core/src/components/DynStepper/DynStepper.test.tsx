@@ -48,14 +48,17 @@ describe('DynStepper', () => {
     });
     
     it('shows step numbers when showNumbers is true', () => {
-      render(
+      const { container } = render(
         <DynStepper current={1} steps={sampleSteps} showNumbers={true} />
       );
       
       // Should show numbers 1, 2, 3, 4
-      for (let i = 1; i <= sampleSteps.length; i++) {
-        expect(screen.getByText(i.toString())).toBeInTheDocument();
-      }
+      const numberElements = container.querySelectorAll('.dyn-stepper__number');
+      expect(numberElements).toHaveLength(sampleSteps.length);
+      
+      numberElements.forEach((el, index) => {
+        expect(el.textContent).toBe((index + 1).toString());
+      });
     });
   });
 
@@ -220,7 +223,7 @@ describe('DynStep', () => {
     it('renders step with all props', () => {
       const handleClick = vi.fn();
       
-      render(
+      const { container } = render(
         <DynStep
           title="Test Step"
           description="Test description"
@@ -235,7 +238,10 @@ describe('DynStep', () => {
       
       expect(screen.getByText('Test Step')).toBeInTheDocument();
       expect(screen.getByText('Test description')).toBeInTheDocument();
-      expect(screen.getByText('1')).toBeInTheDocument(); // Step number
+      
+      const numberElement = container.querySelector('.dyn-stepper__number');
+      expect(numberElement).toBeInTheDocument();
+      expect(numberElement?.textContent).toBe('1');
     });
     
     it('handles click interaction when clickable', async () => {
