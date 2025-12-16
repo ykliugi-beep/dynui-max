@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeSwitcher, ThemeProvider, DynBox, DynButton } from '@dynui-max/core';
 import type { ThemeMode } from '@dynui-max/core';
 import { within, userEvent, expect } from '@storybook/test';
