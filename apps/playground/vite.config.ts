@@ -10,6 +10,12 @@ export default defineConfig({
       '@dynui-max/core': path.resolve(__dirname, '../../packages/core/src'),
     },
   },
+  css: {
+    preprocessorOptions: {
+      // Configure CSS preprocessor to resolve package imports
+      // This allows @import '@package/path' to work in CSS files
+    },
+  },
   optimizeDeps: {
     include: ['@dynui-max/core', '@dynui-max/design-tokens'],
   },
