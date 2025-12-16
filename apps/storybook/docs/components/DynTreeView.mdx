@@ -1,0 +1,50 @@
+# DynTreeView
+
+Hierarchical tree view component for displaying nested data structures.
+
+## Usage
+
+```tsx
+import { DynTreeView, DynTreeNode } from '@dynui-max/core';
+
+<DynTreeView>
+  <DynTreeNode label="Parent">
+    <DynTreeNode label="Child 1" />
+    <DynTreeNode label="Child 2">
+      <DynTreeNode label="Grandchild" />
+    </DynTreeNode>
+  </DynTreeNode>
+</DynTreeView>
+```
+
+## Features
+
+- **Expandable**: Toggle expand/collapse
+- **Nested**: Supports unlimited nesting
+- **Icons**: Folder and file icons
+- **Selection**: Select individual nodes
+- **Keyboard**: Arrow keys for navigation
+- **Checkbox**: Optional checkboxes per node
+- **Custom Rendering**: Custom node templates
+
+## Props
+
+DynTreeView:
+- `defaultExpanded`: string[] - Default expanded nodes
+- `onSelect`: (nodeId) => void - Selection handler
+- `selectable`: boolean - Enable selection
+- `children`: ReactNode - Tree nodes
+
+DynTreeNode:
+- `id`: string - Node identifier
+- `label`: string - Node label
+- `icon`: ReactNode - Custom icon
+- `expanded`: boolean - Is expanded
+- `children`: ReactNode - Child nodes
+
+## Accessibility
+
+- Tree role
+- Treeitem roles
+- Arrow key navigation
+- Expand/collapse keyboard support

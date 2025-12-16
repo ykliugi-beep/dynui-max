@@ -1,0 +1,47 @@
+# DynAvatar
+
+User avatar component with image, initials, and icon fallbacks.
+
+## Usage
+
+```tsx
+import { DynAvatar } from '@dynui-max/core';
+
+<DynAvatar
+  src="/avatar.jpg"
+  alt="John Doe"
+  size="md"
+/>
+
+<DynAvatar
+  initials="JD"
+  size="lg"
+/>
+```
+
+## Features
+
+- **Image**: Display user photo
+- **Initials**: Fallback to name initials
+- **Icon**: Generic icon fallback
+- **Sizes**: xs, sm, md, lg, xl
+- **Status**: Online/offline indicator
+- **Group**: Stack multiple avatars
+- **Tooltip**: Optional hover tooltip
+
+## Props
+
+- `src`: string - Image source URL
+- `alt`: string - Image alt text
+- `initials`: string - Fallback initials
+- `size`: 'xs' | 'sm' | 'md' | 'lg' | 'xl' - Avatar size
+- `status`: 'online' | 'offline' - Status indicator
+- `onClick`: () => void - Click handler
+- `name`: string - Display name for tooltip
+
+## Accessibility
+
+- Image alt text
+- Proper role assignment
+- Status announcements
+- Interactive focus states
