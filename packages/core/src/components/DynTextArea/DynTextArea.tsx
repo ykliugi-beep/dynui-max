@@ -232,10 +232,7 @@ export const DynTextArea = forwardRef<HTMLTextAreaElement, DynTextAreaProps>((
           'dyn-textarea__count',
           { 'dyn-textarea__count--over-limit': isOverLimit }
         )}>
-          {characterCount}
-          {maxLength && (
-            <span className="dyn-textarea__count-max">/{maxLength}</span>
-          )}
+          {maxLength ? `${characterCount}/${maxLength}` : characterCount}
         </div>
       )}
     </div>
