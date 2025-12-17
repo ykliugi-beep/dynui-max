@@ -10,16 +10,15 @@ import packageJson from '../package.json' assert { type: 'json' };
 // Theme Provider and Context
 export { ThemeProvider, useTheme } from './theme';
 
-// Core Components (P0 Prerequisites)
-export { DynIcon } from './components/DynIcon';
-export type { DynIconProps } from './components/DynIcon';
-export { iconRegistry } from './components/DynIcon/iconRegistry';
+// New Core Components (P0 - Stub Implementation Replacements)
+export { DynStepper, DynStep } from './ui/dyn-stepper';
+export type { DynStepperProps, DynStepProps } from './ui/dyn-stepper';
 
-export { DynFieldContainer } from './components/DynFieldContainer';
-export type { DynFieldContainerProps } from './components/DynFieldContainer';
+export { DynIcon } from './ui/dyn-icon';
+export type { DynIconProps, IconName } from './ui/dyn-icon';
 
-export { DynStepper, DynStep } from './components/DynStepper';
-export type { DynStepperProps, DynStepProps, DynStepperRef, StepData, StepStatus } from './components/DynStepper';
+export { DynFieldContainer } from './ui/dyn-field-container';
+export type { DynFieldContainerProps } from './ui/dyn-field-container';
 
 // Form Components
 export { DynButton } from './components/DynButton';
