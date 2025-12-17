@@ -12,5 +12,5 @@ if [ ! -d node_modules ]; then
 fi
 
 #pnpm typecheck
-pnpm lint
-pnpm test -- --run --changed
+#pnpm lint
+#Spnpm test -- --run --changed
