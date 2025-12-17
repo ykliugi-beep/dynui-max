@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite';
+import path from 'path';
 
 const config: StorybookConfig = {
   stories: [
@@ -12,10 +13,11 @@ const config: StorybookConfig = {
   ],
   framework: {
     name: '@storybook/react-vite',
-    options: {}
-  },
-  features: {
-    buildStoriesJson: true
+    options: {
+      builder: {
+        viteConfigPath: undefined,
+      },
+    }
   },
   typescript: {
     check: true,
@@ -25,6 +27,25 @@ const config: StorybookConfig = {
       shouldRemoveUndefinedFromOptional: true,
       propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
     },
+  },
+  viteFinal: (config) => {
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...(config.resolve?.alias as any),
+          '@dynui-max/design-tokens/dist/tokens.css': path.resolve(
+            __dirname,
+            '../../../packages/design-tokens/dist/tokens.css'
+          ),
+          '@dynui-max/design-tokens/dist/tokens-dark.css': path.resolve(
+            __dirname,
+            '../../../packages/design-tokens/dist/tokens-dark.css'
+          ),
+        },
+      },
+    };
   },
 };
 
