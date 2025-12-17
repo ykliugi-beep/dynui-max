@@ -15,7 +15,7 @@ export default [
       'storybook-static/**',
       'coverage/**',
       '**/*.d.ts',
-      '**/turbo.json' // Ignoring legacy turbo config during transition
+      '**/turbo.json'
     ]
   },
   {
@@ -34,7 +34,7 @@ export default [
         ecmaFeatures: {
           jsx: true
         },
-        project: ['./tsconfig.json', './packages/*/tsconfig.json']
+        project: ['./tsconfig.json', './packages/*/tsconfig.json', './apps/*/tsconfig.json']
       }
     },
     plugins: {
@@ -43,18 +43,12 @@ export default [
       '@typescript-eslint': tseslint
     },
     rules: {
-      // JavaScript/TypeScript base rules
       ...js.configs.recommended.rules,
       ...tseslint.configs.recommended.rules,
-      
-      // React specific rules
+
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true }
-      ],
-      
-      // TypeScript specific overrides
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -67,15 +61,13 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-non-null-assertion': 'warn',
-      
-      // General code quality
+
       'prefer-const': 'error',
       'no-var': 'error',
       'object-shorthand': 'error',
       'prefer-template': 'error',
       'no-console': 'warn',
-      
-      // Import/Export
+
       'no-duplicate-imports': 'error'
     }
   },
@@ -87,7 +79,6 @@ export default [
       }
     },
     rules: {
-      // Relax rules for test files
       '@typescript-eslint/no-explicit-any': 'off',
       'no-console': 'off'
     }
@@ -100,11 +91,9 @@ export default [
       }
     },
     rules: {
-      // Config files can be more flexible
       '@typescript-eslint/no-explicit-any': 'off',
       'no-console': 'off'
     }
   },
-  // Apply prettier config to disable conflicting rules
   prettier
 ];

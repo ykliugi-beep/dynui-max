@@ -36,7 +36,8 @@
     "build:js": "tsup --config tsup.config.ts",
     "build:types": "tsc -p tsconfig.build.json",
     "dev": "pnpm build && pnpm build:js --watch",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepare": "pnpm build"
   },
   "dependencies": {
     "style-dictionary": "catalog:design"
