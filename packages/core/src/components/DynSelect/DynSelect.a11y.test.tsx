@@ -12,7 +12,9 @@ const OPTIONS = [
 describe('DynSelect Accessibility', () => {
   it('has no violations when closed', async () => {
     const { container } = render(
-      <DynSelect options={OPTIONS} placeholder="Select" />
+      <div aria-label="Select options">
+        <DynSelect options={OPTIONS} placeholder="Select" />
+      </div>
     );
 
     const results = await axe(container);
@@ -22,7 +24,9 @@ describe('DynSelect Accessibility', () => {
   it('has no violations when open and searchable', async () => {
     const user = userEvent.setup();
     const utils = render(
-      <DynSelect options={OPTIONS} placeholder="Search" searchable />
+      <div aria-label="Search options">
+        <DynSelect options={OPTIONS} placeholder="Search" searchable />
+      </div>
     );
 
     await user.click(utils.getByRole('button', { name: 'Search' }));

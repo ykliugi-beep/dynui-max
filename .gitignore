@@ -144,3 +144,4 @@ vite.config.ts.timestamp-*
 .turbo/daemon/*
 .turbo/cache/*
 errors.txt
+tools/build-config/dist/*

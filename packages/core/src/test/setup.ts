@@ -1,21 +1,15 @@
-import 'vitest-axe/extend-expect';
+import { expect, beforeAll, afterEach, vi } from 'vitest';
+import * as axeMatchers from 'vitest-axe/matchers';
 import '@testing-library/jest-dom';
-import { beforeAll, afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
-import 'vitest';
-import type { AxeMatchers } from 'vitest-axe/matchers';
+
+// Extend Vitest expect with axe matchers
+expect.extend(axeMatchers);
 
 // Cleanup DOM after each test
 afterEach(() => {
   cleanup();
 });
-
-// -------------------- TypeScript augmentation --------------------
-// Make TypeScript aware of vitest-axe matcher (toHaveNoViolations)
-declare module 'vitest' {
-  interface Assertion<T = any> extends AxeMatchers {}
-  interface AsymmetricMatchersContaining extends AxeMatchers {}
-}
 
 // Register environment mocks once before tests run
 beforeAll(() => {
@@ -27,7 +21,6 @@ beforeAll(() => {
       matches: false,
       media: query,
       onchange: null,
-      // prefix unused params with _ to silence TS "unused" warnings
       addListener: (_: EventListenerOrEventListenerObject) => {},
       removeListener: (_: EventListenerOrEventListenerObject) => {},
       addEventListener: (_: string, __: EventListenerOrEventListenerObject) => {},
@@ -36,7 +29,7 @@ beforeAll(() => {
     })
   });
 
-  // Simple localStorage mock (use _key/_value to avoid unused warnings)
+  // Simple localStorage mock
   const localStorageMock = {
     getItem: (_key: string) => null,
     setItem: (_key: string, _value: string) => {},
@@ -69,7 +62,7 @@ beforeAll(() => {
     value: ResizeObserverMock
   });
 
-  // Mock IntersectionObserver with typed constructor
+  // Mock IntersectionObserver
   class IntersectionObserverMock {
     constructor(_callback?: IntersectionObserverCallback, _options?: IntersectionObserverInit) {
       /* no-op */
@@ -84,7 +77,7 @@ beforeAll(() => {
     value: IntersectionObserverMock
   });
 
-  // Mock scrollTo for components that use scrolling (vi.fn for spy)
+  // Mock scrollTo
   Object.defineProperty(window, 'scrollTo', {
     configurable: true,
     writable: true,

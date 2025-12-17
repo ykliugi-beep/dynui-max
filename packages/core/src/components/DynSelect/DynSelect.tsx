@@ -326,6 +326,9 @@ export const DynSelect = forwardRef<DynSelectRef, DynSelectProps>((
     className
   );
   
+  // Generate listbox aria-label
+  const listboxAriaLabel = ariaLabel || placeholder || 'Select options';
+  
   return (
     <div className="dyn-select" data-testid={dataTestId}>
       <button
@@ -370,11 +373,17 @@ export const DynSelect = forwardRef<DynSelectRef, DynSelectProps>((
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label="Search options"
               />
             </div>
           )}
           
-          <ul className="dyn-select-options" role="listbox" aria-multiselectable={multiple}>
+          <ul 
+            className="dyn-select-options" 
+            role="listbox" 
+            aria-label={listboxAriaLabel}
+            aria-multiselectable={multiple}
+          >
             {filteredOptions.length === 0 ? (
               <li className="dyn-select-option dyn-select-option--empty">
                 No options found
