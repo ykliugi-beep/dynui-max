@@ -1,44 +1,60 @@
 #!/usr/bin/env node
+
+import { readFile } from 'fs/promises';
+import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import path from 'path';
 import StyleDictionary from 'style-dictionary';
 import config from './config.js';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
 
 /**
- * Build Script for DynUI-Max Design Tokens
+ * Build design tokens using Style Dictionary
  * 
- * This script executes the Style Dictionary build process to generate:
- * - CSS variable files (tokens.css, tokens-dark.css, variables.css)
- * - JavaScript exports (tokens.js)
- * - JSON exports (tokens.json, tokens-nested.json)
- * 
- * The build transforms JSON token definitions into multiple output formats
- * with proper naming conventions and CSS custom properties.
+ * This script:
+ * 1. Loads the Style Dictionary configuration
+ * 2. Builds all platform outputs (CSS, JS, JSON)
+ * 3. Generates tokens.css and tokens-dark.css for Storybook
+ * 4. Provides console feedback on build status
  */
 
-console.log('\n🎨 Building DynUI-Max Design Tokens...\n');
+async function build() {
+  console.log('\n🚀 Building DynUI-Max Design Tokens...\n');
 
-try {
-  // Create Style Dictionary instance with our configuration
-  const sd = new StyleDictionary(config);
+  try {
+    // Create Style Dictionary instance with our config
+    const sd = new StyleDictionary(config);
 
-  // Build all configured platforms
-  await sd.buildAllPlatforms();
+    // Build all platforms
+    await sd.buildAllPlatforms();
 
-  console.log('\n✅ Design tokens CSS files generated successfully!');
-  console.log('\n📦 Generated files:');
-  console.log('   - dist/tokens.css (light theme)');
-  console.log('   - dist/tokens-dark.css (dark theme)');
-  console.log('   - dist/variables.css (all variables)');
-  console.log('   - dist/tokens.js (JavaScript exports)');
-  console.log('   - dist/tokens.json (flat JSON)');
-  console.log('   - dist/tokens-nested.json (nested JSON)');
-  console.log('\n');
-} catch (error) {
-  console.error('\n❌ Error building design tokens:', error);
-  console.error('\nStack trace:', error.stack);
-  process.exit(1);
+    console.log('\n✅ Design tokens built successfully!\n');
+    console.log('📦 Generated files:');
+    console.log('   - dist/tokens.css (light theme)');
+    console.log('   - dist/tokens-dark.css (dark theme)');
+    console.log('   - dist/variables.css (all variables)');
+    console.log('   - dist/tokens.js (JavaScript export)');
+    console.log('   - dist/tokens.json (flat JSON)');
+    console.log('   - dist/tokens-nested.json (nested JSON)');
+    console.log('');
+
+    // Read package.json to show version
+    try {
+      const packageJsonPath = join(__dirname, '../package.json');
+      const packageJson = JSON.parse(await readFile(packageJsonPath, 'utf-8'));
+      console.log(`📝 @dynui-max/design-tokens v${packageJson.version}`);
+      console.log('');
+    } catch (err) {
+      // Ignore if package.json can't be read
+    }
+
+  } catch (error) {
+    console.error('\n❌ Error building design tokens:\n');
+    console.error(error);
+    process.exit(1);
+  }
 }
+
+// Execute build
+build();
