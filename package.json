@@ -90,7 +90,7 @@
     "@typescript-eslint/eslint-plugin": "catalog:quality",
     "@typescript-eslint/parser": "catalog:quality",
     "@vitejs/plugin-react": "catalog:build",
-    "@vitest/globals": "^2.1.5",
+    "@vitest/globals": "1.6.0",
     "bundlesize": "catalog:tooling",
     "chromatic": "catalog:storybook",
     "concurrently": "catalog:tooling",
