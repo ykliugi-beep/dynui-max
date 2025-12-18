@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import type { KeyboardEvent } from 'react';
 import { axe } from 'vitest-axe';
 import { DynButton } from './DynButton';
@@ -43,16 +44,17 @@ describe('DynButton', () => {
   });
 
   it('supports keyboard navigation', async () => {
+    const user = userEvent.setup();
     const handleClick = vi.fn();
     render(<DynButton onClick={handleClick}>Keyboard</DynButton>);
 
     const button = screen.getByRole('button');
     button.focus();
 
-    await fireEvent.keyDown(button, { key: 'Enter' });
+    await user.keyboard('{Enter}');
     expect(handleClick).toHaveBeenCalledTimes(1);
 
-    await fireEvent.keyDown(button, { key: ' ' });
+    await user.keyboard(' ');
     expect(handleClick).toHaveBeenCalledTimes(2);
   });
 

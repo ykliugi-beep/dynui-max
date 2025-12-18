@@ -85,7 +85,8 @@
     "apps/*/src/**/*.ts", 
     "apps/*/src/**/*.tsx",
     "tools/*/src/**/*.ts",
-    "tools/*/src/**/*.tsx"
+    "tools/*/src/**/*.tsx",
+    "vitest.config.ts"
   ],
   "exclude": [
     "node_modules",

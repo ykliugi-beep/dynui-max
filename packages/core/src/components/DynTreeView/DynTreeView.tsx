@@ -167,13 +167,19 @@ export const DynTreeView = forwardRef<HTMLDivElement, DynTreeViewProps>((
       <div key={node.key} className="dyn-tree__node">
         <div
           className={clsx(
-            'dyn-tree__node-content',
+            'dyn-tree__node-title',
             {
-              'dyn-tree__node-content--selected': isSelected,
-              'dyn-tree__node-content--disabled': node.disabled,
-              'dyn-tree__node-content--expandable': hasChildren
+              'dyn-tree__node-title--selected': isSelected,
+              'dyn-tree__node-title--disabled': node.disabled,
+              'dyn-tree__node-title--expandable': hasChildren
             }
           )}
+          onClick={() => !node.disabled && handleNodeSelect(node.key)}
+          role="treeitem"
+          aria-selected={isSelected}
+          aria-expanded={hasChildren ? isExpanded : undefined}
+          aria-disabled={node.disabled}
+          tabIndex={node.disabled ? -1 : 0}
           style={{
             paddingLeft: `${level * 24 + 8}px`
           }}
@@ -183,8 +189,12 @@ export const DynTreeView = forwardRef<HTMLDivElement, DynTreeViewProps>((
             <button
               type="button"
               className="dyn-tree__expand-button"
-              onClick={() => handleNodeToggle(node.key)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNodeToggle(node.key);
+              }}
               aria-label={isExpanded ? 'Collapse' : 'Expand'}
+              tabIndex={-1}
             >
               <DynIcon 
                 name={isExpanded ? 'chevron-down' : 'chevron-right'} 
@@ -195,31 +205,20 @@ export const DynTreeView = forwardRef<HTMLDivElement, DynTreeViewProps>((
             <span className="dyn-tree__leaf-spacer" />
           )}
           
-          {/* Node content */}
-          <div
-            className="dyn-tree__node-title"
-            onClick={() => !node.disabled && handleNodeSelect(node.key)}
-            role="treeitem"
-            aria-selected={isSelected}
-            aria-expanded={hasChildren ? isExpanded : undefined}
-            aria-disabled={node.disabled}
-            tabIndex={node.disabled ? -1 : 0}
-          >
-            {showIcon && node.icon && (
-              <span className="dyn-tree__node-icon" aria-hidden="true">
-                {node.icon}
-              </span>
-            )}
-            
-            <span className="dyn-tree__node-label">
-              {node.title}
+          {showIcon && node.icon && (
+            <span className="dyn-tree__node-icon" aria-hidden="true">
+              {node.icon}
             </span>
-          </div>
+          )}
+          
+          <span className="dyn-tree__node-label">
+            {node.title}
+          </span>
         </div>
         
         {/* Children */}
         {hasChildren && isExpanded && (
-          <div className="dyn-tree__children">
+          <div className="dyn-tree__children" role="group">
             {node.children!.map(child => renderTreeNode(child, level + 1))}
           </div>
         )}

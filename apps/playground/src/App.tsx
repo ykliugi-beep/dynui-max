@@ -27,7 +27,6 @@ import {
   type TableColumn,
   type TreeNode,
   type SelectOption,
-  type DynSelectProps
 } from '@dynui-max/core';
 
 interface User {
@@ -123,13 +122,11 @@ function PlaygroundContent() {
   const totalPages = Math.ceil(sampleUsers.length / pageSize);
   const paginatedUsers = sampleUsers.slice((tablePage - 1) * pageSize, tablePage * pageSize);
 
-  type SelectChangeValue = Parameters<NonNullable<DynSelectProps['onChange']>>[0];
-
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
   };
 
-  const handleFrameworkChange = (value: SelectChangeValue) => {
+  const handleFrameworkChange = (value: string | string[]) => {
     if (Array.isArray(value)) {
       setSelectedFramework(value[0] ?? '');
     } else {
@@ -185,9 +182,9 @@ function PlaygroundContent() {
 
           <DynCard variant="outlined" title="Try the controls" subtitle="Search, filter, and launch workflows">
             <DynBox display="flex" gap="md" direction="column">
-              <DynFieldContainer label="Search Components" helpText="Try searching for components or features">
+              <DynFieldContainer label="Search Components">
                 <DynInput
-                  variant="search"
+                  variant="outline"
                   value={searchQuery}
                   onChange={handleSearchChange}
                   placeholder="Search components..."
@@ -303,6 +300,10 @@ function PlaygroundContent() {
     }
   ];
 
+  // Convert theme to string for display
+  const themeStr = String(theme);
+  const themeLabel = themeStr === 'light' ? 'Light' : themeStr === 'dark' ? 'Dark' : 'System';
+
   return (
     <DynContainer size="xl">
       {showToast && (
@@ -324,8 +325,8 @@ function PlaygroundContent() {
         </div>
         
         <DynBox display="flex" align="center" gap="md">
-          <DynBadge color="success">v0.2.0</DynBadge>
-          <DynBadge color="primary">{theme} theme</DynBadge>
+          <DynBadge color="success">v0.3.0</DynBadge>
+          <DynBadge color="primary">{themeLabel} theme</DynBadge>
           <ThemeSwitcher variant="button" showLabels />
         </DynBox>
       </DynBox>

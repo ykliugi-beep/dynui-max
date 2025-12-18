@@ -48,14 +48,17 @@ describe('DynStepper', () => {
     });
     
     it('shows step numbers when showNumbers is true', () => {
-      render(
-        <DynStepper current={1} steps={sampleSteps} showNumbers={true} />
+      const { container } = render(
+        <DynStepper current={0} steps={sampleSteps} showNumbers={true} />
       );
       
-      // Should show numbers 1, 2, 3, 4
-      for (let i = 1; i <= sampleSteps.length; i++) {
-        expect(screen.getByText(i.toString())).toBeInTheDocument();
-      }
+      // Should show numbers 1, 2, 3, 4 (when current=0, no steps are complete)
+      const numberElements = container.querySelectorAll('.dyn-stepper__number');
+      expect(numberElements).toHaveLength(sampleSteps.length);
+      
+      numberElements.forEach((el, index) => {
+        expect(el.textContent).toBe((index + 1).toString());
+      });
     });
   });
 
@@ -77,9 +80,9 @@ describe('DynStepper', () => {
       await user.click(screen.getByText('Personal Info'));
       expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
       
-      // Click on current step (should be clickable)
-      await user.click(screen.getByText('Preferences'));
-      expect(handleChange).toHaveBeenCalledWith(2, sampleSteps[2]);
+      // Click on current step (should be clickable) - Preferences is disabled, so use Account Setup
+      await user.click(screen.getByText('Account Setup'));
+      expect(handleChange).toHaveBeenCalledWith(1, sampleSteps[1]);
     });
     
     it('does not call onChange when clickable is false', async () => {
@@ -175,13 +178,15 @@ describe('DynStepper', () => {
       ref.current?.goToStep(0);
       expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
 
-      // Test nextStep method
+      // Test nextStep method (from current=1, next would be step 2, but it's disabled so nothing happens)
       ref.current?.nextStep();
-      expect(handleChange).toHaveBeenCalledWith(2, sampleSteps[2]);
+      // Since step 2 is disabled, handler shouldn't be called again
+      expect(handleChange).toHaveBeenCalledTimes(1);
 
-      // Test previousStep method
+      // Test previousStep method (from current=1, previous is step 0)
       ref.current?.previousStep();
       expect(handleChange).toHaveBeenCalledWith(0, sampleSteps[0]);
+      expect(handleChange).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -210,7 +215,8 @@ describe('DynStepper', () => {
         <DynStepper current={1} steps={sampleSteps} />
       );
 
-      await expect(axe(container)).toHaveNoViolations();
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 });
@@ -220,7 +226,7 @@ describe('DynStep', () => {
     it('renders step with all props', () => {
       const handleClick = vi.fn();
       
-      render(
+      const { container } = render(
         <DynStep
           title="Test Step"
           description="Test description"
@@ -235,7 +241,10 @@ describe('DynStep', () => {
       
       expect(screen.getByText('Test Step')).toBeInTheDocument();
       expect(screen.getByText('Test description')).toBeInTheDocument();
-      expect(screen.getByText('1')).toBeInTheDocument(); // Step number
+      
+      const numberElement = container.querySelector('.dyn-stepper__number');
+      expect(numberElement).toBeInTheDocument();
+      expect(numberElement?.textContent).toBe('1');
     });
     
     it('handles click interaction when clickable', async () => {
