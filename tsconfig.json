@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     // Type Checking
-    "types": ["vite/globals"],
+    "types": ["@vitest/globals"],
     "rootDir": "./",
     "strict": true,
     "noImplicitAny": true,
@@ -85,7 +85,8 @@
     "apps/*/src/**/*.ts", 
     "apps/*/src/**/*.tsx",
     "tools/*/src/**/*.ts",
-    "tools/*/src/**/*.tsx"
+    "tools/*/src/**/*.tsx",
+    "vitest.config.ts"
   ],
   "exclude": [
     "node_modules",
