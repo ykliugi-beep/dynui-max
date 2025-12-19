@@ -2,40 +2,36 @@
  * Design token type definitions
  */
 
-// Base token structure
-export interface BaseTokens {
-  color: {
-    primary: {
-      50: string;
-      100: string;
-      200: string;
-      300: string;
-      400: string;
-      500: string;
-      600: string;
-      700: string;
-      800: string;
-      900: string;
-      950: string;
-    };
-    gray: {
-      50: string;
-      100: string;
-      200: string;
-      300: string;
-      400: string;
-      500: string;
-      600: string;
-      700: string;
-      800: string;
-      900: string;
-      950: string;
-    };
-    white: string;
-    black: string;
-  };
-  spacing: {
-    '2xs': string;
+// Color scale type
+export type ColorScale = {
+  50: string;
+  100: string;
+  200: string;
+  300: string;
+  400: string;
+  500: string;
+  600: string;
+  700: string;
+  800: string;
+  900: string;
+  950: string;
+};
+
+// Spacing tokens type
+export interface SpacingTokens {
+  '2xs': string;
+  xs: string;
+  sm: string;
+  md: string;
+  lg: string;
+  xl: string;
+  '2xl': string;
+  '3xl': string;
+}
+
+// Typography tokens type
+export interface TypographyTokens {
+  fontSize: {
     xs: string;
     sm: string;
     md: string;
@@ -44,53 +40,63 @@ export interface BaseTokens {
     '2xl': string;
     '3xl': string;
   };
-  typography: {
-    fontSize: {
-      xs: string;
-      sm: string;
-      md: string;
-      lg: string;
-      xl: string;
-      '2xl': string;
-      '3xl': string;
-    };
-    fontWeight: {
-      normal: number;
-      medium: number;
-      semibold: number;
-      bold: number;
-    };
-    lineHeight: {
-      tight: number;
-      normal: number;
-      relaxed: number;
-    };
-    fontFamily: {
-      sans: string[];
-      mono: string[];
-    };
+  fontWeight: {
+    normal: number;
+    medium: number;
+    semibold: number;
+    bold: number;
   };
-  radius: {
-    none: string;
-    sm: string;
-    md: string;
-    lg: string;
-    full: string;
+  lineHeight: {
+    tight: number;
+    normal: number;
+    relaxed: number;
   };
-  shadow: {
-    xs: string;
-    sm: string;
-    md: string;
-    lg: string;
-    xl: string;
+  fontFamily: {
+    sans: string[];
+    mono: string[];
   };
-  breakpoint: {
-    sm: string;
-    md: string;
-    lg: string;
-    xl: string;
-    '2xl': string;
+}
+
+// Radius tokens type
+export interface RadiusTokens {
+  none: string;
+  sm: string;
+  md: string;
+  lg: string;
+  full: string;
+}
+
+// Shadow tokens type
+export interface ShadowTokens {
+  xs: string;
+  sm: string;
+  md: string;
+  lg: string;
+  xl: string;
+}
+
+// Breakpoint tokens type
+export interface BreakpointTokens {
+  sm: string;
+  md: string;
+  lg: string;
+  xl: string;
+  '2xl': string;
+}
+
+// Base token structure
+export interface BaseTokens {
+  color: {
+    primary: ColorScale;
+    gray: ColorScale;
+    white: string;
+    black: string;
   };
+  spacing: SpacingTokens;
+  typography: TypographyTokens;
+  radius: RadiusTokens;
+  shadow: ShadowTokens;
+  breakpoint: BreakpointTokens;
   zIndex: {
     hide: number;
     auto: number;
