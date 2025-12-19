@@ -204,7 +204,8 @@ export const DynStepper = React.forwardRef<HTMLDivElement, DynStepperProps>(
     ) as React.ReactElement<DynStepProps>[];
 
     const handleStepClick = (index: number) => {
-      if (onStepChange && !steps[index].props.disabled) {
+      const step = steps[index];
+      if (step && onStepChange && !step.props.disabled) {
         onStepChange(index);
       }
     };
@@ -291,11 +292,9 @@ export const DynStep = React.forwardRef<HTMLDivElement, DynStepProps>(
   (
     {
       label,
-      description,
       completed = false,
       error = false,
       disabled = false,
-      children,
       className = '',
     },
     ref
