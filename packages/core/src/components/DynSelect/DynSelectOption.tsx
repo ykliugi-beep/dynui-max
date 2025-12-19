@@ -85,16 +85,20 @@ export const DynSelectOption = forwardRef<HTMLDivElement, DynSelectOptionProps>(
       onClick={handleClick}
       {...props}
     >
-      {/* Multiple selection checkbox */}
+      {/* Multiple selection checkbox indicator (visual only) */}
       {selectionMode === 'multiple' && (
-        <div className="dyn-select-option__checkbox">
-          <input
-            type="checkbox"
-            checked={selected}
-            onChange={() => {}} // Handled by onClick
-            tabIndex={-1}
-            aria-hidden="true"
-          />
+        <div 
+          className="dyn-select-option__checkbox"
+          aria-hidden="true"
+          role="presentation"
+        >
+          <div 
+            className={clsx('dyn-select-option__checkbox-box', {
+              'dyn-select-option__checkbox-box--checked': selected
+            })}
+          >
+            {selected && '✓'}
+          </div>
         </div>
       )}
       
@@ -120,7 +124,7 @@ export const DynSelectOption = forwardRef<HTMLDivElement, DynSelectOptionProps>(
       
       {/* Selected indicator for single selection */}
       {selectionMode === 'single' && selected && (
-        <div className="dyn-select-option__indicator">
+        <div className="dyn-select-option__indicator" aria-hidden="true">
           ✓
         </div>
       )}

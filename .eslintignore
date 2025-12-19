@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Storybook
+storybook-static/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vitest and build config files (excluded from ESLint type checking)
+vitest.config.ts
+vitest.workspace.ts
+.eslintrc.cjs
+.prettierrc.cjs
+turbo.json

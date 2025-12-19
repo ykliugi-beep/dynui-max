@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "emitDeclarationOnly": true,
     "outDir": "dist",
     "baseUrl": ".",
     "composite": true,
@@ -12,7 +13,7 @@
     "src/**/*",
     "package.json"
   ],
-  "references": [ // ← Ovo zahteva da design-tokens ima composite: true
+  "references": [
     {
       "path": "../design-tokens"
     }

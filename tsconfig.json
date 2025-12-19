@@ -25,7 +25,8 @@
     // Modules
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": false,
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -44,7 +45,6 @@
     "maxNodeModuleJsDepth": 1,
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": false,
     "sourceMap": true,
     "outDir": "./dist",
     "removeComments": false,
@@ -64,15 +64,16 @@
     "declarationDir": "./dist",
     "preserveValueImports": false,
     
-    // Interop Constraints - Fixed for workspace compatibility
+    // Interop Constraints
     "verbatimModuleSyntax": false,
     
-    // Language and Environment - Fixed JSX Configuration
+    // Language and Environment
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "jsx": "react-jsx",
     "noLib": false,
     "useDefineForClassFields": true,
+    
     // Completeness
     "skipDefaultLibCheck": false,
     "skipLibCheck": true
@@ -85,7 +86,8 @@
     "apps/*/src/**/*.ts", 
     "apps/*/src/**/*.tsx",
     "tools/*/src/**/*.ts",
-    "tools/*/src/**/*.tsx"
+    "tools/*/src/**/*.tsx",
+    "vitest.config.ts"
   ],
   "exclude": [
     "node_modules",

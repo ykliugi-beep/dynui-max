@@ -2,6 +2,42 @@
 
 Design token primitives for the DynUI-Max design system with Style Dictionary build system.
 
+## ⚠️ Build Dependency (IMPORTANT)
+
+Design tokens **MUST** be built before use in other applications.
+
+### Automatic Build
+Tokens are automatically built during:
+- `pnpm install` - After installing dependencies (via prepare script)
+- `pnpm dev` - Before starting development server
+- `pnpm build` - As part of root build process
+- GitHub Actions - Before running CI/CD pipeline
+
+### Manual Build (if needed)
+```bash
+# From packages/design-tokens:
+pnpm build
+
+# Or from root:
+pnpm build:tokens
+
+# Watch mode for development:
+pnpm build:tokens-watch
+```
+
+### What Gets Generated
+```
+dist/
+├── tokens.css           # CSS variables (light theme)
+├── tokens-dark.css      # CSS variables (dark theme)
+├── variables.css        # All CSS variables
+├── tokens.js            # JavaScript export
+├── tokens.json          # Flat JSON structure
+├── tokens-nested.json   # Nested JSON structure
+├── index.cjs            # CommonJS build
+└── index.d.ts           # TypeScript definitions
+```
+
 ## Features
 
 - ✅ **TypeScript-first**: Fully typed token definitions

@@ -6,7 +6,9 @@
     "emitDeclarationOnly": true,
     "outDir": "./dist",
     "composite": false,
-    "incremental": false
+    "incremental": false,
+    "types": [],
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.ts"

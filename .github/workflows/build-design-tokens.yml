@@ -1,0 +1,98 @@
+name: Build Design Tokens
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feat/**'
+    paths:
+      - 'packages/design-tokens/src/**'
+      - 'packages/design-tokens/build/**'
+      - 'packages/design-tokens/package.json'
+  pull_request:
+    paths:
+      - 'packages/design-tokens/src/**'
+      - 'packages/design-tokens/build/**'
+  workflow_dispatch:
+
+jobs:
+  build-tokens:
+    name: Generate Design Token CSS
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build design tokens
+        run: |
+          cd packages/design-tokens
+          pnpm build:tokens
+          echo "✅ Design tokens built successfully"
+
+      - name: Verify CSS files created
+        run: |
+          echo "Checking generated files..."
+          ls -lh packages/design-tokens/dist/
+          
+          if [ -f packages/design-tokens/dist/tokens.css ]; then
+            echo "✅ tokens.css exists ($(wc -c < packages/design-tokens/dist/tokens.css) bytes)"
+          else
+            echo "❌ tokens.css NOT FOUND"
+            exit 1
+          fi
+          
+          if [ -f packages/design-tokens/dist/tokens-dark.css ]; then
+            echo "✅ tokens-dark.css exists"
+          else
+            echo "⚠️ tokens-dark.css NOT FOUND"
+          fi
+
+      - name: Check CSS variables
+        run: |
+          echo "Sample CSS variables from tokens.css:"
+          grep -E "--dyn-color-|--dyn-spacing-" packages/design-tokens/dist/tokens.css | head -10 || echo "No variables found"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-tokens-css
+          path: |
+            packages/design-tokens/dist/*.css
+            packages/design-tokens/dist/*.js
+            packages/design-tokens/dist/*.json
+          retention-days: 7
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const cssSize = fs.statSync('packages/design-tokens/dist/tokens.css').size;
+            const cssContent = fs.readFileSync('packages/design-tokens/dist/tokens.css', 'utf8');
+            const varCount = (cssContent.match(/--dyn-/g) || []).length;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 🎨 Design Tokens Build Report\n\n✅ **CSS Generated Successfully!**\n\n- **tokens.css**: ${cssSize} bytes\n- **CSS Variables**: ${varCount} variables\n- **Status**: Ready for Storybook\n\nDownload artifacts from workflow run.`
+            });
