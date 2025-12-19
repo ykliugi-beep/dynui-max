@@ -25,7 +25,7 @@
     // Modules
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": false,
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -64,15 +64,16 @@
     "declarationDir": "./dist",
     "preserveValueImports": false,
     
-    // Interop Constraints - Fixed for workspace compatibility
+    // Interop Constraints
     "verbatimModuleSyntax": false,
     
-    // Language and Environment - Fixed JSX Configuration
+    // Language and Environment
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "jsx": "react-jsx",
     "noLib": false,
     "useDefineForClassFields": true,
+    
     // Completeness
     "skipDefaultLibCheck": false,
     "skipLibCheck": true
