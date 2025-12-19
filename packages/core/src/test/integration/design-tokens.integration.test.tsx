@@ -15,6 +15,7 @@ import {
   DynAvatar,
   DynCheckbox,
   DynRadio,
+  DynRadioGroup,
   DynSelect,
   DynStepper,
   DynIcon,
@@ -75,7 +76,7 @@ describe('Design Tokens Integration', () => {
       const button = container.querySelector('.dyn-button');
       expect(button).toBeTruthy();
       
-      const styles = getComputedStyle(button!);
+      const styles = getComputedStyle(button as HTMLElement);
       // Buttons should use color tokens
       expect(styles.backgroundColor).toBeTruthy();
       expect(styles.borderRadius).toBeTruthy();
@@ -87,7 +88,7 @@ describe('Design Tokens Integration', () => {
       const input = container.querySelector('.dyn-input');
       expect(input).toBeTruthy();
 
-      const styles = getComputedStyle(input!);
+      const styles = getComputedStyle(input as HTMLElement);
       expect(styles.borderRadius).toBeTruthy();
       expect(styles.padding).toBeTruthy();
     });
@@ -100,7 +101,9 @@ describe('Design Tokens Integration', () => {
 
     it('DynRadio should use design tokens', () => {
       const { container } = render(
-        <DynRadio name="test" options={[{ value: '1', label: 'Test' }]} />
+        <DynRadioGroup name="test">
+          <DynRadio value="1" label="Test" />
+        </DynRadioGroup>
       );
       const radio = container.querySelector('.dyn-radio');
       expect(radio).toBeTruthy();
@@ -131,7 +134,7 @@ describe('Design Tokens Integration', () => {
       const badge = container.querySelector('.dyn-badge');
       expect(badge).toBeTruthy();
 
-      const styles = getComputedStyle(badge!);
+      const styles = getComputedStyle(badge as HTMLElement);
       expect(styles.borderRadius).toBeTruthy();
       expect(styles.padding).toBeTruthy();
     });
@@ -150,7 +153,7 @@ describe('Design Tokens Integration', () => {
 
     it('DynToast should use design tokens', () => {
       const { container } = render(
-        <DynToast open message="Test" onClose={() => {}} />
+        <DynToast isOpen message="Test" onClose={() => void 0} />
       );
       const toast = container.querySelector('.dyn-toast');
       expect(toast).toBeTruthy();
@@ -169,11 +172,11 @@ describe('Design Tokens Integration', () => {
     });
 
     it('DynTabs should use design tokens', () => {
-      const { container } = render(
-        <DynTabs>
-          <DynTabs.Tab key="1" label="Tab 1">Content 1</DynTabs.Tab>
-        </DynTabs>
-      );
+      const items = [
+        { id: '1', label: 'Tab 1', content: 'Content 1' },
+        { id: '2', label: 'Tab 2', content: 'Content 2' }
+      ];
+      const { container } = render(<DynTabs items={items} />);
       const tabs = container.querySelector('.dyn-tabs');
       expect(tabs).toBeTruthy();
     });
@@ -185,7 +188,7 @@ describe('Design Tokens Integration', () => {
       const card = container.querySelector('.dyn-card');
       expect(card).toBeTruthy();
 
-      const styles = getComputedStyle(card!);
+      const styles = getComputedStyle(card as HTMLElement);
       expect(styles.borderRadius).toBeTruthy();
       expect(styles.boxShadow).toBeTruthy();
     });
@@ -197,7 +200,7 @@ describe('Design Tokens Integration', () => {
     });
 
     it('DynTable should use design tokens', () => {
-      const columns = [{ key: 'id', header: 'ID' }];
+      const columns = [{ key: 'id', title: 'ID' }];
       const data = [{ id: '1' }];
       const { container } = render(<DynTable columns={columns} data={data} />);
       const table = container.querySelector('.dyn-table');
@@ -240,7 +243,7 @@ describe('Design Tokens Integration', () => {
 
     it('DynModal should use design tokens', () => {
       const { container } = render(
-        <DynModal open title="Test" onClose={() => {}}>
+        <DynModal isOpen title="Test" onClose={() => void 0}>
           Test content
         </DynModal>
       );
@@ -267,7 +270,7 @@ describe('Design Tokens Integration', () => {
       
       expect(button).toBeTruthy();
       // Component should still render correctly in dark theme
-      const styles = getComputedStyle(button!);
+      const styles = getComputedStyle(button as HTMLElement);
       expect(styles.backgroundColor).toBeTruthy();
 
       // Cleanup
@@ -289,12 +292,7 @@ describe('Design Tokens Integration', () => {
 
   describe('Component Variants with Tokens', () => {
     it('Button variants should use token-based colors', () => {
-      const variants: Array<'primary' | 'secondary' | 'success' | 'danger'> = [
-        'primary',
-        'secondary',
-        'success',
-        'danger'
-      ];
+      const variants = ['solid', 'outline', 'ghost', 'link'] as const;
 
       variants.forEach(variant => {
         const { container } = render(
@@ -308,12 +306,7 @@ describe('Design Tokens Integration', () => {
     });
 
     it('Badge variants should use token-based colors', () => {
-      const variants: Array<'primary' | 'secondary' | 'success' | 'danger'> = [
-        'primary',
-        'secondary',
-        'success',
-        'danger'
-      ];
+      const variants = ['solid', 'outline', 'soft'] as const;
 
       variants.forEach(variant => {
         const { container } = render(
@@ -329,7 +322,7 @@ describe('Design Tokens Integration', () => {
   describe('Responsive Token Usage', () => {
     it('components should use responsive spacing tokens', () => {
       const { container } = render(
-        <DynBox padding="responsive">Test</DynBox>
+        <DynBox>Test</DynBox>
       );
       const box = container.querySelector('.dyn-box');
       expect(box).toBeTruthy();
@@ -337,7 +330,7 @@ describe('Design Tokens Integration', () => {
 
     it('Grid should use responsive breakpoint tokens', () => {
       const { container } = render(
-        <DynGrid cols={{ xs: 1, sm: 2, md: 3, lg: 4 }}>Test</DynGrid>
+        <DynGrid>Test</DynGrid>
       );
       const grid = container.querySelector('.dyn-grid');
       expect(grid).toBeTruthy();
