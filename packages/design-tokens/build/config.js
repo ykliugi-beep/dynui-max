@@ -20,15 +20,6 @@ ${dictionary.allTokens.map(token => {
   return `  --${name}: ${token.value};`;
 }).join('\n')}
 }
-
-/* CSS Custom Properties Export for JavaScript */
-export const ${theme}Tokens = {
-${dictionary.allTokens.map(token => {
-  const name = token.name.startsWith('dyn-') ? token.name : `dyn-${token.name}`;
-  const jsName = name.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
-  return `  '${jsName}': 'var(--${name})',`;
-}).join('\n')}
-};
 `;
   }
 });

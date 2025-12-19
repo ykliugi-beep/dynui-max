@@ -26,8 +26,11 @@
   "scripts": {
     "//=== Core Development =====\n    INFO: Use 'pnpm dev' or 'pnpm storybook' from root for best experience": "",
     "build": "pnpm --filter @dynui-max/design-tokens build && pnpm --filter @dynui-max/core build && pnpm --filter @dynui-max/build-config build && pnpm --filter './apps/*' -r build",
-    "dev": "concurrently \"pnpm --filter=@dynui-max/core run dev\" \"pnpm --filter=@dynui-max/storybook run dev\"",
+    "build:tokens": "pnpm --filter @dynui-max/design-tokens build",
+    "build:tokens-watch": "pnpm --filter @dynui-max/design-tokens dev",
+    "dev": "pnpm --filter @dynui-max/design-tokens build && concurrently \"pnpm --filter=@dynui-max/core run dev\" \"pnpm --filter=@dynui-max/storybook run dev\"",
     "dev:storybook": "pnpm --filter @dynui-max/design-tokens build && pnpm --filter=@dynui-max/storybook run dev",
+    "dev:all": "concurrently \"pnpm --filter=@dynui-max/core run dev\" \"pnpm --filter=@dynui-max/storybook run dev\"",
     "clean": "pnpm -r run clean && pnpm clean:artifacts",
     "clean:artifacts": "rimraf --glob \"packages/**/dist\" \"apps/**/dist\" \"tools/**/dist\" \"**/tsconfig.tsbuildinfo\" \"apps/**/storybook-static\"",
     "reset": "rimraf node_modules pnpm-lock.yaml && pnpm install",

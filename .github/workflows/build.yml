@@ -1,0 +1,109 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # ⭐ CRITICAL: Design tokens MUST be built BEFORE everything else
+      - name: Build design tokens (PREREQUISITE)
+        run: pnpm build:tokens
+
+      # Verify tokens were built
+      - name: Verify tokens were built
+        run: |
+          if [ ! -f packages/design-tokens/dist/tokens.css ]; then
+            echo "❌ ERROR: dist/tokens.css not generated!"
+            exit 1
+          fi
+          if [ ! -f packages/design-tokens/dist/tokens-dark.css ]; then
+            echo "❌ ERROR: dist/tokens-dark.css not generated!"
+            exit 1
+          fi
+          echo "✅ Design tokens built successfully"
+
+      # Now everything else can use tokens
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Run linter
+        run: pnpm lint
+
+      - name: Run type checking
+        run: pnpm typecheck
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Build Storybook
+        run: pnpm storybook:build
+
+  # Separate job for PR checks
+  pr-checks:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build design tokens
+        run: pnpm build:tokens
+
+      - name: Check for CSS token files
+        run: |
+          echo "Checking for generated token files..."
+          ls -la packages/design-tokens/dist/tokens*.css || exit 1
+
+      - name: Build Storybook for preview
+        run: pnpm storybook:build
+
+      - name: Upload Storybook
+        uses: actions/upload-artifact@v3
+        with:
+          name: storybook-preview
+          path: apps/storybook/storybook-static
+          retention-days: 5
