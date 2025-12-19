@@ -46,7 +46,7 @@ export const DynProgress: FC<DynProgressProps> = ({
       return {
         percentage: 0,
         ariaNow: undefined,
-        ariaText: label
+        ariaText: label ?? 'Loading'
       };
     }
 
@@ -77,6 +77,7 @@ export const DynProgress: FC<DynProgressProps> = ({
     <div
       className={containerClassName}
       role="progressbar"
+      aria-label={label ?? 'Progress'}
       aria-valuemin={isIndeterminate ? undefined : min}
       aria-valuemax={isIndeterminate ? undefined : max}
       aria-valuenow={ariaNow}

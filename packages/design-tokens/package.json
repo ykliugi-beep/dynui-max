@@ -14,6 +14,11 @@
       "require": "./dist/index.cjs"
     },
     "./css": "./dist/tokens.css",
+    "./css-dark": "./dist/tokens-dark.css",
+    "./css-variables": "./dist/variables.css",
+    "./dist/tokens.css": "./dist/tokens.css",
+    "./dist/tokens-dark.css": "./dist/tokens-dark.css",
+    "./dist/variables.css": "./dist/variables.css",
     "./themes/*": "./dist/themes/*"
   },
   "files": [
@@ -27,11 +32,12 @@
   "scripts": {
     "clean": "del-cli dist build/tokens.json tsconfig.tsbuildinfo",
     "build": "pnpm clean && pnpm build:tokens && pnpm build:js && pnpm build:types",
-    "build:tokens": "style-dictionary build --config build/config.js",
+    "build:tokens": "node build/build.js",
     "build:js": "tsup --config tsup.config.ts",
     "build:types": "tsc -p tsconfig.build.json",
     "dev": "pnpm build && pnpm build:js --watch",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepare": "pnpm build"
   },
   "dependencies": {
     "style-dictionary": "catalog:design"

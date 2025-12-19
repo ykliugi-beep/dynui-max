@@ -12,26 +12,9 @@ export * from './tokens/base';
 export * from './tokens/semantic';
 export * from './themes';
 
-// CRITICAL FIX: Explicitly export all types for cross-package usage
-export type {
-  // Core theme types
-  Theme,
-  BaseTokens,
-  SemanticTokens,
-  
-  // Component types
-  ComponentVariant,
-  ComponentSize,
-  ComponentColor,
-  
-  // Token detail types
-  ColorScale,
-  SpacingTokens,
-  TypographyTokens,
-  RadiusTokens,
-  ShadowTokens,
-  BreakpointTokens
-} from './types';
+// Export all token types for cross-package usage
+// This ensures consumers can properly type their components
+export type * from './types';
 
 // Re-export for convenience
 export { default as baseTokens } from './tokens/base';

@@ -6,9 +6,11 @@ import { DynTreeNode } from './DynTreeNode';
 describe('DynTreeNode Accessibility', () => {
   it('has no violations for expandable node', async () => {
     const { container } = render(
-      <DynTreeNode title="Parent" nodeKey="parent">
-        <div>Child</div>
-      </DynTreeNode>
+      <div role="tree">
+        <DynTreeNode title="Parent" nodeKey="parent">
+          <div>Child</div>
+        </DynTreeNode>
+      </div>
     );
 
     const results = await axe(container);
@@ -17,7 +19,9 @@ describe('DynTreeNode Accessibility', () => {
 
   it('has no violations for leaf node', async () => {
     const { container } = render(
-      <DynTreeNode title="Leaf" nodeKey="leaf" isLeaf />
+      <div role="tree">
+        <DynTreeNode title="Leaf" nodeKey="leaf" isLeaf />
+      </div>
     );
 
     const results = await axe(container);

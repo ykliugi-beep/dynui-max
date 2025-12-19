@@ -40,8 +40,12 @@ describe('DynTextArea', () => {
     const textarea = screen.getByLabelText('Auto textarea');
     expect(textarea).toHaveStyle({ resize: 'none' });
 
+    // Default value is "Hi" (2 chars)
+    expect(screen.getByText('2/10')).toBeInTheDocument();
+
     await user.type(textarea, ' there');
 
-    expect(screen.getByText('7/10')).toBeInTheDocument();
+    // After typing " there" (6 chars), total is 8 chars
+    expect(screen.getByText('8/10')).toBeInTheDocument();
   });
 });
